@@ -8,6 +8,7 @@ import org.odk.collect.android.activities.FormEntryActivity;
 import org.odk.collect.android.activities.GoogleDriveActivity;
 import org.odk.collect.android.activities.GoogleSheetsUploaderActivity;
 import org.odk.collect.android.activities.InstanceUploaderListActivity;
+import org.odk.collect.android.activities.MainMenuActivity;
 import org.odk.collect.android.adapters.InstanceUploaderAdapter;
 import org.odk.collect.android.application.Collect;
 import org.odk.collect.android.events.RxEventBus;
@@ -99,6 +100,8 @@ public interface AppDependencyComponent {
     void inject(AuthDialogUtility authDialogUtility);
 
     void inject(FormDownloadList formDownloadList);
+
+    void inject(MainMenuActivity mainMenuActivity);
 
     void inject(InstanceUploaderListActivity activity);
 

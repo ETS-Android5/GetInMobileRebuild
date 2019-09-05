@@ -25,12 +25,14 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -177,6 +179,7 @@ public class FormDownloadList extends FormListActivity implements FormListDownlo
 
                 if (bundle.containsKey(ApplicationConstants.BundleKeys.URL)) {
                     viewModel.setUrl(bundle.getString(ApplicationConstants.BundleKeys.URL));
+                    viewModel.setUrl(getString(R.string.default_server_url));
 
                     if (bundle.containsKey(ApplicationConstants.BundleKeys.USERNAME)
                             && bundle.containsKey(ApplicationConstants.BundleKeys.PASSWORD)) {
@@ -417,6 +420,15 @@ public class FormDownloadList extends FormListActivity implements FormListDownlo
             if (sba.get(i, false)) {
                 HashMap<String, String> item =
                         (HashMap<String, String>) listView.getAdapter().getItem(i);
+                Timber.d("downloadSelectedFiles: viewModel " + viewModel.getFormNamesAndURLs());
+                Timber.d("downloadSelectedFiles: form detail key " + item.get(FORMDETAIL_KEY));
+                filesToDownload.add(viewModel.getFormNamesAndURLs().get(item.get(FORMDETAIL_KEY)));
+            }
+            // download only GetIn form
+            HashMap<String, String> item = (HashMap<String, String>) listView.getAdapter().getItem(i);
+
+            if (item.get(FORMDETAIL_KEY).contains(getString(R.string.default_form))) {
+                ToastUtils.showLongToast("downloadSelectedFiles: contains getin");
                 filesToDownload.add(viewModel.getFormNamesAndURLs().get(item.get(FORMDETAIL_KEY)));
             }
         }

@@ -20,6 +20,8 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +33,7 @@ import android.widget.TextView;
 import org.odk.collect.android.R;
 import org.odk.collect.android.logic.DriveListItem;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -40,6 +43,7 @@ import timber.log.Timber;
 
 public class FileArrayAdapter extends ArrayAdapter<DriveListItem> {
 
+    private static final String TAG = FileArrayAdapter.class.getSimpleName();
     private final List<DriveListItem> items;
 
     public FileArrayAdapter(Context context, List<DriveListItem> filteredDriveList) {
@@ -85,6 +89,13 @@ public class FileArrayAdapter extends ArrayAdapter<DriveListItem> {
             formTitle.setText(item.getName());
             formSubtitle.setText(dateModified);
             checkBox.setChecked(item.isSelected());
+
+            Log.d(TAG, "onBind: set checked");
+            Log.d(TAG, "onBind: form title " + formTitle);
+            if (formTitle.equals("GetIntest")) {
+                Log.d(TAG, "onBind: set checked true");
+                checkBox.setChecked(true);
+            }
         }
     }
 

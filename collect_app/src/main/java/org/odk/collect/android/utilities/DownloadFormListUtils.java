@@ -21,6 +21,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -50,6 +51,7 @@ public class DownloadFormListUtils {
 
     private static final String NAMESPACE_OPENROSA_ORG_XFORMS_XFORMS_LIST =
             "http://openrosa.org/xforms/xformsList";
+    private static final String TAG = DownloadFormListUtils.class.getSimpleName();
 
     private final WebCredentialsUtils webCredentialsUtils;
     private final CollectServerClient collectServerClient;
@@ -275,6 +277,7 @@ public class DownloadFormListUtils {
             int formsCount = formsElement.getChildCount();
             String formId = null;
             for (int i = 0; i < formsCount; ++i) {
+                Log.d(TAG, "downloadFormList: " + i);
                 if (formsElement.getType(i) != Element.ELEMENT) {
                     // whitespace
                     continue;
