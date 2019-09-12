@@ -17,17 +17,29 @@ package org.odk.collect.android.activities;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.ContentObserver;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProviders;
+
 import android.text.InputType;
+import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,12 +50,19 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 
 import org.odk.collect.android.R;
+import org.odk.collect.android.activities.viewmodels.FormDownloadListViewModel;
 import org.odk.collect.android.application.Collect;
 import org.odk.collect.android.dao.InstancesDao;
+import org.odk.collect.android.injection.DaggerUtils;
+import org.odk.collect.android.listeners.DownloadFormsTaskListener;
+import org.odk.collect.android.listeners.FormListDownloaderListener;
+import org.odk.collect.android.logic.FormDetails;
 import org.odk.collect.android.preferences.AdminKeys;
 import org.odk.collect.android.preferences.AdminPreferencesActivity;
 import org.odk.collect.android.preferences.AdminSharedPreferences;
@@ -53,20 +72,32 @@ import org.odk.collect.android.preferences.GeneralKeys;
 import org.odk.collect.android.preferences.PreferencesActivity;
 import org.odk.collect.android.preferences.Transport;
 import org.odk.collect.android.provider.InstanceProviderAPI.InstanceColumns;
+import org.odk.collect.android.tasks.DownloadFormListTask;
+import org.odk.collect.android.tasks.DownloadFormsTask;
+import org.odk.collect.android.utilities.ApplicationConstants;
+import org.odk.collect.android.utilities.DownloadFormListUtils;
+import org.odk.collect.android.utilities.PlayServicesUtil;
 import org.odk.collect.android.utilities.SharedPreferencesUtils;
 import org.odk.collect.android.utilities.ToastUtils;
+import org.odk.collect.android.utilities.WebCredentialsUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import javax.inject.Inject;
 
 import timber.log.Timber;
 
 import static org.odk.collect.android.preferences.GeneralKeys.KEY_SUBMISSION_TRANSPORT_TYPE;
+import static org.odk.collect.android.utilities.DownloadFormListUtils.DL_AUTH_REQUIRED;
+import static org.odk.collect.android.utilities.DownloadFormListUtils.DL_ERROR_MSG;
 
 /**
  * Responsible for displaying buttons to launch the major activities. Launches
@@ -75,7 +106,7 @@ import static org.odk.collect.android.preferences.GeneralKeys.KEY_SUBMISSION_TRA
  * @author Carl Hartung (carlhartung@gmail.com)
  * @author Yaw Anokwa (yanokwa@gmail.com)
  */
-public class MainMenuActivity extends CollectAbstractActivity {
+public class MainMenuActivity extends CollectAbstractActivity implements FormListDownloaderListener, DownloadFormsTaskListener {
 
     private static final int PASSWORD_DIALOG = 1;
 
@@ -97,6 +128,24 @@ public class MainMenuActivity extends CollectAbstractActivity {
     private final IncomingHandler handler = new IncomingHandler(this);
     private final MyContentObserver contentObserver = new MyContentObserver();
 
+    FormDownloadListViewModel viewModel;
+    private DownloadFormListTask downloadFormListTask;
+    private DownloadFormsTask downloadFormsTask;
+
+    public static final String FORMNAME = "formname";
+    private static final String FORMDETAIL_KEY = "formdetailkey";
+    public static final String FORMID_DISPLAY = "formiddisplay";
+
+    public static final String FORM_ID_KEY = "formid";
+    private static final String FORM_VERSION_KEY = "formversion";
+    private final ArrayList<HashMap<String, String>> filteredFormList = new ArrayList<>();
+
+    @Inject
+    WebCredentialsUtils webCredentialsUtils;
+
+    @Inject
+    DownloadFormListUtils downloadFormListUtils;
+
     // private static boolean DO_NOT_EXIT = false;
 
     public static void startActivityAndCloseAllOthers(Activity activity) {
@@ -109,9 +158,16 @@ public class MainMenuActivity extends CollectAbstractActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_menu);
+        DaggerUtils.getComponent(this).inject(this);
         initToolbar();
 
         disableSmsIfNeeded();
+
+        //todo# load the default forms and activate the code
+//        viewModel = ViewModelProviders.of(MainMenuActivity.this).get(FormDownloadListViewModel.class);
+//        viewModel.clearFormList();
+//        downloadFormList();
+
 
         // map girl button. expects a result.
         Button mapGirlButton = findViewById(R.id.enter_data);
@@ -202,6 +258,13 @@ public class MainMenuActivity extends CollectAbstractActivity {
 //                            i = new Intent(getApplicationContext(),
 //                                    GoogleDriveActivity.class);
 //                        } else {
+//                        ArrayList<FormDetails> filesToDownload = new ArrayList<FormDetails>();
+//                        Timber.d("onClick: viewModel " + viewModel.getFormNamesAndURLs());
+//                        filesToDownload.add(viewModel.getFormNamesAndURLs().get("build_GetIntest_1567416829"));
+//                        Timber.d("onClick: files to download " + filesToDownload.toString());
+//                        startFormsDownload(filesToDownload);
+//                        downloadSelectedFiles();
+//                        Toast.makeText(MainMenuActivity.this, "Finished downloading", Toast.LENGTH_SHORT).show();
 //                            PlayServicesUtil.showGooglePlayServicesAvailabilityErrorDialog(MainMenuActivity.this);
 //                            return;
 //                        }
@@ -315,6 +378,88 @@ public class MainMenuActivity extends CollectAbstractActivity {
 
 //        updateButtons();
         setupGoogleAnalytics();
+    }
+
+    private void downloadSelectedFiles() {
+        Timber.d("downloadSelectedFiles: called");
+        ArrayList<FormDetails> filesToDownload = new ArrayList<FormDetails>();
+        Timber.d("downloadSelectedFiles: form names and urls " + viewModel.getFormNamesAndURLs());
+        filesToDownload.add(viewModel.getFormNamesAndURLs().get(getString(R.string.default_server_url)));
+        startFormsDownload(filesToDownload);
+    }
+
+    private void downloadFormList() {
+        Timber.d("downloadFormList: called");
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = connectivityManager.getActiveNetworkInfo();
+
+        if (ni == null || !ni.isConnected()) {
+            ToastUtils.showShortToast(R.string.no_connection);
+
+            if (viewModel.isDownloadOnlyMode()) {
+                setReturnResult(false, getString(R.string.no_connection), viewModel.getFormResults());
+                finish();
+            }
+        } else {
+            viewModel.clearFormNamesAndURLs();
+
+            if (downloadFormListTask != null
+                    && downloadFormListTask.getStatus() != AsyncTask.Status.FINISHED) {
+                return; // we are already doing the download!!!
+            } else if (downloadFormListTask != null) {
+                downloadFormListTask.setDownloaderListener(null);
+                downloadFormListTask.cancel(true);
+                downloadFormListTask = null;
+            }
+
+            Timber.d("downloadFormList: downloadFormListUtils " + downloadFormListUtils);
+            downloadFormListTask = new DownloadFormListTask(downloadFormListUtils);
+            downloadFormListTask.setDownloaderListener(this);
+
+            if (viewModel.isDownloadOnlyMode()) {
+                // Pass over the nulls -> They have no effect if even one of them is a null
+                downloadFormListTask.setAlternateCredentials(viewModel.getUrl(), viewModel.getUsername(), viewModel.getPassword());
+            }
+
+            downloadFormListTask.execute();
+        }
+    }
+
+    private void setReturnResult(boolean successful, @Nullable String message, @Nullable HashMap<String, Boolean> resultFormIds) {
+        Intent intent = new Intent();
+        intent.putExtra(ApplicationConstants.BundleKeys.SUCCESS_KEY, successful);
+        if (message != null) {
+            intent.putExtra(ApplicationConstants.BundleKeys.MESSAGE, message);
+        }
+        if (resultFormIds != null) {
+            intent.putExtra(ApplicationConstants.BundleKeys.FORM_IDS, resultFormIds);
+        }
+
+        setResult(RESULT_OK, intent);
+    }
+
+    private void startFormsDownload(@NonNull ArrayList<FormDetails> filesToDownload) {
+        Timber.d("startFormsDownload: started");
+        int totalCount = filesToDownload.size();
+        Timber.d("startFormsDownload: size " + totalCount);
+        if (totalCount > 0) {
+            // show dialog box
+
+            downloadFormsTask = new DownloadFormsTask();
+            downloadFormsTask.setDownloaderListener(this);
+
+            if (viewModel.getUrl() != null) {
+                if (viewModel.getUsername() != null && viewModel.getPassword() != null) {
+                    webCredentialsUtils.saveCredentials(viewModel.getUrl(), viewModel.getUsername(), viewModel.getPassword());
+                } else {
+                    webCredentialsUtils.clearCredentials(viewModel.getUrl());
+                }
+            }
+            downloadFormsTask.execute(filesToDownload);
+        } else {
+            ToastUtils.showShortToast(R.string.noselect_error);
+        }
     }
 
     private void initToolbar() {
@@ -605,6 +750,165 @@ public class MainMenuActivity extends CollectAbstractActivity {
             }
         }
         return res;
+    }
+
+    public void formListDownloadingComplete(HashMap<String, FormDetails> result) {
+        Timber.d("formListDownloadingComplete: called");
+//        viewModel.setProgressDialogShowing(false);
+        downloadFormListTask.setDownloaderListener(null);
+        downloadFormListTask = null;
+
+        if (result == null) {
+            Timber.e("Formlist Downloading returned null.  That shouldn't happen");
+            // Just displayes "error occured" to the user, but this should never happen.
+            if (viewModel.isDownloadOnlyMode()) {
+                setReturnResult(false, "Formlist Downloading returned null.  That shouldn't happen", null);
+            }
+
+            return;
+        }
+
+        if (result.containsKey(DL_AUTH_REQUIRED)) {
+            // need authorization
+        } else if (result.containsKey(DL_ERROR_MSG)) {
+            // Download failed
+            String dialogMessage =
+                    getString(R.string.list_failed_with_error,
+                            result.get(DL_ERROR_MSG).getErrorStr());
+            String dialogTitle = getString(R.string.load_remote_form_error);
+
+            if (viewModel.isDownloadOnlyMode()) {
+                setReturnResult(false, getString(R.string.load_remote_form_error), viewModel.getFormResults());
+            }
+
+        } else {
+            // Everything worked. Clear the list and add the results.
+            viewModel.setFormNamesAndURLs(result);
+
+            viewModel.clearFormList();
+
+            ArrayList<String> ids = new ArrayList<String>(viewModel.getFormNamesAndURLs().keySet());
+            for (int i = 0; i < result.size(); i++) {
+                String formDetailsKey = ids.get(i);
+                FormDetails details = viewModel.getFormNamesAndURLs().get(formDetailsKey);
+
+                if (true || (details.isNewerFormVersionAvailable() || details.areNewerMediaFilesAvailable())) {
+                    HashMap<String, String> item = new HashMap<String, String>();
+                    item.put(FORMNAME, details.getFormName());
+                    item.put(FORMID_DISPLAY,
+                            ((details.getFormVersion() == null) ? "" : (getString(R.string.version) + " "
+                                    + details.getFormVersion() + " ")) + "ID: " + details.getFormID());
+                    item.put(FORMDETAIL_KEY, formDetailsKey);
+                    item.put(FORM_ID_KEY, details.getFormID());
+                    item.put(FORM_VERSION_KEY, details.getFormVersion());
+
+                    // Insert the new form in alphabetical order.
+                    if (viewModel.getFormList().isEmpty()) {
+                        viewModel.addForm(item);
+                    } else {
+                        int j;
+                        for (j = 0; j < viewModel.getFormList().size(); j++) {
+                            HashMap<String, String> compareMe = viewModel.getFormList().get(j);
+                            String name = compareMe.get(FORMNAME);
+                            if (name.compareTo(viewModel.getFormNamesAndURLs().get(ids.get(i)).getFormName()) > 0) {
+                                break;
+                            }
+                        }
+                        viewModel.addForm(j, item);
+                    }
+                }
+            }
+
+            filteredFormList.addAll(viewModel.getFormList());
+
+            if (viewModel.isDownloadOnlyMode()) {
+                //1. First check if all form IDS could be found on the server - Register forms that could not be found
+
+                for (String formId: viewModel.getFormIdsToDownload()) {
+                    viewModel.putFormResult(formId, false);
+                }
+
+                ArrayList<FormDetails> filesToDownload  = new ArrayList<>();
+
+                for (FormDetails formDetails: viewModel.getFormNamesAndURLs().values()) {
+                    String formId = formDetails.getFormID();
+
+                    if (viewModel.getFormResults().containsKey(formId)) {
+                        filesToDownload.add(formDetails);
+                    }
+                }
+
+                //2. Select forms and start downloading
+                if (!filesToDownload.isEmpty()) {
+                    startFormsDownload(filesToDownload);
+                } else {
+                    // None of the forms was found
+                    setReturnResult(false, "Forms not found on server", viewModel.getFormResults());
+                    finish();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+
+    @Override
+    public void formsDownloadingComplete(HashMap<FormDetails, String> result) {
+        if (downloadFormsTask != null) {
+            downloadFormsTask.setDownloaderListener(null);
+        }
+
+        cleanUpWebCredentials();
+
+//        createAlertDialog(getString(R.string.download_forms_result), getDownloadResultMessage(result), EXIT);
+
+        // Set result to true for forms which were downloaded
+        if (viewModel.isDownloadOnlyMode()) {
+            for (FormDetails formDetails: result.keySet()) {
+                String successKey = result.get(formDetails);
+                if (Collect.getInstance().getString(R.string.success).equals(successKey)) {
+                    if (viewModel.getFormResults().containsKey(formDetails.getFormID())) {
+                        viewModel.putFormResult(formDetails.getFormID(), true);
+                    }
+                }
+            }
+
+            setReturnResult(true, null, viewModel.getFormResults());
+        }
+    }
+
+    private void cleanUpWebCredentials() {
+        if (viewModel.getUrl() != null) {
+            String host = Uri.parse(viewModel.getUrl())
+                    .getHost();
+
+            if (host != null) {
+                webCredentialsUtils.clearCredentials(viewModel.getUrl());
+            }
+        }
+    }
+
+    @Override
+    public void progressUpdate(String currentFile, int progress, int total) {
+
+    }
+
+    @Override
+    public void formsDownloadingCancelled() {
+        if (downloadFormsTask != null) {
+            downloadFormsTask.setDownloaderListener(null);
+            downloadFormsTask = null;
+        }
+
+        cleanUpWebCredentials();
+
+        if (viewModel.isDownloadOnlyMode()) {
+            setReturnResult(false, "Download cancelled", null);
+            finish();
+        }
     }
 
     /*

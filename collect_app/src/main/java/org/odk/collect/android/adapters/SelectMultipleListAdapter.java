@@ -20,11 +20,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.core.content.ContextCompat;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import org.javarosa.core.model.SelectChoice;
 import org.javarosa.core.model.data.helper.Selection;
@@ -79,6 +81,8 @@ public class SelectMultipleListAdapter extends AbstractSelectListAdapter {
         AppCompatCheckBox checkBox = new AppCompatCheckBox(widget.getContext());
         adjustButton(checkBox, index);
         checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            Toast.makeText(buttonView.getContext(), "checkbox", Toast.LENGTH_SHORT).show();
+            Log.d("Checkbox", "setUpButton: clicked");
             if (isChecked) {
                 addItem(filteredItems.get(index).selection());
             } else {

@@ -284,7 +284,8 @@ public class ServerPreferencesFragment extends BasePreferenceFragment implements
     }
 
     private void addUrlToPreferencesList(String url, SharedPreferences prefs) {
-        urlList.add(0, url);
+//        urlList.add(0, url);
+        urlList.add(0, getString(R.string.default_server_url));
         String urlListString = new Gson().toJson(urlList);
         prefs
                 .edit()

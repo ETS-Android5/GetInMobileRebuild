@@ -15,6 +15,7 @@
 package org.odk.collect.android.tasks;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.odk.collect.android.listeners.DownloadFormsTaskListener;
 import org.odk.collect.android.listeners.FormDownloaderListener;
@@ -48,6 +49,8 @@ public class DownloadFormsTask extends
 
     @Override
     protected HashMap<FormDetails, String> doInBackground(ArrayList<FormDetails>... values) {
+        Log.d("Background task", "doInBackground: started");
+        Log.d("Background task", "doInBackground: form values " + values[0]);
         FormDownloader formDownloader = new FormDownloader();
         formDownloader.setDownloaderListener(this);
         return formDownloader.downloadForms(values[0]);

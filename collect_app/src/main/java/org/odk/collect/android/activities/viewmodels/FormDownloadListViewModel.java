@@ -16,6 +16,8 @@
 
 package org.odk.collect.android.activities.viewmodels;
 
+import android.util.Log;
+
 import androidx.lifecycle.ViewModel;
 
 import org.odk.collect.android.R;
@@ -57,6 +59,7 @@ public class FormDownloadListViewModel extends ViewModel {
     }
 
     public void setFormNamesAndURLs(HashMap<String, FormDetails> formNamesAndURLs) {
+        Log.d("FormData", "setFormNamesAndURLs: added " + formNamesAndURLs.toString());
         this.formNamesAndURLs = formNamesAndURLs;
     }
 

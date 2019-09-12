@@ -291,8 +291,9 @@ public class InstanceServerUploader extends InstanceUploader {
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(
                 Collect.getInstance());
-        String serverBase = settings.getString(GeneralKeys.KEY_SERVER_URL,
-                app.getString(R.string.default_server_url));
+//        String serverBase = settings.getString(GeneralKeys.KEY_SERVER_URL,
+//                app.getString(R.string.default_server_url));
+        String serverBase = "https://sandbox.aggregate.opendatakit.org";
 
         if (serverBase.endsWith(URL_PATH_SEP)) {
             serverBase = serverBase.substring(0, serverBase.length() - 1);
