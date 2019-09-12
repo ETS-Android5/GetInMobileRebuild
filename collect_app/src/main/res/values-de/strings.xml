@@ -56,7 +56,7 @@
   <string name="entering_repeat">Gruppe hinzufügen</string>
   <string name="entering_repeat_ask">Neue Gruppe hinzufügen?</string>
   <string name="enter_data">Leeres Formular ausfüllen</string>
-  <string name="enter_data_button">Leeres Formular ausfüllen</string>
+  <string name="map_girl_button">Leeres Formular ausfüllen</string>
   <string name="error_occured">Fehler</string>
   <string name="error_attaching_binary_file">Fehler beim Anhängen des Mediums: %s</string>
   <string name="fetching_file">Lade %1$s.\n\nFormular %2$s von %3$s Formular(en).</string>

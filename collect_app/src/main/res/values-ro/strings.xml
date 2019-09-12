@@ -46,7 +46,7 @@
   <string name="entering_repeat">Adăugați un grup</string>
   <string name="entering_repeat_ask">Adăugați un grup nou?</string>
   <string name="enter_data">Completați formular necompletat</string>
-  <string name="enter_data_button">Completați formular necompletat</string>
+  <string name="map_girl_button">Completați formular necompletat</string>
   <string name="error_occured">Eroare</string>
   <string name="error_attaching_binary_file">A intervenit o eroare în timpul atașării fișierului media: %s</string>
   <string name="fetching_file">Preluare %1$s.\n\nFormular %2$s din %3$s formular(e).</string>

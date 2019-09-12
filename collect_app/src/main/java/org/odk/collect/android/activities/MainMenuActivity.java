@@ -38,7 +38,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 
@@ -54,8 +53,6 @@ import org.odk.collect.android.preferences.GeneralKeys;
 import org.odk.collect.android.preferences.PreferencesActivity;
 import org.odk.collect.android.preferences.Transport;
 import org.odk.collect.android.provider.InstanceProviderAPI.InstanceColumns;
-import org.odk.collect.android.utilities.ApplicationConstants;
-import org.odk.collect.android.utilities.PlayServicesUtil;
 import org.odk.collect.android.utilities.SharedPreferencesUtils;
 import org.odk.collect.android.utilities.ToastUtils;
 
@@ -116,10 +113,10 @@ public class MainMenuActivity extends CollectAbstractActivity {
 
         disableSmsIfNeeded();
 
-        // enter data button. expects a result.
-        Button enterDataButton = findViewById(R.id.enter_data);
-        enterDataButton.setText(getString(R.string.enter_data_button));
-        enterDataButton.setOnClickListener(new OnClickListener() {
+        // map girl button. expects a result.
+        Button mapGirlButton = findViewById(R.id.enter_data);
+        mapGirlButton.setText(getString(R.string.map_girl_button));
+        mapGirlButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (Collect.allowClick(getClass().getName())) {
@@ -130,91 +127,106 @@ public class MainMenuActivity extends CollectAbstractActivity {
             }
         });
 
-        // review data button. expects a result.
-        reviewDataButton = findViewById(R.id.review_data);
-        reviewDataButton.setText(getString(R.string.review_data_button));
-        reviewDataButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Collect.allowClick(getClass().getName())) {
-                    Intent i = new Intent(getApplicationContext(), InstanceChooserList.class);
-                    i.putExtra(ApplicationConstants.BundleKeys.FORM_MODE,
-                            ApplicationConstants.FormModes.EDIT_SAVED);
-                    startActivity(i);
-                }
-            }
-        });
 
-        // send data button. expects a result.
-        sendDataButton = findViewById(R.id.send_data);
-        sendDataButton.setText(getString(R.string.send_data_button));
-        sendDataButton.setOnClickListener(new OnClickListener() {
+        Button viewEditMappedGirlsButton = findViewById(R.id.view_edit_mapped_girls);
+        viewEditMappedGirlsButton.setText(getString(R.string.view_edit_girls));
+        viewEditMappedGirlsButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (Collect.allowClick(getClass().getName())) {
                     Intent i = new Intent(getApplicationContext(),
-                            InstanceUploaderListActivity.class);
+                            ViewEditMappedGirlsActivity.class);
                     startActivity(i);
                 }
             }
         });
 
-        //View sent forms
-        viewSentFormsButton = findViewById(R.id.view_sent_forms);
-        viewSentFormsButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Collect.allowClick(getClass().getName())) {
-                    Intent i = new Intent(getApplicationContext(), InstanceChooserList.class);
-                    i.putExtra(ApplicationConstants.BundleKeys.FORM_MODE,
-                            ApplicationConstants.FormModes.VIEW_SENT);
-                    startActivity(i);
-                }
-            }
-        });
 
-        // manage forms button. no result expected.
-        getFormsButton = findViewById(R.id.get_forms);
-        getFormsButton.setText(getString(R.string.get_forms));
-        getFormsButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Collect.allowClick(getClass().getName())) {
-                    SharedPreferences sharedPreferences = PreferenceManager
-                            .getDefaultSharedPreferences(MainMenuActivity.this);
-                    String protocol = sharedPreferences.getString(
-                            GeneralKeys.KEY_PROTOCOL, getString(R.string.protocol_odk_default));
-                    Intent i = null;
-                    if (protocol.equalsIgnoreCase(getString(R.string.protocol_google_sheets))) {
-                        if (PlayServicesUtil.isGooglePlayServicesAvailable(MainMenuActivity.this)) {
-                            i = new Intent(getApplicationContext(),
-                                    GoogleDriveActivity.class);
-                        } else {
-                            PlayServicesUtil.showGooglePlayServicesAvailabilityErrorDialog(MainMenuActivity.this);
-                            return;
-                        }
-                    } else {
-                        i = new Intent(getApplicationContext(),
-                                FormDownloadList.class);
-                    }
-                    startActivity(i);
-                }
-            }
-        });
-
-        // manage forms button. no result expected.
-        manageFilesButton = findViewById(R.id.manage_forms);
-        manageFilesButton.setText(getString(R.string.manage_files));
-        manageFilesButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Collect.allowClick(getClass().getName())) {
-                    Intent i = new Intent(getApplicationContext(),
-                            FileManagerTabs.class);
-                    startActivity(i);
-                }
-            }
-        });
+//        // review data button. expects a result.
+//        reviewDataButton = findViewById(R.id.review_data);
+//        reviewDataButton.setText(getString(R.string.review_data_button));
+//        reviewDataButton.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (Collect.allowClick(getClass().getName())) {
+//                    Intent i = new Intent(getApplicationContext(), InstanceChooserList.class);
+//                    i.putExtra(ApplicationConstants.BundleKeys.FORM_MODE,
+//                            ApplicationConstants.FormModes.EDIT_SAVED);
+//                    startActivity(i);
+//                }
+//            }
+//        });
+//
+//        // send data button. expects a result.
+//        sendDataButton = findViewById(R.id.send_data);
+//        sendDataButton.setText(getString(R.string.send_data_button));
+//        sendDataButton.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (Collect.allowClick(getClass().getName())) {
+//                    Intent i = new Intent(getApplicationContext(),
+//                            InstanceUploaderListActivity.class);
+//                    startActivity(i);
+//                }
+//            }
+//        });
+//
+//        //View sent forms
+//        viewSentFormsButton = findViewById(R.id.view_sent_forms);
+//        viewSentFormsButton.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (Collect.allowClick(getClass().getName())) {
+//                    Intent i = new Intent(getApplicationContext(), InstanceChooserList.class);
+//                    i.putExtra(ApplicationConstants.BundleKeys.FORM_MODE,
+//                            ApplicationConstants.FormModes.VIEW_SENT);
+//                    startActivity(i);
+//                }
+//            }
+//        });
+//
+//        // manage forms button. no result expected.
+//        getFormsButton = findViewById(R.id.get_forms);
+//        getFormsButton.setText(getString(R.string.get_forms));
+//        getFormsButton.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (Collect.allowClick(getClass().getName())) {
+//                    SharedPreferences sharedPreferences = PreferenceManager
+//                            .getDefaultSharedPreferences(MainMenuActivity.this);
+//                    String protocol = sharedPreferences.getString(
+//                            GeneralKeys.KEY_PROTOCOL, getString(R.string.protocol_odk_default));
+//                    Intent i = null;
+//                    if (protocol.equalsIgnoreCase(getString(R.string.protocol_google_sheets))) {
+//                        if (PlayServicesUtil.isGooglePlayServicesAvailable(MainMenuActivity.this)) {
+//                            i = new Intent(getApplicationContext(),
+//                                    GoogleDriveActivity.class);
+//                        } else {
+//                            PlayServicesUtil.showGooglePlayServicesAvailabilityErrorDialog(MainMenuActivity.this);
+//                            return;
+//                        }
+//                    } else {
+//                        i = new Intent(getApplicationContext(),
+//                                FormDownloadList.class);
+//                    }
+//                    startActivity(i);
+//                }
+//            }
+//        });
+//
+//        // manage forms button. no result expected.
+//        manageFilesButton = findViewById(R.id.manage_forms);
+//        manageFilesButton.setText(getString(R.string.manage_files));
+//        manageFilesButton.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (Collect.allowClick(getClass().getName())) {
+//                    Intent i = new Intent(getApplicationContext(),
+//                            FileManagerTabs.class);
+//                    startActivity(i);
+//                }
+//            }
+//        });
 
         // must be at the beginning of any activity that can be called from an
         // external intent
@@ -226,12 +238,6 @@ public class MainMenuActivity extends CollectAbstractActivity {
             return;
         }
 
-        {
-            // dynamically construct the "ODK Collect vA.B" string
-            TextView mainMenuMessageLabel = findViewById(R.id.main_menu_header);
-            mainMenuMessageLabel.setText(Collect.getInstance()
-                    .getVersionedAppName());
-        }
 
         File f = new File(Collect.ODK_ROOT + "/collect.settings");
         File j = new File(Collect.ODK_ROOT + "/collect.settings.json");
@@ -307,7 +313,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
         }
         viewSentCount = viewSentCursor != null ? viewSentCursor.getCount() : 0;
 
-        updateButtons();
+//        updateButtons();
         setupGoogleAnalytics();
     }
 

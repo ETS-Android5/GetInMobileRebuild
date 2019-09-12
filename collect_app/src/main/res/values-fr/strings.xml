@@ -56,7 +56,7 @@
   <string name="entering_repeat">Ajouter un groupe</string>
   <string name="entering_repeat_ask">Ajouter un nouveau groupe ?</string>
   <string name="enter_data">Remplir un formulaire</string>
-  <string name="enter_data_button">Remplir un formulaire</string>
+  <string name="map_girl_button">Remplir un formulaire</string>
   <string name="error_occured">Une erreur s\'est produite</string>
   <string name="error_attaching_binary_file">Erreur pendant l\'attachement du média: %s</string>
   <string name="fetching_file">Récupération de %1$s.\n\nFormulaire %2$s de %3$s formulaire(s).</string>

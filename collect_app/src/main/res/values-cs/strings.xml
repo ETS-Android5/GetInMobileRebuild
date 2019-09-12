@@ -56,7 +56,7 @@
   <string name="entering_repeat">Přidat skupinu</string>
   <string name="entering_repeat_ask">Přidat novou skupinu?</string>
   <string name="enter_data">Vyplnit dotazník</string>
-  <string name="enter_data_button">Vyplnit dotazník</string>
+  <string name="map_girl_button">Vyplnit dotazník</string>
   <string name="error_occured">Vyskytla se chyba</string>
   <string name="error_attaching_binary_file">Při vkládání médií: %s nastala chyba</string>
   <string name="fetching_file">Stahuji %1$s.\n\nForm %2$s z %3$s dotazníků.</string>

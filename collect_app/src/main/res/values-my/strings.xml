@@ -53,7 +53,7 @@
   <string name="entering_repeat">အုပ္စုထည့္သြင္းရန္</string>
   <string name="entering_repeat_ask">အုပ္စုအသစ္ထည့္လိုပါသလား?</string>
   <string name="enter_data">ပံုစံအလြတ္တြင္ ျဖည့္စြက္ရန္</string>
-  <string name="enter_data_button">ပံုစံအလြတ္တြင္ ျဖည့္စြက္ရန္</string>
+  <string name="map_girl_button">ပံုစံအလြတ္တြင္ ျဖည့္စြက္ရန္</string>
   <string name="error_occured">မွားယြင္းေနပါသည္</string>
   <string name="file_deleted_error">%1$s ၊ %2$s ေရြးခ်ယ္ထားေသာပံုစံမ်ားအားဖ်က္၍ မရပါ</string>
   <string name="file_deleted_ok">%s ပံုစံမ်ားဖ်က္ၿပီးျဖစ္ပါသည္</string>

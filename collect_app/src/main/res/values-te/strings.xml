@@ -56,7 +56,7 @@
   <string name="entering_repeat">గ్రూపు ని జోడించండి</string>
   <string name="entering_repeat_ask">క్రొత్త గ్రూపు ని జోడించండి</string>
   <string name="enter_data">ఖాళీ ఫారం నింపండి</string>
-  <string name="enter_data_button">ఖాళీ ఫారం నింపండి</string>
+  <string name="map_girl_button">ఖాళీ ఫారం నింపండి</string>
   <string name="error_occured">ఎర్రర్ వచ్చింది</string>
   <string name="error_attaching_binary_file">మీడియాను అటాచ్ చేసేటప్పుడు ఎర్రర్ వచ్చింది:%s</string>
   <string name="fetching_file">ఫారం%3$s(ల )నుండి .\n\nఫారం%1$s ,%2$s పొందుతున్నాం </string>

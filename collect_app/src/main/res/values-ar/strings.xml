@@ -56,7 +56,7 @@
   <string name="entering_repeat">إضافة مجموعة</string>
   <string name="entering_repeat_ask">إضافة مجموعة جديدة؟</string>
   <string name="enter_data">ملء استمارة فارغة</string>
-  <string name="enter_data_button">ملء استمارة فارغة</string>
+  <string name="map_girl_button">ملء استمارة فارغة</string>
   <string name="error_occured">حدث خطأ</string>
   <string name="error_attaching_binary_file">حدث خطأ أثناء محاولة ارفاق الملف: %s</string>
   <string name="fetching_file">الحصول على %1$s.\n\nالنموذج %2$s من %3$s نماذج</string>

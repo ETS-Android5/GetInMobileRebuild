@@ -56,7 +56,7 @@
   <string name="entering_repeat">Tambah grup</string>
   <string name="entering_repeat_ask">Tambah grup baru?</string>
   <string name="enter_data">Isi formulir kosong</string>
-  <string name="enter_data_button">Isi formulir kosong</string>
+  <string name="map_girl_button">Isi formulir kosong</string>
   <string name="error_occured">Terjadi kesalahan</string>
   <string name="error_attaching_binary_file">Terjadi kesalahan saat memasukkan berkas media: %s</string>
   <string name="fetching_file">Mengambil %1$s.\n\nFormulir %2$s dari %3$s formulir(s).</string>

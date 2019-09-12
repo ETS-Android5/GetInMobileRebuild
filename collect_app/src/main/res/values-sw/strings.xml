@@ -55,7 +55,7 @@
   <string name="entering_repeat">Ongeza kikundi</string>
   <string name="entering_repeat_ask">Ongeza kikundi kipya?</string>
   <string name="enter_data">Jaza fomu iliyo tupu</string>
-  <string name="enter_data_button">Jaza fomu iliyo tupu</string>
+  <string name="map_girl_button">Jaza fomu iliyo tupu</string>
   <string name="error_occured">Kosa limetokea</string>
   <string name="error_attaching_binary_file">Hitilafu ilitokea wakati wa kuunganisha midia:%s</string>
   <string name="fetching_file">Kupata%1$s. \ fomu %2$s\ kati ya%3$s fomu (s).</string>

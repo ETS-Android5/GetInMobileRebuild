@@ -101,7 +101,7 @@ public class MainActivityTest {
 
         assertNotNull(dataButton);
         assertEquals(View.VISIBLE, dataButton.getVisibility());
-        assertEquals(mainMenuActivity.getString(R.string.enter_data_button), dataButton.getText());
+        assertEquals(mainMenuActivity.getString(R.string.map_girl_button), dataButton.getText());
 
         dataButton.performClick();
         ShadowActivity shadowActivity = shadowOf(mainMenuActivity);
@@ -116,7 +116,7 @@ public class MainActivityTest {
      */
     @Test
     public void reviewDataButtonTest() throws Exception {
-        Button reviewDataButton = mainMenuActivity.findViewById(R.id.review_data);
+        Button reviewDataButton = mainMenuActivity.findViewById(R.id.view_edit_mapped_girls);
 
         assertNotNull(reviewDataButton);
         assertEquals(View.VISIBLE, reviewDataButton.getVisibility());

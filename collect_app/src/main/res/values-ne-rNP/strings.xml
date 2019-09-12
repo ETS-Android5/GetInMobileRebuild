@@ -56,7 +56,7 @@
   <string name="entering_repeat">समूह थप्नुहोस् </string>
   <string name="entering_repeat_ask">नयाँ समूह थप्नुहुन्छ?</string>
   <string name="enter_data">खाली फारम भर्न</string>
-  <string name="enter_data_button">खाली फारम भर्न</string>
+  <string name="map_girl_button">खाली फारम भर्न</string>
   <string name="error_occured">गल्ती भयो </string>
   <string name="error_attaching_binary_file">मिडिया अट्याच गर्दा  त्रुटि भयो: %s</string>
   <string name="fetching_file">%1$s.\n\nफारम प्राप्त गरिदै | %3$s फारम(हरू) मध्येको %2$s </string>

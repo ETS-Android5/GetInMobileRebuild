@@ -56,7 +56,7 @@
   <string name="entering_repeat">Додати групу</string>
   <string name="entering_repeat_ask">Додати нову групу?</string>
   <string name="enter_data">Заповнити анкету</string>
-  <string name="enter_data_button">Заповнити анкету</string>
+  <string name="map_girl_button">Заповнити анкету</string>
   <string name="error_occured">Сталась помилка</string>
   <string name="error_attaching_binary_file">При додаванні медіафайлу: %s сталась помилка</string>
   <string name="fetching_file">Отримую %1$s.\n\nанкету %2$s з %3$s анкет(и).</string>

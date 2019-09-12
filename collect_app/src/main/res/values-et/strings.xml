@@ -46,7 +46,7 @@
   <string name="entering_repeat">Lisa grupp</string>
   <string name="entering_repeat_ask">Lisa uus grupp?</string>
   <string name="enter_data">Täida vorm</string>
-  <string name="enter_data_button">Täida vorm</string>
+  <string name="map_girl_button">Täida vorm</string>
   <string name="error_occured">Esines viga</string>
   <string name="error_attaching_binary_file">Meedia %s lisamisel esines viga </string>
   <string name="fetching_file">Laen alla %1$s.\n\nVormi(id) (%2$s/%3$s).</string>

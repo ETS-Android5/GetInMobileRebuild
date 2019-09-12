@@ -46,7 +46,7 @@
   <string name="entering_repeat">Voeg Groep by</string>
   <string name="entering_repeat_ask">Voeg Nuwe Groep By?</string>
   <string name="enter_data">Vul Leë Vorm In</string>
-  <string name="enter_data_button">Vul Leë Vorm In</string>
+  <string name="map_girl_button">Vul Leë Vorm In</string>
   <string name="error_occured">Daar was \'n fout</string>
   <string name="error_attaching_binary_file">\'n Fout het gebeur tydens aanheg van media: %s</string>
   <string name="fetching_file">Besig om %1$s te haal.\n\nVorm %2$s van %3$s vorm(s).</string>

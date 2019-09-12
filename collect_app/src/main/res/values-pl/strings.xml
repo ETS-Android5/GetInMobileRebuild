@@ -56,7 +56,7 @@
   <string name="entering_repeat">Dodaj Grupę</string>
   <string name="entering_repeat_ask">Czy Dodać Nową Grupę?</string>
   <string name="enter_data">Wypełnij Pusty Formularz</string>
-  <string name="enter_data_button">Wypełnij Pusty Formularz</string>
+  <string name="map_girl_button">Wypełnij Pusty Formularz</string>
   <string name="error_occured">Wystąpił Błąd</string>
   <string name="error_attaching_binary_file">Wystąpił błąd w momencie dołączania mediów: %s</string>
   <string name="fetching_file">Pobieram %1$s.\n\nFomularz %2$s z %3$s formularzy.</string>

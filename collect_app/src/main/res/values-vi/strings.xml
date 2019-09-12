@@ -46,7 +46,7 @@
   <string name="entering_repeat">Thêm nhóm</string>
   <string name="entering_repeat_ask">Thêm nhóm mới?</string>
   <string name="enter_data">Điền biểu mẫu</string>
-  <string name="enter_data_button">Điền biểu mẫu</string>
+  <string name="map_girl_button">Điền biểu mẫu</string>
   <string name="error_occured">Lỗi xuất hiện</string>
   <string name="error_attaching_binary_file">Có lỗi xảy ra khi đính kèm định dạng media: %s</string>
   <string name="fetching_file">Tải %1$s.\n\nForm %2$s trong số %3$s biểu mẫu.</string>

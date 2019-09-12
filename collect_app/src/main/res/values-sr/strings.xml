@@ -56,7 +56,7 @@
   <string name="entering_repeat">Dodaj grupu</string>
   <string name="entering_repeat_ask">Dodaj novu grupu?</string>
   <string name="enter_data">Popuni prazan formular</string>
-  <string name="enter_data_button">Popuni prazan formular</string>
+  <string name="map_girl_button">Popuni prazan formular</string>
   <string name="error_occured">Greška</string>
   <string name="error_attaching_binary_file">Došlo je do greške prilikom učitavanja sadržaja: %s</string>
   <string name="fetching_file">Dobijam %1$s.\n\nForm %2$s od %3$s formulara().</string>
