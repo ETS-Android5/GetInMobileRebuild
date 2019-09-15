@@ -14,6 +14,7 @@
 
 package org.odk.collect.android.activities;
 
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -38,6 +39,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -55,6 +57,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 
+import org.json.JSONObject;
 import org.odk.collect.android.R;
 import org.odk.collect.android.activities.viewmodels.FormDownloadListViewModel;
 import org.odk.collect.android.application.Collect;
@@ -72,6 +75,9 @@ import org.odk.collect.android.preferences.GeneralKeys;
 import org.odk.collect.android.preferences.PreferencesActivity;
 import org.odk.collect.android.preferences.Transport;
 import org.odk.collect.android.provider.InstanceProviderAPI.InstanceColumns;
+import org.odk.collect.android.retrofit.APIClient;
+import org.odk.collect.android.retrofit.APIInterface;
+import org.odk.collect.android.retrofitmodels.MappedGirls;
 import org.odk.collect.android.tasks.DownloadFormListTask;
 import org.odk.collect.android.tasks.DownloadFormsTask;
 import org.odk.collect.android.utilities.ApplicationConstants;
@@ -88,11 +94,15 @@ import java.io.ObjectInputStream;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.inject.Inject;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import timber.log.Timber;
 
 import static org.odk.collect.android.preferences.GeneralKeys.KEY_SUBMISSION_TRANSPORT_TYPE;
@@ -139,6 +149,7 @@ public class MainMenuActivity extends CollectAbstractActivity implements FormLis
     public static final String FORM_ID_KEY = "formid";
     private static final String FORM_VERSION_KEY = "formversion";
     private final ArrayList<HashMap<String, String>> filteredFormList = new ArrayList<>();
+    APIInterface apiInterface;
 
     @Inject
     WebCredentialsUtils webCredentialsUtils;
@@ -162,6 +173,7 @@ public class MainMenuActivity extends CollectAbstractActivity implements FormLis
         initToolbar();
 
         disableSmsIfNeeded();
+        apiInterface = APIClient.getClient().create(APIInterface.class);
 
         //todo# load the default forms and activate the code
 //        viewModel = ViewModelProviders.of(MainMenuActivity.this).get(FormDownloadListViewModel.class);
@@ -378,6 +390,8 @@ public class MainMenuActivity extends CollectAbstractActivity implements FormLis
 
 //        updateButtons();
         setupGoogleAnalytics();
+
+//        login();
     }
 
     private void downloadSelectedFiles() {
@@ -964,6 +978,60 @@ public class MainMenuActivity extends CollectAbstractActivity implements FormLis
             builder
                     .create()
                     .show();
+        }
+    }
+
+    private void login(){
+        Timber.d("login started");
+//        todo# pick username/email and password from user
+        String username = "pkigenyi@outbox.co.ug";
+        String password = "Doppler25";
+//
+//        if(TextUtils.isEmpty(username) || TextUtils.isEmpty(password)){
+//            aq.toast("Please enter your phone number and password");
+//            return;
+//        }
+
+        Call<String> call = apiInterface.login(username, password);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                Timber.d("onResponse() -> " + response.code());
+                loginResponse(response);
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Timber.e("onFailure() -> " + t.getMessage());
+            }
+        });
+    }
+
+    private void loginResponse(Response<String> response){
+        //todo# move this to login activity
+        try{
+            Timber.d("login started");
+            JSONObject json;
+            if(response.code() == 200 || response.code() == 201){
+                json = new JSONObject(response.body());
+                String token = json.optString("token");
+                if(TextUtils.isEmpty(token)){
+                    ToastUtils.showShortToast(json.optString("error", "Failed to login. Please check your phone number and password."));
+                }else{
+
+                    GeneralSharedPreferences.getInstance().save(GeneralKeys.KEY_TOKEN, token);
+
+                    //todo# activate this when login is created
+//                    Intent intent = new Intent(this, MainMenuActivity.class);
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    startActivity(intent);
+                }
+            }else{
+                json = new JSONObject(response.errorBody().string());
+                ToastUtils.showShortToast(json.optString("error", "Failed to login. Please check your phone number and password."));
+            }
+        }catch (Exception ex){
+            Timber.d("Error processing loginResponse() -> " + ex.getMessage());
         }
     }
 }

@@ -10,12 +10,25 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.odk.collect.android.R;
 import org.odk.collect.android.adapters.ViewEditMappedGirlsAdapter;
+import org.odk.collect.android.retrofit.APIClient;
+import org.odk.collect.android.retrofit.APIInterface;
+import org.odk.collect.android.retrofitmodels.MappedGirls;
+import org.odk.collect.android.retrofitmodels.Value;
+
+import java.util.HashMap;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import timber.log.Timber;
 
 
 public class ViewEditMappedGirlsFragment extends Fragment {
@@ -23,6 +36,8 @@ public class ViewEditMappedGirlsFragment extends Fragment {
     private ViewEditMappedGirlsViewModel mViewModel;
     View rootView;
     private RecyclerView recyclerView;
+    private APIInterface apiInterface;
+    HashMap<String, Value> mappedGirlsHashmap;
 
     public static ViewEditMappedGirlsFragment newInstance() {
         return new ViewEditMappedGirlsFragment();
@@ -37,7 +52,29 @@ public class ViewEditMappedGirlsFragment extends Fragment {
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view_edit_mapped_girls);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new ViewEditMappedGirlsAdapter(getActivity(), null));
+        recyclerView.setAdapter(new ViewEditMappedGirlsAdapter(getActivity(), (List<Value>) null));
+        apiInterface = APIClient.getClient().create(APIInterface.class);
+        getMappedGirlsList();
         return rootView;
+    }
+
+    private void getMappedGirlsList() {
+        Timber.d("get mapped girls list started");
+        Call<MappedGirls> call = apiInterface.getMappedGirls("build_GetInTest4_1568212345");
+        Log.d("Server", "getMappedGirlsList: made server request");
+
+        call.enqueue(new Callback<MappedGirls>() {
+            @Override
+            public void onResponse(Call<MappedGirls> call, Response<MappedGirls> response) {
+                Timber.d("onResponse() -> " + response.code());
+                List<Value> values = response.body().getValue();
+                recyclerView.setAdapter(new ViewEditMappedGirlsAdapter(getActivity(), values));
+            }
+
+            @Override
+            public void onFailure(Call<MappedGirls> call, Throwable t) {
+                Timber.e("onFailure() -> " + t.getMessage());
+            }
+        });
     }
 }
