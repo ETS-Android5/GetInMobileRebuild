@@ -1,19 +1,26 @@
 package org.odk.collect.android.adapters;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.odk.collect.android.R;
+import org.odk.collect.android.activities.PregnancySummaryActivity;
 import org.odk.collect.android.retrofitmodels.Value;
+import org.odk.collect.android.utilities.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +33,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
     private List<Value> mappedGirlsList;
     private Cursor cursor;
     Context context;
+    private ItemClickListener mClickListener;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView name;
@@ -41,12 +49,12 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
 
     public ViewEditMappedGirlsAdapter(Context context, Cursor cursor) {
         this.cursor = cursor;
-        this.context = context;
+        this.context = context.getApplicationContext();
     }
 
     public ViewEditMappedGirlsAdapter(Context context, List<Value> mappedGirlsList) {
         this.mappedGirlsList = mappedGirlsList;
-        this.context = context;
+        this.context = context.getApplicationContext();
     }
 
     @NonNull
@@ -58,16 +66,33 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewEditMappedGirlsAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewEditMappedGirlsAdapter.ViewHolder holder, int position) {
         try {
             Value value = mappedGirlsList.get(position);
             holder.name.setText(value.getGIRLSDEMOGRAPHIC().getFirstName() + " "
                     + value.getGIRLSDEMOGRAPHIC().getLastName());
             holder.phoneNumber.setText(value.getGIRLSDEMOGRAPHIC2().getGirlsPhoneNumber());
             holder.dob.setText(value.getGIRLSDEMOGRAPHIC().getDOB());
+
+            holder.itemView.setOnClickListener(v -> {
+                ToastUtils.showShortToast("Clicked " + value.getGIRLSDEMOGRAPHIC().getFirstName());
+                if (mClickListener != null)
+                    mClickListener.onItemClick(v, position);
+//                context.startActivity(new Intent(context.getApplicationContext(), PregnancySummaryActivity.class));
+            });
         } catch (Exception e) {
             Timber.e(e.getMessage());
         }
+    }
+
+    // allows clicks events to be caught
+    public void setClickListener(ItemClickListener itemClickListener) {
+        this.mClickListener = itemClickListener;
+    }
+
+    // parent activity will implement this method to respond to click events
+    public interface ItemClickListener {
+        void onItemClick(View view, int position);
     }
 
     @Override

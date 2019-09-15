@@ -73,8 +73,12 @@
         android:largeHeap="true"
         android:supportsRtl="true">
         <activity
+            android:name=".activities.PregnancySummaryActivity"
+            android:label="@string/title_activity_pregnancy_summary"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".activities.ViewEditMappedGirlsActivity"
-            android:theme="@style/Theme.Collect.Activity.FormEntryActivity.Light"/>
+            android:theme="@style/Theme.Collect.Activity.FormEntryActivity.Light" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

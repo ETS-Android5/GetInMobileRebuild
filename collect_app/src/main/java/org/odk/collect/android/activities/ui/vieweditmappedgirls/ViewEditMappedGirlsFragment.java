@@ -2,6 +2,8 @@ package org.odk.collect.android.activities.ui.vieweditmappedgirls;
 
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,13 +16,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import org.odk.collect.android.R;
+import org.odk.collect.android.activities.PregnancySummaryActivity;
 import org.odk.collect.android.adapters.ViewEditMappedGirlsAdapter;
 import org.odk.collect.android.retrofit.APIClient;
 import org.odk.collect.android.retrofit.APIInterface;
 import org.odk.collect.android.retrofitmodels.MappedGirls;
 import org.odk.collect.android.retrofitmodels.Value;
+import org.odk.collect.android.utilities.ToastUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,13 +36,14 @@ import retrofit2.Response;
 import timber.log.Timber;
 
 
-public class ViewEditMappedGirlsFragment extends Fragment {
+public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMappedGirlsAdapter.ItemClickListener {
 
     private ViewEditMappedGirlsViewModel mViewModel;
     View rootView;
     private RecyclerView recyclerView;
     private APIInterface apiInterface;
     HashMap<String, Value> mappedGirlsHashmap;
+    private ViewEditMappedGirlsAdapter girlsAdapter;
 
     public static ViewEditMappedGirlsFragment newInstance() {
         return new ViewEditMappedGirlsFragment();
@@ -49,10 +55,14 @@ public class ViewEditMappedGirlsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.view_edit_mapped_girls_fragment, container, false);
 
+        girlsAdapter = new ViewEditMappedGirlsAdapter(getActivity(), (List<Value>) null);
+        girlsAdapter.setClickListener(this);
+
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view_edit_mapped_girls);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new ViewEditMappedGirlsAdapter(getActivity(), (List<Value>) null));
+        recyclerView.setAdapter(girlsAdapter);
+
         apiInterface = APIClient.getClient().create(APIInterface.class);
         getMappedGirlsList();
         return rootView;
@@ -68,7 +78,9 @@ public class ViewEditMappedGirlsFragment extends Fragment {
             public void onResponse(Call<MappedGirls> call, Response<MappedGirls> response) {
                 Timber.d("onResponse() -> " + response.code());
                 List<Value> values = response.body().getValue();
-                recyclerView.setAdapter(new ViewEditMappedGirlsAdapter(getActivity(), values));
+                girlsAdapter = new ViewEditMappedGirlsAdapter(getActivity(), values);
+                girlsAdapter.setClickListener(ViewEditMappedGirlsFragment.this);
+                recyclerView.setAdapter(girlsAdapter);
             }
 
             @Override
@@ -76,5 +88,29 @@ public class ViewEditMappedGirlsFragment extends Fragment {
                 Timber.e("onFailure() -> " + t.getMessage());
             }
         });
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        Log.d("Clicked", "onItemClick: ############ clicked");
+        displayDialog();
+    }
+
+    private void displayDialog() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+        alertDialog.setTitle("Girl Data");
+        alertDialog.setMessage("Please choose action");
+//                alertDialog.setIcon(R.drawable.delete);
+        alertDialog.setPositiveButton("UPDATE",
+                (dialog, which) -> {
+                    ToastUtils.showShortToast("Update clicked");
+                });
+        alertDialog.setNegativeButton("VIEW",
+                (dialog, which) -> {
+                    ToastUtils.showShortToast("View clicked");
+                    startActivity(new Intent(getActivity(), PregnancySummaryActivity.class));
+                    dialog.cancel();
+                });
+        alertDialog.show();
     }
 }

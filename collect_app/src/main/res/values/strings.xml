@@ -721,4 +721,8 @@
     <string name="not_granted_permission">The activity you are trying to start requires a permission which is not granted.</string>
     <string name="basemap_source_unavailable">Sorry, %s basemaps are not available on this device.  Please choose another basemap in General Settings &gt; Maps.</string>
     <string name="view_edit_girls">View/Edit Mapped Girls</string>
+    <string name="title_activity_pregnancy_summary">PregnancySummaryActivity</string>
+    <string name="call_girl">Call Girl</string>
+    <string name="call_powerholder">Call PowerHolder</string>
+    <string name="view_previous_records">View Previous Records</string>
 </resources>
