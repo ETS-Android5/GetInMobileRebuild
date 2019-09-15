@@ -14,7 +14,6 @@
 
 package org.odk.collect.android.activities;
 
-import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -36,12 +35,9 @@ import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.text.InputType;
 import android.text.TextUtils;
-import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -52,8 +48,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 
@@ -77,12 +71,10 @@ import org.odk.collect.android.preferences.Transport;
 import org.odk.collect.android.provider.InstanceProviderAPI.InstanceColumns;
 import org.odk.collect.android.retrofit.APIClient;
 import org.odk.collect.android.retrofit.APIInterface;
-import org.odk.collect.android.retrofitmodels.MappedGirls;
 import org.odk.collect.android.tasks.DownloadFormListTask;
 import org.odk.collect.android.tasks.DownloadFormsTask;
 import org.odk.collect.android.utilities.ApplicationConstants;
 import org.odk.collect.android.utilities.DownloadFormListUtils;
-import org.odk.collect.android.utilities.PlayServicesUtil;
 import org.odk.collect.android.utilities.SharedPreferencesUtils;
 import org.odk.collect.android.utilities.ToastUtils;
 import org.odk.collect.android.utilities.WebCredentialsUtils;
@@ -94,7 +86,6 @@ import java.io.ObjectInputStream;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -180,7 +171,6 @@ public class MainMenuActivity extends CollectAbstractActivity implements FormLis
 //        viewModel.clearFormList();
 //        downloadFormList();
 
-
         // map girl button. expects a result.
         Button mapGirlButton = findViewById(R.id.enter_data);
         mapGirlButton.setText(getString(R.string.map_girl_button));
@@ -209,21 +199,18 @@ public class MainMenuActivity extends CollectAbstractActivity implements FormLis
             }
         });
 
-
 //        // review data button. expects a result.
-//        reviewDataButton = findViewById(R.id.review_data);
-//        reviewDataButton.setText(getString(R.string.review_data_button));
-//        reviewDataButton.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (Collect.allowClick(getClass().getName())) {
-//                    Intent i = new Intent(getApplicationContext(), InstanceChooserList.class);
-//                    i.putExtra(ApplicationConstants.BundleKeys.FORM_MODE,
-//                            ApplicationConstants.FormModes.EDIT_SAVED);
-//                    startActivity(i);
-//                }
-//            }
-//        });
+        Button upComingAppointments = findViewById(R.id.upcoming_appointments_button);
+        upComingAppointments.setText(getString(R.string.upcoming_appointments));
+        upComingAppointments.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Collect.allowClick(getClass().getName())) {
+                    Intent i = new Intent(getApplicationContext(), UpcomingAppointmentsActivity.class);
+                    startActivity(i);
+                }
+            }
+        });
 //
 //        // send data button. expects a result.
 //        sendDataButton = findViewById(R.id.send_data);

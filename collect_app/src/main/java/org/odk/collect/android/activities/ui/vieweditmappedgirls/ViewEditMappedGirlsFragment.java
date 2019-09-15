@@ -1,5 +1,6 @@
 package org.odk.collect.android.activities.ui.vieweditmappedgirls;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.AlertDialog;
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.renderscript.Sampler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -91,8 +93,8 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
     }
 
     @Override
-    public void onItemClick(View view, int position) {
-        Log.d("Clicked", "onItemClick: ############ clicked");
+    public void onItemClick(View view, int position, Value value) {
+        Timber.d("Clicked list item");
         displayDialog();
     }
 
@@ -108,7 +110,8 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
         alertDialog.setNegativeButton("VIEW",
                 (dialog, which) -> {
                     ToastUtils.showShortToast("View clicked");
-                    startActivity(new Intent(getActivity(), PregnancySummaryActivity.class));
+                    Intent intent = new Intent(getActivity(), PregnancySummaryActivity.class);
+                    startActivity(intent);
                     dialog.cancel();
                 });
         alertDialog.show();

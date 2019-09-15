@@ -58,7 +58,7 @@
                         android:layout_marginTop="@dimen/margin_small" />
 
                     <Button
-                        android:id="@+id/send_data"
+                        android:id="@+id/upcoming_appointments_button"
                         style="@style/Widget.Collect.Button.Big"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

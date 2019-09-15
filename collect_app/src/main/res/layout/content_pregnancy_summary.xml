@@ -16,14 +16,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="4"
         android:layout_marginTop="70dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="4">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1.9"
             android:layout_gravity="center"
             android:orientation="vertical">
 
@@ -31,72 +30,51 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:textSize="@dimen/text_size_small"
-                android:text="Company" />
+                android:text="Name"
+                android:textSize="@dimen/text_size_small" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:textSize="@dimen/text_size_small"
-                android:text="From" />
+                android:text="Age"
+                android:textSize="@dimen/text_size_small" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:textSize="@dimen/text_size_small"
-                android:text="To" />
+                android:text="Expected Delivery Date"
+                android:textSize="@dimen/text_size_small" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:textSize="@dimen/text_size_small"
-                android:text="Departure" />
+                android:text="Mapped On"
+                android:textSize="@dimen/text_size_small" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:textSize="@dimen/text_size_small"
-                android:text="Arrival" />
+                android:text="Trimester"
+                android:textSize="@dimen/text_size_small" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:textSize="@dimen/text_size_small"
-                android:text="Receipt Number" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:textSize="@dimen/text_size_small"
-                android:text="Created On" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:textSize="@dimen/text_size_small"
-                android:text="Valid" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:textSize="@dimen/text_size_small"
-                android:text="Price" />
+                android:text="Village"
+                android:textSize="@dimen/text_size_small" />
 
         </LinearLayout>
 
         <View
             android:layout_width="1dp"
             android:layout_height="220dp"
-            android:layout_marginRight="@dimen/margin"
             android:layout_marginLeft="@dimen/margin"
+            android:layout_marginRight="@dimen/margin"
             android:background="@android:color/darker_gray" />
 
         <LinearLayout
@@ -108,76 +86,52 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/company_view"
+                android:id="@+id/girls_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:textSize="@dimen/text_size_small"
-                android:text="Easy Coach" />
+                android:text="Joan Babirye"
+                android:textSize="@dimen/text_size_small" />
 
             <TextView
-                android:id="@+id/source_view"
+                android:id="@+id/age"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:textSize="@dimen/text_size_small"
-                android:text="Gulu" />
+                android:text="14"
+                android:textSize="@dimen/text_size_small" />
 
             <TextView
-                android:id="@+id/dest_view"
+                android:id="@+id/delivery_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:textSize="@dimen/text_size_small"
-                android:text="Kampala" />
+                android:text="18/04/20"
+                android:textSize="@dimen/text_size_small" />
 
             <TextView
-                android:id="@+id/departure_view"
+                android:id="@+id/mapped_on"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:textSize="@dimen/text_size_small"
-                android:text="14:00" />
+                android:text="20/01/20"
+                android:textSize="@dimen/text_size_small" />
 
             <TextView
-                android:id="@+id/arrival_view"
+                android:id="@+id/trimester"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:textSize="@dimen/text_size_small"
-                android:text="18:00" />
+                android:text="1 st"
+                android:textSize="@dimen/text_size_small" />
 
             <TextView
-                android:id="@+id/receipt_number_view"
+                android:id="@+id/village"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:textSize="@dimen/text_size_small"
-                android:text="4345" />
-
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:textSize="@dimen/text_size_small"
-                android:text="Sat, 4, 2017" />
-
-            <TextView
-                android:id="@+id/valid_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:textSize="@dimen/text_size_small"
-                android:text="true" />
-
-            <TextView
-                android:id="@+id/price_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:textSize="@dimen/text_size_small"
-                android:text="30000" />
+                android:text="Kakajjo"
+                android:textSize="@dimen/text_size_small" />
         </LinearLayout>
     </LinearLayout>
 
@@ -201,7 +155,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:id="@+id/cancel_button"
+        android:id="@+id/previous_records_button"
         style="@style/Widget.Collect.Button.Medium"
         android:text="@string/view_previous_records" />
 </LinearLayout>
