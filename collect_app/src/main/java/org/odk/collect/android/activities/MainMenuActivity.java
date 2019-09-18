@@ -276,19 +276,20 @@ public class MainMenuActivity extends CollectAbstractActivity implements FormLis
 //            }
 //        });
 //
-//        // manage forms button. no result expected.
-//        manageFilesButton = findViewById(R.id.manage_forms);
-//        manageFilesButton.setText(getString(R.string.manage_files));
-//        manageFilesButton.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (Collect.allowClick(getClass().getName())) {
-//                    Intent i = new Intent(getApplicationContext(),
-//                            FileManagerTabs.class);
-//                    startActivity(i);
-//                }
-//            }
-//        });
+        // manage forms button. no result expected.
+        manageFilesButton = findViewById(R.id.manage_forms);
+        manageFilesButton.setText(getString(R.string.manage_files));
+        manageFilesButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Collect.allowClick(getClass().getName())) {
+                    Intent i = new Intent(getApplicationContext(), InstanceChooserList.class);
+                    i.putExtra(ApplicationConstants.BundleKeys.FORM_MODE,
+                            ApplicationConstants.FormModes.EDIT_SAVED);
+                    startActivity(i);
+                }
+            }
+        });
 
         // must be at the beginning of any activity that can be called from an
         // external intent

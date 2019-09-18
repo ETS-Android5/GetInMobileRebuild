@@ -161,25 +161,11 @@ public class FormHierarchyActivity extends CollectAbstractActivity {
 
         refreshView();
 
-        // Scroll to the last question the user was looking at
-        // TODO: avoid another iteration through all displayed elements
-        if (recyclerView != null && recyclerView.getAdapter() != null && recyclerView.getAdapter().getItemCount() > 0) {
-            emptyView.setVisibility(View.GONE);
-            recyclerView.post(() -> {
-                int position = 0;
-                // Iterate over all the elements currently displayed looking for a match with the
-                // startIndex which can either represent a question or a field list.
-                for (HierarchyElement hierarchyElement : elementsToDisplay) {
-                    FormIndex indexToCheck = hierarchyElement.getFormIndex();
-                    if (startIndex.equals(indexToCheck)
-                            || (formController.indexIsInFieldList(startIndex) && indexToCheck.toString().startsWith(startIndex.toString()))) {
-                        position = elementsToDisplay.indexOf(hierarchyElement);
-                        break;
-                    }
-                }
-                ((LinearLayoutManager) recyclerView.getLayoutManager()).scrollToPositionWithOffset(position, 0);
-            });
-        }
+        formController.getAuditEventLogger().exitView();
+        formController.jumpToIndex(FormIndex.createBeginningOfFormIndex());
+
+        setResult(RESULT_OK);
+        finish();
     }
 
     @Override

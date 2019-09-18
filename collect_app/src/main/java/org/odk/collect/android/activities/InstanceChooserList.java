@@ -25,6 +25,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
@@ -68,6 +70,34 @@ public class InstanceChooserList extends InstanceListActivity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.form_chooser_list);
+
+        String TAG = "DBS";
+        Log.d(TAG, "onCreate: ### start query");
+
+        String selectionClause = InstanceColumns.DISPLAY_NAME + " LIKE ?";
+        String[] selectionArgs = {"GetInTest18%"};
+
+        Cursor c = getContentResolver().query(
+                InstanceColumns.CONTENT_URI,  // The content URI of the words table
+                null,                       // The columns to return for each row
+                selectionClause,                  // Either null, or the word the user entered
+                selectionArgs,                    // Either empty, or the string the user entered
+                null);
+
+        c.moveToFirst();
+
+        Uri instanceUri =
+                ContentUris.withAppendedId(InstanceColumns.CONTENT_URI,
+                        c.getLong(c.getColumnIndex(InstanceColumns._ID)));
+
+        Log.d(TAG, "onCreate: ### cursor " + c.toString());
+        Log.d(TAG, "onCreate: ### uri " + instanceUri.toString());
+
+        Intent intent = new Intent(Intent.ACTION_EDIT, instanceUri);
+        intent.putExtra(ApplicationConstants.BundleKeys.FORM_MODE, ApplicationConstants.FormModes.EDIT_SAVED);
+        startActivity(intent);
+
+        finish();
 
         String formMode = getIntent().getStringExtra(ApplicationConstants.BundleKeys.FORM_MODE);
         if (formMode == null || ApplicationConstants.FormModes.EDIT_SAVED.equalsIgnoreCase(formMode)) {
@@ -125,7 +155,17 @@ public class InstanceChooserList extends InstanceListActivity implements
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (Collect.allowClick(getClass().getName())) {
             if (view.isEnabled()) {
-                Cursor c = (Cursor) listView.getAdapter().getItem(position);
+//                Cursor c = (Cursor) listView.getAdapter().getItem(position);
+                String selectionClause = InstanceColumns.DISPLAY_NAME + " LIKE ?";
+                String[] selectionArgs = {"GetIn%"};
+
+                Cursor c = getContentResolver().query(
+                        InstanceColumns.CONTENT_URI,  // The content URI of the words table
+                        null,                       // The columns to return for each row
+                        selectionClause,                  // Either null, or the word the user entered
+                        selectionArgs,                    // Either empty, or the string the user entered
+                        null);
+
                 Uri instanceUri =
                         ContentUris.withAppendedId(InstanceColumns.CONTENT_URI,
                                 c.getLong(c.getColumnIndex(InstanceColumns._ID)));
@@ -149,15 +189,9 @@ public class InstanceChooserList extends InstanceListActivity implements
                                 DO_NOT_EXIT);
                         return;
                     }
-                    // caller wants to view/edit a form, so launch formentryactivity
-                    Intent parentIntent = this.getIntent();
+                    // caller wants to edit a form, so launch formentryactivity
                     Intent intent = new Intent(Intent.ACTION_EDIT, instanceUri);
-                    String formMode = parentIntent.getStringExtra(ApplicationConstants.BundleKeys.FORM_MODE);
-                    if (formMode == null || ApplicationConstants.FormModes.EDIT_SAVED.equalsIgnoreCase(formMode)) {
-                        intent.putExtra(ApplicationConstants.BundleKeys.FORM_MODE, ApplicationConstants.FormModes.EDIT_SAVED);
-                    } else {
-                        intent.putExtra(ApplicationConstants.BundleKeys.FORM_MODE, ApplicationConstants.FormModes.VIEW_SENT);
-                    }
+                    intent.putExtra(ApplicationConstants.BundleKeys.FORM_MODE, ApplicationConstants.FormModes.EDIT_SAVED);
                     startActivity(intent);
                 }
                 finish();
