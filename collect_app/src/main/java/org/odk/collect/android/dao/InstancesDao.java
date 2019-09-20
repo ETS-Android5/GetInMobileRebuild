@@ -352,6 +352,7 @@ public class InstancesDao {
         values.put(InstanceProviderAPI.InstanceColumns.STATUS, instance.getStatus());
         values.put(InstanceProviderAPI.InstanceColumns.LAST_STATUS_CHANGE_DATE, instance.getLastStatusChangeDate());
         values.put(InstanceProviderAPI.InstanceColumns.DELETED_DATE, instance.getDeletedDate());
+//        values.put(InstanceProviderAPI.InstanceColumns.GIRLS_NAME, instance.getDeletedDate());
 
         return values;
     }

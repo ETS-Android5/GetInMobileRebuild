@@ -32,6 +32,7 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.GestureDetector;
@@ -97,6 +98,7 @@ import org.odk.collect.android.external.ExternalDataManager;
 import org.odk.collect.android.formentry.FormEntryViewModel;
 import org.odk.collect.android.formentry.backgroundlocation.BackgroundLocationHelper;
 import org.odk.collect.android.formentry.backgroundlocation.BackgroundLocationManager;
+import org.odk.collect.android.formentry.models.MappedGirlForm;
 import org.odk.collect.android.fragments.MediaLoadingFragment;
 import org.odk.collect.android.fragments.dialogs.CustomDatePickerDialog;
 import org.odk.collect.android.fragments.dialogs.FormLoadingDialogFragment;
@@ -148,6 +150,9 @@ import org.odk.collect.android.widgets.DateTimeWidget;
 import org.odk.collect.android.widgets.QuestionWidget;
 import org.odk.collect.android.widgets.RangeWidget;
 import org.odk.collect.android.widgets.StringWidget;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -1760,6 +1765,16 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
             errorMessage = errorMsg;
         }
 
+        if(true) {
+            System.out.println("Helloworld");
+        }
+
+        int x = 10;
+
+        if (x > 2) {
+            System.out.println("helloworld");
+        }
+
         alertDialog.setTitle(getString(R.string.error_occured));
         alertDialog.setMessage(errorMsg);
         DialogInterface.OnClickListener errorListener = new DialogInterface.OnClickListener() {
@@ -1815,6 +1830,7 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
         }
 
         synchronized (saveDialogLock) {
+//            parseXML();
             saveToDiskTask = new SaveToDiskTask(getIntent().getData(), exit, complete,
                     updatedSaveName);
             saveToDiskTask.setFormSavedListener(this);
@@ -1825,6 +1841,46 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
         }
 
         return true;
+    }
+
+
+    private void parseXML() {
+        Timber.d("parseXML started");
+        XmlPullParserFactory parserFactory;
+        try {
+            parserFactory = XmlPullParserFactory.newInstance();
+            XmlPullParser parser = parserFactory.newPullParser();
+            InputStream is =  getAssets().open("/storage/emulated/0/odk/.cache/GetInTest18_2019-09-19_17-29-42.xml");
+            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+            parser.setInput(is, null);
+
+            processParsing(parser);
+
+        } catch (XmlPullParserException e) {
+            Timber.e(e);
+        } catch (IOException e) {
+            Timber.e(e);
+        }
+    }
+
+    private void processParsing(XmlPullParser parser) throws IOException, XmlPullParserException{
+        Timber.d(parser.getText());
+        ArrayList<MappedGirlForm> players = new ArrayList<>();
+        int eventType = parser.getEventType();
+        MappedGirlForm mappedGirlForm = null;
+
+        while (eventType != XmlPullParser.END_DOCUMENT) {
+            String eltName = null;
+
+            switch (eventType) {
+                case XmlPullParser.START_TAG:
+                    eltName = parser.getName();
+                    Timber.d("processParsing: eltName" + eltName);
+                    break;
+            }
+
+            eventType = parser.next();
+        }
     }
 
     /**

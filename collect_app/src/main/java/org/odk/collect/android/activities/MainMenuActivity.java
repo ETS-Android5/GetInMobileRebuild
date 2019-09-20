@@ -17,6 +17,7 @@ package org.odk.collect.android.activities;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -68,7 +69,9 @@ import org.odk.collect.android.preferences.GeneralSharedPreferences;
 import org.odk.collect.android.preferences.GeneralKeys;
 import org.odk.collect.android.preferences.PreferencesActivity;
 import org.odk.collect.android.preferences.Transport;
+import org.odk.collect.android.provider.FormsProviderAPI;
 import org.odk.collect.android.provider.InstanceProviderAPI.InstanceColumns;
+import org.odk.collect.android.provider.FormsProviderAPI.FormsColumns;
 import org.odk.collect.android.retrofit.APIClient;
 import org.odk.collect.android.retrofit.APIInterface;
 import org.odk.collect.android.tasks.DownloadFormListTask;
@@ -178,9 +181,7 @@ public class MainMenuActivity extends CollectAbstractActivity implements FormLis
             @Override
             public void onClick(View v) {
                 if (Collect.allowClick(getClass().getName())) {
-                    Intent i = new Intent(getApplicationContext(),
-                            FormChooserList.class);
-                    startActivity(i);
+                    startMappingActivity();
                 }
             }
         });
@@ -380,6 +381,37 @@ public class MainMenuActivity extends CollectAbstractActivity implements FormLis
         setupGoogleAnalytics();
 
 //        login();
+    }
+
+    private void startMappingActivity() {
+        String selectionClause = FormsColumns.DISPLAY_NAME + " LIKE ?";
+        String[] selectionArgs = {"GetInTest18%"};
+
+        Cursor c = getContentResolver().query(
+                FormsColumns.CONTENT_URI,  // The content URI of the words table
+                null,                       // The columns to return for each row
+                selectionClause,                  // Either null, or the word the user entered
+                selectionArgs,                    // Either empty, or the string the user entered
+                null);
+
+        c.moveToFirst();
+
+        Uri formUri =
+                ContentUris.withAppendedId(FormsColumns.CONTENT_URI,
+                        c.getLong(c.getColumnIndex(FormsColumns._ID)));
+
+        String action = getIntent().getAction();
+        if (Intent.ACTION_PICK.equals(action)) {
+            // caller is waiting on a picked form
+            setResult(RESULT_OK, new Intent().setData(formUri));
+        } else {
+            // caller wants to view/edit a form, so launch formentryactivity
+            Intent intent = new Intent(Intent.ACTION_EDIT, formUri);
+            intent.putExtra(ApplicationConstants.BundleKeys.FORM_MODE, ApplicationConstants.FormModes.EDIT_SAVED);
+            startActivity(intent);
+        }
+
+        finish();
     }
 
     private void downloadSelectedFiles() {

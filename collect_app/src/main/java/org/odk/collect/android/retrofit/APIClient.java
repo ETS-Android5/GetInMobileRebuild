@@ -21,7 +21,7 @@ public class APIClient {
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(chain -> {
 //                    String token = (String) GeneralSharedPreferences.getInstance().get(GeneralKeys.KEY_TOKEN);
-                    String token = "pdLcCZZLczGubh7wJmBis7q4xwUuozT6Pjd4fD7YVWo6PyNzCOAqLtolSz33ZLt0";
+                    String token = "kFSGviH8vhNO4FYP!xxCkIxph1ZOzWszNqZ$VfoVHrhBv0ISnwYAAHEMMR7MvKGV";
                     Timber.d(token);
                     Request request = chain.request().newBuilder().addHeader("Authorization", "Bearer " + token).build();
                     return chain.proceed(request);

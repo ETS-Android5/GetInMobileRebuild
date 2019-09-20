@@ -1,10 +1,10 @@
 package org.odk.collect.android.activities.ui.vieweditmappedgirls;
 
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.app.AlertDialog;
+import android.content.ContentUris;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,21 +13,22 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.renderscript.Sampler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import org.odk.collect.android.R;
 import org.odk.collect.android.activities.PregnancySummaryActivity;
 import org.odk.collect.android.adapters.ViewEditMappedGirlsAdapter;
+import org.odk.collect.android.provider.InstanceProviderAPI;
 import org.odk.collect.android.retrofit.APIClient;
 import org.odk.collect.android.retrofit.APIInterface;
 import org.odk.collect.android.retrofitmodels.MappedGirls;
 import org.odk.collect.android.retrofitmodels.Value;
+import org.odk.collect.android.utilities.ApplicationConstants;
 import org.odk.collect.android.utilities.ToastUtils;
+import org.odk.collect.android.provider.InstanceProviderAPI.InstanceColumns;
 
 import java.util.HashMap;
 import java.util.List;
@@ -105,6 +106,7 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
 //                alertDialog.setIcon(R.drawable.delete);
         alertDialog.setPositiveButton("UPDATE",
                 (dialog, which) -> {
+                    getGirlForm();
                     ToastUtils.showShortToast("Update clicked");
                 });
         alertDialog.setNegativeButton("VIEW",
@@ -115,5 +117,31 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
                     dialog.cancel();
                 });
         alertDialog.show();
+    }
+
+    private void getGirlForm() {
+        String selectionClause = InstanceColumns.DISPLAY_NAME + " LIKE ?";
+        String[] selectionArgs = {"GetInTest18%"};
+
+        Cursor c = getActivity().getContentResolver().query(
+                InstanceProviderAPI.InstanceColumns.CONTENT_URI,  // The content URI of the words table
+                null,                       // The columns to return for each row
+                selectionClause,                  // Either null, or the word the user entered
+                selectionArgs,                    // Either empty, or the string the user entered
+                null);
+
+        c.moveToFirst();
+
+        Uri instanceUri =
+                ContentUris.withAppendedId(InstanceColumns.CONTENT_URI,
+                        c.getLong(c.getColumnIndex(InstanceColumns._ID)));
+
+        Timber.d("Cursor value " + c.toString());
+        Timber.d("Uri value " + instanceUri.toString());
+
+        Intent intent = new Intent(Intent.ACTION_EDIT, instanceUri);
+        intent.putExtra(ApplicationConstants.BundleKeys.FORM_MODE, ApplicationConstants.FormModes.EDIT_SAVED);
+        startActivity(intent);
+        getActivity().finish();
     }
 }
