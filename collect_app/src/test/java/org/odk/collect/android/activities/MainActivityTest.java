@@ -154,7 +154,7 @@ public class MainActivityTest {
      */
     @Test
     public void viewSentFormButtonTest() throws Exception {
-        Button viewSentFormButton = mainMenuActivity.findViewById(R.id.view_sent_forms);
+        Button viewSentFormButton = mainMenuActivity.findViewById(R.id.postnatal_form_button);
 
         assertNotNull(viewSentFormButton);
         assertEquals(View.VISIBLE, viewSentFormButton.getVisibility());

@@ -106,7 +106,7 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
 //                alertDialog.setIcon(R.drawable.delete);
         alertDialog.setPositiveButton("UPDATE",
                 (dialog, which) -> {
-                    getGirlForm();
+                    updateGirlForm();
                     ToastUtils.showShortToast("Update clicked");
                 });
         alertDialog.setNegativeButton("VIEW",
@@ -119,7 +119,7 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
         alertDialog.show();
     }
 
-    private void getGirlForm() {
+    private void updateGirlForm() {
         String selectionClause = InstanceColumns.DISPLAY_NAME + " LIKE ?";
         String[] selectionArgs = {"GetInTest18%"};
 

@@ -69,7 +69,6 @@ import org.odk.collect.android.preferences.GeneralSharedPreferences;
 import org.odk.collect.android.preferences.GeneralKeys;
 import org.odk.collect.android.preferences.PreferencesActivity;
 import org.odk.collect.android.preferences.Transport;
-import org.odk.collect.android.provider.FormsProviderAPI;
 import org.odk.collect.android.provider.InstanceProviderAPI.InstanceColumns;
 import org.odk.collect.android.provider.FormsProviderAPI.FormsColumns;
 import org.odk.collect.android.retrofit.APIClient;
@@ -118,7 +117,7 @@ public class MainMenuActivity extends CollectAbstractActivity implements FormLis
     // buttons
     private Button manageFilesButton;
     private Button sendDataButton;
-    private Button viewSentFormsButton;
+    private Button postNatalFormButton;
     private Button reviewDataButton;
     private Button getFormsButton;
     private AlertDialog alertDialog;
@@ -228,18 +227,22 @@ public class MainMenuActivity extends CollectAbstractActivity implements FormLis
 //        });
 //
 //        //View sent forms
-//        viewSentFormsButton = findViewById(R.id.view_sent_forms);
-//        viewSentFormsButton.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (Collect.allowClick(getClass().getName())) {
+        postNatalFormButton = findViewById(R.id.postnatal_form_button);
+        postNatalFormButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Collect.allowClick(getClass().getName())) {
+//                    Intent i = new Intent(getApplicationContext(),
+//                            PostNatalActivity.class);
+//                    startActivity(i);
+                    startPostNatalFormActivity();
 //                    Intent i = new Intent(getApplicationContext(), InstanceChooserList.class);
 //                    i.putExtra(ApplicationConstants.BundleKeys.FORM_MODE,
 //                            ApplicationConstants.FormModes.VIEW_SENT);
 //                    startActivity(i);
-//                }
-//            }
-//        });
+                }
+            }
+        });
 //
 //        // manage forms button. no result expected.
 //        getFormsButton = findViewById(R.id.get_forms);
@@ -382,6 +385,38 @@ public class MainMenuActivity extends CollectAbstractActivity implements FormLis
 
 //        login();
     }
+
+    private void startPostNatalFormActivity() {
+        String selectionClause = FormsColumns.DISPLAY_NAME + " LIKE ?";
+        String[] selectionArgs = {"build_GetINPostnatalFormTest%"};
+
+        Cursor c = getContentResolver().query(
+                FormsColumns.CONTENT_URI,  // The content URI of the words table
+                null,                       // The columns to return for each row
+                selectionClause,                  // Either null, or the word the user entered
+                selectionArgs,                    // Either empty, or the string the user entered
+                null);
+
+        c.moveToFirst();
+
+        Uri formUri =
+                ContentUris.withAppendedId(FormsColumns.CONTENT_URI,
+                        c.getLong(c.getColumnIndex(FormsColumns._ID)));
+
+        String action = getIntent().getAction();
+        if (Intent.ACTION_PICK.equals(action)) {
+            // caller is waiting on a picked form
+            setResult(RESULT_OK, new Intent().setData(formUri));
+        } else {
+            // caller wants to view/edit a form, so launch formentryactivity
+            Intent intent = new Intent(Intent.ACTION_EDIT, formUri);
+            intent.putExtra(ApplicationConstants.BundleKeys.FORM_MODE, ApplicationConstants.FormModes.EDIT_SAVED);
+            startActivity(intent);
+        }
+
+        finish();
+    }
+
 
     private void startMappingActivity() {
         String selectionClause = FormsColumns.DISPLAY_NAME + " LIKE ?";
@@ -535,12 +570,12 @@ public class MainMenuActivity extends CollectAbstractActivity implements FormLis
         boolean viewSent = sharedPreferences.getBoolean(
                 AdminKeys.KEY_VIEW_SENT, true);
         if (!viewSent) {
-            if (viewSentFormsButton != null) {
-                viewSentFormsButton.setVisibility(View.GONE);
+            if (postNatalFormButton != null) {
+                postNatalFormButton.setVisibility(View.GONE);
             }
         } else {
-            if (viewSentFormsButton != null) {
-                viewSentFormsButton.setVisibility(View.VISIBLE);
+            if (postNatalFormButton != null) {
+                postNatalFormButton.setVisibility(View.VISIBLE);
             }
         }
 
@@ -734,13 +769,13 @@ public class MainMenuActivity extends CollectAbstractActivity implements FormLis
             viewSentCursor.requery();
             viewSentCount = viewSentCursor.getCount();
             if (viewSentCount > 0) {
-                viewSentFormsButton.setText(
+                postNatalFormButton.setText(
                         getString(R.string.view_sent_forms_button, String.valueOf(viewSentCount)));
             } else {
-                viewSentFormsButton.setText(getString(R.string.view_sent_forms));
+                postNatalFormButton.setText(getString(R.string.view_sent_forms));
             }
         } else {
-            viewSentFormsButton.setText(getString(R.string.view_sent_forms));
+            postNatalFormButton.setText(getString(R.string.view_sent_forms));
             Timber.w("Cannot update \"View Sent\" button label since the database is closed. "
                     + "Perhaps the app is running in the background?");
         }

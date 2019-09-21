@@ -73,7 +73,8 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true">
-        <activity android:name=".activities.PreviousRecordsActivity"></activity>
+        <activity android:name=".activities.PostNatalActivity"></activity>
+        <activity android:name=".activities.PreviousRecordsActivity" />
         <activity android:name=".activities.UpcomingAppointmentsActivity" />
         <activity
             android:name=".activities.PregnancySummaryActivity"
