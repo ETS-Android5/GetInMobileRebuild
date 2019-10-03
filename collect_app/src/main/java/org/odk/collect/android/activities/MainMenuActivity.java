@@ -49,6 +49,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 
@@ -77,6 +78,7 @@ import org.odk.collect.android.tasks.DownloadFormListTask;
 import org.odk.collect.android.tasks.DownloadFormsTask;
 import org.odk.collect.android.utilities.ApplicationConstants;
 import org.odk.collect.android.utilities.DownloadFormListUtils;
+import org.odk.collect.android.utilities.PlayServicesUtil;
 import org.odk.collect.android.utilities.SharedPreferencesUtils;
 import org.odk.collect.android.utilities.ToastUtils;
 import org.odk.collect.android.utilities.WebCredentialsUtils;
@@ -232,10 +234,15 @@ public class MainMenuActivity extends CollectAbstractActivity implements FormLis
             @Override
             public void onClick(View v) {
                 if (Collect.allowClick(getClass().getName())) {
-//                    Intent i = new Intent(getApplicationContext(),
-//                            PostNatalActivity.class);
-//                    startActivity(i);
+                    Intent i = new Intent(getApplicationContext(),
+                            PostNatalActivity.class);
+                    startActivity(i);
                     startPostNatalFormActivity();
+//                    if (Collect.allowClick(getClass().getName())) {
+//                        Intent i = new Intent(getApplicationContext(),
+//                                FormChooserList.class);
+//                        startActivity(i);
+//                    }
 //                    Intent i = new Intent(getApplicationContext(), InstanceChooserList.class);
 //                    i.putExtra(ApplicationConstants.BundleKeys.FORM_MODE,
 //                            ApplicationConstants.FormModes.VIEW_SENT);
@@ -243,42 +250,48 @@ public class MainMenuActivity extends CollectAbstractActivity implements FormLis
                 }
             }
         });
-//
-//        // manage forms button. no result expected.
-//        getFormsButton = findViewById(R.id.get_forms);
-//        getFormsButton.setText(getString(R.string.get_forms));
-//        getFormsButton.setOnClickListener(new OnClickListener() {
+
+//        Button enterDataButton = findViewById(R.id.enter_data);
+//        enterDataButton.setText(getString(R.string.enter_data_button));
+//        enterDataButton.setOnClickListener(new OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
 //                if (Collect.allowClick(getClass().getName())) {
-//                    SharedPreferences sharedPreferences = PreferenceManager
-//                            .getDefaultSharedPreferences(MainMenuActivity.this);
-//                    String protocol = sharedPreferences.getString(
-//                            GeneralKeys.KEY_PROTOCOL, getString(R.string.protocol_odk_default));
-//                    Intent i = null;
-//                    if (protocol.equalsIgnoreCase(getString(R.string.protocol_google_sheets))) {
-//                        if (PlayServicesUtil.isGooglePlayServicesAvailable(MainMenuActivity.this)) {
-//                            i = new Intent(getApplicationContext(),
-//                                    GoogleDriveActivity.class);
-//                        } else {
-//                        ArrayList<FormDetails> filesToDownload = new ArrayList<FormDetails>();
-//                        Timber.d("onClick: viewModel " + viewModel.getFormNamesAndURLs());
-//                        filesToDownload.add(viewModel.getFormNamesAndURLs().get("build_GetIntest_1567416829"));
-//                        Timber.d("onClick: files to download " + filesToDownload.toString());
-//                        startFormsDownload(filesToDownload);
-//                        downloadSelectedFiles();
-//                        Toast.makeText(MainMenuActivity.this, "Finished downloading", Toast.LENGTH_SHORT).show();
-//                            PlayServicesUtil.showGooglePlayServicesAvailabilityErrorDialog(MainMenuActivity.this);
-//                            return;
-//                        }
-//                    } else {
-//                        i = new Intent(getApplicationContext(),
-//                                FormDownloadList.class);
-//                    }
+//                    Intent i = new Intent(getApplicationContext(),
+//                            FormChooserList.class);
 //                    startActivity(i);
 //                }
 //            }
 //        });
+//
+//        // manage forms button. no result expected.
+        getFormsButton = findViewById(R.id.get_forms);
+        getFormsButton.setText(getString(R.string.get_forms));
+        getFormsButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Collect.allowClick(getClass().getName())) {
+                    SharedPreferences sharedPreferences = PreferenceManager
+                            .getDefaultSharedPreferences(MainMenuActivity.this);
+                    String protocol = sharedPreferences.getString(
+                            GeneralKeys.KEY_PROTOCOL, getString(R.string.protocol_odk_default));
+                    Intent i = null;
+                    if (protocol.equalsIgnoreCase(getString(R.string.protocol_google_sheets))) {
+                        if (PlayServicesUtil.isGooglePlayServicesAvailable(MainMenuActivity.this)) {
+                            i = new Intent(getApplicationContext(),
+                                    GoogleDriveActivity.class);
+                        } else {
+                            PlayServicesUtil.showGooglePlayServicesAvailabilityErrorDialog(MainMenuActivity.this);
+                            return;
+                        }
+                    } else {
+                        i = new Intent(getApplicationContext(),
+                                FormDownloadList.class);
+                    }
+                    startActivity(i);
+                }
+            }
+        });
 //
         // manage forms button. no result expected.
         manageFilesButton = findViewById(R.id.manage_forms);

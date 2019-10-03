@@ -2,6 +2,7 @@ package org.odk.collect.android.activities.ui.postnatal;
 
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,15 +17,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.odk.collect.android.R;
+import org.odk.collect.android.activities.FormChooserList;
+import org.odk.collect.android.activities.PostNatalActivity;
+import org.odk.collect.android.activities.PregnancySummaryActivity;
 import org.odk.collect.android.activities.ui.upcomingappointments.UpcomingAppointmentsViewModel;
 import org.odk.collect.android.activities.ui.vieweditmappedgirls.ViewEditMappedGirlsFragment;
 import org.odk.collect.android.adapters.PostNatalAdapter;
 import org.odk.collect.android.adapters.UpcomingAppointmentsAdapter;
 import org.odk.collect.android.adapters.ViewEditMappedGirlsAdapter;
+import org.odk.collect.android.application.Collect;
 import org.odk.collect.android.retrofit.APIClient;
 import org.odk.collect.android.retrofit.APIInterface;
 import org.odk.collect.android.retrofitmodels.MappedGirls;
 import org.odk.collect.android.retrofitmodels.Value;
+import org.odk.collect.android.utilities.ToastUtils;
 
 import java.util.List;
 
@@ -34,7 +40,7 @@ import retrofit2.Response;
 import timber.log.Timber;
 
 
-public class PostNatalFragment extends Fragment implements UpcomingAppointmentsAdapter.ItemClickListener{
+public class PostNatalFragment extends Fragment implements PostNatalAdapter.ItemClickListener{
 
     private PostNatalViewModel mViewModel;
     private PostNatalAdapter postNatalAdapter;
@@ -54,12 +60,12 @@ public class PostNatalFragment extends Fragment implements UpcomingAppointmentsA
         rootView = inflater.inflate(R.layout.post_natal_fragment, container, false);
 
         postNatalAdapter = new PostNatalAdapter(getActivity(), (List<Value>) null);
-//        postNatalAdapter.setClickListener(this);
+        postNatalAdapter.setClickListener(this);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view_edit_mapped_girls);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//        recyclerView.setAdapter(girlsAdapter);
+        recyclerView.setAdapter(postNatalAdapter);
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
         getMappedGirlsList();
@@ -75,12 +81,15 @@ public class PostNatalFragment extends Fragment implements UpcomingAppointmentsA
 
     @Override
     public void onItemClick(View view, int position, Value value) {
-
+        if (Collect.allowClick(getClass().getName())) {
+            Intent i = new Intent(getActivity(), FormChooserList.class);
+            startActivity(i);
+        }
     }
 
     private void getMappedGirlsList() {
         Timber.d("get mapped girls list started");
-        Call<MappedGirls> call = apiInterface.getMappedGirls("build_GetInTest4_1568212345");
+        Call<MappedGirls> call = apiInterface.getMappedGirls("build_GetINPostnatalFormTest");
         Log.d("Server", "getMappedGirlsList: made server request");
 
         call.enqueue(new Callback<MappedGirls>() {
@@ -88,9 +97,9 @@ public class PostNatalFragment extends Fragment implements UpcomingAppointmentsA
             public void onResponse(Call<MappedGirls> call, Response<MappedGirls> response) {
                 Timber.d("onResponse() -> " + response.code());
                 List<Value> values = response.body().getValue();
-//                girlsAdapter = new PostNatalAdapter(getActivity(), values);
-//                girlsAdapter.setClickListener(ViewEditMappedGirlsFragment.this);
-//                recyclerView.setAdapter(girlsAdapter);
+                postNatalAdapter = new PostNatalAdapter(getActivity(), values);
+                postNatalAdapter.setClickListener(PostNatalFragment.this);
+                recyclerView.setAdapter(postNatalAdapter);
             }
 
             @Override

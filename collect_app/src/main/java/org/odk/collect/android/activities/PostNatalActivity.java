@@ -7,7 +7,7 @@ import android.os.Bundle;
 import org.odk.collect.android.R;
 import org.odk.collect.android.activities.ui.postnatal.PostNatalFragment;
 
-public class PostNatalActivity extends AppCompatActivity {
+public class PostNatalActivity extends CollectAbstractActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

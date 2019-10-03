@@ -71,7 +71,7 @@ android {
 
     defaultConfig {
         applicationId('org.odk.collect.android')
-        minSdkVersion(16)
+        minSdkVersion(17)
         targetSdkVersion(26)
         versionCode LEGACY_BUILD_NUMBER_OFFSET + getMasterCommitCount()
         versionName getVersionName()
@@ -356,6 +356,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.14.3'
+    implementation 'com.github.thomhurst:ExpandableHintText:1.0.6'
 }
 
 // Must be at bottom to prevent dependency collisions
