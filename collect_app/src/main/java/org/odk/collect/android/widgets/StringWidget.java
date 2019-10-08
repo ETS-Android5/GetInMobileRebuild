@@ -24,14 +24,19 @@ import android.text.TextWatcher;
 import android.text.method.TextKeyListener;
 import android.text.method.TextKeyListener.Capitalize;
 import android.util.TypedValue;
+import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.javarosa.core.model.data.IAnswerData;
 import org.javarosa.core.model.data.StringData;
 import org.javarosa.form.api.FormEntryPrompt;
+import org.odk.collect.android.R;
 import org.odk.collect.android.activities.FormEntryActivity;
 import org.odk.collect.android.utilities.SoftKeyboardUtils;
 import org.odk.collect.android.utilities.ViewIds;
@@ -48,13 +53,16 @@ import timber.log.Timber;
 public class StringWidget extends QuestionWidget {
     private static final String ROWS = "rows";
     boolean readOnly;
-    private final EditText answerText;
+    private EditText answerText;
 
     protected StringWidget(Context context, FormEntryPrompt prompt, boolean readOnlyOverride) {
         super(context, prompt);
 
         answerText = new EditText(context);
         answerText.setId(ViewIds.generateViewId());
+        answerText.setBackgroundResource(R.drawable.edit_text_border_layout);
+        answerText.setPadding(30,25,30,25);
+
         readOnly = prompt.isReadOnly() || readOnlyOverride;
 
         answerText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, getAnswerFontSize());
