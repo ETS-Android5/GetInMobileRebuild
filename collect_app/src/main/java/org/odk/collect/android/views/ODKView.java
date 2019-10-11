@@ -173,9 +173,9 @@ public class ODKView extends FrameLayout implements OnLongClickListener, WidgetV
 
         widgets.add(qw);
 
-        if (widgets.size() > 1) {
-            view.addView(getDividerView());
-        }
+//        if (widgets.size() > 1) {
+//            view.addView(getDividerView());
+//        }
         view.addView(qw, layout);
     }
 
