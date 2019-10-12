@@ -115,7 +115,7 @@ Follow the below points to get the color for coloring the UI components like tex
 
 UI Component | Java | Xml _(layouts, drawables, vectors)_:
 --- | --- | ---
-text color | themeUtils.getPrimaryTextColor() | ?primaryTextColor
+text color | getResources().getColor(R.color.text_grey) | ?primaryTextColor
 accent color | themeUtils.getAccentColor() | ?colorAccent
 icon color | themeUtils.getIconColor() | ?iconColor
 

@@ -107,7 +107,7 @@ public class StringWidget extends QuestionWidget {
         if (readOnly) {
             answerText.setBackground(null);
             answerText.setEnabled(false);
-            answerText.setTextColor(themeUtils.getPrimaryTextColor());
+            answerText.setTextColor(getResources().getColor(R.color.text_grey));
             answerText.setFocusable(false);
         }
 

@@ -124,7 +124,7 @@ public class ExStringWidget extends QuestionWidget implements BinaryWidget {
         answer.setLayoutParams(params);
         textBackground = answer.getBackground();
         answer.setBackground(null);
-        answer.setTextColor(themeUtils.getPrimaryTextColor());
+        answer.setTextColor(getResources().getColor(R.color.text_grey));
 
         // capitalize nothing
         answer.setKeyListener(new TextKeyListener(Capitalize.NONE, false));

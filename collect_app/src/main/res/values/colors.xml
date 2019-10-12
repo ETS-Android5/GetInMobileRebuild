@@ -20,6 +20,7 @@ the License.
     <color name="green_500">#4CAF50</color>
     <color name="deep_purple_500">#673AB7</color>
     <color name="amber_500">#FFC107</color>
+    <color name="text_grey">#616161</color>
 
     <color name="highContrastHighlight">#ff8c00</color>
     <color name="displaySubtextColor">@color/green_500</color>
@@ -40,4 +41,5 @@ the License.
     <color name="mapPointCircle">#ffff0000</color>
     <color name="mapPointFill">#ffffffff</color>
     <color name="mapLine">#ffff0000</color>
+    <color name="form_activity_background_color">#ECECEC</color>
 </resources>

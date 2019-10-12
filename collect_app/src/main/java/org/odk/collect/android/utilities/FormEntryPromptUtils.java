@@ -115,13 +115,7 @@ public class FormEntryPromptUtils {
     }
 
     public static String markQuestionIfIsRequired(String questionText, boolean isRequired) {
-        if (isRequired) {
-            if (questionText == null) {
-                questionText = "";
-            }
-            questionText = "<span style=\"color:#F44336\">*</span> " + questionText;
-        }
-
+        questionText = "<span style=\"color:#BDBDBD\">" +  questionText + "</span> ";
         return questionText;
     }
 

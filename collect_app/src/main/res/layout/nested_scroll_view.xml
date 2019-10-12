@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2018 Nafundi
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright 2018 Nafundi
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -13,19 +12,16 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<androidx.cardview.widget.CardView
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/odk_view_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/margin"
-    card_view:cardCornerRadius="18dp"
-    card_view:cardElevation="8dp">
-
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/odk_view_container"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:scrollbars="vertical">
-    </androidx.core.widget.NestedScrollView>
-</androidx.cardview.widget.CardView>
+    android:layout_margin="@dimen/margin_medium"
+    android:background="@drawable/card_shape"
+    android:elevation="@dimen/cardview_default_elevation"
+    android:paddingTop="@dimen/padding_medium"
+    android:paddingLeft="@dimen/padding_medium"
+    android:paddingRight="@dimen/padding_medium"
+    android:paddingBottom="@dimen/padding_large"
+    android:scrollbars="vertical"/>
