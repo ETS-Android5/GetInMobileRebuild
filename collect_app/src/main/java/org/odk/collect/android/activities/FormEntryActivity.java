@@ -947,90 +947,6 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
         showView(current, AnimationType.FADE);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.form_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-
-        boolean useability;
-
-        useability = (boolean) AdminSharedPreferences.getInstance().get(AdminKeys.KEY_SAVE_MID);
-
-        menu.findItem(R.id.menu_save).setVisible(useability).setEnabled(useability);
-
-        useability = (boolean) AdminSharedPreferences.getInstance().get(AdminKeys.KEY_JUMP_TO);
-
-        menu.findItem(R.id.menu_goto).setVisible(useability)
-                .setEnabled(useability);
-
-        FormController formController = getFormController();
-
-        useability = (boolean) AdminSharedPreferences.getInstance().get(AdminKeys.KEY_CHANGE_LANGUAGE)
-                && (formController != null)
-                && formController.getLanguages() != null
-                && formController.getLanguages().length > 1;
-
-        menu.findItem(R.id.menu_languages).setVisible(useability)
-                .setEnabled(useability);
-
-        useability = (boolean) AdminSharedPreferences.getInstance().get(AdminKeys.KEY_ACCESS_SETTINGS);
-
-        menu.findItem(R.id.menu_preferences).setVisible(useability)
-                .setEnabled(useability);
-
-        if (getFormController() != null && getFormController().currentFormCollectsBackgroundLocation()
-                && LocationClients.areGooglePlayServicesAvailable(this)) {
-            MenuItem backgroundLocation = menu.findItem(R.id.track_location);
-            backgroundLocation.setVisible(true);
-            backgroundLocation.setChecked(GeneralSharedPreferences.getInstance().getBoolean(KEY_BACKGROUND_LOCATION, true));
-        }
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        FormController formController = getFormController();
-        switch (item.getItemId()) {
-            case R.id.menu_languages:
-                createLanguageDialog();
-                return true;
-            case R.id.menu_save:
-                // don't exit
-                saveDataToDisk(DO_NOT_EXIT, InstancesDaoHelper.isInstanceComplete(false), null);
-                return true;
-            case R.id.menu_goto:
-                state = null;
-                if (formController != null && formController.currentPromptIsQuestion()) {
-                    saveAnswersForCurrentScreen(DO_NOT_EVALUATE_CONSTRAINTS);
-                }
-
-                if (formController != null) {
-                    formController.getAuditEventLogger().exitView();
-                    formController.getAuditEventLogger().logEvent(AuditEvent.AuditEventType.HIERARCHY, true);
-                }
-
-                Intent i = new Intent(this, FormHierarchyActivity.class);
-                startActivityForResult(i, RequestCodes.HIERARCHY_ACTIVITY);
-                return true;
-            case R.id.menu_preferences:
-                Intent pref = new Intent(this, PreferencesActivity.class);
-                startActivity(pref);
-                return true;
-            case R.id.track_location:
-                GeneralSharedPreferences.getInstance().save(KEY_BACKGROUND_LOCATION, !GeneralSharedPreferences.getInstance().getBoolean(KEY_BACKGROUND_LOCATION, true));
-
-                viewModel.backgroundLocationPreferenceToggled();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     /**
      * Attempt to save the answer(s) in the current screen to into the data
      * model.
@@ -1161,7 +1077,9 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
     private View createView(int event, boolean advancingPage) {
         FormController formController = getFormController();
 
-        setTitle(formController.getFormTitle());
+        //todo change title based on form name
+        String title = "Map Girl";
+        setTitle(title);
 
         if (event != FormEntryController.EVENT_QUESTION) {
             formController.getAuditEventLogger().logEvent(AuditEvent.getAuditEventTypeFromFecType(event),
