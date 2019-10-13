@@ -34,9 +34,6 @@ import org.odk.collect.android.utilities.EncryptionUtils;
 import org.odk.collect.android.utilities.EncryptionUtils.EncryptedFormInformation;
 import org.odk.collect.android.utilities.FileUtils;
 import org.odk.collect.android.utilities.MediaManager;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -220,9 +217,6 @@ public class SaveToDiskTask extends AsyncTask<Void, String, SaveResult> {
                     String jrversion = c.getString(c.getColumnIndex(FormsColumns.JR_VERSION));
                     values.put(InstanceColumns.JR_FORM_ID, jrformid);
                     values.put(InstanceColumns.JR_VERSION, jrversion);
-                    String girlName = getGirlNameFromForm();
-
-                    values.put(InstanceColumns.GIRLS_NAME, girlName);
                 } finally {
                     if (c != null) {
                         c.close();
@@ -232,27 +226,6 @@ public class SaveToDiskTask extends AsyncTask<Void, String, SaveResult> {
             }
         }
     }
-
-    private String getGirlNameFromForm() {
-        return "testgirl";
-    }
-
-//    private void parseXML() {
-//        XmlPullParserFactory parserFactory;
-//        try {
-//            parserFactory = XmlPullParserFactory.newInstance();
-//            XmlPullParser parser = parserFactory.newPullParser();
-//            InputStream is =  getAssets().open("data.xml");
-//            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-//            parser.setInput(is, null);
-//
-//            processParsing(parser);
-//
-//        } catch (XmlPullParserException e) {
-//
-//        } catch (IOException e) {
-//        }
-//    }
 
     /**
      * Return the savepoint file for a given instance.
