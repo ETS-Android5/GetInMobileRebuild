@@ -13,18 +13,38 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/odk_view_container"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/margin_extra_large"
-    android:layout_marginBottom="@dimen/padding_medium"
-    android:layout_marginRight="@dimen/padding_medium"
-    android:layout_marginLeft="@dimen/padding_medium"
-    android:background="@drawable/card_shape"
-    android:elevation="@dimen/cardview_default_elevation"
-    android:paddingTop="@dimen/padding_medium"
-    android:paddingLeft="@dimen/padding_medium"
-    android:paddingRight="@dimen/padding_medium"
-    android:paddingBottom="@dimen/padding_large"
-    android:scrollbars="vertical"/>
+    android:orientation="vertical">
+    <ProgressBar
+        android:id="@+id/determinateBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:progressDrawable="@drawable/blue_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_extra_large"
+        android:layout_marginRight="@dimen/margin_extra_large"
+        android:layout_marginLeft="@dimen/margin_extra_large"
+        android:progress="25"/>
+
+    <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/odk_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_extra_large"
+        android:layout_marginBottom="@dimen/padding_medium"
+        android:layout_marginRight="@dimen/padding_medium"
+        android:layout_marginLeft="@dimen/padding_medium"
+        android:background="@drawable/card_shape"
+        android:elevation="@dimen/cardview_default_elevation"
+        android:paddingTop="@dimen/padding_medium"
+        android:paddingLeft="@dimen/padding_medium"
+        android:paddingRight="@dimen/padding_medium"
+        android:paddingBottom="@dimen/padding_large"
+        android:scrollbars="vertical"/>
+
+</LinearLayout>
+
