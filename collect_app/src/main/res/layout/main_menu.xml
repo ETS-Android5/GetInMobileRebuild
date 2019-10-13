@@ -7,95 +7,43 @@
   OR CONDITIONS OF ANY KIND, either express or implied. See the License for
   the specific language governing permissions and limitations under the License.
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:fitsSystemWindows="true"
+tools:context=".activities.MainMenuActivity">
+
+<com.google.android.material.appbar.AppBarLayout
+    android:id="@+id/app_bar"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="@dimen/app_bar_height"
+    android:fitsSystemWindows="true"
+    android:background="@drawable/tool_bar_card_shape_transparent"
+    android:theme="@style/AppTheme.AppBarOverlay">
 
-    <!-- Toolbar -->
-    <include layout="@layout/toolbar" />
-
-    <include
-        layout="@layout/toolbar_action_bar_shadow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar" />
-
-    <LinearLayout
+    <com.google.android.material.appbar.CollapsingToolbarLayout
+        android:id="@+id/toolbar_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
-        android:orientation="vertical"
-        android:paddingTop="@dimen/margin_large">
+        android:background="@drawable/tool_bar_card_shape_transparent"
+        android:fitsSystemWindows="true"
+        android:elevation="4dp"
+        app:contentScrim="?attr/colorPrimary"
+        app:layout_scrollFlags="noScroll|exitUntilCollapsed"
+        app:toolbarId="@+id/toolbar">
 
-        <ScrollView
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="?attr/actionBarSize"
+            app:layout_collapseMode="pin"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/margin_medium">
+    </com.google.android.material.appbar.CollapsingToolbarLayout>
+</com.google.android.material.appbar.AppBarLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+<include layout="@layout/content_scrolling" />
 
-                    <Button
-                        android:id="@+id/enter_data"
-                        style="@style/Widget.Collect.Button.Big"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_small" />
-
-                    <Button
-                        android:id="@+id/view_edit_mapped_girls"
-                        style="@style/Widget.Collect.Button.Big"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_small" />
-
-                    <Button
-                        android:id="@+id/upcoming_appointments_button"
-                        style="@style/Widget.Collect.Button.Big"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_small" />
-
-                    <Button
-                        android:id="@+id/postnatal_form_button"
-                        style="@style/Widget.Collect.Button.Big"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_small"
-                        android:text="PostNatal Form" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:orientation="vertical">
-
-                    <Button
-                        android:id="@+id/get_forms"
-                        style="@style/Widget.Collect.Button.Big"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_small" />
-
-                    <Button
-                        android:id="@+id/manage_forms"
-                        style="@style/Widget.Collect.Button.Big"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_small" />
-                </LinearLayout>
-            </LinearLayout>
-
-        </ScrollView>
-    </LinearLayout>
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -37,7 +37,7 @@
                 <corners
                     android:radius="5dip" />
                 <solid
-                    android:color="#4CC4D4"/>
+                    android:color="@color/getin_blue"/>
                 <!--<gradient-->
                     <!--android:startColor="#33FF33"-->
                     <!--android:endColor="#008000"-->

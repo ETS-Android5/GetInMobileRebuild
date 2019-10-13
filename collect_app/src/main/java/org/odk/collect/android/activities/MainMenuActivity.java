@@ -321,8 +321,9 @@ public class MainMenuActivity extends CollectAbstractActivity {
     }
 
     private void initToolbar() {
+
         Toolbar toolbar = findViewById(R.id.toolbar);
-        setTitle(getString(R.string.main_menu));
+        setTitle(getString(R.string.app_name));
         setSupportActionBar(toolbar);
     }
 
