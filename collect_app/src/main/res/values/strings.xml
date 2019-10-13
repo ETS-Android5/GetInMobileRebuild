@@ -727,4 +727,5 @@
     <string name="view_previous_records">View Previous Records</string>
     <string name="upcoming_appointments">Upcoming Appointments</string>
     <string name="girls_mapped_success">Mapping data has been sent successfully</string>
+    <string name="app_description">For Accessible Maternal Health Care in Rural Communities</string>
 </resources>

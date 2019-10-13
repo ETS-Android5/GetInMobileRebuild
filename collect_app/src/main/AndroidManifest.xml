@@ -68,7 +68,7 @@
 
     <application
         android:name=".application.Collect"
-        android:icon="@drawable/notes"
+        android:icon="@drawable/getin_logo"
         android:installLocation="auto"
         android:label="@string/app_name"
         android:largeHeap="true"
@@ -229,7 +229,7 @@
         <activity android:name=".activities.BearingActivity" />
         <activity
             android:name=".activities.SplashScreenActivity"
-            android:theme="@android:style/Theme.Dialog" />
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
 
         <activity-alias
             android:name=".activities.SplashScreenActivity"
