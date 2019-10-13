@@ -23,12 +23,14 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Environment;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import org.odk.collect.android.R;
+import org.odk.collect.android.activities.MainMenuActivity;
 import org.odk.collect.android.activities.NotificationActivity;
 import org.odk.collect.android.application.Collect;
 import org.odk.collect.android.dao.FormsDao;
@@ -82,20 +84,12 @@ public class AutoSendWorker extends Worker {
     @Override
     @SuppressLint("WrongThread")
     public Result doWork() {
-        ConnectivityManager manager = (ConnectivityManager) getApplicationContext().getSystemService(
-                Context.CONNECTIVITY_SERVICE);
-        NetworkInfo currentNetworkInfo = manager.getActiveNetworkInfo();
-
-        if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)
-                || !(networkTypeMatchesAutoSendSetting(currentNetworkInfo) || atLeastOneFormSpecifiesAutoSend())) {
-            if (!networkTypeMatchesAutoSendSetting(currentNetworkInfo)) {
-                return Result.RETRY;
-            }
-
+        if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             return Result.FAILURE;
         }
 
-        List<Instance> toUpload = getInstancesToAutoSend(GeneralSharedPreferences.isAutoSendEnabled());
+        List<Instance> toUpload = getInstancesToAutoSend();
+        Timber.d("doWork: toUpload size " + toUpload.size());
 
         if (toUpload.isEmpty()) {
             return Result.SUCCESS;
@@ -174,92 +168,14 @@ public class AutoSendWorker extends Worker {
     }
 
     /**
-     * Returns whether the currently-available connection type is included in the app-level auto-send
-     * settings.
-     *
-     * @return true if a connection is available and settings specify it should trigger auto-send,
-     * false otherwise.
-     */
-    private boolean networkTypeMatchesAutoSendSetting(NetworkInfo currentNetworkInfo) {
-        if (currentNetworkInfo == null) {
-            return false;
-        }
-
-        String autosend = (String) GeneralSharedPreferences.getInstance().get(GeneralKeys.KEY_AUTOSEND);
-        boolean sendwifi = autosend.equals("wifi_only");
-        boolean sendnetwork = autosend.equals("cellular_only");
-        if (autosend.equals("wifi_and_cellular")) {
-            sendwifi = true;
-            sendnetwork = true;
-        }
-
-        return currentNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI
-                && sendwifi || currentNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE
-                && sendnetwork;
-    }
-
-    /**
      * Returns instances that need to be auto-sent.
      */
     @NonNull
-    private List<Instance> getInstancesToAutoSend(boolean isAutoSendAppSettingEnabled) {
+    private List<Instance> getInstancesToAutoSend() {
         InstancesDao dao = new InstancesDao();
         Cursor c = dao.getFinalizedInstancesCursor();
         List<Instance> allFinalized = dao.getInstancesFromCursor(c);
-
-        List<Instance> toUpload = new ArrayList<>();
-        for (Instance instance : allFinalized) {
-            if (formShouldBeAutoSent(instance.getJrFormId(), isAutoSendAppSettingEnabled)) {
-                toUpload.add(instance);
-            }
-        }
-
-        return toUpload;
-    }
-
-    /**
-     * Returns whether a form with the specified form_id should be auto-sent given the current
-     * app-level auto-send settings. Returns false if there is no form with the specified form_id.
-     *
-     * A form should be auto-sent if auto-send is on at the app level AND this form doesn't override
-     * auto-send settings OR if auto-send is on at the form-level.
-     *
-     * @param isAutoSendAppSettingEnabled whether the auto-send option is enabled at the app level
-     */
-    public static boolean formShouldBeAutoSent(String jrFormId, boolean isAutoSendAppSettingEnabled) {
-        Cursor cursor = new FormsDao().getFormsCursorForFormId(jrFormId);
-        String formLevelAutoSend = null;
-        if (cursor != null && cursor.moveToFirst()) {
-            try {
-                int autoSendColumnIndex = cursor.getColumnIndex(AUTO_SEND);
-                formLevelAutoSend = cursor.getString(autoSendColumnIndex);
-            } finally {
-                cursor.close();
-            }
-        }
-
-        return formLevelAutoSend == null ? isAutoSendAppSettingEnabled
-                : Boolean.valueOf(formLevelAutoSend);
-    }
-
-    /**
-     * Returns true if at least one form currently on the device specifies that all of its filled
-     * forms should auto-send no matter the connection type.
-     *
-     * TODO: figure out where this should live
-     */
-    private boolean atLeastOneFormSpecifiesAutoSend() {
-        FormsDao dao = new FormsDao();
-
-        try (Cursor cursor = dao.getFormsCursor()) {
-            List<Form> forms = dao.getFormsFromCursor(cursor);
-            for (Form form : forms) {
-                if (Boolean.valueOf(form.getAutoSend())) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return allFinalized;
     }
 
     private String formatOverallResultMessage(Map<String, String> resultMessagesByInstanceId) {
@@ -288,10 +204,10 @@ public class AutoSendWorker extends Worker {
     }
 
     private void showUploadStatusNotification(boolean anyFailure, String message) {
-        Intent notifyIntent = new Intent(Collect.getInstance(), NotificationActivity.class);
+        Intent notifyIntent = new Intent(Collect.getInstance(), MainMenuActivity.class);
         notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         notifyIntent.putExtra(NotificationActivity.NOTIFICATION_TITLE, Collect.getInstance().getString(R.string.upload_results));
-        notifyIntent.putExtra(NotificationActivity.NOTIFICATION_MESSAGE, message.trim());
+        notifyIntent.putExtra(NotificationActivity.NOTIFICATION_MESSAGE, R.string.girls_mapped_success);
 
         PendingIntent pendingNotify = PendingIntent.getActivity(Collect.getInstance(), FORMS_UPLOADED_NOTIFICATION,
                 notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -300,8 +216,7 @@ public class AutoSendWorker extends Worker {
                 pendingNotify,
                 AUTO_SEND_RESULT_NOTIFICATION_ID,
                 R.string.odk_auto_note,
-                anyFailure ? Collect.getInstance().getString(R.string.failures)
-                        : Collect.getInstance().getString(R.string.success));
+                Collect.getInstance().getString(R.string.success));
 
     }
 }
