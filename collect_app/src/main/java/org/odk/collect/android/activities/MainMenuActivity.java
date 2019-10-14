@@ -40,7 +40,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 
@@ -121,6 +120,15 @@ public class MainMenuActivity extends CollectAbstractActivity {
 
         // map girl button. expects a result.
         Button mapGirlButton = findViewById(R.id.enter_data);
+
+//        Drawable drawable = getResources().getDrawable(R.drawable.nurse);
+//        drawable.setBounds(0, 0, (int)(drawable.getIntrinsicWidth()*0.5),
+//                (int)(drawable.getIntrinsicHeight()*0.5));
+//        float scaleWidth = 5L;
+//        float scaleHeight = 5L;
+//        ScaleDrawable sd = new ScaleDrawable(drawable, 0, scaleWidth, scaleHeight);
+//        mapGirlButton.setCompoundDrawables();
+
         mapGirlButton.setText(getString(R.string.map_girl_button));
         mapGirlButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -158,7 +166,8 @@ public class MainMenuActivity extends CollectAbstractActivity {
             }
         });
 
-        postNatalFormButton = findViewById(R.id.postnatal_form_button);
+        postNatalFormButton = findViewById(R.id.call_nurse);
+        postNatalFormButton.setText("Midwives");
         postNatalFormButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -187,8 +196,8 @@ public class MainMenuActivity extends CollectAbstractActivity {
 //        });
 //
 //        // manage forms button. no result expected.
-        getFormsButton = findViewById(R.id.get_forms);
-        getFormsButton.setText(getString(R.string.get_forms));
+        getFormsButton = findViewById(R.id.call_ambulance);
+        getFormsButton.setText(getString(R.string.ambulance));
         getFormsButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -216,19 +225,19 @@ public class MainMenuActivity extends CollectAbstractActivity {
         });
 //
         // manage forms button. no result expected.
-        manageFilesButton = findViewById(R.id.manage_forms);
-        manageFilesButton.setText(getString(R.string.manage_files));
-        manageFilesButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Collect.allowClick(getClass().getName())) {
-                    Intent i = new Intent(getApplicationContext(), InstanceChooserList.class);
-                    i.putExtra(ApplicationConstants.BundleKeys.FORM_MODE,
-                            ApplicationConstants.FormModes.EDIT_SAVED);
-                    startActivity(i);
-                }
-            }
-        });
+//        manageFilesButton = findViewById(R.id.manage_forms);
+//        manageFilesButton.setText(getString(R.string.manage_files));
+//        manageFilesButton.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (Collect.allowClick(getClass().getName())) {
+//                    Intent i = new Intent(getApplicationContext(), InstanceChooserList.class);
+//                    i.putExtra(ApplicationConstants.BundleKeys.FORM_MODE,
+//                            ApplicationConstants.FormModes.EDIT_SAVED);
+//                    startActivity(i);
+//                }
+//            }
+//        });
 
 
         // must be at the beginning of any activity that can be called from an

@@ -720,12 +720,12 @@
     <string name="qr_code_not_found">QR Code not found in the selected image</string>
     <string name="not_granted_permission">The activity you are trying to start requires a permission which is not granted.</string>
     <string name="basemap_source_unavailable">Sorry, %s basemaps are not available on this device.  Please choose another basemap in General Settings &gt; Maps.</string>
-    <string name="view_edit_girls">View/Edit Mapped Girls</string>
+    <string name="view_edit_girls">Mapped Girls</string>
     <string name="title_activity_pregnancy_summary">PregnancySummaryActivity</string>
     <string name="call_girl">Call Girl</string>
     <string name="call_powerholder">Call PowerHolder</string>
     <string name="view_previous_records">View Previous Records</string>
-    <string name="upcoming_appointments">Upcoming Appointments</string>
+    <string name="upcoming_appointments">Appointments</string>
     <string name="girls_mapped_success">Mapping data has been sent successfully</string>
     <string name="app_description">For Accessible Maternal Health Care in Rural Communities</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
@@ -819,4 +819,5 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
+    <string name="ambulance">Ambulance</string>
 </resources>

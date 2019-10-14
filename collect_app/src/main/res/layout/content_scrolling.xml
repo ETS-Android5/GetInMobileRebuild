@@ -11,75 +11,54 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:elevation="@dimen/margin_medium"
-        style="@style/CustomCardViewStyle"
-        android:layout_margin="@dimen/margin_large">
+        android:layout_marginLeft="@dimen/margin_extra_large"
+        android:layout_marginTop="@dimen/margin_extra_large"
+        android:layout_marginRight="@dimen/margin_extra_large"
+        android:layout_marginBottom="@dimen/margin_medium"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="@dimen/margin_medium">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/margin_medium">
+            android:padding="@dimen/padding_extra_large">
 
-            <LinearLayout
+            <Button
+                android:id="@+id/enter_data"
+                style="@style/Widget.Collect.Button.HomeScreen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:drawableLeft="@drawable/ic_girl" />
 
-                <Button
-                    android:id="@+id/enter_data"
-                    style="@style/Widget.Collect.Button.Big"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small" />
-
-                <Button
-                    android:id="@+id/view_edit_mapped_girls"
-                    style="@style/Widget.Collect.Button.Big"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small" />
-
-                <Button
-                    android:id="@+id/upcoming_appointments_button"
-                    style="@style/Widget.Collect.Button.Big"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small" />
-
-                <Button
-                    android:id="@+id/postnatal_form_button"
-                    style="@style/Widget.Collect.Button.Big"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:text="PostNatal Form" />
-
-            </LinearLayout>
-
-            <LinearLayout
+            <Button
+                android:id="@+id/view_edit_mapped_girls"
+                style="@style/Widget.Collect.Button.HomeScreen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:orientation="vertical">
+                android:drawableLeft="@drawable/ic_mapped_girls" />
 
-                <Button
-                    android:id="@+id/get_forms"
-                    style="@style/Widget.Collect.Button.Big"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small" />
+            <Button
+                android:id="@+id/upcoming_appointments_button"
+                style="@style/Widget.Collect.Button.HomeScreen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_appointment" />
 
-                <Button
-                    android:id="@+id/manage_forms"
-                    style="@style/Widget.Collect.Button.Big"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small" />
-            </LinearLayout>
+            <Button
+                android:id="@+id/call_nurse"
+                style="@style/Widget.Collect.Button.HomeScreen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_nurse" />
+
+            <Button
+                android:id="@+id/call_ambulance"
+                style="@style/Widget.Collect.Button.HomeScreen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_ambulance" />
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-
-
-
 </androidx.core.widget.NestedScrollView>

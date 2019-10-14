@@ -154,7 +154,7 @@ public class MainActivityTest {
      */
     @Test
     public void viewSentFormButtonTest() throws Exception {
-        Button viewSentFormButton = mainMenuActivity.findViewById(R.id.postnatal_form_button);
+        Button viewSentFormButton = mainMenuActivity.findViewById(R.id.call_nurse);
 
         assertNotNull(viewSentFormButton);
         assertEquals(View.VISIBLE, viewSentFormButton.getVisibility());
@@ -173,7 +173,7 @@ public class MainActivityTest {
      */
     @Test
     public void getFormButtonTest() throws Exception {
-        Button getFormButton = mainMenuActivity.findViewById(R.id.get_forms);
+        Button getFormButton = mainMenuActivity.findViewById(R.id.call_ambulance);
         assertNotNull(getFormButton);
         assertEquals(View.VISIBLE, getFormButton.getVisibility());
         assertEquals(mainMenuActivity.getString(R.string.get_forms), getFormButton.getText());

@@ -48,7 +48,7 @@
     <dimen name="corner_radius">2dp</dimen>
 
     <dimen name="select_item_border">4dp</dimen>
-    <dimen name="app_bar_height">220dp</dimen>
+    <dimen name="app_bar_height">180dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 </resources>

@@ -42,5 +42,9 @@ the License.
     <color name="mapPointCircle">#ffff0000</color>
     <color name="mapPointFill">#ffffffff</color>
     <color name="mapLine">#ffff0000</color>
+
+    <!-- General theme colors -->
     <color name="form_activity_background_color">#ECECEC</color>
+    <color name="button_color">#F5F5F5</color>
+    <color name="button_text_color">#333348</color>
 </resources>

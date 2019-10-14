@@ -13,22 +13,22 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/margin_extra_large"
-    android:orientation="vertical">
-    <ProgressBar
-        android:id="@+id/determinateBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:progressDrawable="@drawable/blue_progress_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_extra_large"
-        android:layout_marginRight="@dimen/margin_extra_large"
-        android:layout_marginLeft="@dimen/margin_extra_large"
-        android:progress="25"/>
+<!--<LinearLayout-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="@dimen/margin_extra_large"-->
+    <!--android:orientation="vertical">-->
+    <!--<ProgressBar-->
+        <!--android:id="@+id/determinateBar"-->
+        <!--style="?android:attr/progressBarStyleHorizontal"-->
+        <!--android:progressDrawable="@drawable/blue_progress_bar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="@dimen/margin_extra_large"-->
+        <!--android:layout_marginRight="@dimen/margin_extra_large"-->
+        <!--android:layout_marginLeft="@dimen/margin_extra_large"-->
+        <!--android:progress="25"/>-->
 
     <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/odk_view_container"
@@ -44,7 +44,10 @@ limitations under the License.
         android:paddingLeft="@dimen/padding_medium"
         android:paddingRight="@dimen/padding_medium"
         android:paddingBottom="@dimen/padding_large"
-        android:scrollbars="vertical"/>
+        android:scrollbars="vertical">
 
-</LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
+
+<!--</LinearLayout>-->
 
