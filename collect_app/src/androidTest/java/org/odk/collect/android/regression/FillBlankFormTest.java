@@ -81,7 +81,7 @@ public class FillBlankFormTest extends BaseRegressionTest {
         FormEntry.checkIsStringDisplayed(R.string.keep_changes);
         FormEntry.checkIsStringDisplayed(R.string.do_not_save);
         FormEntry.clickOnString(R.string.do_not_save);
-        FormEntry.checkIsIdDisplayed(R.id.enter_data);
+        FormEntry.checkIsIdDisplayed(R.id.vht_button);
         FormEntry.checkIsIdDisplayed(R.id.call_ambulance);
 
     }

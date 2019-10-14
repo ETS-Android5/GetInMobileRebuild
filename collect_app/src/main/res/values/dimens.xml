@@ -11,6 +11,7 @@
     <dimen name="margin_medium">8dp</dimen>
     <dimen name="margin_large">16dp</dimen>
     <dimen name="margin_extra_large">24dp</dimen>
+    <dimen name="margin_extra_extra_large">48dp</dimen>
 
     <!-- fontSize -->
     <dimen name="text_size_extra_small">12sp</dimen>
@@ -49,6 +50,7 @@
 
     <dimen name="select_item_border">4dp</dimen>
     <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="app_bar_height_choose_user">350dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 </resources>

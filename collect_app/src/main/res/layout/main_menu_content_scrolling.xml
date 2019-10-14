@@ -25,7 +25,7 @@
             android:padding="@dimen/padding_extra_large">
 
             <Button
-                android:id="@+id/enter_data"
+                android:id="@+id/vht_button"
                 style="@style/Widget.Collect.Button.HomeScreen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

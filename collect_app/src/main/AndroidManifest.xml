@@ -97,6 +97,10 @@
         <activity
             android:name=".activities.MainMenuActivity"
             android:configChanges="locale|orientation|screenSize" />
+
+        <activity
+            android:name=".activities.ChooseUserActivity"
+            android:configChanges="locale|orientation|screenSize" />
         <activity
             android:name=".activities.ScannerWithFlashlightActivity"
             android:screenOrientation="portrait"

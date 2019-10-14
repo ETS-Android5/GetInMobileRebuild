@@ -26,7 +26,7 @@ public final class MainMenu {
     }
 
     public static void startBlankForm(String text) {
-        onView(withId(R.id.enter_data)).perform(click());
+        onView(withId(R.id.vht_button)).perform(click());
         onData(withRowString(FormsProviderAPI.FormsColumns.DISPLAY_NAME, text)).perform(click());
     }
 
@@ -35,7 +35,7 @@ public final class MainMenu {
     }
 
     public static void clickFillBlankForm() {
-        onView(withId(R.id.enter_data)).perform(click());
+        onView(withId(R.id.vht_button)).perform(click());
     }
 
     public static void clickOnSortByButton() {

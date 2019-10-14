@@ -97,7 +97,7 @@ public class MainActivityTest {
      */
     @Test
     public void dataButtonTest() throws Exception {
-        Button dataButton = mainMenuActivity.findViewById(R.id.enter_data);
+        Button dataButton = mainMenuActivity.findViewById(R.id.vht_button);
 
         assertNotNull(dataButton);
         assertEquals(View.VISIBLE, dataButton.getVisibility());

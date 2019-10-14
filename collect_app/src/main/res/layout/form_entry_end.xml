@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2009 University of Washington Licensed under the Apache
 License, Version 2.0 (the "License"); you may not use this file except in
 compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -9,78 +8,104 @@ OR CONDITIONS OF ANY KIND, either express or implied. See the License for
 the specific language governing permissions and limitations under the License.
 -->
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_marginTop="@dimen/margin_small"
+    android:padding="10dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <androidx.cardview.widget.CardView
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:padding="10dp">
+        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_marginRight="@dimen/margin_small"
+        android:layout_width="match_parent"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="@dimen/margin_medium">
 
-        <View
+        <LinearLayout
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.0" />
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/margin_extra_extra_large">
 
-        <TextView
-            android:id="@+id/description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:lineSpacingMultiplier="1.2"
-            android:paddingBottom="20dp"
-            android:paddingTop="10dp"
-            android:textColor="?primaryTextColor"
-            android:textSize="21sp"
-            android:textStyle="bold" />
+            <TextView
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/text_size_medium"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_width="match_parent"
+                android:text="@string/form_success_header"
+                android:textSize="@dimen/text_size_large" />
 
-        <TextView
-            android:id="@+id/save_form_as"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="start"
-            android:textColor="?primaryTextColor"
-            android:lineSpacingMultiplier="1.2"
-            android:text="@string/save_form_as"
-            android:textSize="21sp" />
+            <ImageView
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_width="match_parent"
+                android:src="@drawable/form_entry_end_image" />
 
-        <EditText
-            android:id="@+id/save_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:textSize="21sp" />
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:layout_width="match_parent"
+                android:orientation="horizontal">
 
-        <CheckBox
-            android:id="@+id/mark_finished"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginBottom="10dp"
-            android:text="@string/mark_finished"
-            android:textSize="21sp" />
+                <ImageView
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:src="@drawable/one_icon" />
 
-        <Button
-            android:id="@+id/save_exit_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:padding="20dp"
-            android:text="@string/quit_entry"
-            android:textAllCaps="false"
-            android:textSize="21sp" />
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8"
+                    android:layout_width="176dp"
+                    android:text="@string/confirm_input_data" />
+            </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.0" />
-    </LinearLayout>
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_width="match_parent"
+                android:orientation="horizontal">
 
-</ScrollView>
+                <ImageView
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:src="@drawable/two_icon" />
+
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8"
+                    android:layout_width="wrap_content"
+                    android:text="@string/submit_instruction" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        style="@style/Widget.Collect.Button.HomeScreen"
+        android:background="@drawable/round_button_blue"
+        android:id="@+id/save_exit_button"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_extra_extra_large"
+        android:layout_marginRight="@dimen/margin_extra_extra_large"
+        android:layout_width="match_parent"
+        android:text="@string/quit_entry"
+        android:textColor="@android:color/white" />
+
+</LinearLayout>

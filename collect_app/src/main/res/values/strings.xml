@@ -115,7 +115,7 @@
     <string name="please_wait">Please wait a few moments.</string>
     <string name="please_wait_long">Please wait. This could take a few minutes.</string>
     <string name="quit_application">Exit %s</string>
-    <string name="quit_entry">Save Form and Exit</string>
+    <string name="quit_entry">Submit</string>
     <string name="refresh">Refresh</string>
     <string name="group_label">Group</string>
     <string name="repeatable_group_label">Repeatable Group</string>
@@ -820,4 +820,9 @@
     </string>
     <string name="action_settings">Settings</string>
     <string name="ambulance">Ambulance</string>
+    <string name="choose_role">Choose your role</string>
+    <string name="terms_and_conditions"><![CDATA[By continuing, you agree to Terms & Conditions]]></string>
+    <string name="form_success_header">Great! You\'re almost done</string>
+    <string name="confirm_input_data">Confirm that you have captured the correct data. If not, press back and update the data</string>
+    <string name="submit_instruction">Press SUBMIT if you are done</string>
 </resources>

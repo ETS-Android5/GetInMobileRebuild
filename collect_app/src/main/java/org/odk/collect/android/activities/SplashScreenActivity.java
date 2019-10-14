@@ -116,7 +116,8 @@ public class SplashScreenActivity extends CollectAbstractActivity {
     }
 
     private void endSplashScreen() {
-        startActivity(new Intent(this, MainMenuActivity.class));
+        //todo navigate directly to home screen if already logged in
+        startActivity(new Intent(this, ChooseUserActivity.class));
         finish();
     }
 

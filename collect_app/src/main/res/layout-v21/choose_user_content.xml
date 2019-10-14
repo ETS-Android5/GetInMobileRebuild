@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".activities.ChooseUserActivity"
+    tools:showIn="@layout/choose_user_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_extra_large">
+
+        <Button
+            android:id="@+id/vht_button"
+            style="@style/Widget.Collect.Button.HomeScreen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_button_blue"
+            android:text="VHT"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/midwife_button"
+            style="@style/Widget.Collect.Button.HomeScreen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Midwife"
+            android:textColor="@color/orange" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_extra_extra_large"
+            android:gravity="center"
+            android:text="@string/terms_and_conditions" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

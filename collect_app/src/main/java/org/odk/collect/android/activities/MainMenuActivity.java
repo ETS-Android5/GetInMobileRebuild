@@ -119,16 +119,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
         disableSmsIfNeeded();
 
         // map girl button. expects a result.
-        Button mapGirlButton = findViewById(R.id.enter_data);
-
-//        Drawable drawable = getResources().getDrawable(R.drawable.nurse);
-//        drawable.setBounds(0, 0, (int)(drawable.getIntrinsicWidth()*0.5),
-//                (int)(drawable.getIntrinsicHeight()*0.5));
-//        float scaleWidth = 5L;
-//        float scaleHeight = 5L;
-//        ScaleDrawable sd = new ScaleDrawable(drawable, 0, scaleWidth, scaleHeight);
-//        mapGirlButton.setCompoundDrawables();
-
+        Button mapGirlButton = findViewById(R.id.vht_button);
         mapGirlButton.setText(getString(R.string.map_girl_button));
         mapGirlButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -138,7 +129,6 @@ public class MainMenuActivity extends CollectAbstractActivity {
                 }
             }
         });
-
 
         Button viewEditMappedGirlsButton = findViewById(R.id.view_edit_mapped_girls);
         viewEditMappedGirlsButton.setText(getString(R.string.view_edit_girls));
@@ -153,7 +143,6 @@ public class MainMenuActivity extends CollectAbstractActivity {
             }
         });
 
-//        // review data button. expects a result.
         Button upComingAppointments = findViewById(R.id.upcoming_appointments_button);
         upComingAppointments.setText(getString(R.string.upcoming_appointments));
         upComingAppointments.setOnClickListener(new OnClickListener() {
@@ -182,20 +171,6 @@ public class MainMenuActivity extends CollectAbstractActivity {
             }
         });
 
-//        Button enterDataButton = findViewById(R.id.enter_data);
-//        enterDataButton.setText(getString(R.string.enter_data_button));
-//        enterDataButton.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (Collect.allowClick(getClass().getName())) {
-//                    Intent i = new Intent(getApplicationContext(),
-//                            FormChooserList.class);
-//                    startActivity(i);
-//                }
-//            }
-//        });
-//
-//        // manage forms button. no result expected.
         getFormsButton = findViewById(R.id.call_ambulance);
         getFormsButton.setText(getString(R.string.ambulance));
         getFormsButton.setOnClickListener(new OnClickListener() {
@@ -223,22 +198,6 @@ public class MainMenuActivity extends CollectAbstractActivity {
                 }
             }
         });
-//
-        // manage forms button. no result expected.
-//        manageFilesButton = findViewById(R.id.manage_forms);
-//        manageFilesButton.setText(getString(R.string.manage_files));
-//        manageFilesButton.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (Collect.allowClick(getClass().getName())) {
-//                    Intent i = new Intent(getApplicationContext(), InstanceChooserList.class);
-//                    i.putExtra(ApplicationConstants.BundleKeys.FORM_MODE,
-//                            ApplicationConstants.FormModes.EDIT_SAVED);
-//                    startActivity(i);
-//                }
-//            }
-//        });
-
 
         // must be at the beginning of any activity that can be called from an
         // external intent
