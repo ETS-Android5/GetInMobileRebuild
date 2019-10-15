@@ -23,6 +23,7 @@ import android.widget.Button;
 import androidx.appcompat.widget.Toolbar;
 
 import org.odk.collect.android.R;
+import org.odk.collect.android.activities.ui.login.LoginActivity;
 import org.odk.collect.android.application.Collect;
 
 /**
@@ -42,14 +43,14 @@ public class ChooseUserActivity extends CollectAbstractActivity {
         Button mapGirlButton = findViewById(R.id.vht_button);
         mapGirlButton.setOnClickListener(v -> {
             Intent i = new Intent(getApplicationContext(),
-                    MainMenuActivity.class);
+                    LoginActivity.class);
             startActivity(i);
         });
 
         Button viewEditMappedGirlsButton = findViewById(R.id.midwife_button);
         viewEditMappedGirlsButton.setOnClickListener(v -> {
             Intent i = new Intent(getApplicationContext(),
-                    MainMenuActivity.class);
+                    LoginActivity.class);
             startActivity(i);
         });
     }

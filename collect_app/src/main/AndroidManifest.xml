@@ -73,7 +73,16 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true">
-        <activity android:name=".activities.PostNatalActivity"></activity>
+        <activity
+            android:name=".activities.ui.login.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:parentActivityName=".activities.ChooseUserActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.odk.collect.android.activities.ChooseUserActivity" />
+        </activity>
+        <activity android:name=".activities.PostNatalActivity" />
         <activity android:name=".activities.PreviousRecordsActivity" />
         <activity android:name=".activities.UpcomingAppointmentsActivity" />
         <activity
@@ -97,7 +106,6 @@
         <activity
             android:name=".activities.MainMenuActivity"
             android:configChanges="locale|orientation|screenSize" />
-
         <activity
             android:name=".activities.ChooseUserActivity"
             android:configChanges="locale|orientation|screenSize" />

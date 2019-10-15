@@ -50,4 +50,5 @@ the License.
     <color name="button_color">#F5F5F5</color>
     <color name="button_text_color">#333348</color>
     <color name="orange">#F7941E</color>
+    <color name="text_color_title">#898A8F</color>
 </resources>
