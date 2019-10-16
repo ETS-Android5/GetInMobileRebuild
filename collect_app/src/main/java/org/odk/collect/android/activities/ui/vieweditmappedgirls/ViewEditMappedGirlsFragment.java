@@ -66,8 +66,8 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(girlsAdapter);
 
-        apiInterface = APIClient.getClient().create(APIInterface.class);
-        getMappedGirlsList();
+//        apiInterface = APIClient.getClient().create(APIInterface.class);
+//        getMappedGirlsList();
         return rootView;
     }
 

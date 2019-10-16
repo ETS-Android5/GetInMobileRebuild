@@ -38,12 +38,19 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView name;
         public TextView phoneNumber;
-        public TextView dob;
+        public TextView age;
+        public TextView maritalStatus;
+        public TextView village;
+        public TextView appointment;
+
         public ViewHolder(View v) {
             super(v);
             name = (TextView) v.findViewById(R.id.name);
             phoneNumber = (TextView) v.findViewById(R.id.phone_number);
-            dob = (TextView) v.findViewById(R.id.dob);
+            maritalStatus = (TextView) v.findViewById(R.id.marital_status);
+            age = (TextView) v.findViewById(R.id.age);
+            village = (TextView) v.findViewById(R.id.village);
+            appointment = (TextView) v.findViewById(R.id.upcomingappointments);
         }
     }
 
@@ -72,7 +79,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
             holder.name.setText(value.getGIRLSDEMOGRAPHIC().getFirstName() + " "
                     + value.getGIRLSDEMOGRAPHIC().getLastName());
             holder.phoneNumber.setText(value.getGIRLSDEMOGRAPHIC2().getGirlsPhoneNumber());
-            holder.dob.setText(value.getGIRLSDEMOGRAPHIC().getDOB());
+            holder.age.setText(value.getGIRLSDEMOGRAPHIC().getDOB());
 
             holder.itemView.setOnClickListener(v -> {
                 ToastUtils.showShortToast("Clicked " + value.getGIRLSDEMOGRAPHIC().getFirstName());
@@ -98,6 +105,6 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
     @Override
     public int getItemCount() {
         //todo# load data from database
-        return (mappedGirlsList == null) ? 0 : mappedGirlsList.size();
+        return (mappedGirlsList == null) ? 10 : mappedGirlsList.size();
     }
 }

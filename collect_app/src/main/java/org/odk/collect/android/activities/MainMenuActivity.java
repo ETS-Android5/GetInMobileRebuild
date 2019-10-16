@@ -125,7 +125,10 @@ public class MainMenuActivity extends CollectAbstractActivity {
             @Override
             public void onClick(View v) {
                 if (Collect.allowClick(getClass().getName())) {
-                    startMappingActivity();
+//                    startMappingActivity();
+                    Intent i = new Intent(getApplicationContext(),
+                            FormChooserList.class);
+                    startActivity(i);
                 }
             }
         });

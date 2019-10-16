@@ -33,7 +33,7 @@ public class PostNatalAdapter extends RecyclerView.Adapter<PostNatalAdapter.View
             super(v);
             name = (TextView) v.findViewById(R.id.name);
             phoneNumber = (TextView) v.findViewById(R.id.phone_number);
-            dob = (TextView) v.findViewById(R.id.dob);
+            dob = (TextView) v.findViewById(R.id.age);
         }
     }
 

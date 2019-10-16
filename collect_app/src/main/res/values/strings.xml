@@ -836,4 +836,7 @@
     <string name="prompt_password">Password</string>
     <string name="login_description">Enter your username and password</string>
     <string name="vht">VHT</string>
+    <string name="appointment">Appointment</string>
+    <string name="postnatal">Postnatal</string>
+    <string name="follow_up">Follow up</string>
 </resources>
