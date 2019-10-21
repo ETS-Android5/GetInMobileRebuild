@@ -1,26 +1,39 @@
 package org.odk.collect.android.activities.ui.vieweditmappedgirls;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.odk.collect.android.R;
 import org.odk.collect.android.activities.PregnancySummaryActivity;
+import org.odk.collect.android.activities.ViewEditMappedGirlsActivity;
 import org.odk.collect.android.adapters.ViewEditMappedGirlsAdapter;
+import org.odk.collect.android.preferences.AdminPreferencesActivity;
 import org.odk.collect.android.provider.InstanceProviderAPI;
 import org.odk.collect.android.retrofit.APIClient;
 import org.odk.collect.android.retrofit.APIInterface;
@@ -47,6 +60,7 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
     private APIInterface apiInterface;
     HashMap<String, Value> mappedGirlsHashmap;
     private ViewEditMappedGirlsAdapter girlsAdapter;
+    private SearchView searchView;
 
     public static ViewEditMappedGirlsFragment newInstance() {
         return new ViewEditMappedGirlsFragment();
@@ -57,6 +71,15 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.view_edit_mapped_girls_fragment, container, false);
+
+        ViewEditMappedGirlsActivity activity = ((ViewEditMappedGirlsActivity) getActivity());
+        Toolbar toolbar = rootView.findViewById(R.id.toolbar);
+        toolbar.setTitle(getString(R.string.mapped_girls));
+        activity.setSupportActionBar(toolbar);
+        activity.getSupportActionBar().setDisplayShowTitleEnabled(true);
+        activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setHasOptionsMenu(true);
 
         girlsAdapter = new ViewEditMappedGirlsAdapter(getActivity(), (List<Value>) null);
         girlsAdapter.setClickListener(this);
@@ -143,5 +166,32 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
         intent.putExtra(ApplicationConstants.BundleKeys.FORM_MODE, ApplicationConstants.FormModes.EDIT_SAVED);
         startActivity(intent);
         getActivity().finish();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        this.getActivity().getMenuInflater().inflate(R.menu.view_edit_mapped_girls_menu, menu);
+
+        MenuItem myActionMenuItem = menu.findItem(R.id.action_search);
+        searchView = (SearchView) myActionMenuItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                ToastUtils.showShortToast("SearchOnQueryTextSubmit: " + query);
+                if (!searchView.isIconified()) {
+                    searchView.setIconified(true);
+                }
+                myActionMenuItem.collapseActionView();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                // UserFeedback.show( "SearchOnQueryTextChanged: " + s);
+                return false;
+            }
+        });
     }
 }

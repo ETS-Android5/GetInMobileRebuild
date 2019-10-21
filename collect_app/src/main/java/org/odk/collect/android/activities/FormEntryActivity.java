@@ -608,6 +608,8 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle(getString(R.string.loading_form));
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     /**
@@ -2847,6 +2849,13 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
             }
             return null;
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        showPreviousView();
+//        onBackPressed();
+        return true;
     }
 }
 

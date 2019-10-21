@@ -15,9 +15,6 @@ public class ViewEditMappedGirlsActivity extends CollectAbstractActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_edit_mapped_girls_activity);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, ViewEditMappedGirlsFragment.newInstance())

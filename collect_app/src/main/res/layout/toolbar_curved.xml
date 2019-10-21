@@ -3,11 +3,10 @@
     android:id="@+id/toolbar"
     style="@style/Widget.Collect.Toolbar"
     android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize"
-    android:background="@color/getin_blue"
+    android:layout_height="100dp"
+    android:background="@drawable/curved_toolbar_drawable"
     android:minHeight="?attr/actionBarSize"
     app:contentInsetEnd="0dp"
     app:contentInsetStart="0dp"
     app:contentInsetStartWithNavigation="0dp"
-    app:navigationIcon="@drawable/getin_logo"
     app:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
