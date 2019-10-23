@@ -16,6 +16,7 @@ package org.odk.collect.android.application;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -42,6 +43,7 @@ import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.security.ProviderInstaller;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -285,6 +287,13 @@ public class Collect extends Application {
 
         setupLeakCanary();
         setupOSMDroid();
+
+        new Prefs.Builder()
+                .setContext(this)
+                .setMode(ContextWrapper.MODE_PRIVATE)
+                .setPrefsName(getPackageName())
+                .setUseDefaultSharedPreference(true)
+                .build();
     }
 
     protected void setupOSMDroid() {

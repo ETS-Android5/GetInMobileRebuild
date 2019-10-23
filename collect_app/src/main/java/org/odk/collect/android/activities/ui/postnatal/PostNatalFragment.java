@@ -89,7 +89,7 @@ public class PostNatalFragment extends Fragment implements PostNatalAdapter.Item
 
     private void getMappedGirlsList() {
         Timber.d("get mapped girls list started");
-        Call<MappedGirls> call = apiInterface.getMappedGirls("build_GetINPostnatalFormTest");
+        Call<MappedGirls> call = apiInterface.getMappedGirls();
         Log.d("Server", "getMappedGirlsList: made server request");
 
         call.enqueue(new Callback<MappedGirls>() {
