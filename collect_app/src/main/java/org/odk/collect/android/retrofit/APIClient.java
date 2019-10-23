@@ -41,7 +41,8 @@ public class APIClient {
 
         return new Retrofit.Builder()
                 //todo#
-                .baseUrl("https://central.getinmobile.org/v1/")
+//                .baseUrl("https://central.getinmobile.org/v1/")
+                .baseUrl("https://getin-server.herokuapp.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();

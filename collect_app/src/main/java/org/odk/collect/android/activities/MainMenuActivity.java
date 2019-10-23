@@ -428,8 +428,6 @@ public class MainMenuActivity extends CollectAbstractActivity {
             intent.putExtra(ApplicationConstants.BundleKeys.FORM_MODE, ApplicationConstants.FormModes.EDIT_SAVED);
             startActivity(intent);
         }
-
-//        finish();
     }
 
     @Override

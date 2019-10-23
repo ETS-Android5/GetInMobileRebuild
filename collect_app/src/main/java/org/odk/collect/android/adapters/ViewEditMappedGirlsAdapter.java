@@ -2,14 +2,17 @@ package org.odk.collect.android.adapters;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,7 +22,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.odk.collect.android.R;
 import org.odk.collect.android.activities.PregnancySummaryActivity;
+import org.odk.collect.android.provider.FormsProviderAPI;
 import org.odk.collect.android.retrofitmodels.Value;
+import org.odk.collect.android.utilities.ApplicationConstants;
 import org.odk.collect.android.utilities.ToastUtils;
 
 import java.util.ArrayList;
@@ -42,6 +47,8 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
         public TextView maritalStatus;
         public TextView village;
         public TextView appointment;
+        public Button followUpButton;
+        public Button appointmentButton;
 
         public ViewHolder(View v) {
             super(v);
@@ -51,6 +58,8 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
             age = (TextView) v.findViewById(R.id.age);
             village = (TextView) v.findViewById(R.id.village);
             appointment = (TextView) v.findViewById(R.id.upcomingappointments);
+            followUpButton = (Button) v.findViewById(R.id.create_follow_up_button);
+            appointmentButton = (Button) v.findViewById(R.id.upcoming_appointments_button);
         }
     }
 
@@ -75,17 +84,10 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
     @Override
     public void onBindViewHolder(@NonNull final ViewEditMappedGirlsAdapter.ViewHolder holder, int position) {
         try {
-            Value value = mappedGirlsList.get(position);
-            holder.name.setText(value.getGIRLSDEMOGRAPHIC().getFirstName() + " "
-                    + value.getGIRLSDEMOGRAPHIC().getLastName());
-            holder.phoneNumber.setText(value.getGIRLSDEMOGRAPHIC2().getGirlsPhoneNumber());
-            holder.age.setText(value.getGIRLSDEMOGRAPHIC().getDOB());
-
-            holder.itemView.setOnClickListener(v -> {
-                ToastUtils.showShortToast("Clicked " + value.getGIRLSDEMOGRAPHIC().getFirstName());
-                if (mClickListener != null)
-                    mClickListener.onItemClick(v, position, value);
-//                context.startActivity(new Intent(context.getApplicationContext(), PregnancySummaryActivity.class));
+            Timber.d("onbindviewholder called");
+            holder.followUpButton.setOnClickListener(v -> {
+                Timber.d("startFollowUpActivity called");
+                startFollowUpActivity();
             });
         } catch (Exception e) {
             Timber.e(e.getMessage());
@@ -106,5 +108,26 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
     public int getItemCount() {
         //todo# load data from database
         return (mappedGirlsList == null) ? 10 : mappedGirlsList.size();
+    }
+
+    private void startFollowUpActivity() {
+        String selectionClause = FormsProviderAPI.FormsColumns.JR_FORM_ID + " LIKE ?";
+        String[] selectionArgs = {"build_GetINTestFollowup2_15713999999%"};
+
+        Cursor c = context.getContentResolver().query(
+                FormsProviderAPI.FormsColumns.CONTENT_URI,  // The content URI of the words table
+                null,                       // The columns to return for each row
+                selectionClause,                  // Either null, or the word the user entered
+                selectionArgs,                    // Either empty, or the string the user entered
+                null);
+
+        c.moveToFirst();
+
+        Uri formUri = ContentUris.withAppendedId(FormsProviderAPI.FormsColumns.CONTENT_URI,
+                c.getLong(c.getColumnIndex(FormsProviderAPI.FormsColumns._ID)));
+
+        Intent intent = new Intent(Intent.ACTION_EDIT, formUri);
+        intent.putExtra(ApplicationConstants.BundleKeys.FORM_MODE, ApplicationConstants.FormModes.EDIT_SAVED);
+        context.startActivity(intent);
     }
 }

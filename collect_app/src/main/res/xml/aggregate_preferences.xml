@@ -7,6 +7,7 @@
             android:dialogTitle="@string/change_server_url"
             android:inputType="textNoSuggestions"
             android:key="server_url"
+            android:defaultValue="@string/central_server_url"
             android:title="@string/server_url" />
         <EditTextPreference
             android:dialogTitle="@string/change_username"

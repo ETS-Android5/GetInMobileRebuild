@@ -88,6 +88,15 @@ public class SplashScreenActivity extends CollectAbstractActivity {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
+//        Collect app = Collect.getInstance();
+//        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(
+//                Collect.getInstance());
+//        String serverBase = settings.getString(GeneralKeys.KEY_SERVER_URL,
+//                app.getString(R.string.default_server_url));
+//
+//        String submissionUrl = "https://central.getinmobile.org/v1/key/99JES8k!m7liNQmJbtIj9RbS2SE8hg2ve!q$nvWgOCY6EZZwNdM5Ybrcl2Emvv1u/projects/2";
+//
+//        Timber.d(serverBase);
         // get the package info object with version number
         PackageInfo packageInfo = null;
         try {

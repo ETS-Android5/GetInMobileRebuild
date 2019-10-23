@@ -69,7 +69,7 @@ public class UpcomingAppointmentsFragment extends Fragment implements UpcomingAp
 
     private void getUpcomingAppointmentsList() {
         Timber.d("get mapped girls list started");
-        Call<MappedGirls> call = apiInterface.getMappedGirls("build_GetInTest4_1568212345");
+        Call<MappedGirls> call = apiInterface.getMappedGirls();
         Log.d("Server", "getUpcomingAppointmentsList: made server request");
 
         call.enqueue(new Callback<MappedGirls>() {

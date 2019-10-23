@@ -89,14 +89,14 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(girlsAdapter);
 
-//        apiInterface = APIClient.getClient().create(APIInterface.class);
-//        getMappedGirlsList();
+        apiInterface = APIClient.getClient().create(APIInterface.class);
+        getMappedGirlsList();
         return rootView;
     }
 
     private void getMappedGirlsList() {
         Timber.d("get mapped girls list started");
-        Call<MappedGirls> call = apiInterface.getMappedGirls("build_GetInTest4_1568212345");
+        Call<MappedGirls> call = apiInterface.getMappedGirls();
         Log.d("Server", "getMappedGirlsList: made server request");
 
         call.enqueue(new Callback<MappedGirls>() {

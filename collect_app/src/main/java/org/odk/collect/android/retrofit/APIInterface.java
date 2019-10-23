@@ -1,5 +1,6 @@
 package org.odk.collect.android.retrofit;
 
+import org.odk.collect.android.retrofitmodels.LoginResult;
 import org.odk.collect.android.retrofitmodels.MappedGirls;
 
 import java.util.List;
@@ -13,10 +14,10 @@ import retrofit2.http.Path;
 
 public interface APIInterface {
     //todo# add the production project id
-    @GET("projects/2/forms/{form_name}.svc/Submissions")
-    Call<MappedGirls> getMappedGirls(@Path("form_name") String type);
+    @GET("api/v1/girls")
+    Call<MappedGirls> getMappedGirls();
 
     @FormUrlEncoded
     @POST("v1/sessions")
-    Call<String> login(@Field("email") String email, @Field("password") String password);
+    Call<LoginResult> login(@Field("email") String email, @Field("password") String password);
 }
