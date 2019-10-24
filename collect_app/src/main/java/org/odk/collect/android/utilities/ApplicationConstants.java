@@ -108,4 +108,5 @@ public class ApplicationConstants {
     }
 
     public static final String SERVER_TOKEN = "server_token";
+    public static final String LOGIN_STATUS = "login_status";
 }

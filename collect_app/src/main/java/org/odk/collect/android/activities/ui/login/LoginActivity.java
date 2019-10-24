@@ -78,9 +78,6 @@ public class LoginActivity extends CollectAbstractActivity {
                     updateUiWithUser(loginResult.getSuccess());
                 }
                 setResult(Activity.RESULT_OK);
-
-                //Complete and destroy login activity once successful
-                finish();
             }
         });
 
@@ -121,20 +118,16 @@ public class LoginActivity extends CollectAbstractActivity {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
-                Intent i = new Intent(getApplicationContext(),
-                        MainMenuActivity.class);
-                startActivity(i);
             }
         });
     }
 
     private void updateUiWithUser(LoggedInUserView model) {
-        String welcome = getString(R.string.welcome) + model.getDisplayName();
-        // TODO : initiate successful logged in experience
-        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
         Intent i = new Intent(getApplicationContext(),
                 MainMenuActivity.class);
         startActivity(i);
+        //Complete and destroy login activity once successful
+        finish();
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {
