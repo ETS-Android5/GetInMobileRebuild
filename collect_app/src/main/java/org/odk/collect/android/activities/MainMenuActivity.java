@@ -72,6 +72,7 @@ import java.util.Map.Entry;
 import timber.log.Timber;
 
 import static org.odk.collect.android.preferences.GeneralKeys.KEY_SUBMISSION_TRANSPORT_TYPE;
+import static org.odk.collect.android.utilities.ApplicationConstants.MAP_GIRL_FORM_ID;
 
 /**
  * Responsible for displaying buttons to launch the major activities. Launches
@@ -125,7 +126,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
             @Override
             public void onClick(View v) {
                 if (Collect.allowClick(getClass().getName())) {
-                    startMappingActivity();
+                    startFormActivity(MAP_GIRL_FORM_ID);
                 }
             }
         });
@@ -398,10 +399,10 @@ public class MainMenuActivity extends CollectAbstractActivity {
     }
 
 
-    private void startMappingActivity() {
+    private void startFormActivity(String formId) {
         //todo place mapping form id
         String selectionClause = FormsProviderAPI.FormsColumns.DISPLAY_NAME + " LIKE ?";
-        String[] selectionArgs = {"GetInTest18%"};
+        String[] selectionArgs = {formId + "%"};
 
         Cursor c = getContentResolver().query(
                 FormsProviderAPI.FormsColumns.CONTENT_URI,  // The content URI of the words table

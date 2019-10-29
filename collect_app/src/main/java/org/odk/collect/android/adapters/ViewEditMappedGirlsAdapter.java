@@ -1,38 +1,33 @@
 package org.odk.collect.android.adapters;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.odk.collect.android.R;
-import org.odk.collect.android.activities.PregnancySummaryActivity;
 import org.odk.collect.android.provider.FormsProviderAPI;
 import org.odk.collect.android.retrofitmodels.Value;
 import org.odk.collect.android.retrofitmodels.mappedgirls.Result;
 import org.odk.collect.android.utilities.ApplicationConstants;
-import org.odk.collect.android.utilities.ToastUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import timber.log.Timber;
+
+import static org.odk.collect.android.utilities.ApplicationConstants.APPOINTMENT_FORM_ID;
+import static org.odk.collect.android.utilities.ApplicationConstants.FOLLOW_UP_FORM_ID;
+import static org.odk.collect.android.utilities.ApplicationConstants.MAP_GIRL_FORM_ID;
+import static org.odk.collect.android.utilities.ApplicationConstants.POSTNATAL_FORM_ID;
 
 public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMappedGirlsAdapter.ViewHolder>   {
 
@@ -50,6 +45,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
         public TextView appointment;
         public Button followUpButton;
         public Button appointmentButton;
+        public Button postNatalButton;
 
         public ViewHolder(View v) {
             super(v);
@@ -61,6 +57,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
 //            appointment = (TextView) v.findViewById(R.id.upcomingappointments);
             followUpButton = (Button) v.findViewById(R.id.create_follow_up_button);
             appointmentButton = (Button) v.findViewById(R.id.upcoming_appointments_button);
+            postNatalButton = (Button) v.findViewById(R.id.create_post_natal_button);
         }
     }
 
@@ -93,12 +90,20 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
             holder.name.setText(girl.getFirstName() + " "
                     + girl.getLastName());
             holder.phoneNumber.setText(girl.getPhoneNumber());
+            //todo calculate age
             holder.age.setText(girl.getDob());
-//            holder.age.setText(girl.getGIRLSDEMOGRAPHIC().getDOB());
+
+            holder.postNatalButton.setOnClickListener(v -> {
+                startFormActivity(POSTNATAL_FORM_ID);
+            });
+
+            holder.appointmentButton.setOnClickListener(v -> {
+                startFormActivity(APPOINTMENT_FORM_ID);
+            });
+
 
             holder.followUpButton.setOnClickListener(v -> {
-                Timber.d("startFollowUpActivity called");
-                startFollowUpActivity();
+                startFormActivity(FOLLOW_UP_FORM_ID);
             });
         } catch (Exception e) {
             Timber.e(e.getMessage());
@@ -121,9 +126,9 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
         return (mappedGirlsList == null) ? 10 : mappedGirlsList.size();
     }
 
-    private void startFollowUpActivity() {
+    private void startFormActivity(String formId) {
         String selectionClause = FormsProviderAPI.FormsColumns.JR_FORM_ID + " LIKE ?";
-        String[] selectionArgs = {"build_GetINTestFollowup2_15713999999%"};
+        String[] selectionArgs = { formId + "%"};
 
         Cursor c = context.getContentResolver().query(
                 FormsProviderAPI.FormsColumns.CONTENT_URI,  // The content URI of the words table
