@@ -24,6 +24,7 @@ import org.odk.collect.android.R;
 import org.odk.collect.android.activities.PregnancySummaryActivity;
 import org.odk.collect.android.provider.FormsProviderAPI;
 import org.odk.collect.android.retrofitmodels.Value;
+import org.odk.collect.android.retrofitmodels.mappedgirls.Result;
 import org.odk.collect.android.utilities.ApplicationConstants;
 import org.odk.collect.android.utilities.ToastUtils;
 
@@ -35,7 +36,7 @@ import timber.log.Timber;
 
 public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMappedGirlsAdapter.ViewHolder>   {
 
-    private List<Value> mappedGirlsList;
+    private List<Result> mappedGirlsList;
     private Cursor cursor;
     Context context;
     private ItemClickListener mClickListener;
@@ -57,7 +58,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
             maritalStatus = (TextView) v.findViewById(R.id.marital_status);
             age = (TextView) v.findViewById(R.id.age);
             village = (TextView) v.findViewById(R.id.village);
-            appointment = (TextView) v.findViewById(R.id.upcomingappointments);
+//            appointment = (TextView) v.findViewById(R.id.upcomingappointments);
             followUpButton = (Button) v.findViewById(R.id.create_follow_up_button);
             appointmentButton = (Button) v.findViewById(R.id.upcoming_appointments_button);
         }
@@ -68,7 +69,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
         this.context = context.getApplicationContext();
     }
 
-    public ViewEditMappedGirlsAdapter(Context context, List<Value> mappedGirlsList) {
+    public ViewEditMappedGirlsAdapter(Context context, List<Result> mappedGirlsList) {
         this.mappedGirlsList = mappedGirlsList;
         this.context = context.getApplicationContext();
     }
@@ -85,6 +86,16 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
     public void onBindViewHolder(@NonNull final ViewEditMappedGirlsAdapter.ViewHolder holder, int position) {
         try {
             Timber.d("onbindviewholder called");
+
+            Result girl = mappedGirlsList.get(position);
+            Timber.d("add values " + girl.toString());
+            Timber.d(girl.getLastName());
+            holder.name.setText(girl.getFirstName() + " "
+                    + girl.getLastName());
+            holder.phoneNumber.setText(girl.getPhoneNumber());
+            holder.age.setText(girl.getDob());
+//            holder.age.setText(girl.getGIRLSDEMOGRAPHIC().getDOB());
+
             holder.followUpButton.setOnClickListener(v -> {
                 Timber.d("startFollowUpActivity called");
                 startFollowUpActivity();

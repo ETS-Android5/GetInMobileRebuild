@@ -39,6 +39,8 @@ import org.odk.collect.android.retrofit.APIClient;
 import org.odk.collect.android.retrofit.APIInterface;
 import org.odk.collect.android.retrofitmodels.MappedGirls;
 import org.odk.collect.android.retrofitmodels.Value;
+import org.odk.collect.android.retrofitmodels.mappedgirls.MappedGirl;
+import org.odk.collect.android.retrofitmodels.mappedgirls.Result;
 import org.odk.collect.android.utilities.ApplicationConstants;
 import org.odk.collect.android.utilities.ToastUtils;
 import org.odk.collect.android.provider.InstanceProviderAPI.InstanceColumns;
@@ -81,7 +83,7 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setHasOptionsMenu(true);
 
-        girlsAdapter = new ViewEditMappedGirlsAdapter(getActivity(), (List<Value>) null);
+        girlsAdapter = new ViewEditMappedGirlsAdapter(getActivity(), (List<Result>) null);
         girlsAdapter.setClickListener(this);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view_edit_mapped_girls);
@@ -96,21 +98,23 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
 
     private void getMappedGirlsList() {
         Timber.d("get mapped girls list started");
-        Call<MappedGirls> call = apiInterface.getMappedGirls();
+        Call<MappedGirl> call = apiInterface.getMappedGirls();
         Log.d("Server", "getMappedGirlsList: made server request");
 
-        call.enqueue(new Callback<MappedGirls>() {
+        call.enqueue(new Callback<MappedGirl>() {
             @Override
-            public void onResponse(Call<MappedGirls> call, Response<MappedGirls> response) {
+            public void onResponse(Call<MappedGirl> call, Response<MappedGirl> response) {
                 Timber.d("onResponse() -> " + response.code());
-                List<Value> values = response.body().getValue();
+                Timber.d("onResponse() -> " + response.body().toString());
+                Timber.d("onResponse() -> " + response.body().getResults().get(0).getFirstName());
+                List<Result> values = response.body().getResults();
                 girlsAdapter = new ViewEditMappedGirlsAdapter(getActivity(), values);
                 girlsAdapter.setClickListener(ViewEditMappedGirlsFragment.this);
                 recyclerView.setAdapter(girlsAdapter);
             }
 
             @Override
-            public void onFailure(Call<MappedGirls> call, Throwable t) {
+            public void onFailure(Call<MappedGirl> call, Throwable t) {
                 Timber.e("onFailure() -> " + t.getMessage());
             }
         });

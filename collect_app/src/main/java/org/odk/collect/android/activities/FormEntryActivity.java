@@ -1081,7 +1081,14 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
         FormController formController = getFormController();
 
         //todo change title based on form name
-        String title = "Map Girl";
+        String title;
+
+        saveName = formController.getFormTitle();
+        if (saveName.contains("GetInTest18")) {
+            title = "Map Girl";
+        } else {
+            title = "Follow Up";
+        }
         setTitle(title);
 
         if (event != FormEntryController.EVENT_QUESTION) {

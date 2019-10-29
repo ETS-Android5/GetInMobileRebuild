@@ -4,6 +4,7 @@ import org.odk.collect.android.retrofitmodels.LoginResult;
 import org.odk.collect.android.retrofitmodels.MappedGirls;
 import org.odk.collect.android.retrofitmodels.AuthModel;
 import org.odk.collect.android.retrofitmodels.UserModel;
+import org.odk.collect.android.retrofitmodels.mappedgirls.MappedGirl;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -14,7 +15,7 @@ import retrofit2.http.POST;
 public interface APIInterface {
     //todo# add the production project id
     @GET("api/v1/girls")
-    Call<MappedGirls> getMappedGirls();
+    Call<MappedGirl> getMappedGirls();
 
     @GET("auth/me/")
     Call<UserModel> getLoggedInUserDetails();

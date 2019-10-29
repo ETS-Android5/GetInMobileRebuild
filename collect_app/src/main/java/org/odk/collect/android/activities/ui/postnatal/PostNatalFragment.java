@@ -89,23 +89,23 @@ public class PostNatalFragment extends Fragment implements PostNatalAdapter.Item
 
     private void getMappedGirlsList() {
         Timber.d("get mapped girls list started");
-        Call<MappedGirls> call = apiInterface.getMappedGirls();
-        Log.d("Server", "getMappedGirlsList: made server request");
-
-        call.enqueue(new Callback<MappedGirls>() {
-            @Override
-            public void onResponse(Call<MappedGirls> call, Response<MappedGirls> response) {
-                Timber.d("onResponse() -> " + response.code());
-                List<Value> values = response.body().getValue();
-                postNatalAdapter = new PostNatalAdapter(getActivity(), values);
-                postNatalAdapter.setClickListener(PostNatalFragment.this);
-                recyclerView.setAdapter(postNatalAdapter);
-            }
-
-            @Override
-            public void onFailure(Call<MappedGirls> call, Throwable t) {
-                Timber.e("onFailure() -> " + t.getMessage());
-            }
-        });
+//        Call<MappedGirls> call = apiInterface.getMappedGirls();
+//        Log.d("Server", "getMappedGirlsList: made server request");
+//
+//        call.enqueue(new Callback<MappedGirls>() {
+//            @Override
+//            public void onResponse(Call<MappedGirls> call, Response<MappedGirls> response) {
+//                Timber.d("onResponse() -> " + response.code());
+//                List<Value> values = response.body().getValue();
+//                postNatalAdapter = new PostNatalAdapter(getActivity(), values);
+//                postNatalAdapter.setClickListener(PostNatalFragment.this);
+//                recyclerView.setAdapter(postNatalAdapter);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<MappedGirls> call, Throwable t) {
+//                Timber.e("onFailure() -> " + t.getMessage());
+//            }
+//        });
     }
 }

@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.pixplicity.easyprefs.library.Prefs;
 
-import org.javarosa.core.log.LogEntry;
 import org.odk.collect.android.activities.data.model.LoggedInUser;
 import org.odk.collect.android.retrofit.APIClient;
 import org.odk.collect.android.retrofit.APIInterface;
@@ -14,7 +13,6 @@ import org.odk.collect.android.retrofitmodels.AuthModel;
 import java.io.IOException;
 
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
 

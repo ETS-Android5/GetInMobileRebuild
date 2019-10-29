@@ -125,10 +125,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
             @Override
             public void onClick(View v) {
                 if (Collect.allowClick(getClass().getName())) {
-//                    startMappingActivity();
-                    Intent i = new Intent(getApplicationContext(),
-                            FormChooserList.class);
-                    startActivity(i);
+                    startMappingActivity();
                 }
             }
         });
@@ -402,6 +399,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
 
 
     private void startMappingActivity() {
+        //todo place mapping form id
         String selectionClause = FormsProviderAPI.FormsColumns.DISPLAY_NAME + " LIKE ?";
         String[] selectionArgs = {"GetInTest18%"};
 

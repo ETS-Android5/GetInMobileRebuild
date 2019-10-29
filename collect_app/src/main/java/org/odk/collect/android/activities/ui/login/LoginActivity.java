@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -24,11 +25,29 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.pixplicity.easyprefs.library.Prefs;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.odk.collect.android.R;
 import org.odk.collect.android.activities.CollectAbstractActivity;
 import org.odk.collect.android.activities.MainMenuActivity;
 import org.odk.collect.android.activities.ui.login.LoginViewModel;
 import org.odk.collect.android.activities.ui.login.LoginViewModelFactory;
+import org.odk.collect.android.utilities.ToastUtils;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import timber.log.Timber;
+
+import static org.odk.collect.android.utilities.ApplicationConstants.SERVER_TOKEN;
 
 public class LoginActivity extends CollectAbstractActivity {
 
@@ -115,9 +134,16 @@ public class LoginActivity extends CollectAbstractActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+//                loadingProgressBar.setVisibility(View.VISIBLE);
+//                loginViewModel.login(usernameEditText.getText().toString(),
+//                        passwordEditText.getText().toString());
+                try {
+                    Timber.d("start post request");
+                    postRequest(usernameEditText.getText().toString(),
+                            passwordEditText.getText().toString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -138,4 +164,60 @@ public class LoginActivity extends CollectAbstractActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
+
+    public void postRequest(String username, String password) throws IOException {
+        Timber.d("postrequest started");
+
+        MediaType MEDIA_TYPE = MediaType.parse("application/json");
+        String url = "https://getin-server.herokuapp.com/auth/login/";
+
+        OkHttpClient client = new OkHttpClient();
+
+        JSONObject postdata = new JSONObject();
+        try {
+            postdata.put("username", username);
+            postdata.put("password", password);
+        } catch(JSONException e){
+            e.printStackTrace();
+        }
+
+        RequestBody body = RequestBody.create(MEDIA_TYPE, postdata.toString());
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .header("Accept", "application/json")
+                .header("Content-Type", "application/json")
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                String mMessage = e.getMessage().toString();
+                Timber.e("failure Response login" + mMessage);
+                ToastUtils.showShortToast("Login failed. Wrong username or password");
+                //call.cancel();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                String responseBody = response.body().string();
+                Timber.d("onResponse: " + responseBody);
+                try {
+                    JSONObject responseJsonObject = new JSONObject(responseBody);
+                    String authToken = responseJsonObject.getString("auth_token");
+                    Prefs.putString(SERVER_TOKEN, authToken);
+                    Timber.d(authToken);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Timber.d("start main activity");
+                Intent i = new Intent(getApplicationContext(), MainMenuActivity.class);
+                startActivity(i);
+            }
+        });
+    }
+
 }

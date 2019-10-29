@@ -10,5 +10,5 @@
     app:contentInsetEnd="0dp"
     app:contentInsetStart="0dp"
     app:contentInsetStartWithNavigation="0dp"
-    app:navigationIcon="@drawable/getin_logo_96px"
+    app:navigationIcon="@drawable/getinicon_png"
     app:theme="@style/ThemeOverlay.AppCompat.ActionBar" />

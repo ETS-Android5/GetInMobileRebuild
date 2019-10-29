@@ -22,6 +22,7 @@ public class APIClient {
                 .addInterceptor(chain -> {
                     String token = Prefs.getString(SERVER_TOKEN, "");
                     Timber.d("token: " + token);
+                    token = "9da70b0c9dc95cfb5277b25d45c90d4de9fbfba4";
                     Request request = chain.request().newBuilder().addHeader("Authorization", "Token " + token).build();
                     return chain.proceed(request);
                 }).build();

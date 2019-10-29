@@ -69,24 +69,24 @@ public class UpcomingAppointmentsFragment extends Fragment implements UpcomingAp
 
     private void getUpcomingAppointmentsList() {
         Timber.d("get mapped girls list started");
-        Call<MappedGirls> call = apiInterface.getMappedGirls();
-        Log.d("Server", "getUpcomingAppointmentsList: made server request");
-
-        call.enqueue(new Callback<MappedGirls>() {
-            @Override
-            public void onResponse(Call<MappedGirls> call, Response<MappedGirls> response) {
-                Timber.d("onResponse() -> " + response.code());
-                List<Value> values = response.body().getValue();
-                upcomingAppointmentsAdapter = new UpcomingAppointmentsAdapter(getActivity(), values);
-                upcomingAppointmentsAdapter.setClickListener(UpcomingAppointmentsFragment.this);
-                recyclerView.setAdapter(upcomingAppointmentsAdapter);
-            }
-
-            @Override
-            public void onFailure(Call<MappedGirls> call, Throwable t) {
-                Timber.e("onFailure() -> " + t.getMessage());
-            }
-        });
+//        Call<MappedGirls> call = apiInterface.getMappedGirls();
+//        Log.d("Server", "getUpcomingAppointmentsList: made server request");
+//
+//        call.enqueue(new Callback<MappedGirls>() {
+//            @Override
+//            public void onResponse(Call<MappedGirls> call, Response<MappedGirls> response) {
+//                Timber.d("onResponse() -> " + response.code());
+//                List<Value> values = response.body().getValue();
+//                upcomingAppointmentsAdapter = new UpcomingAppointmentsAdapter(getActivity(), values);
+//                upcomingAppointmentsAdapter.setClickListener(UpcomingAppointmentsFragment.this);
+//                recyclerView.setAdapter(upcomingAppointmentsAdapter);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<MappedGirls> call, Throwable t) {
+//                Timber.e("onFailure() -> " + t.getMessage());
+//            }
+//        });
     }
 
     @Override
