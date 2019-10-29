@@ -194,7 +194,7 @@
 
 	<h1>Warnings</h1>
 
-	<p>Click on a warning row to see full context information.</p>
+	<p>Click on a warning row to see full activity information.</p>
 
 	<xsl:for-each select="$unique-catkey">
 		<xsl:sort select="." order="ascending"/>

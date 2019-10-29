@@ -65,7 +65,7 @@ public class UpcomingAppointmentsAdapter extends RecyclerView.Adapter<UpcomingAp
                 ToastUtils.showShortToast("Clicked " + value.getGIRLSDEMOGRAPHIC().getFirstName());
                 if (mClickListener != null)
                     mClickListener.onItemClick(v, position, value);
-//                context.startActivity(new Intent(context.getApplicationContext(), PregnancySummaryActivity.class));
+//                activity.startActivity(new Intent(activity.getApplicationContext(), PregnancySummaryActivity.class));
             });
         } catch (Exception e) {
             Timber.e(e.getMessage());

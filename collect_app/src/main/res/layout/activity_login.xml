@@ -60,7 +60,7 @@
         android:paddingBottom="@dimen/padding_large"
         app:cardCornerRadius="@dimen/margin"
         app:cardElevation="@dimen/margin"
-        tools:context=".activities.ui.login.LoginActivity">
+        tools:activity=".activities.ui.login.LoginActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"

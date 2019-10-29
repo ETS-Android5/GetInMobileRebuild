@@ -15,7 +15,7 @@
     android:layout_marginBottom="0dp"
     android:fitsSystemWindows="true"
     android:paddingBottom="0dp"
-    tools:context=".activities.ChooseUserActivity">
+    tools:activity=".activities.ChooseUserActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"

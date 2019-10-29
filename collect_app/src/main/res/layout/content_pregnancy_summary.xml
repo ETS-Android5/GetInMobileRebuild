@@ -9,7 +9,7 @@
     android:layout_marginTop="@dimen/margin"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".activities.PregnancySummaryActivity"
+    tools:activity=".activities.PregnancySummaryActivity"
     tools:showIn="@layout/activity_pregnancy_summary">
 
 

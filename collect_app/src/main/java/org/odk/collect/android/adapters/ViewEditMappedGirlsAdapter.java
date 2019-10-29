@@ -1,10 +1,15 @@
 package org.odk.collect.android.adapters;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.odk.collect.android.R;
@@ -26,14 +32,14 @@ import timber.log.Timber;
 
 import static org.odk.collect.android.utilities.ApplicationConstants.APPOINTMENT_FORM_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.FOLLOW_UP_FORM_ID;
-import static org.odk.collect.android.utilities.ApplicationConstants.MAP_GIRL_FORM_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.POSTNATAL_FORM_ID;
 
-public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMappedGirlsAdapter.ViewHolder>   {
+public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMappedGirlsAdapter.ViewHolder>  implements ActivityCompat.OnRequestPermissionsResultCallback {
 
+    private static final int REQUEST_PHONE_CALL = 34;
     private List<Result> mappedGirlsList;
     private Cursor cursor;
-    Context context;
+    Activity activity;
     private ItemClickListener mClickListener;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -46,6 +52,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
         public Button followUpButton;
         public Button appointmentButton;
         public Button postNatalButton;
+        public Button callGirlButton;
 
         public ViewHolder(View v) {
             super(v);
@@ -56,19 +63,20 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
             village = (TextView) v.findViewById(R.id.village);
 //            appointment = (TextView) v.findViewById(R.id.upcomingappointments);
             followUpButton = (Button) v.findViewById(R.id.create_follow_up_button);
-            appointmentButton = (Button) v.findViewById(R.id.upcoming_appointments_button);
+            appointmentButton = (Button) v.findViewById(R.id.create_upcoming_appointment_button);
             postNatalButton = (Button) v.findViewById(R.id.create_post_natal_button);
+            callGirlButton = (Button) v.findViewById(R.id.call_girl_button);
         }
     }
 
-    public ViewEditMappedGirlsAdapter(Context context, Cursor cursor) {
+    public ViewEditMappedGirlsAdapter(Activity activity, Cursor cursor) {
         this.cursor = cursor;
-        this.context = context.getApplicationContext();
+        this.activity = activity;
     }
 
-    public ViewEditMappedGirlsAdapter(Context context, List<Result> mappedGirlsList) {
+    public ViewEditMappedGirlsAdapter(Activity activity, List<Result> mappedGirlsList) {
         this.mappedGirlsList = mappedGirlsList;
-        this.context = context.getApplicationContext();
+        this.activity = activity;
     }
 
     @NonNull
@@ -94,10 +102,12 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
             holder.age.setText(girl.getDob());
 
             holder.postNatalButton.setOnClickListener(v -> {
+                Timber.d("clicked postnatal");
                 startFormActivity(POSTNATAL_FORM_ID);
             });
 
             holder.appointmentButton.setOnClickListener(v -> {
+                Timber.d("clicked appointment");
                 startFormActivity(APPOINTMENT_FORM_ID);
             });
 
@@ -105,9 +115,33 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
             holder.followUpButton.setOnClickListener(v -> {
                 startFormActivity(FOLLOW_UP_FORM_ID);
             });
+
+            holder.callGirlButton.setOnClickListener(v -> {
+                String phoneNumber = getPhoneNumber(girl);
+
+                try {
+                    if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
+                    } else {
+                        activity.startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber)));
+                    }
+                } catch (ActivityNotFoundException e) {
+                    Timber.e(e);
+                    activity.startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNumber)));
+                }
+            });
         } catch (Exception e) {
-            Timber.e(e.getMessage());
+            Timber.e(e);
         }
+    }
+
+    private String getPhoneNumber(Result girl) {
+        // use girl or next of kin phone number
+        String phoneNumber = girl.getPhoneNumber();
+        if (TextUtils.isEmpty(girl.getPhoneNumber())){
+            phoneNumber = girl.getNextOfKinPhoneNumber();
+        }
+        return phoneNumber;
     }
 
     // allows clicks events to be caught
@@ -130,7 +164,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
         String selectionClause = FormsProviderAPI.FormsColumns.JR_FORM_ID + " LIKE ?";
         String[] selectionArgs = { formId + "%"};
 
-        Cursor c = context.getContentResolver().query(
+        Cursor c = activity.getContentResolver().query(
                 FormsProviderAPI.FormsColumns.CONTENT_URI,  // The content URI of the words table
                 null,                       // The columns to return for each row
                 selectionClause,                  // Either null, or the word the user entered
@@ -144,6 +178,18 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
 
         Intent intent = new Intent(Intent.ACTION_EDIT, formUri);
         intent.putExtra(ApplicationConstants.BundleKeys.FORM_MODE, ApplicationConstants.FormModes.EDIT_SAVED);
-        context.startActivity(intent);
+        activity.startActivity(intent);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_PHONE_CALL: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    activity.startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:116")));
+                }
+                return;
+            }
+        }
     }
 }

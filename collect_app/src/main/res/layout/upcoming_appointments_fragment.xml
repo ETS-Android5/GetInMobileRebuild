@@ -5,7 +5,7 @@
     android:id="@+id/upcomingappointments"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.upcomingappointments.UpcomingAppointmentsFragment">
+    tools:activity=".ui.upcomingappointments.UpcomingAppointmentsFragment">
 
     <include
         android:id="@+id/toolbar"
