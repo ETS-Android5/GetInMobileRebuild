@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -52,7 +53,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
         public Button followUpButton;
         public Button appointmentButton;
         public Button postNatalButton;
-        public Button callGirlButton;
+        public ImageButton callGirlButton;
 
         public ViewHolder(View v) {
             super(v);
@@ -65,7 +66,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
             followUpButton = (Button) v.findViewById(R.id.create_follow_up_button);
             appointmentButton = (Button) v.findViewById(R.id.create_upcoming_appointment_button);
             postNatalButton = (Button) v.findViewById(R.id.create_post_natal_button);
-            callGirlButton = (Button) v.findViewById(R.id.call_girl_button);
+            callGirlButton = (ImageButton) v.findViewById(R.id.call_girl_button);
         }
     }
 
