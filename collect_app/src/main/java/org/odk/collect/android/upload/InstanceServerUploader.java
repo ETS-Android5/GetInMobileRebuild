@@ -19,6 +19,10 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
 
+import com.pixplicity.easyprefs.library.Prefs;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.odk.collect.android.R;
 import org.odk.collect.android.application.Collect;
 import org.odk.collect.android.dto.Instance;
@@ -41,6 +45,9 @@ import java.util.Map;
 import javax.net.ssl.HttpsURLConnection;
 
 import timber.log.Timber;
+
+import static org.odk.collect.android.utilities.ApplicationConstants.GIRL_ID;
+import static org.odk.collect.android.utilities.ApplicationConstants.USER_ID;
 
 public class InstanceServerUploader extends InstanceUploader {
     private static final String URL_PATH_SEP = "/";
@@ -275,13 +282,23 @@ public class InstanceServerUploader extends InstanceUploader {
             urlString = getServerSubmissionURL();
         }
 
-        // add deviceID to request
-        try {
-            urlString += "?deviceID=" + URLEncoder.encode(deviceId != null ? deviceId : "", "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            Timber.i(e, "Error encoding URL for device id : %s", deviceId);
-        }
+        // pass details to the server through the deviceId, this is a hack
+        // todo create meta data fields for each parameter we need to pass to the server
 
+        JSONObject jsonObject = new JSONObject();
+        String formMetaData = "";
+        try {
+            jsonObject.put(GIRL_ID, Prefs.getString(GIRL_ID, "0"));
+            jsonObject.put(USER_ID, Prefs.getString(USER_ID, "0"));
+            Timber.d(jsonObject.toString());
+            formMetaData = jsonObject.toString();
+            formMetaData = URLEncoder.encode(formMetaData, "UTF-8");
+            Timber.d(formMetaData);
+        } catch (JSONException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+//        urlString += "?deviceID=" + jsonObject.toString();
+        urlString += "?deviceID=" + formMetaData;
         return urlString;
     }
 

@@ -113,5 +113,7 @@ public class ApplicationConstants {
     public static final String FOLLOW_UP_FORM_ID = "build_GetINTestFollowup2_15713999999";
     public static final String MAP_GIRL_FORM_ID = "GetInTest18";
     public static final String POSTNATAL_FORM_ID = "build_GetINTestPostnatal_1571333333";
+    public static final String GIRL_ID = "GIRL_ID";
+    public static final String USER_ID = "USER_ID";
 
 }

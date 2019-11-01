@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -21,6 +20,8 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.pixplicity.easyprefs.library.Prefs;
+
 import org.odk.collect.android.R;
 import org.odk.collect.android.provider.FormsProviderAPI;
 import org.odk.collect.android.retrofitmodels.Value;
@@ -33,6 +34,7 @@ import timber.log.Timber;
 
 import static org.odk.collect.android.utilities.ApplicationConstants.APPOINTMENT_FORM_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.FOLLOW_UP_FORM_ID;
+import static org.odk.collect.android.utilities.ApplicationConstants.GIRL_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.POSTNATAL_FORM_ID;
 
 public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMappedGirlsAdapter.ViewHolder>  implements ActivityCompat.OnRequestPermissionsResultCallback {
@@ -104,16 +106,19 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
 
             holder.postNatalButton.setOnClickListener(v -> {
                 Timber.d("clicked postnatal");
+                Prefs.putString(GIRL_ID, girl.getId());
                 startFormActivity(POSTNATAL_FORM_ID);
             });
 
             holder.appointmentButton.setOnClickListener(v -> {
                 Timber.d("clicked appointment");
+                Prefs.putString(GIRL_ID, girl.getId());
                 startFormActivity(APPOINTMENT_FORM_ID);
             });
 
 
             holder.followUpButton.setOnClickListener(v -> {
+                Prefs.putString(GIRL_ID, girl.getId());
                 startFormActivity(FOLLOW_UP_FORM_ID);
             });
 

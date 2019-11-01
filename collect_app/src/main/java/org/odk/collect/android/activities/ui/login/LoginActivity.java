@@ -34,9 +34,18 @@ import org.odk.collect.android.activities.CollectAbstractActivity;
 import org.odk.collect.android.activities.MainMenuActivity;
 import org.odk.collect.android.activities.ui.login.LoginViewModel;
 import org.odk.collect.android.activities.ui.login.LoginViewModelFactory;
+import org.odk.collect.android.activities.ui.vieweditmappedgirls.ViewEditMappedGirlsFragment;
+import org.odk.collect.android.adapters.ViewEditMappedGirlsAdapter;
+import org.odk.collect.android.retrofit.APIClient;
+import org.odk.collect.android.retrofit.APIInterface;
+import org.odk.collect.android.retrofitmodels.UserModel;
+import org.odk.collect.android.retrofitmodels.mappedgirls.MappedGirl;
+import org.odk.collect.android.retrofitmodels.mappedgirls.Result;
 import org.odk.collect.android.utilities.ToastUtils;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -48,6 +57,7 @@ import okhttp3.Response;
 import timber.log.Timber;
 
 import static org.odk.collect.android.utilities.ApplicationConstants.SERVER_TOKEN;
+import static org.odk.collect.android.utilities.ApplicationConstants.USER_ID;
 
 public class LoginActivity extends CollectAbstractActivity {
 
@@ -209,6 +219,8 @@ public class LoginActivity extends CollectAbstractActivity {
                     String authToken = responseJsonObject.getString("auth_token");
                     Prefs.putString(SERVER_TOKEN, authToken);
                     Timber.d(authToken);
+                    getLoggedInUserDetails();
+                    //TODO GET ODK CENTRAL TOKEN
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -216,6 +228,30 @@ public class LoginActivity extends CollectAbstractActivity {
                 Timber.d("start main activity");
                 Intent i = new Intent(getApplicationContext(), MainMenuActivity.class);
                 startActivity(i);
+            }
+        });
+    }
+
+    private void getLoggedInUserDetails() {
+        Timber.d("get mapped girls list started");
+        APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+        retrofit2.Call<UserModel> call = apiInterface.getLoggedInUserDetails();
+        Log.d("Server", "getMappedGirlsList: made server request");
+
+        call.enqueue(new retrofit2.Callback<UserModel>() {
+
+            @Override
+            public void onResponse(retrofit2.Call<UserModel> call, retrofit2.Response<UserModel> response) {
+                Timber.d("onResponse() -> " + response.code());
+                Timber.d("onResponse() -> " + response.body());
+                Prefs.putString("USER_NAME", response.body().getUsername());
+                Prefs.putString(USER_ID, response.body().getId());
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<UserModel> call, Throwable t) {
+                Timber.e("Failed to get user details ");
+                Timber.e(t);
             }
         });
     }
