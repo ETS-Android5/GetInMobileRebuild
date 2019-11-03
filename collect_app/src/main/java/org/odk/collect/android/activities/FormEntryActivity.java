@@ -1306,6 +1306,9 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
      */
     private void showPreviousView() {
         if (allowMovingBackwards) {
+            backButton.setVisibility(View.VISIBLE);
+            nextButton.setVisibility(View.VISIBLE);
+
             state = null;
             try {
                 FormController formController = getFormController();
@@ -1963,7 +1966,7 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
             return;
         }
 
-        backButton.setVisibility(!formController.isCurrentQuestionFirstInForm() && allowMovingBackwards ? View.VISIBLE : View.GONE);
+        backButton.setVisibility(formController.getEvent() != FormEntryController.EVENT_END_OF_FORM ? View.VISIBLE : View.GONE);
         nextButton.setVisibility(formController.getEvent() != FormEntryController.EVENT_END_OF_FORM ? View.VISIBLE : View.GONE);
     }
 
