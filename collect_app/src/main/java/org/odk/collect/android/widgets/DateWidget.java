@@ -23,11 +23,14 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.TypedValue;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import org.javarosa.core.model.data.DateData;
@@ -45,6 +48,7 @@ import org.odk.collect.android.fragments.dialogs.MyanmarDatePickerDialog;
 import org.odk.collect.android.fragments.dialogs.PersianDatePickerDialog;
 import org.odk.collect.android.logic.DatePickerDetails;
 import org.odk.collect.android.utilities.DateTimeUtils;
+import org.odk.collect.android.utilities.ViewIds;
 import org.odk.collect.android.widgets.interfaces.BinaryWidget;
 
 import java.lang.reflect.Constructor;
@@ -64,7 +68,8 @@ import static org.odk.collect.android.fragments.dialogs.CustomDatePickerDialog.D
  */
 @SuppressLint("ViewConstructor")
 public class DateWidget extends QuestionWidget implements DatePickerDialog.OnDateSetListener, BinaryWidget {
-    private Button dateButton;
+    private EditText editText;
+    //The date is got from this textview though it does not show on the screen.
     private TextView dateTextView;
 
     boolean isNullAnswer;
@@ -78,10 +83,29 @@ public class DateWidget extends QuestionWidget implements DatePickerDialog.OnDat
         createWidget();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     protected void createWidget() {
         datePickerDetails = DateTimeUtils.getDatePickerDetails(getFormEntryPrompt().getQuestion().getAppearanceAttr());
-        dateButton = getSimpleButton(getContext().getString(R.string.select_date));
+
         dateTextView = getAnswerTextView();
+        editText = new EditText(getContext());
+        editText.setId(ViewIds.generateViewId());
+        editText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, getAnswerFontSize());
+        editText.setBackgroundResource(R.drawable.edit_text_border_layout);
+        editText.setPadding(30,25,30,25);
+        editText.setFocusable(false);
+        editText.setCursorVisible(false);
+
+        editText.setOnTouchListener((v, event) -> {
+            if(MotionEvent.ACTION_UP == event.getAction()) {
+                showDatePickerDialog();
+            }
+            return true;
+        });
+
+        TableLayout.LayoutParams params = new TableLayout.LayoutParams();
+        params.setMargins(7, 5, 7, 5);
+        editText.setLayoutParams(params);
         addViews();
         if (getFormEntryPrompt().getAnswerValue() == null) {
             clearAnswer();
@@ -94,15 +118,12 @@ public class DateWidget extends QuestionWidget implements DatePickerDialog.OnDat
 
     @Override
     public void setOnLongClickListener(OnLongClickListener l) {
-        dateButton.setOnLongClickListener(l);
-        dateTextView.setOnLongClickListener(l);
+        editText.setOnLongClickListener(l);
     }
 
     @Override
     public void cancelLongPress() {
         super.cancelLongPress();
-        dateButton.cancelLongPress();
-        dateTextView.cancelLongPress();
     }
 
     @Override
@@ -113,7 +134,6 @@ public class DateWidget extends QuestionWidget implements DatePickerDialog.OnDat
 
     void clearAnswerWithoutValueChangeEvent() {
         isNullAnswer = true;
-        dateTextView.setText(R.string.no_date_selected);
         setDateToCurrent();
     }
 
@@ -128,11 +148,6 @@ public class DateWidget extends QuestionWidget implements DatePickerDialog.OnDat
             date = (LocalDateTime) answer;
             setDateLabel();
         }
-    }
-
-    @Override
-    public void onButtonClick(int buttonId) {
-        showDatePickerDialog();
     }
 
     public boolean isDayHidden() {
@@ -150,8 +165,7 @@ public class DateWidget extends QuestionWidget implements DatePickerDialog.OnDat
     private void addViews() {
         LinearLayout linearLayout = new LinearLayout(getContext());
         linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.addView(dateButton);
-        linearLayout.addView(dateTextView);
+        linearLayout.addView(editText);
         addAnswerView(linearLayout);
     }
 
@@ -167,38 +181,13 @@ public class DateWidget extends QuestionWidget implements DatePickerDialog.OnDat
     protected void setDateLabel() {
         isNullAnswer = false;
         dateTextView.setText(DateTimeUtils.getDateTimeLabel((Date) getAnswer().getValue(), datePickerDetails, false, getContext()));
+        editText.setText(DateTimeUtils.getDateTimeLabel((Date) getAnswer().getValue(), datePickerDetails, false, getContext()));
     }
 
     protected void showDatePickerDialog() {
-        switch (datePickerDetails.getDatePickerType()) {
-            case ETHIOPIAN:
-                CustomDatePickerDialog dialog = EthiopianDatePickerDialog.newInstance(getFormEntryPrompt().getIndex(), date, datePickerDetails);
-                dialog.show(((FormEntryActivity) getContext()).getSupportFragmentManager(), DATE_PICKER_DIALOG);
-                break;
-            case COPTIC:
-                dialog = CopticDatePickerDialog.newInstance(getFormEntryPrompt().getIndex(), date, datePickerDetails);
-                dialog.show(((FormEntryActivity) getContext()).getSupportFragmentManager(), DATE_PICKER_DIALOG);
-                break;
-            case ISLAMIC:
-                dialog = IslamicDatePickerDialog.newInstance(getFormEntryPrompt().getIndex(), date, datePickerDetails);
-                dialog.show(((FormEntryActivity) getContext()).getSupportFragmentManager(), DATE_PICKER_DIALOG);
-                break;
-            case BIKRAM_SAMBAT:
-                dialog = BikramSambatDatePickerDialog.newInstance(getFormEntryPrompt().getIndex(), date, datePickerDetails);
-                dialog.show(((FormEntryActivity) getContext()).getSupportFragmentManager(), DATE_PICKER_DIALOG);
-                break;
-            case MYANMAR:
-                dialog = MyanmarDatePickerDialog.newInstance(getFormEntryPrompt().getIndex(), date, datePickerDetails);
-                dialog.show(((FormEntryActivity) getContext()).getSupportFragmentManager(), DATE_PICKER_DIALOG);
-                break;
-            case PERSIAN:
-                dialog = PersianDatePickerDialog.newInstance(getFormEntryPrompt().getIndex(), date, datePickerDetails);
-                dialog.show(((FormEntryActivity) getContext()).getSupportFragmentManager(), DATE_PICKER_DIALOG);
-                break;
-            default:
-                DatePickerDialog datePickerDialog = new FixedDatePickerDialog(getContext(), getTheme(), this);
-                datePickerDialog.show();
-        }
+        DatePickerDialog datePickerDialog = new FixedDatePickerDialog(getContext(), getTheme(), this);
+        if (!datePickerDialog.isShowing())
+            datePickerDialog.show();
     }
 
     @Override
@@ -235,6 +224,12 @@ public class DateWidget extends QuestionWidget implements DatePickerDialog.OnDat
         return Build.MANUFACTURER.equalsIgnoreCase("samsung")
                 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
                 && Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1;
+    }
+
+    @Override
+    public void onButtonClick(int buttonId) {
+        //Needed for the objects to get instatiated in other classes
+        // otherwise the edittext view has the onclick listener
     }
 
     private class FixedDatePickerDialog extends DatePickerDialog {
