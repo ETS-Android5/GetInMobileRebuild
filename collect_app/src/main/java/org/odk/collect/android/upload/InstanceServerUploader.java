@@ -282,6 +282,12 @@ public class InstanceServerUploader extends InstanceUploader {
             urlString = getServerSubmissionURL();
         }
 
+        String formMetaData = addFormMetaData();
+        urlString += "?deviceID=" + formMetaData;
+        return urlString;
+    }
+
+    private String addFormMetaData() {
         // pass details to the server through the deviceId, this is a hack
         // todo create meta data fields for each parameter we need to pass to the server
 
@@ -297,9 +303,7 @@ public class InstanceServerUploader extends InstanceUploader {
         } catch (JSONException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-//        urlString += "?deviceID=" + jsonObject.toString();
-        urlString += "?deviceID=" + formMetaData;
-        return urlString;
+        return formMetaData;
     }
 
     private String getServerSubmissionURL() {

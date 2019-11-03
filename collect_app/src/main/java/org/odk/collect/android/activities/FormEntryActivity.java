@@ -74,6 +74,7 @@ import androidx.work.WorkManager;
 import com.google.common.collect.ImmutableList;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import org.apache.commons.io.IOUtils;
 import org.javarosa.core.model.FormDef;
@@ -179,6 +180,10 @@ import static android.content.DialogInterface.BUTTON_NEGATIVE;
 import static android.content.DialogInterface.BUTTON_POSITIVE;
 import static org.odk.collect.android.preferences.AdminKeys.KEY_MOVING_BACKWARDS;
 import static org.odk.collect.android.preferences.GeneralKeys.KEY_BACKGROUND_LOCATION;
+import static org.odk.collect.android.utilities.ApplicationConstants.APPOINTMENT_FORM_ID;
+import static org.odk.collect.android.utilities.ApplicationConstants.GIRL_NAME;
+import static org.odk.collect.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_ID;
+import static org.odk.collect.android.utilities.ApplicationConstants.POSTNATAL_FORM_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.RequestCodes;
 import static org.odk.collect.android.utilities.PermissionUtils.areStoragePermissionsGranted;
 import static org.odk.collect.android.utilities.PermissionUtils.finishAllActivities;
@@ -1082,12 +1087,18 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
 
         //todo change title based on form name
         String title;
+        String clicked_girl = Prefs.getString(GIRL_NAME, "Girl");
+
 
         saveName = formController.getFormTitle();
-        if (saveName.contains("GetInTest18")) {
-            title = "Map Girl";
+        if (saveName.contains(MAP_GIRL_BUNDIBUGYO_FORM_ID)) {
+            title = "Map a girl";
+        } else if (saveName.contains(POSTNATAL_FORM_ID)) {
+            title = "Postnatal, " + clicked_girl;
+        } else if (saveName.contains(APPOINTMENT_FORM_ID)) {
+            title = "Appointments, " + clicked_girl;
         } else {
-            title = "Follow Up";
+            title = "Follow Up, " + clicked_girl;
         }
         setTitle(title);
 

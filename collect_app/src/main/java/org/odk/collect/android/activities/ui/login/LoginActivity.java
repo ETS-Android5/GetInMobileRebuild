@@ -205,7 +205,7 @@ public class LoginActivity extends CollectAbstractActivity {
             public void onFailure(Call call, IOException e) {
                 String mMessage = e.getMessage().toString();
                 Timber.e("failure Response login" + mMessage);
-                ToastUtils.showShortToast("Login failed. Wrong username or password");
+                Toast.makeText(LoginActivity.this, "Login failed. Wrong username or password", Toast.LENGTH_SHORT).show();
                 //call.cancel();
             }
 

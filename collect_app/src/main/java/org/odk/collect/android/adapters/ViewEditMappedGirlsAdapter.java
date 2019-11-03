@@ -35,6 +35,7 @@ import timber.log.Timber;
 import static org.odk.collect.android.utilities.ApplicationConstants.APPOINTMENT_FORM_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.FOLLOW_UP_FORM_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.GIRL_ID;
+import static org.odk.collect.android.utilities.ApplicationConstants.GIRL_NAME;
 import static org.odk.collect.android.utilities.ApplicationConstants.POSTNATAL_FORM_ID;
 
 public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMappedGirlsAdapter.ViewHolder>  implements ActivityCompat.OnRequestPermissionsResultCallback {
@@ -107,18 +108,21 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
             holder.postNatalButton.setOnClickListener(v -> {
                 Timber.d("clicked postnatal");
                 Prefs.putString(GIRL_ID, girl.getId());
+                Prefs.putString(GIRL_NAME, girl.getFirstName() + " " + girl.getLastName());
                 startFormActivity(POSTNATAL_FORM_ID);
             });
 
             holder.appointmentButton.setOnClickListener(v -> {
                 Timber.d("clicked appointment");
                 Prefs.putString(GIRL_ID, girl.getId());
+                Prefs.putString(GIRL_NAME, girl.getFirstName() + " " + girl.getLastName());
                 startFormActivity(APPOINTMENT_FORM_ID);
             });
 
 
             holder.followUpButton.setOnClickListener(v -> {
                 Prefs.putString(GIRL_ID, girl.getId());
+                Prefs.putString(GIRL_NAME, girl.getFirstName() + " " + girl.getLastName());
                 startFormActivity(FOLLOW_UP_FORM_ID);
             });
 

@@ -13,7 +13,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface APIInterface {
-    //todo# add the production project id
+    //todo# get only the user's mapped girls. add filter
     @GET("api/v1/girls")
     Call<MappedGirl> getMappedGirls();
 

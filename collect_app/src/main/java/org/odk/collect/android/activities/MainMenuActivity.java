@@ -72,6 +72,7 @@ import java.util.Map.Entry;
 import timber.log.Timber;
 
 import static org.odk.collect.android.preferences.GeneralKeys.KEY_SUBMISSION_TRANSPORT_TYPE;
+import static org.odk.collect.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.MAP_GIRL_FORM_ID;
 
 /**
@@ -126,7 +127,8 @@ public class MainMenuActivity extends CollectAbstractActivity {
             @Override
             public void onClick(View v) {
                 if (Collect.allowClick(getClass().getName())) {
-                    startFormActivity(MAP_GIRL_FORM_ID);
+                    // get form depending on loggin user district
+                    startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_ID);
                 }
             }
         });

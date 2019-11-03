@@ -105,12 +105,14 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
             @Override
             public void onResponse(Call<MappedGirl> call, Response<MappedGirl> response) {
                 Timber.d("onResponse() -> " + response.code());
-                Timber.d("onResponse() -> " + response.body().toString());
-                Timber.d("onResponse() -> " + response.body().getResults().get(0).getFirstName());
-                List<Result> values = response.body().getResults();
-                girlsAdapter = new ViewEditMappedGirlsAdapter(getActivity(), values);
-                girlsAdapter.setClickListener(ViewEditMappedGirlsFragment.this);
-                recyclerView.setAdapter(girlsAdapter);
+                try {
+                    List<Result> values = response.body().getResults();
+                    girlsAdapter = new ViewEditMappedGirlsAdapter(getActivity(), values);
+                    girlsAdapter.setClickListener(ViewEditMappedGirlsFragment.this);
+                    recyclerView.setAdapter(girlsAdapter);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
