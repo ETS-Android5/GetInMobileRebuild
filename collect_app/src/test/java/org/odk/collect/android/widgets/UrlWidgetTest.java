@@ -11,11 +11,11 @@ import org.odk.collect.android.widgets.base.QuestionWidgetTest;
  * @author James Knight
  */
 
-public class UrlWidgetTest extends QuestionWidgetTest<UrlWidget, StringData> {
+public class UrlWidgetTest extends QuestionWidgetTest<CallWidget, StringData> {
     @NonNull
     @Override
-    public UrlWidget createWidget() {
-        return new UrlWidget(activity, formEntryPrompt);
+    public CallWidget createWidget() {
+        return new CallWidget(activity, formEntryPrompt);
     }
 
     @NonNull

@@ -98,7 +98,7 @@ public class WidgetFactory {
                             questionWidget = new StringNumberWidget(context, fep, readOnlyOverride,
                                     appearance.contains(WidgetAppearanceUtils.THOUSANDS_SEP));
                         } else if (appearance.equals(WidgetAppearanceUtils.URL)) {
-                            questionWidget = new UrlWidget(context, fep);
+                            questionWidget = new CallWidget(context, fep);
                         } else {
                             questionWidget = new StringWidget(context, fep, readOnlyOverride);
                         }

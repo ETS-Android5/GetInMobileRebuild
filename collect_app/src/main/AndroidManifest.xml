@@ -73,6 +73,16 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true">
+        <activity android:name=".activities.EmergencyCallActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data
+                    android:host="android.getincall.app"
+                    android:scheme="getin"></data>
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activities.ui.login.LoginActivity"
             android:label="@string/title_activity_login"

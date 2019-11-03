@@ -129,7 +129,10 @@ public class MainMenuActivity extends CollectAbstractActivity {
             public void onClick(View v) {
                 if (Collect.allowClick(getClass().getName())) {
                     // get form depending on loggin user district
-                    startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_ID);
+//                    startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_ID);
+                    Intent i = new Intent(getApplicationContext(),
+                            FormChooserList.class);
+                    startActivity(i);
                 }
             }
         });

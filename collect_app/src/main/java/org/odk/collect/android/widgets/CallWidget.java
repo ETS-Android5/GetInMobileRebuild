@@ -16,9 +16,12 @@ package org.odk.collect.android.widgets;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,40 +29,38 @@ import org.javarosa.core.model.data.IAnswerData;
 import org.javarosa.core.model.data.StringData;
 import org.javarosa.form.api.FormEntryPrompt;
 import org.odk.collect.android.R;
+import org.odk.collect.android.activities.EmergencyCallActivity;
 import org.odk.collect.android.utilities.CustomTabHelper;
 import org.odk.collect.android.widgets.interfaces.ButtonWidget;
 
 /**
- * Widget that allows user to open URLs from within the form
+ * Widget that allows user to open EmergencyCallActivity and call the midwife throught the calling app
  *
+ * @author Phillip Kigenyi (codephillip@gmail.com)
  * @author Yaw Anokwa (yanokwa@gmail.com)
  */
 @SuppressLint("ViewConstructor")
-public class UrlWidget extends QuestionWidget implements ButtonWidget {
+public class CallWidget extends QuestionWidget implements ButtonWidget {
 
     private Uri uri;
     private final Button openUrlButton;
-    private final TextView stringAnswer;
     private final CustomTabHelper customTabHelper;
 
-    public UrlWidget(Context context, FormEntryPrompt prompt) {
+    public CallWidget(Context context, FormEntryPrompt prompt) {
         super(context, prompt);
 
-        openUrlButton = getSimpleButton(context.getString(R.string.open_url));
+        openUrlButton = getSimpleButton(context.getString(R.string.call_midwife));
+        openUrlButton.setBackground(getResources().getDrawable(R.drawable.round_button_blue));
+        openUrlButton.setTextColor(Color.WHITE);
 
-        stringAnswer = getCenteredAnswerTextView();
-
-        String s = prompt.getAnswerText();
-        if (s != null) {
-            stringAnswer.setText(s);
-            uri = Uri.parse(stringAnswer.getText().toString());
-        }
+        TableLayout.LayoutParams params = new TableLayout.LayoutParams();
+        params.setMargins(10, 20, 10, 2);
+        openUrlButton.setLayoutParams(params);
 
         // finish complex layout
         LinearLayout answerLayout = new LinearLayout(getContext());
         answerLayout.setOrientation(LinearLayout.VERTICAL);
         answerLayout.addView(openUrlButton);
-        answerLayout.addView(stringAnswer);
         addAnswerView(answerLayout);
 
         customTabHelper = new CustomTabHelper();
@@ -77,21 +78,11 @@ public class UrlWidget extends QuestionWidget implements ButtonWidget {
 
     @Override
     public IAnswerData getAnswer() {
-        String s = stringAnswer.getText().toString();
-        return !s.isEmpty()
-                ? new StringData(s)
-                : null;
+        return null;
     }
 
     @Override
     public void setOnLongClickListener(OnLongClickListener l) {
-    }
-
-    @Override
-    public void cancelLongPress() {
-        super.cancelLongPress();
-        openUrlButton.cancelLongPress();
-        stringAnswer.cancelLongPress();
     }
 
     protected void onDetachedFromWindow() {
@@ -103,11 +94,7 @@ public class UrlWidget extends QuestionWidget implements ButtonWidget {
 
     @Override
     public void onButtonClick(int buttonId) {
-        if (!isUrlEmpty(stringAnswer)) {
-            customTabHelper.bindCustomTabsService(getContext(), null);
-            customTabHelper.openUri(getContext(), uri);
-        } else {
-            Toast.makeText(getContext(), "No URL set", Toast.LENGTH_SHORT).show();
-        }
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("getin://android.getincall.app"));
+        getContext().startActivity(intent);
     }
 }
