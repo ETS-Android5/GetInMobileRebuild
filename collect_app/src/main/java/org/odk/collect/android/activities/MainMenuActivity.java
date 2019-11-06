@@ -56,6 +56,7 @@ import org.odk.collect.android.preferences.PreferencesActivity;
 import org.odk.collect.android.preferences.Transport;
 import org.odk.collect.android.provider.FormsProviderAPI;
 import org.odk.collect.android.provider.InstanceProviderAPI.InstanceColumns;
+import org.odk.collect.android.tasks.ServerPollingJob;
 import org.odk.collect.android.utilities.ApplicationConstants;
 import org.odk.collect.android.utilities.PlayServicesUtil;
 import org.odk.collect.android.utilities.SharedPreferencesUtils;
@@ -404,32 +405,39 @@ public class MainMenuActivity extends CollectAbstractActivity {
 
 
     private void startFormActivity(String formId) {
-        //todo place mapping form id
-        String selectionClause = FormsProviderAPI.FormsColumns.DISPLAY_NAME + " LIKE ?";
-        String[] selectionArgs = {formId + "%"};
+        try {
+            String selectionClause = FormsProviderAPI.FormsColumns.DISPLAY_NAME + " LIKE ?";
+            String[] selectionArgs = {formId + "%"};
 
-        Cursor c = getContentResolver().query(
-                FormsProviderAPI.FormsColumns.CONTENT_URI,  // The content URI of the words table
-                null,                       // The columns to return for each row
-                selectionClause,                  // Either null, or the word the user entered
-                selectionArgs,                    // Either empty, or the string the user entered
-                null);
+            Cursor c = getContentResolver().query(
+                    FormsProviderAPI.FormsColumns.CONTENT_URI,  // The content URI of the words table
+                    null,                       // The columns to return for each row
+                    selectionClause,                  // Either null, or the word the user entered
+                    selectionArgs,                    // Either empty, or the string the user entered
+                    null);
 
-        c.moveToFirst();
+            c.moveToFirst();
 
-        Uri formUri =
-                ContentUris.withAppendedId(FormsProviderAPI.FormsColumns.CONTENT_URI,
-                        c.getLong(c.getColumnIndex(FormsProviderAPI.FormsColumns._ID)));
+            Uri formUri =
+                    ContentUris.withAppendedId(FormsProviderAPI.FormsColumns.CONTENT_URI,
+                            c.getLong(c.getColumnIndex(FormsProviderAPI.FormsColumns._ID)));
 
-        String action = getIntent().getAction();
-        if (Intent.ACTION_PICK.equals(action)) {
-            // caller is waiting on a picked form
-            setResult(RESULT_OK, new Intent().setData(formUri));
-        } else {
-            // caller wants to view/edit a form, so launch formentryactivity
-            Intent intent = new Intent(Intent.ACTION_EDIT, formUri);
-            intent.putExtra(ApplicationConstants.BundleKeys.FORM_MODE, ApplicationConstants.FormModes.EDIT_SAVED);
-            startActivity(intent);
+            String action = getIntent().getAction();
+            if (Intent.ACTION_PICK.equals(action)) {
+                // caller is waiting on a picked form
+                setResult(RESULT_OK, new Intent().setData(formUri));
+            } else {
+                // caller wants to view/edit a form, so launch formentryactivity
+                Intent intent = new Intent(Intent.ACTION_EDIT, formUri);
+                intent.putExtra(ApplicationConstants.BundleKeys.FORM_MODE, ApplicationConstants.FormModes.EDIT_SAVED);
+                startActivity(intent);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            ToastUtils.showLongToast("Please connect to Internet and try again");
+            // Incase user did not download the forms in the beginning. Reinitiate the form download
+            // download all empty forms from the server. this is required before user can fill in the form
+            ServerPollingJob.startJobImmediately();
         }
     }
 
