@@ -43,7 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_large"
             android:gravity="center"
-            android:text="@string/vht"
+            android:text="@string/chew"
+            android:id="@+id/user_type"
             android:textColor="@color/getin_blue" />
 
 

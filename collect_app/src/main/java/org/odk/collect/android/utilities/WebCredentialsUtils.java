@@ -15,6 +15,8 @@ import java.util.Map;
 
 import javax.inject.Singleton;
 
+import timber.log.Timber;
+
 @Singleton
 public class WebCredentialsUtils {
 
@@ -30,6 +32,8 @@ public class WebCredentialsUtils {
     }
 
     public void saveCredentialsPreferences(String userName, String password) {
+        Timber.d("username " + userName);
+        Timber.d("password " + password);
         GeneralSharedPreferences.getInstance().save(GeneralKeys.KEY_USERNAME, userName);
         GeneralSharedPreferences.getInstance().save(GeneralKeys.KEY_PASSWORD, password);
     }

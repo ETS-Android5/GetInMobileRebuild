@@ -12,6 +12,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import timber.log.Timber;
 
+import static org.odk.collect.android.utilities.ApplicationConstants.DJANGO_BACKEND_URL;
 import static org.odk.collect.android.utilities.ApplicationConstants.SERVER_TOKEN;
 
 public class APIClient {
@@ -22,15 +23,12 @@ public class APIClient {
                 .addInterceptor(chain -> {
                     String token = Prefs.getString(SERVER_TOKEN, "");
                     Timber.d("token: " + token);
-//                    token = "9da70b0c9dc95cfb5277b25d45c90d4de9fbfba4";
                     Request request = chain.request().newBuilder().addHeader("Authorization", "Token " + token).build();
                     return chain.proceed(request);
                 }).build();
 
         return new Retrofit.Builder()
-                //todo#
-//                .baseUrl("https://central.getinmobile.org/v1/")
-                .baseUrl("https://getin-server.herokuapp.com/")
+                .baseUrl(DJANGO_BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();

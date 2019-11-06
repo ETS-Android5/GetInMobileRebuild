@@ -72,9 +72,7 @@ import java.util.Map.Entry;
 import timber.log.Timber;
 
 import static org.odk.collect.android.preferences.GeneralKeys.KEY_SUBMISSION_TRANSPORT_TYPE;
-import static org.odk.collect.android.utilities.ApplicationConstants.FOLLOW_UP_FORM_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_ID;
-import static org.odk.collect.android.utilities.ApplicationConstants.MAP_GIRL_FORM_ID;
 
 /**
  * Responsible for displaying buttons to launch the major activities. Launches
@@ -122,17 +120,17 @@ public class MainMenuActivity extends CollectAbstractActivity {
         disableSmsIfNeeded();
 
         // map girl button. expects a result.
-        Button mapGirlButton = findViewById(R.id.vht_button);
+        Button mapGirlButton = findViewById(R.id.chew_button);
         mapGirlButton.setText(getString(R.string.map_girl_button));
         mapGirlButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (Collect.allowClick(getClass().getName())) {
                     // get form depending on loggin user district
-//                    startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_ID);
-                    Intent i = new Intent(getApplicationContext(),
-                            FormChooserList.class);
-                    startActivity(i);
+                    startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_ID);
+//                    Intent i = new Intent(getApplicationContext(),
+//                            FormChooserList.class);
+//                    startActivity(i);
                 }
             }
         });

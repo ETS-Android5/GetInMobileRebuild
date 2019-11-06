@@ -56,6 +56,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import timber.log.Timber;
 
+import static org.odk.collect.android.utilities.ApplicationConstants.DJANGO_BACKEND_URL;
 import static org.odk.collect.android.utilities.ApplicationConstants.SERVER_TOKEN;
 import static org.odk.collect.android.utilities.ApplicationConstants.USER_ID;
 
@@ -69,12 +70,16 @@ public class LoginActivity extends CollectAbstractActivity {
         setContentView(R.layout.activity_login);
         initToolbar();
 
+        String userType = getIntent().getStringExtra("user_type");
+
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
         final EditText usernameEditText = findViewById(R.id.username);
         final EditText passwordEditText = findViewById(R.id.password);
         final Button loginButton = findViewById(R.id.login);
+        final TextView userTypeTextView = findViewById(R.id.user_type);
+        userTypeTextView.setText(userType);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
@@ -179,7 +184,7 @@ public class LoginActivity extends CollectAbstractActivity {
         Timber.d("postrequest started");
 
         MediaType MEDIA_TYPE = MediaType.parse("application/json");
-        String url = "https://getin-server.herokuapp.com/auth/login/";
+        String url = DJANGO_BACKEND_URL + "auth/login/";
 
         OkHttpClient client = new OkHttpClient();
 
@@ -187,7 +192,7 @@ public class LoginActivity extends CollectAbstractActivity {
         try {
             postdata.put("username", username);
             postdata.put("password", password);
-        } catch(JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 
@@ -214,20 +219,27 @@ public class LoginActivity extends CollectAbstractActivity {
 
                 String responseBody = response.body().string();
                 Timber.d("onResponse: " + responseBody);
+                Timber.d("onResponse: login" + response.code());
                 try {
-                    JSONObject responseJsonObject = new JSONObject(responseBody);
-                    String authToken = responseJsonObject.getString("auth_token");
-                    Prefs.putString(SERVER_TOKEN, authToken);
-                    Timber.d(authToken);
-                    getLoggedInUserDetails();
+                    if (response.code() == 200) {
+                        JSONObject responseJsonObject = new JSONObject(responseBody);
+                        String authToken = responseJsonObject.getString("auth_token");
+                        Prefs.putString(SERVER_TOKEN, authToken);
+                        Timber.d(authToken);
+                        getLoggedInUserDetails();
+
+                        Timber.d("start main activity");
+                        Intent i = new Intent(getApplicationContext(), MainMenuActivity.class);
+                        startActivity(i);
+                        finish();
+                    } else {
+                        runOnUiThread(() -> Toast.makeText(LoginActivity.this,
+                                "Login failed. Wrong username or password", Toast.LENGTH_SHORT).show());
+                    }
                     //TODO GET ODK CENTRAL TOKEN
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-                Timber.d("start main activity");
-                Intent i = new Intent(getApplicationContext(), MainMenuActivity.class);
-                startActivity(i);
             }
         });
     }

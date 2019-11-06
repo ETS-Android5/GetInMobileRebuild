@@ -16,15 +16,12 @@ package org.odk.collect.android.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import androidx.appcompat.widget.Toolbar;
 
 import org.odk.collect.android.R;
 import org.odk.collect.android.activities.ui.login.LoginActivity;
-import org.odk.collect.android.application.Collect;
 
 /**
  * Responsible for displaying buttons to launch activities.
@@ -40,17 +37,19 @@ public class ChooseUserActivity extends CollectAbstractActivity {
         setContentView(R.layout.choose_user_activity);
         initToolbar();
 
-        Button mapGirlButton = findViewById(R.id.vht_button);
+        Button mapGirlButton = findViewById(R.id.chew_button);
         mapGirlButton.setOnClickListener(v -> {
             Intent i = new Intent(getApplicationContext(),
                     LoginActivity.class);
+            i.putExtra("user_type", "Chew");
             startActivity(i);
         });
 
-        Button viewEditMappedGirlsButton = findViewById(R.id.midwife_button);
-        viewEditMappedGirlsButton.setOnClickListener(v -> {
+        Button midwifeButton = findViewById(R.id.midwife_button);
+        midwifeButton.setOnClickListener(v -> {
             Intent i = new Intent(getApplicationContext(),
                     LoginActivity.class);
+            i.putExtra("user_type", "Midwife");
             startActivity(i);
         });
     }
