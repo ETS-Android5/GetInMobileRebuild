@@ -47,6 +47,8 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import timber.log.Timber;
+
 import static org.odk.collect.android.activities.FormDownloadList.DISPLAY_ONLY_UPDATED_FORMS;
 import static org.odk.collect.android.preferences.GeneralKeys.KEY_AUTOMATIC_UPDATE;
 import static org.odk.collect.android.provider.FormsProviderAPI.FormsColumns.JR_FORM_ID;
@@ -76,6 +78,7 @@ public class ServerPollingJob extends Job {
     @Override
     @NonNull
     protected Result onRunJob(@NonNull Params params) {
+        Timber.d("Server polling Job");
         if (!isDeviceOnline()) {
             return Result.FAILURE;
         }
@@ -92,14 +95,11 @@ public class ServerPollingJob extends Job {
             }
 
             List<FormDetails> newDetectedForms = new ArrayList<>();
-            for (FormDetails formDetails : formList.values()) {
-                if (formDetails.isNewerFormVersionAvailable() || formDetails.areNewerMediaFilesAvailable()) {
-                    newDetectedForms.add(formDetails);
-                }
-            }
+            // add all available forms
+            newDetectedForms.addAll(formList.values());
 
             if (!newDetectedForms.isEmpty()) {
-                if (GeneralSharedPreferences.getInstance().getBoolean(KEY_AUTOMATIC_UPDATE, false)) {
+                if (true) {
                     final HashMap<FormDetails, String> result = new FormDownloader().downloadForms(newDetectedForms);
                     informAboutNewDownloadedForms(Collect.getInstance().getString(R.string.download_forms_result), result);
                 } else {
@@ -125,6 +125,7 @@ public class ServerPollingJob extends Job {
     }
 
     public static void schedulePeriodicJob(String selectedOption) {
+        Timber.d("schedulePeriodicJob started");
         if (selectedOption.equals(Collect.getInstance().getString(R.string.never_value))) {
             JobManager.instance().cancelAllForTag(TAG);
         } else {
@@ -144,6 +145,16 @@ public class ServerPollingJob extends Job {
                     .build()
                     .schedule();
         }
+    }
+
+    public static void startJobImmediately() {
+        Timber.d("schedulePeriodicJob started");
+        // run the job immediately in order to get all the forms
+        new JobRequest.Builder(TAG)
+                .startNow()
+                .setUpdateCurrent(true)
+                .build()
+                .schedule();
     }
 
     private boolean wasThisNewerFormVersionAlreadyDetected(String formVersionHash) {
