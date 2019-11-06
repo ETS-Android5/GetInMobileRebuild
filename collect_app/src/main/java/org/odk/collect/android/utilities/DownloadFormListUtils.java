@@ -25,6 +25,8 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.pixplicity.easyprefs.library.Prefs;
+
 import org.javarosa.xform.parse.XFormParser;
 import org.kxml2.kdom.Element;
 import org.odk.collect.android.R;
@@ -42,6 +44,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import timber.log.Timber;
+
+import static org.odk.collect.android.utilities.ApplicationConstants.APP_USER_URL;
 
 public class DownloadFormListUtils {
 
@@ -78,9 +82,11 @@ public class DownloadFormListUtils {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(
                 application);
 
-        String downloadListUrl = url != null ? url :
-                settings.getString(GeneralKeys.KEY_SERVER_URL,
-                        application.getString(R.string.default_server_url));
+//        String downloadListUrl = url != null ? url :
+//                settings.getString(GeneralKeys.KEY_SERVER_URL,
+//                        application.getString(R.string.default_server_url));
+
+        String downloadListUrl = Prefs.getString("APP_USER_URL", APP_USER_URL);
 
         while (downloadListUrl.endsWith("/")) {
             downloadListUrl = downloadListUrl.substring(0, downloadListUrl.length() - 1);

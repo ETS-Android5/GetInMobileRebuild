@@ -46,6 +46,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 import timber.log.Timber;
 
+import static org.odk.collect.android.utilities.ApplicationConstants.APP_USER_URL;
 import static org.odk.collect.android.utilities.ApplicationConstants.GIRL_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.USER_ID;
 
@@ -312,8 +313,9 @@ public class InstanceServerUploader extends InstanceUploader {
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(
                 Collect.getInstance());
-        String serverBase = settings.getString(GeneralKeys.KEY_SERVER_URL,
-                app.getString(R.string.default_server_url));
+//        String serverBase = settings.getString(GeneralKeys.KEY_SERVER_URL,
+//                app.getString(R.string.default_server_url));
+        String serverBase = Prefs.getString("APP_USER_URL", APP_USER_URL);
         //todo add the default getin odk central server url for logged in user
 //        String serverBase = "https://sandbox.aggregate.opendatakit.org";
 

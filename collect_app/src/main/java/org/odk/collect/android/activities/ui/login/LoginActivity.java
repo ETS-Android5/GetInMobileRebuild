@@ -7,12 +7,14 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -56,6 +58,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import timber.log.Timber;
 
+import static org.odk.collect.android.utilities.ApplicationConstants.APP_USER_URL;
 import static org.odk.collect.android.utilities.ApplicationConstants.DJANGO_BACKEND_URL;
 import static org.odk.collect.android.utilities.ApplicationConstants.SERVER_TOKEN;
 import static org.odk.collect.android.utilities.ApplicationConstants.USER_ID;
@@ -232,11 +235,13 @@ public class LoginActivity extends CollectAbstractActivity {
                         Intent i = new Intent(getApplicationContext(), MainMenuActivity.class);
                         startActivity(i);
                         finish();
+
+                        //TODO GET ODK CENTRAL APP USER URL
+                        Prefs.putString("APP_USER_URL", APP_USER_URL);
                     } else {
                         runOnUiThread(() -> Toast.makeText(LoginActivity.this,
                                 "Login failed. Wrong username or password", Toast.LENGTH_SHORT).show());
                     }
-                    //TODO GET ODK CENTRAL TOKEN
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

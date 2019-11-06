@@ -118,5 +118,5 @@ public class ApplicationConstants {
     public static final String GIRL_NAME = "GIRL_NAME";
     public static final String USER_ID = "USER_ID";
     public static final String DJANGO_BACKEND_URL = "https://getin-server.herokuapp.com/";
-
+    public static final String APP_USER_URL = "https://central.getinmobile.org/v1/key/WCoZ55Bi48dUnENkvbr7HG2MDk2FJVU7A6wCq1cWaDInwiGBwYjnX5Jefx464iFJ/projects/2";
 }

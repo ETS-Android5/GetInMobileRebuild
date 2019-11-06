@@ -31,6 +31,8 @@ import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.pixplicity.easyprefs.library.Prefs;
+
 import org.odk.collect.android.R;
 import org.odk.collect.android.application.Collect;
 import org.odk.collect.android.listeners.PermissionListener;
@@ -52,10 +54,12 @@ public class SplashScreenActivity extends CollectAbstractActivity {
 
     private static final int SPLASH_TIMEOUT = 2000; // milliseconds
     private static final boolean EXIT = true;
+    private boolean firstRun;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        init();
 
         new PermissionUtils().requestStoragePermissions(this, new PermissionListener() {
             @Override
@@ -68,13 +72,13 @@ public class SplashScreenActivity extends CollectAbstractActivity {
                             e.getMessage(), EXIT), SplashScreenActivity.this);
                     return;
                 }
-
-                init();
+                endSplashScreen();
             }
 
             @Override
             public void denied() {
                 // The activity has to finish because ODK Collect cannot function without these permissions.
+                endSplashScreen();
                 finish();
             }
         });
@@ -88,16 +92,6 @@ public class SplashScreenActivity extends CollectAbstractActivity {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-//        Collect app = Collect.getInstance();
-//        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(
-//                Collect.getInstance());
-//        String serverBase = settings.getString(GeneralKeys.KEY_SERVER_URL,
-//                app.getString(R.string.default_server_url));
-//
-//        String submissionUrl = "https://central.getinmobile.org/v1/key/99JES8k!m7liNQmJbtIj9RbS2SE8hg2ve!q$nvWgOCY6EZZwNdM5Ybrcl2Emvv1u/projects/2";
-//
-//        Timber.d(serverBase);
-        // get the package info object with version number
         PackageInfo packageInfo = null;
         try {
             packageInfo =
@@ -107,7 +101,7 @@ public class SplashScreenActivity extends CollectAbstractActivity {
             Timber.e(e, "Unable to get package info");
         }
 
-        boolean firstRun = sharedPreferences.getBoolean(GeneralKeys.KEY_FIRST_RUN, true);
+        firstRun = sharedPreferences.getBoolean(GeneralKeys.KEY_FIRST_RUN, true);
         boolean showSplash =
                 sharedPreferences.getBoolean(GeneralKeys.KEY_SHOW_SPLASH, false);
         String splashPath = (String) GeneralSharedPreferences.getInstance().get(KEY_SPLASH_PATH);
@@ -146,7 +140,8 @@ public class SplashScreenActivity extends CollectAbstractActivity {
                 } catch (Exception e) {
                     Timber.e(e);
                 } finally {
-                    endSplashScreen();
+                    if (!firstRun)
+                        endSplashScreen();
                 }
             }
         };
