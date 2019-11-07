@@ -7,14 +7,11 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
-import androidx.appcompat.app.AppCompatActivity;
 
-import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -34,20 +31,11 @@ import org.json.JSONObject;
 import org.odk.collect.android.R;
 import org.odk.collect.android.activities.CollectAbstractActivity;
 import org.odk.collect.android.activities.MainMenuActivity;
-import org.odk.collect.android.activities.ui.login.LoginViewModel;
-import org.odk.collect.android.activities.ui.login.LoginViewModelFactory;
-import org.odk.collect.android.activities.ui.vieweditmappedgirls.ViewEditMappedGirlsFragment;
-import org.odk.collect.android.adapters.ViewEditMappedGirlsAdapter;
 import org.odk.collect.android.retrofit.APIClient;
 import org.odk.collect.android.retrofit.APIInterface;
 import org.odk.collect.android.retrofitmodels.UserModel;
-import org.odk.collect.android.retrofitmodels.mappedgirls.MappedGirl;
-import org.odk.collect.android.retrofitmodels.mappedgirls.Result;
-import org.odk.collect.android.utilities.ToastUtils;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;

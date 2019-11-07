@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-public class Result {
+public class Girl {
 
     @SerializedName("id")
     @Expose
@@ -52,13 +52,13 @@ public class Result {
     private Date createdAt;
     @SerializedName("age")
     @Expose
-    private int age;
+    private Integer age;
     @SerializedName("user")
     @Expose
     private String user;
     @SerializedName("completed_all_visits")
     @Expose
-    private boolean completedAllVisits;
+    private Boolean completedAllVisits;
     @SerializedName("pending_visits")
     @Expose
     private int pendingVisits;
@@ -178,14 +178,6 @@ public class Result {
         this.createdAt = createdAt;
     }
 
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
     public String getUser() {
         return user;
     }
@@ -194,11 +186,11 @@ public class Result {
         this.user = user;
     }
 
-    public boolean isCompletedAllVisits() {
+    public Boolean isCompletedAllVisits() {
         return completedAllVisits;
     }
 
-    public void setCompletedAllVisits(boolean completedAllVisits) {
+    public void setCompletedAllVisits(Boolean completedAllVisits) {
         this.completedAllVisits = completedAllVisits;
     }
 
@@ -216,5 +208,13 @@ public class Result {
 
     public void setMissedVisits(int missedVisits) {
         this.missedVisits = missedVisits;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
     }
 }

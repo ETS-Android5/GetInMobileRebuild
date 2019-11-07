@@ -26,10 +26,7 @@ import org.odk.collect.android.R;
 import org.odk.collect.android.provider.FormsProviderAPI;
 import org.odk.collect.android.provider.mappedgirltable.MappedgirltableCursor;
 import org.odk.collect.android.retrofitmodels.Value;
-import org.odk.collect.android.retrofitmodels.mappedgirls.Result;
 import org.odk.collect.android.utilities.ApplicationConstants;
-
-import java.util.List;
 
 import timber.log.Timber;
 
@@ -98,23 +95,30 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
 
             final String phoneNumber = getActivePhoneNumber(cursor);
             holder.phoneNumber.setText(phoneNumber);
-            holder.age.setText(cursor.getAge());
+            try {
+                holder.age.setText(cursor.getAge());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             holder.postNatalButton.setOnClickListener(v -> {
                 Timber.d("clicked postnatal");
                 Prefs.putString(GIRL_ID, cursor.getServerid());
+                Prefs.putString(GIRL_NAME, holder.name.getText().toString());
                 startFormActivity(POSTNATAL_FORM_ID);
             });
 
             holder.appointmentButton.setOnClickListener(v -> {
                 Timber.d("clicked appointment");
                 Prefs.putString(GIRL_ID, cursor.getServerid());
+                Prefs.putString(GIRL_NAME, holder.name.getText().toString());
                 startFormActivity(APPOINTMENT_FORM_ID);
             });
 
 
             holder.followUpButton.setOnClickListener(v -> {
                 Prefs.putString(GIRL_ID, cursor.getServerid());
+                Prefs.putString(GIRL_NAME, holder.name.getText().toString());
                 startFormActivity(FOLLOW_UP_FORM_ID);
             });
 

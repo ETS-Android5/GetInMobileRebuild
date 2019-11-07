@@ -1,15 +1,9 @@
 package org.odk.collect.android.activities.ui.vieweditmappedgirls;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -21,7 +15,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,21 +26,14 @@ import org.odk.collect.android.R;
 import org.odk.collect.android.activities.PregnancySummaryActivity;
 import org.odk.collect.android.activities.ViewEditMappedGirlsActivity;
 import org.odk.collect.android.adapters.ViewEditMappedGirlsAdapter;
-import org.odk.collect.android.preferences.AdminPreferencesActivity;
 import org.odk.collect.android.provider.InstanceProviderAPI;
 import org.odk.collect.android.provider.mappedgirltable.MappedgirltableCursor;
 import org.odk.collect.android.provider.mappedgirltable.MappedgirltableSelection;
-import org.odk.collect.android.retrofit.APIClient;
-import org.odk.collect.android.retrofit.APIInterface;
-import org.odk.collect.android.retrofitmodels.MappedGirls;
 import org.odk.collect.android.retrofitmodels.Value;
-import org.odk.collect.android.retrofitmodels.mappedgirls.MappedGirl;
-import org.odk.collect.android.retrofitmodels.mappedgirls.Result;
 import org.odk.collect.android.utilities.ApplicationConstants;
 import org.odk.collect.android.utilities.ToastUtils;
 import org.odk.collect.android.provider.InstanceProviderAPI.InstanceColumns;
 
-import java.util.HashMap;
 import timber.log.Timber;
 
 

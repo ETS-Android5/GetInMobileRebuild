@@ -285,7 +285,7 @@
   <string name="google_set_account">Odabrali ste Google Sheets kao svoj server, molim Vas da odaberete ogovarajući Goodle korisnički nalog u opštim podešavanjima prije nego nastavite</string>
   <string name="media_upload_error">Greška prilikom otpreme medija fajla koji ne postoji: %1$s</string>
   <string name="odk_permissions_fail">ODK automatsko otpremanje nije uspjelo, molim da se uvjerite da ste odobrili sve neophodne pristupe</string>
-  <string name="odk_auto_note">Rezultati ODK auto-otpreme</string>
+  <string name="getin_auto_send_note">Rezultati ODK auto-otpreme</string>
   <string name="odk_auto_download_notification_title">Rezultati ODK auto-preuzimanja</string>
   <string name="notification_error">Greška u prikazu teksta obavještenja</string>
   <string name="delete_after_send">Obriši nakon otpreme</string>

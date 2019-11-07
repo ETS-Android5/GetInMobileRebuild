@@ -19,11 +19,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Environment;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -33,9 +30,7 @@ import org.odk.collect.android.R;
 import org.odk.collect.android.activities.MainMenuActivity;
 import org.odk.collect.android.activities.NotificationActivity;
 import org.odk.collect.android.application.Collect;
-import org.odk.collect.android.dao.FormsDao;
 import org.odk.collect.android.dao.InstancesDao;
-import org.odk.collect.android.dto.Form;
 import org.odk.collect.android.dto.Instance;
 import org.odk.collect.android.http.openrosa.OpenRosaHttpInterface;
 import org.odk.collect.android.logic.PropertyManager;
@@ -48,7 +43,6 @@ import org.odk.collect.android.utilities.PermissionUtils;
 import org.odk.collect.android.utilities.WebCredentialsUtils;
 import org.odk.collect.android.utilities.gdrive.GoogleAccountsManager;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -57,7 +51,6 @@ import java.util.Set;
 
 import timber.log.Timber;
 
-import static org.odk.collect.android.provider.FormsProviderAPI.FormsColumns.AUTO_SEND;
 import static org.odk.collect.android.utilities.ApplicationConstants.RequestCodes.FORMS_UPLOADED_NOTIFICATION;
 import static org.odk.collect.android.utilities.InstanceUploaderUtils.SPREADSHEET_UPLOADED_TO_GOOGLE_DRIVE;
 
@@ -215,8 +208,12 @@ public class AutoSendWorker extends Worker {
         NotificationUtils.showNotification(
                 pendingNotify,
                 AUTO_SEND_RESULT_NOTIFICATION_ID,
-                R.string.odk_auto_note,
+                R.string.getin_auto_send_note,
                 Collect.getInstance().getString(R.string.success));
+
+        // download data from django server; mapped girls
+        Intent intent = new Intent(Collect.getInstance(), SetupIntentService.class);
+        Collect.getInstance().startService(intent);
 
     }
 }

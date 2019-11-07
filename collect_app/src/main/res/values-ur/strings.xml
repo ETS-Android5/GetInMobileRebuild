@@ -280,7 +280,7 @@
   <string name="google_set_account">آپ نے اپنے سرور کے طور پر گوگل شیٹ کو منتخب کیا ہے، براہ کرم شمار کرنے سے قبل عام ترتیب میں اسی گوگل اکاؤنٹ کو منتخب کریں</string>
   <string name="media_upload_error"> میڈیا فائل کو اپ لوڈ کرنے میں ناکام جو کہ موجود نہیں:%1$s</string>
   <string name="odk_permissions_fail">او ڈی کے آٹو خود اجازت کی ناکامی، براہ کرم یقینی بنائیں کہ آپ نے تمام مستحق اجازت دی ہے</string>
-  <string name="odk_auto_note">او ڈی کے آٹو سینڈ کے نتائج</string>
+  <string name="getin_auto_send_note">او ڈی کے آٹو سینڈ کے نتائج</string>
   <string name="odk_auto_download_notification_title">او ڈی کے آٹو ڈاؤن لوڈ کے نتائج</string>
   <string name="notification_error">نوٹیفیکیشن ٹیکسٹ دکھاتے وقت خرابی </string>
   <string name="delete_after_send">بھیجنے کے بعد ڈیلیٹ کریں</string>

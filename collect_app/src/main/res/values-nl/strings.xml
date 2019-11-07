@@ -270,7 +270,7 @@
   <string name="other_preferences">Andere platform instellingen</string>
   <string name="google_preferences">Google Sheets instellingen</string>
   <string name="no_google_account">Geen Google account geselecteerd!</string>
-  <string name="odk_auto_note">ODK automatische verzendresultaten</string>
+  <string name="getin_auto_send_note">ODK automatische verzendresultaten</string>
   <string name="odk_auto_download_notification_title">ODK automatische downloadresultaten</string>
   <string name="delete_after_send">Verwijderen na versturen</string>
   <string name="delete_after_send_summary">Verwijderd afgeronde formulieren en media na verzending</string>

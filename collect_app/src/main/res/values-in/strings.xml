@@ -283,7 +283,7 @@
   <string name="google_set_account">Google Sheet telah dipilih sebagai server kamu, silahkan tentukan akun Google pada Pengaturan Umum sebelum melanjutkan</string>
   <string name="media_upload_error">Gagal unggah berkas media yg tidak ditemukan: 1 %1$s</string>
   <string name="odk_permissions_fail">perizinan pengiriman otomatis gagal, pastikan semua izin yg dibutuhkan telah diberikan</string>
-  <string name="odk_auto_note">Hasil pengiriman otomatis ODK</string>
+  <string name="getin_auto_send_note">Hasil pengiriman otomatis ODK</string>
   <string name="odk_auto_download_notification_title">Hasil unduh otomatis ODK</string>
   <string name="notification_error">Gagal menampilkan teks notifikasi</string>
   <string name="delete_after_send">Hapus setelah mengirim</string>

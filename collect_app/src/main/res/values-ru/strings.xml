@@ -280,7 +280,7 @@
   <string name="google_set_account">Вы выбрали Google таблицы в качестве сервера. Перед тем, как продолжить, пожалуйста, укажите соответствующую учётную запись Google в общих настройках.</string>
   <string name="media_upload_error">Не удалось загрузить медиа-файл, который не существует %1$s</string>
   <string name="odk_permissions_fail">Нет разрешения на авто-выгрузку. Проверьте системные настройки приложения</string>
-  <string name="odk_auto_note">Результаты авто-выгрузки</string>
+  <string name="getin_auto_send_note">Результаты авто-выгрузки</string>
   <string name="odk_auto_download_notification_title">Результаты авто-загрузки</string>
   <string name="notification_error">Ошибка отображения текста уведомления</string>
   <string name="delete_after_send">Удалить после отправки</string>

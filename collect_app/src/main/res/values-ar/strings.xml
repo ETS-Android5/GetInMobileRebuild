@@ -285,7 +285,7 @@
   <string name="google_set_account">لقد قمت باختيار صفحات الجوجل كخادم لك، أرجو اختيار حساب الجوجل  المتوافق عن طريق الاعدادت العامة قبل الاستمرار</string>
   <string name="media_upload_error">فشل في تحميل ملف وسائل الاعلام التي لا وجود لها: %1$s</string>
   <string name="odk_permissions_fail">فشل إذن إرسال التلقائي لODK  ، يرجى التأكد من منحك جميع الأذونات المطلوبة</string>
-  <string name="odk_auto_note">ODK يرسل النتائج تلقائيا</string>
+  <string name="getin_auto_send_note">ODK يرسل النتائج تلقائيا</string>
   <string name="odk_auto_download_notification_title">ODK ينزل النتائج تلقائيا</string>
   <string name="notification_error">خطأ في عرض اشعار النص</string>
   <string name="delete_after_send">حذف بعد الارسال</string>

@@ -285,7 +285,7 @@
   <string name="google_set_account">మీరు గూగుల్ షీట్లను మీ సర్వర్‌గా ఎంచుకున్నారు, దయచేసి కొనసాగడానికి ముందు సాధారణ సెట్టింగ్‌లలో సంబంధిత గూగుల్ అకౌంట్ ను ఎంచుకోండి</string>
   <string name="media_upload_error">ఉనికిలో లేని మీడియా ఫైల్‌ను అప్‌లోడ్ చేయడంలో విఫలమైంది:%1$s</string>
   <string name="odk_permissions_fail">ODK ఆటోమాటిక్ గా పంపే అనుమతి లేదు, దయచేసి మీరు అవసరమైన అన్ని అనుమతులను మంజూరు చేశారని నిర్ధారించుకోండి</string>
-  <string name="odk_auto_note">ODK ఫలితాలను ఆటోమాటిక్ గా పంపండి</string>
+  <string name="getin_auto_send_note">ODK ఫలితాలను ఆటోమాటిక్ గా పంపండి</string>
   <string name="odk_auto_download_notification_title">ODK ఆటోమాటిక్ డౌన్‌లోడ్ ఫలితాలు</string>
   <string name="notification_error">నోటిఫికేషన్ ను ప్రదర్శించడంలో ఎర్రర్ ఏర్పడింది</string>
   <string name="delete_after_send">పంపిన తర్వాత తొలగించండి</string>

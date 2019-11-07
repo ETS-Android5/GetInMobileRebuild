@@ -8,14 +8,13 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.StrictMode;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
 import org.odk.collect.android.provider.mappedgirltable.MappedgirltableColumns;
 import org.odk.collect.android.provider.mappedgirltable.MappedgirltableContentValues;
 import org.odk.collect.android.retrofit.APIClient;
 import org.odk.collect.android.retrofit.APIInterface;
 import org.odk.collect.android.retrofitmodels.mappedgirls.MappedGirl;
-import org.odk.collect.android.retrofitmodels.mappedgirls.Result;
+import org.odk.collect.android.retrofitmodels.mappedgirls.Girl;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -52,12 +51,6 @@ public class SetupIntentService extends IntentService {
 
         if (isConnectedToInternet) {
             try {
-                deleteData();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            try {
                 loadMappedGirls();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -66,9 +59,12 @@ public class SetupIntentService extends IntentService {
     }
 
     private void deleteData() {
-        long deleted;
-        deleted = getContentResolver().delete(MappedgirltableColumns.CONTENT_URI, null, null);
-        Timber.d("deleted data count %s", deleted);
+        try {
+            long deleted = getContentResolver().delete(MappedgirltableColumns.CONTENT_URI, null, null);
+            Timber.d("deleted data count %s", deleted);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadMappedGirls() {
@@ -101,10 +97,11 @@ public class SetupIntentService extends IntentService {
         Timber.d("INSERT: mapped girl starting");
         if (mappedGirl == null)
             throw new NullPointerException("Locations not found");
-        List<Result> mappedGirls = mappedGirl.getResults();
+        List<Girl> mappedGirls = mappedGirl.getGirls();
 
+        deleteData();
 
-        for (Result girl : mappedGirls) {
+        for (Girl girl : mappedGirls) {
             MappedgirltableContentValues values = new MappedgirltableContentValues();
             values.putFirstname(girl.getFirstName());
             values.putLastname(girl.getLastName());

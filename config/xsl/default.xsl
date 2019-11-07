@@ -21,7 +21,7 @@
 -->
 
 <!--
-  A simple XSLT stylesheet to transform FindBugs XML results
+  A simple XSLT stylesheet to transform FindBugs XML girls
   annotated with messages into HTML.
 
   If you want to experiment with modifying this stylesheet,
@@ -30,7 +30,7 @@
   human-readable messages in the XML.  Invoke the findbugs script
   as follows:
 
-    findbugs -textui -xml:withMessages -project myProject.fb > results.xml
+    findbugs -textui -xml:withMessages -project myProject.fb > girls.xml
 
   Then you can use your favorite XSLT implementation to transform
   the XML output into HTML. (But don't use xsltproc. It generates well-nigh
