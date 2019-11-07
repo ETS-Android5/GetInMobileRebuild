@@ -88,15 +88,15 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
         try {
             Timber.d("onbindviewholder called");
             cursor.moveToPosition(position);
-            Timber.d("add values " + cursor.toString());
-            Timber.d("add values " + cursor.getCreatedAt());
+            Timber.d("add values " + cursor.getFirstname());
             holder.name.setText(cursor.getFirstname() + " "
                     + cursor.getLastname());
+            holder.maritalStatus.setText(cursor.getMaritalstatus());
 
             final String phoneNumber = getActivePhoneNumber(cursor);
             holder.phoneNumber.setText(phoneNumber);
             try {
-                holder.age.setText(cursor.getAge());
+                holder.age.setText(String.valueOf(cursor.getAge()));
             } catch (Exception e) {
                 e.printStackTrace();
             }

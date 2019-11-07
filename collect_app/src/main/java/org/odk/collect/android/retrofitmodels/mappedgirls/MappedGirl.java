@@ -16,7 +16,7 @@ public class MappedGirl {
     @SerializedName("previous")
     @Expose
     private Object previous;
-    @SerializedName("girls")
+    @SerializedName("results")
     @Expose
     private List<Girl> girls = null;
 

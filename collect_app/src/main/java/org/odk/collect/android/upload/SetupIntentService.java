@@ -103,6 +103,7 @@ public class SetupIntentService extends IntentService {
 
         for (Girl girl : mappedGirls) {
             MappedgirltableContentValues values = new MappedgirltableContentValues();
+            Timber.d("Girl data " + girl.getAge() + girl.getMaritalStatus());
             values.putFirstname(girl.getFirstName());
             values.putLastname(girl.getLastName());
             values.putPhonenumber(girl.getPhoneNumber());
