@@ -62,7 +62,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
             maritalStatus = (TextView) v.findViewById(R.id.marital_status);
             age = (TextView) v.findViewById(R.id.age);
             village = (TextView) v.findViewById(R.id.village);
-//            appointment = (TextView) v.findViewById(R.id.upcomingappointments);
+//            appointmentDate = (TextView) v.findViewById(R.id.upcomingappointments);
             followUpButton = (Button) v.findViewById(R.id.create_follow_up_button);
             appointmentButton = (Button) v.findViewById(R.id.create_upcoming_appointment_button);
             postNatalButton = (Button) v.findViewById(R.id.create_post_natal_button);
@@ -92,11 +92,12 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
             holder.name.setText(cursor.getFirstname() + " "
                     + cursor.getLastname());
             holder.maritalStatus.setText(cursor.getMaritalstatus());
+//            holder.village.setText(cursor.getvi);
 
             final String phoneNumber = getActivePhoneNumber(cursor);
             holder.phoneNumber.setText(phoneNumber);
             try {
-                holder.age.setText(String.valueOf(cursor.getAge()));
+                holder.age.setText(cursor.getAge() + " Years");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -109,7 +110,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
             });
 
             holder.appointmentButton.setOnClickListener(v -> {
-                Timber.d("clicked appointment");
+                Timber.d("clicked appointmentDate");
                 Prefs.putString(GIRL_ID, cursor.getServerid());
                 Prefs.putString(GIRL_NAME, holder.name.getText().toString());
                 startFormActivity(APPOINTMENT_FORM_ID);

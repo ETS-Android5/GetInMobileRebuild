@@ -1,5 +1,6 @@
 package org.odk.collect.android.activities.ui.upcomingappointments;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
@@ -18,9 +19,15 @@ import android.view.ViewGroup;
 
 import org.odk.collect.android.R;
 import org.odk.collect.android.activities.PregnancySummaryActivity;
+import org.odk.collect.android.activities.UpcomingAppointmentsActivity;
+import org.odk.collect.android.activities.ViewEditMappedGirlsActivity;
 import org.odk.collect.android.activities.ui.vieweditmappedgirls.ViewEditMappedGirlsFragment;
 import org.odk.collect.android.adapters.UpcomingAppointmentsAdapter;
 import org.odk.collect.android.adapters.ViewEditMappedGirlsAdapter;
+import org.odk.collect.android.provider.appointmentstable.AppointmentstableCursor;
+import org.odk.collect.android.provider.appointmentstable.AppointmentstableSelection;
+import org.odk.collect.android.provider.mappedgirltable.MappedgirltableCursor;
+import org.odk.collect.android.provider.mappedgirltable.MappedgirltableSelection;
 import org.odk.collect.android.retrofit.APIClient;
 import org.odk.collect.android.retrofit.APIInterface;
 import org.odk.collect.android.retrofitmodels.MappedGirls;
@@ -51,10 +58,19 @@ public class UpcomingAppointmentsFragment extends Fragment implements UpcomingAp
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
         rootView = inflater.inflate(R.layout.upcoming_appointments_fragment, container, false);
 
-        upcomingAppointmentsAdapter = new UpcomingAppointmentsAdapter(getActivity(), (List<Value>) null);
+        UpcomingAppointmentsActivity activity = ((UpcomingAppointmentsActivity) getActivity());
+        Toolbar toolbar = rootView.findViewById(R.id.toolbar);
+        toolbar.setTitle(getString(R.string.appointments));
+
+        activity.setSupportActionBar(toolbar);
+        activity.getSupportActionBar().setDisplayShowTitleEnabled(true);
+        activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setHasOptionsMenu(true);
+
+        upcomingAppointmentsAdapter = new UpcomingAppointmentsAdapter(getActivity(), queryAppointmentTable());
         upcomingAppointmentsAdapter.setClickListener(this);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view_upcoming_appointments);
@@ -63,30 +79,11 @@ public class UpcomingAppointmentsFragment extends Fragment implements UpcomingAp
         recyclerView.setAdapter(upcomingAppointmentsAdapter);
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
-        getUpcomingAppointmentsList();
         return rootView;
     }
 
-    private void getUpcomingAppointmentsList() {
-        Timber.d("get mapped girls list started");
-//        Call<MappedGirls> call = apiInterface.getMappedGirls();
-//        Log.d("Server", "getUpcomingAppointmentsList: made server request");
-//
-//        call.enqueue(new Callback<MappedGirls>() {
-//            @Override
-//            public void onResponse(Call<MappedGirls> call, Response<MappedGirls> response) {
-//                Timber.d("onResponse() -> " + response.code());
-//                List<Value> values = response.body().getValue();
-//                upcomingAppointmentsAdapter = new UpcomingAppointmentsAdapter(getActivity(), values);
-//                upcomingAppointmentsAdapter.setClickListener(UpcomingAppointmentsFragment.this);
-//                recyclerView.setAdapter(upcomingAppointmentsAdapter);
-//            }
-//
-//            @Override
-//            public void onFailure(Call<MappedGirls> call, Throwable t) {
-//                Timber.e("onFailure() -> " + t.getMessage());
-//            }
-//        });
+    private AppointmentstableCursor queryAppointmentTable() {
+        return new AppointmentstableSelection().orderByCreatedAt(true).query(getContext().getContentResolver());
     }
 
     @Override

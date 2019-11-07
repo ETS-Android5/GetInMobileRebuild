@@ -12,6 +12,7 @@ import android.util.Log;
 import org.odk.collect.android.BuildConfig;
 import org.odk.collect.android.database.helpers.MappedGirlsDatabaseHelper;
 import org.odk.collect.android.provider.base.BaseContentProvider;
+import org.odk.collect.android.provider.appointmentstable.AppointmentstableColumns;
 import org.odk.collect.android.provider.mappedgirltable.MappedgirltableColumns;
 
 public class MappedGirlsProvider extends BaseContentProvider {
@@ -25,14 +26,19 @@ public class MappedGirlsProvider extends BaseContentProvider {
     public static final String AUTHORITY = "org.odk.collect.android.provider.odk.mappedgirls";
     public static final String CONTENT_URI_BASE = "content://" + AUTHORITY;
 
-    private static final int URI_TYPE_MAPPEDGIRLTABLE = 0;
-    private static final int URI_TYPE_MAPPEDGIRLTABLE_ID = 1;
+    private static final int URI_TYPE_APPOINTMENTSTABLE = 0;
+    private static final int URI_TYPE_APPOINTMENTSTABLE_ID = 1;
+
+    private static final int URI_TYPE_MAPPEDGIRLTABLE = 2;
+    private static final int URI_TYPE_MAPPEDGIRLTABLE_ID = 3;
 
 
 
     private static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
+        URI_MATCHER.addURI(AUTHORITY, AppointmentstableColumns.TABLE_NAME, URI_TYPE_APPOINTMENTSTABLE);
+        URI_MATCHER.addURI(AUTHORITY, AppointmentstableColumns.TABLE_NAME + "/#", URI_TYPE_APPOINTMENTSTABLE_ID);
         URI_MATCHER.addURI(AUTHORITY, MappedgirltableColumns.TABLE_NAME, URI_TYPE_MAPPEDGIRLTABLE);
         URI_MATCHER.addURI(AUTHORITY, MappedgirltableColumns.TABLE_NAME + "/#", URI_TYPE_MAPPEDGIRLTABLE_ID);
     }
@@ -51,6 +57,11 @@ public class MappedGirlsProvider extends BaseContentProvider {
     public String getType(Uri uri) {
         int match = URI_MATCHER.match(uri);
         switch (match) {
+            case URI_TYPE_APPOINTMENTSTABLE:
+                return TYPE_CURSOR_DIR + AppointmentstableColumns.TABLE_NAME;
+            case URI_TYPE_APPOINTMENTSTABLE_ID:
+                return TYPE_CURSOR_ITEM + AppointmentstableColumns.TABLE_NAME;
+
             case URI_TYPE_MAPPEDGIRLTABLE:
                 return TYPE_CURSOR_DIR + MappedgirltableColumns.TABLE_NAME;
             case URI_TYPE_MAPPEDGIRLTABLE_ID:
@@ -98,6 +109,14 @@ public class MappedGirlsProvider extends BaseContentProvider {
         String id = null;
         int matchedId = URI_MATCHER.match(uri);
         switch (matchedId) {
+            case URI_TYPE_APPOINTMENTSTABLE:
+            case URI_TYPE_APPOINTMENTSTABLE_ID:
+                res.table = AppointmentstableColumns.TABLE_NAME;
+                res.idColumn = AppointmentstableColumns._ID;
+                res.tablesWithJoins = AppointmentstableColumns.TABLE_NAME;
+                res.orderBy = AppointmentstableColumns.DEFAULT_ORDER;
+                break;
+
             case URI_TYPE_MAPPEDGIRLTABLE:
             case URI_TYPE_MAPPEDGIRLTABLE_ID:
                 res.table = MappedgirltableColumns.TABLE_NAME;
@@ -111,6 +130,7 @@ public class MappedGirlsProvider extends BaseContentProvider {
         }
 
         switch (matchedId) {
+            case URI_TYPE_APPOINTMENTSTABLE_ID:
             case URI_TYPE_MAPPEDGIRLTABLE_ID:
                 id = uri.getLastPathSegment();
         }

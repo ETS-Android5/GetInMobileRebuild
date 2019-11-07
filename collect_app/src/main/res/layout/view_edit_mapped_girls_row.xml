@@ -115,7 +115,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/upcomingappointment"
+            android:id="@+id/appointment_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Upcoming appointment in 2 weeks"

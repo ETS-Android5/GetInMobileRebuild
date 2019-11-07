@@ -31,7 +31,7 @@ public class PreviousRecordsAdapter extends RecyclerView.Adapter<PreviousRecords
         public ViewHolder(View v) {
             super(v);
             name = (TextView) v.findViewById(R.id.name);
-            ancVisitDate = (TextView) v.findViewById(R.id.anc_visit_date);
+//            ancVisitDate = (TextView) v.findViewById(R.id.anc_visit_date);
         }
     }
 

@@ -1,9 +1,10 @@
 package org.odk.collect.android.retrofit;
 
 import org.odk.collect.android.retrofitmodels.LoginResult;
-import org.odk.collect.android.retrofitmodels.MappedGirls;
 import org.odk.collect.android.retrofitmodels.AuthModel;
 import org.odk.collect.android.retrofitmodels.UserModel;
+import org.odk.collect.android.retrofitmodels.appointments.Appointments;
+import org.odk.collect.android.retrofitmodels.appointments.Result;
 import org.odk.collect.android.retrofitmodels.mappedgirls.MappedGirl;
 
 import retrofit2.Call;
@@ -13,9 +14,11 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface APIInterface {
-    //todo# get only the user's mapped girls. add filter
     @GET("api/v1/girls")
     Call<MappedGirl> getMappedGirls();
+
+    @GET("api/v1/appointments")
+    Call<Appointments> getAppointments();
 
     @GET("auth/me/")
     Call<UserModel> getLoggedInUserDetails();

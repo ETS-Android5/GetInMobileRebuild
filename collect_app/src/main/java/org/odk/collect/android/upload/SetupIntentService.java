@@ -9,10 +9,14 @@ import android.net.Uri;
 import android.os.StrictMode;
 import android.telephony.TelephonyManager;
 
+import org.odk.collect.android.provider.appointmentstable.AppointmentstableColumns;
+import org.odk.collect.android.provider.appointmentstable.AppointmentstableContentValues;
 import org.odk.collect.android.provider.mappedgirltable.MappedgirltableColumns;
 import org.odk.collect.android.provider.mappedgirltable.MappedgirltableContentValues;
 import org.odk.collect.android.retrofit.APIClient;
 import org.odk.collect.android.retrofit.APIInterface;
+import org.odk.collect.android.retrofitmodels.appointments.Appointments;
+import org.odk.collect.android.retrofitmodels.appointments.Result;
 import org.odk.collect.android.retrofitmodels.mappedgirls.MappedGirl;
 import org.odk.collect.android.retrofitmodels.mappedgirls.Girl;
 
@@ -55,6 +59,77 @@ public class SetupIntentService extends IntentService {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+            try {
+                loadAppointments();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void loadAppointments() {
+        Timber.d("get appointments started");
+        Call<Appointments> call = apiInterface.getAppointments();
+
+        call.enqueue(new Callback<Appointments>() {
+            @Override
+            public void onResponse(Call<Appointments> call, Response<Appointments> response) {
+                try {
+                    Timber.d("Appointments: " + response.code());
+                    Timber.d("Appointments: " + response.body());
+                    if (response.code() == 200) {
+                        saveAppointments(response.body());
+                    } else {
+                        Timber.e("Failed to get appointments");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Timber.e("Failed to get appointments");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Appointments> call, Throwable t) {
+                Timber.e("onFailure() -> %s", t.getMessage());
+            }
+        });
+    }
+
+    private void saveAppointments(Appointments appointmentsObject) {
+        Timber.d("INSERT: appointments starting");
+        if (appointmentsObject == null)
+            throw new NullPointerException("Appointments not found");
+        List<Result> appointments = appointmentsObject.getResults();
+
+        long deleted = getContentResolver().delete(AppointmentstableColumns.CONTENT_URI, null, null);
+        Timber.d("deleted data count %s", deleted);
+
+        for (Result appointment : appointments) {
+            Timber.d("Appointment data " + appointment.getDate().toString() + appointment.getGirl().getLastName());
+            AppointmentstableContentValues values = new AppointmentstableContentValues();
+            values.putFirstname(appointment.getGirl().getFirstName());
+            values.putLastname(appointment.getGirl().getLastName());
+            values.putPhonenumber(appointment.getGirl().getPhoneNumber());
+            values.putNextofkinfirstname(appointment.getGirl().getNextOfKinFirstName());
+            values.putNextofkinlastname(appointment.getGirl().getNextOfKinLastName());
+            values.putNextofkinphonenumber(appointment.getGirl().getNextOfKinPhoneNumber());
+            values.putEducationlevel(appointment.getGirl().getEducationLevel());
+            values.putMaritalstatus(appointment.getGirl().getMaritalStatus());
+            values.putAge(appointment.getGirl().getAge());
+            values.putUser(appointment.getGirl().getUser());
+            values.putCreatedAt(appointment.getGirl().getCreatedAt());
+            values.putCompletedAllVisits(appointment.getGirl().getCompletedAllVisits());
+            values.putPendingVisits(appointment.getGirl().getPendingVisits());
+            values.putMissedVisits(appointment.getGirl().getMissedVisits());
+            values.putServerid(appointment.getGirl().getId());
+            values.putTrimester(appointment.getGirl().getTrimester());
+            values.putVillage(appointment.getGirl().getVillage().getName());
+            values.putVhtName(appointment.getUser().getFirstName() + " " + appointment.getUser().getLastName());
+            values.putAppointmentDate(appointment.getDate());
+            values.putStatus(appointment.getStatus());
+            final Uri uri = values.insert(getContentResolver());
+            Timber.d("saved appointmentDate %s", uri);
         }
     }
 
@@ -96,7 +171,7 @@ public class SetupIntentService extends IntentService {
     private void saveMappedGirls(MappedGirl mappedGirl) {
         Timber.d("INSERT: mapped girl starting");
         if (mappedGirl == null)
-            throw new NullPointerException("Locations not found");
+            throw new NullPointerException("Mapped girls not found");
         List<Girl> mappedGirls = mappedGirl.getGirls();
 
         deleteData();

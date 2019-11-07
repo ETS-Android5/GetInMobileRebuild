@@ -10,6 +10,7 @@ import android.os.Build;
 import android.util.Log;
 
 import org.odk.collect.android.BuildConfig;
+import org.odk.collect.android.provider.appointmentstable.AppointmentstableColumns;
 import org.odk.collect.android.provider.mappedgirltable.MappedgirltableColumns;
 
 public class MappedGirlsDatabaseHelper extends SQLiteOpenHelper {
@@ -22,6 +23,31 @@ public class MappedGirlsDatabaseHelper extends SQLiteOpenHelper {
     private final MappedGirlsDatabaseHelperCallbacks mOpenHelperCallbacks;
 
     // @formatter:off
+    public static final String SQL_CREATE_TABLE_APPOINTMENTSTABLE = "CREATE TABLE IF NOT EXISTS "
+            + AppointmentstableColumns.TABLE_NAME + " ( "
+            + AppointmentstableColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + AppointmentstableColumns.SERVERID + " TEXT, "
+            + AppointmentstableColumns.FIRSTNAME + " TEXT, "
+            + AppointmentstableColumns.LASTNAME + " TEXT, "
+            + AppointmentstableColumns.PHONENUMBER + " TEXT, "
+            + AppointmentstableColumns.NEXTOFKINLASTNAME + " TEXT, "
+            + AppointmentstableColumns.NEXTOFKINFIRSTNAME + " TEXT, "
+            + AppointmentstableColumns.NEXTOFKINPHONENUMBER + " TEXT, "
+            + AppointmentstableColumns.EDUCATIONLEVEL + " TEXT, "
+            + AppointmentstableColumns.MARITALSTATUS + " TEXT, "
+            + AppointmentstableColumns.AGE + " INTEGER, "
+            + AppointmentstableColumns.USER + " TEXT, "
+            + AppointmentstableColumns.CREATED_AT + " INTEGER, "
+            + AppointmentstableColumns.COMPLETED_ALL_VISITS + " INTEGER, "
+            + AppointmentstableColumns.PENDING_VISITS + " INTEGER, "
+            + AppointmentstableColumns.MISSED_VISITS + " INTEGER, "
+            + AppointmentstableColumns.TRIMESTER + " INTEGER, "
+            + AppointmentstableColumns.VILLAGE + " TEXT, "
+            + AppointmentstableColumns.STATUS + " TEXT, "
+            + AppointmentstableColumns.VHT_NAME + " TEXT, "
+            + AppointmentstableColumns.APPOINTMENT_DATE + " INTEGER "
+            + " );";
+
     public static final String SQL_CREATE_TABLE_MAPPEDGIRLTABLE = "CREATE TABLE IF NOT EXISTS "
             + MappedgirltableColumns.TABLE_NAME + " ( "
             + MappedgirltableColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -96,6 +122,7 @@ public class MappedGirlsDatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         if (BuildConfig.DEBUG) Log.d(TAG, "onCreate");
         mOpenHelperCallbacks.onPreCreate(mContext, db);
+        db.execSQL(SQL_CREATE_TABLE_APPOINTMENTSTABLE);
         db.execSQL(SQL_CREATE_TABLE_MAPPEDGIRLTABLE);
         mOpenHelperCallbacks.onPostCreate(mContext, db);
     }
