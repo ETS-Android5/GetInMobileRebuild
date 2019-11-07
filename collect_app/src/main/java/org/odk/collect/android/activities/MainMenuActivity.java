@@ -57,6 +57,7 @@ import org.odk.collect.android.preferences.Transport;
 import org.odk.collect.android.provider.FormsProviderAPI;
 import org.odk.collect.android.provider.InstanceProviderAPI.InstanceColumns;
 import org.odk.collect.android.tasks.ServerPollingJob;
+import org.odk.collect.android.upload.SetupIntentService;
 import org.odk.collect.android.utilities.ApplicationConstants;
 import org.odk.collect.android.utilities.PlayServicesUtil;
 import org.odk.collect.android.utilities.SharedPreferencesUtils;
@@ -119,6 +120,9 @@ public class MainMenuActivity extends CollectAbstractActivity {
         initToolbar();
 
         disableSmsIfNeeded();
+
+        Intent intent = new Intent(this, SetupIntentService.class);
+        startService(intent);
 
         // map girl button. expects a result.
         Button mapGirlButton = findViewById(R.id.chew_button);

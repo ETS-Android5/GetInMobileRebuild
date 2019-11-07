@@ -32,7 +32,7 @@ public class MappedGirlsDatabaseHelper extends SQLiteOpenHelper {
             + MappedgirltableColumns.NEXTOFKINFIRSTNAME + " TEXT, "
             + MappedgirltableColumns.NEXTOFKINPHONENUMBER + " TEXT, "
             + MappedgirltableColumns.EDUCATIONLEVEL + " TEXT, "
-            + MappedgirltableColumns.MARITALSTATUS + " REAL, "
+            + MappedgirltableColumns.MARITALSTATUS + " TEXT, "
             + MappedgirltableColumns.AGE + " INTEGER, "
             + MappedgirltableColumns.USER + " TEXT, "
             + MappedgirltableColumns.CREATED_AT + " INTEGER, "

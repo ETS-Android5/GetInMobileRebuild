@@ -4,6 +4,8 @@ package org.odk.collect.android.retrofitmodels.mappedgirls;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 public class Result {
 
     @SerializedName("id")
@@ -47,7 +49,22 @@ public class Result {
     private String dob;
     @SerializedName("created_at")
     @Expose
-    private String createdAt;
+    private Date createdAt;
+    @SerializedName("age")
+    @Expose
+    private int age;
+    @SerializedName("user")
+    @Expose
+    private String user;
+    @SerializedName("completed_all_visits")
+    @Expose
+    private boolean completedAllVisits;
+    @SerializedName("pending_visits")
+    @Expose
+    private int pendingVisits;
+    @SerializedName("missed_visits")
+    @Expose
+    private int missedVisits;
 
     public String getId() {
         return id;
@@ -153,12 +170,51 @@ public class Result {
         this.dob = dob;
     }
 
-    public String getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public boolean isCompletedAllVisits() {
+        return completedAllVisits;
+    }
+
+    public void setCompletedAllVisits(boolean completedAllVisits) {
+        this.completedAllVisits = completedAllVisits;
+    }
+
+    public int getPendingVisits() {
+        return pendingVisits;
+    }
+
+    public void setPendingVisits(int pendingVisits) {
+        this.pendingVisits = pendingVisits;
+    }
+
+    public int getMissedVisits() {
+        return missedVisits;
+    }
+
+    public void setMissedVisits(int missedVisits) {
+        this.missedVisits = missedVisits;
+    }
 }

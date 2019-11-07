@@ -101,8 +101,8 @@ public class MappedgirltableCursor extends AbstractCursor implements Mappedgirlt
      * Can be {@code null}.
      */
     @Nullable
-    public Float getMaritalstatus() {
-        Float res = getFloatOrNull(MappedgirltableColumns.MARITALSTATUS);
+    public String getMaritalstatus() {
+        String res = getStringOrNull(MappedgirltableColumns.MARITALSTATUS);
         return res;
     }
 

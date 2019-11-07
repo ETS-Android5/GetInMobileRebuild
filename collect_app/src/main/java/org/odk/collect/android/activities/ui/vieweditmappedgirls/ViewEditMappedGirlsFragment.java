@@ -35,6 +35,8 @@ import org.odk.collect.android.activities.ViewEditMappedGirlsActivity;
 import org.odk.collect.android.adapters.ViewEditMappedGirlsAdapter;
 import org.odk.collect.android.preferences.AdminPreferencesActivity;
 import org.odk.collect.android.provider.InstanceProviderAPI;
+import org.odk.collect.android.provider.mappedgirltable.MappedgirltableCursor;
+import org.odk.collect.android.provider.mappedgirltable.MappedgirltableSelection;
 import org.odk.collect.android.retrofit.APIClient;
 import org.odk.collect.android.retrofit.APIInterface;
 import org.odk.collect.android.retrofitmodels.MappedGirls;
@@ -83,7 +85,7 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setHasOptionsMenu(true);
 
-        girlsAdapter = new ViewEditMappedGirlsAdapter(getActivity(), (List<Result>) null);
+        girlsAdapter = new ViewEditMappedGirlsAdapter(getActivity(), queryMappedGirlTable());
         girlsAdapter.setClickListener(this);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view_edit_mapped_girls);
@@ -91,9 +93,13 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(girlsAdapter);
 
-        apiInterface = APIClient.getClient().create(APIInterface.class);
-        getMappedGirlsList();
+//        apiInterface = APIClient.getClient().create(APIInterface.class);
+//        getMappedGirlsList();
         return rootView;
+    }
+
+    private MappedgirltableCursor queryMappedGirlTable() {
+        return new MappedgirltableSelection().orderByCreatedAt(true).query(getContext().getContentResolver());
     }
 
     private void getMappedGirlsList() {

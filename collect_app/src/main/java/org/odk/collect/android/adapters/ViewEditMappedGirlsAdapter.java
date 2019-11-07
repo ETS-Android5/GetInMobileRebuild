@@ -24,6 +24,7 @@ import com.pixplicity.easyprefs.library.Prefs;
 
 import org.odk.collect.android.R;
 import org.odk.collect.android.provider.FormsProviderAPI;
+import org.odk.collect.android.provider.mappedgirltable.MappedgirltableCursor;
 import org.odk.collect.android.retrofitmodels.Value;
 import org.odk.collect.android.retrofitmodels.mappedgirls.Result;
 import org.odk.collect.android.utilities.ApplicationConstants;
@@ -42,7 +43,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
 
     private static final int REQUEST_PHONE_CALL = 34;
     private List<Result> mappedGirlsList;
-    private Cursor cursor;
+    private MappedgirltableCursor cursor;
     Activity activity;
     private ItemClickListener mClickListener;
 
@@ -73,7 +74,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
         }
     }
 
-    public ViewEditMappedGirlsAdapter(Activity activity, Cursor cursor) {
+    public ViewEditMappedGirlsAdapter(Activity activity, MappedgirltableCursor cursor) {
         this.cursor = cursor;
         this.activity = activity;
     }
@@ -98,6 +99,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
 
             Result girl = mappedGirlsList.get(position);
             Timber.d("add values " + girl.toString());
+            Timber.d("add values " + girl.getCreatedAt());
             Timber.d(girl.getLastName());
             holder.name.setText(girl.getFirstName() + " "
                     + girl.getLastName());

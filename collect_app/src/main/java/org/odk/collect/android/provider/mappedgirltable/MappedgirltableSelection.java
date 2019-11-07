@@ -358,33 +358,33 @@ public class MappedgirltableSelection extends AbstractSelection<MappedgirltableS
         return this;
     }
 
-    public MappedgirltableSelection maritalstatus(Float... value) {
+    public MappedgirltableSelection maritalstatus(String... value) {
         addEquals(MappedgirltableColumns.MARITALSTATUS, value);
         return this;
     }
 
-    public MappedgirltableSelection maritalstatusNot(Float... value) {
+    public MappedgirltableSelection maritalstatusNot(String... value) {
         addNotEquals(MappedgirltableColumns.MARITALSTATUS, value);
         return this;
     }
 
-    public MappedgirltableSelection maritalstatusGt(float value) {
-        addGreaterThan(MappedgirltableColumns.MARITALSTATUS, value);
+    public MappedgirltableSelection maritalstatusLike(String... value) {
+        addLike(MappedgirltableColumns.MARITALSTATUS, value);
         return this;
     }
 
-    public MappedgirltableSelection maritalstatusGtEq(float value) {
-        addGreaterThanOrEquals(MappedgirltableColumns.MARITALSTATUS, value);
+    public MappedgirltableSelection maritalstatusContains(String... value) {
+        addContains(MappedgirltableColumns.MARITALSTATUS, value);
         return this;
     }
 
-    public MappedgirltableSelection maritalstatusLt(float value) {
-        addLessThan(MappedgirltableColumns.MARITALSTATUS, value);
+    public MappedgirltableSelection maritalstatusStartsWith(String... value) {
+        addStartsWith(MappedgirltableColumns.MARITALSTATUS, value);
         return this;
     }
 
-    public MappedgirltableSelection maritalstatusLtEq(float value) {
-        addLessThanOrEquals(MappedgirltableColumns.MARITALSTATUS, value);
+    public MappedgirltableSelection maritalstatusEndsWith(String... value) {
+        addEndsWith(MappedgirltableColumns.MARITALSTATUS, value);
         return this;
     }
 

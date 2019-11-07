@@ -5,7 +5,10 @@ import java.util.Date;
 import android.content.Context;
 import android.content.ContentResolver;
 import android.net.Uri;
+
+
 import androidx.annotation.Nullable;
+
 import org.odk.collect.android.provider.base.AbstractContentValues;
 
 /**
@@ -107,7 +110,7 @@ public class MappedgirltableContentValues extends AbstractContentValues {
         return this;
     }
 
-    public MappedgirltableContentValues putMaritalstatus(@Nullable Float value) {
+    public MappedgirltableContentValues putMaritalstatus(@Nullable String value) {
         mContentValues.put(MappedgirltableColumns.MARITALSTATUS, value);
         return this;
     }
