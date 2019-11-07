@@ -28,6 +28,7 @@ import androidx.annotation.NonNull;
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import org.odk.collect.android.R;
 import org.odk.collect.android.activities.FormDownloadList;
@@ -35,6 +36,7 @@ import org.odk.collect.android.activities.NotificationActivity;
 import org.odk.collect.android.application.Collect;
 import org.odk.collect.android.dao.FormsDao;
 import org.odk.collect.android.logic.FormDetails;
+import org.odk.collect.android.preferences.GeneralKeys;
 import org.odk.collect.android.preferences.GeneralSharedPreferences;
 import org.odk.collect.android.utilities.DownloadFormListUtils;
 import org.odk.collect.android.utilities.FormDownloader;
@@ -118,6 +120,8 @@ public class ServerPollingJob extends Job {
                     }
                 }
             }
+            // disable all procedures that are dependant on first launch on app like downloading forms
+            Prefs.putBoolean(GeneralKeys.KEY_FIRST_RUN, false);
             return Result.SUCCESS;
         } else {
             return Result.FAILURE;

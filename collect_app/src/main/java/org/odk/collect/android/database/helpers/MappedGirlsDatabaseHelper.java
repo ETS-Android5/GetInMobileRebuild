@@ -25,6 +25,7 @@ public class MappedGirlsDatabaseHelper extends SQLiteOpenHelper {
     public static final String SQL_CREATE_TABLE_MAPPEDGIRLTABLE = "CREATE TABLE IF NOT EXISTS "
             + MappedgirltableColumns.TABLE_NAME + " ( "
             + MappedgirltableColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + MappedgirltableColumns.SERVERID + " TEXT, "
             + MappedgirltableColumns.FIRSTNAME + " TEXT, "
             + MappedgirltableColumns.LASTNAME + " TEXT, "
             + MappedgirltableColumns.PHONENUMBER + " TEXT, "

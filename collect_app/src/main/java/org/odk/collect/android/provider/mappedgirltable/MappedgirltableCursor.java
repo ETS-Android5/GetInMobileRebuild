@@ -3,8 +3,8 @@ package org.odk.collect.android.provider.mappedgirltable;
 import java.util.Date;
 
 import android.database.Cursor;
-
 import androidx.annotation.Nullable;
+
 
 import org.odk.collect.android.provider.base.AbstractCursor;
 
@@ -23,6 +23,16 @@ public class MappedgirltableCursor extends AbstractCursor implements Mappedgirlt
         Long res = getLongOrNull(MappedgirltableColumns._ID);
         if (res == null)
             throw new NullPointerException("The value of '_id' in the database was null, which is not allowed according to the model definition");
+        return res;
+    }
+
+    /**
+     * Get the {@code serverid} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public String getServerid() {
+        String res = getStringOrNull(MappedgirltableColumns.SERVERID);
         return res;
     }
 

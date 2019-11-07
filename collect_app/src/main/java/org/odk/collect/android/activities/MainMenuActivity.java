@@ -121,6 +121,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
 
         disableSmsIfNeeded();
 
+        // download data from django server; mapped girls
         Intent intent = new Intent(this, SetupIntentService.class);
         startService(intent);
 

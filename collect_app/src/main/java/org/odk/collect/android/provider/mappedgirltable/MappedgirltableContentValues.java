@@ -40,6 +40,16 @@ public class MappedgirltableContentValues extends AbstractContentValues {
         return context.getContentResolver().update(uri(), values(), where == null ? null : where.sel(), where == null ? null : where.args());
     }
 
+    public MappedgirltableContentValues putServerid(@Nullable String value) {
+        mContentValues.put(MappedgirltableColumns.SERVERID, value);
+        return this;
+    }
+
+    public MappedgirltableContentValues putServeridNull() {
+        mContentValues.putNull(MappedgirltableColumns.SERVERID);
+        return this;
+    }
+
     public MappedgirltableContentValues putFirstname(@Nullable String value) {
         mContentValues.put(MappedgirltableColumns.FIRSTNAME, value);
         return this;

@@ -78,6 +78,46 @@ public class MappedgirltableSelection extends AbstractSelection<MappedgirltableS
         return orderById(false);
     }
 
+    public MappedgirltableSelection serverid(String... value) {
+        addEquals(MappedgirltableColumns.SERVERID, value);
+        return this;
+    }
+
+    public MappedgirltableSelection serveridNot(String... value) {
+        addNotEquals(MappedgirltableColumns.SERVERID, value);
+        return this;
+    }
+
+    public MappedgirltableSelection serveridLike(String... value) {
+        addLike(MappedgirltableColumns.SERVERID, value);
+        return this;
+    }
+
+    public MappedgirltableSelection serveridContains(String... value) {
+        addContains(MappedgirltableColumns.SERVERID, value);
+        return this;
+    }
+
+    public MappedgirltableSelection serveridStartsWith(String... value) {
+        addStartsWith(MappedgirltableColumns.SERVERID, value);
+        return this;
+    }
+
+    public MappedgirltableSelection serveridEndsWith(String... value) {
+        addEndsWith(MappedgirltableColumns.SERVERID, value);
+        return this;
+    }
+
+    public MappedgirltableSelection orderByServerid(boolean desc) {
+        orderBy(MappedgirltableColumns.SERVERID, desc);
+        return this;
+    }
+
+    public MappedgirltableSelection orderByServerid() {
+        orderBy(MappedgirltableColumns.SERVERID, false);
+        return this;
+    }
+
     public MappedgirltableSelection firstname(String... value) {
         addEquals(MappedgirltableColumns.FIRSTNAME, value);
         return this;

@@ -4,8 +4,6 @@ import org.odk.collect.android.provider.base.BaseModel;
 
 import java.util.Date;
 
-
-
 import androidx.annotation.Nullable;
 
 
@@ -13,6 +11,13 @@ import androidx.annotation.Nullable;
  * Data model for the {@code mappedgirltable} table.
  */
 public interface MappedgirltableModel extends BaseModel {
+
+    /**
+     * Get the {@code serverid} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    String getServerid();
 
     /**
      * Get the {@code firstname} value.

@@ -93,7 +93,6 @@ public class SplashScreenActivity extends CollectAbstractActivity {
         //todo navigate directly to home screen if already logged in
         startActivity(new Intent(this, ChooseUserActivity.class));
         finish();
-        Prefs.putBoolean(GeneralKeys.KEY_FIRST_RUN, false);
     }
 
     private void startSplashScreenTimer() {

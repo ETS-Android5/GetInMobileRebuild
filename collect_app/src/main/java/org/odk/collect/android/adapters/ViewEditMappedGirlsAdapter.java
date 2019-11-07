@@ -42,7 +42,6 @@ import static org.odk.collect.android.utilities.ApplicationConstants.POSTNATAL_F
 public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMappedGirlsAdapter.ViewHolder>  implements ActivityCompat.OnRequestPermissionsResultCallback {
 
     private static final int REQUEST_PHONE_CALL = 34;
-    private List<Result> mappedGirlsList;
     private MappedgirltableCursor cursor;
     Activity activity;
     private ItemClickListener mClickListener;
@@ -79,11 +78,6 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
         this.activity = activity;
     }
 
-    public ViewEditMappedGirlsAdapter(Activity activity, List<Result> mappedGirlsList) {
-        this.mappedGirlsList = mappedGirlsList;
-        this.activity = activity;
-    }
-
     @NonNull
     @Override
     public ViewEditMappedGirlsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -96,40 +90,35 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
     public void onBindViewHolder(@NonNull final ViewEditMappedGirlsAdapter.ViewHolder holder, int position) {
         try {
             Timber.d("onbindviewholder called");
+            cursor.moveToPosition(position);
+            Timber.d("add values " + cursor.toString());
+            Timber.d("add values " + cursor.getCreatedAt());
+            holder.name.setText(cursor.getFirstname() + " "
+                    + cursor.getLastname());
 
-            Result girl = mappedGirlsList.get(position);
-            Timber.d("add values " + girl.toString());
-            Timber.d("add values " + girl.getCreatedAt());
-            Timber.d(girl.getLastName());
-            holder.name.setText(girl.getFirstName() + " "
-                    + girl.getLastName());
-            holder.phoneNumber.setText(girl.getPhoneNumber());
-            //todo calculate age
-            holder.age.setText(girl.getDob());
+            final String phoneNumber = getActivePhoneNumber(cursor);
+            holder.phoneNumber.setText(phoneNumber);
+            holder.age.setText(cursor.getAge());
 
             holder.postNatalButton.setOnClickListener(v -> {
                 Timber.d("clicked postnatal");
-                Prefs.putString(GIRL_ID, girl.getId());
-                Prefs.putString(GIRL_NAME, girl.getFirstName() + " " + girl.getLastName());
+                Prefs.putString(GIRL_ID, cursor.getServerid());
                 startFormActivity(POSTNATAL_FORM_ID);
             });
 
             holder.appointmentButton.setOnClickListener(v -> {
                 Timber.d("clicked appointment");
-                Prefs.putString(GIRL_ID, girl.getId());
-                Prefs.putString(GIRL_NAME, girl.getFirstName() + " " + girl.getLastName());
+                Prefs.putString(GIRL_ID, cursor.getServerid());
                 startFormActivity(APPOINTMENT_FORM_ID);
             });
 
 
             holder.followUpButton.setOnClickListener(v -> {
-                Prefs.putString(GIRL_ID, girl.getId());
-                Prefs.putString(GIRL_NAME, girl.getFirstName() + " " + girl.getLastName());
+                Prefs.putString(GIRL_ID, cursor.getServerid());
                 startFormActivity(FOLLOW_UP_FORM_ID);
             });
 
             holder.callGirlButton.setOnClickListener(v -> {
-                String phoneNumber = getPhoneNumber(girl);
 
                 try {
                     if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
@@ -147,12 +136,11 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
         }
     }
 
-    private String getPhoneNumber(Result girl) {
+    private String getActivePhoneNumber(MappedgirltableCursor cursor) {
         // use girl or next of kin phone number
-        String phoneNumber = girl.getPhoneNumber();
-        if (TextUtils.isEmpty(girl.getPhoneNumber())){
-            phoneNumber = girl.getNextOfKinPhoneNumber();
-        }
+        String phoneNumber = cursor.getPhonenumber();
+        if (TextUtils.isEmpty(phoneNumber))
+            phoneNumber = cursor.getNextofkinphonenumber();
         return phoneNumber;
     }
 
@@ -168,8 +156,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
 
     @Override
     public int getItemCount() {
-        //todo# load data from database
-        return (mappedGirlsList == null) ? 10 : mappedGirlsList.size();
+        return (cursor == null) ? 10 : cursor.getCount();
     }
 
     private void startFormActivity(String formId) {
@@ -198,7 +185,8 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
         switch (requestCode) {
             case REQUEST_PHONE_CALL: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    activity.startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:116")));
+                    String phoneNumber = getActivePhoneNumber(cursor);
+                    activity.startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber)));
                 }
                 return;
             }

@@ -48,21 +48,13 @@ import org.odk.collect.android.utilities.ToastUtils;
 import org.odk.collect.android.provider.InstanceProviderAPI.InstanceColumns;
 
 import java.util.HashMap;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import timber.log.Timber;
 
 
 public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMappedGirlsAdapter.ItemClickListener {
 
-    private ViewEditMappedGirlsViewModel mViewModel;
     View rootView;
     private RecyclerView recyclerView;
-    private APIInterface apiInterface;
-    HashMap<String, Value> mappedGirlsHashmap;
     private ViewEditMappedGirlsAdapter girlsAdapter;
     private SearchView searchView;
 
@@ -92,40 +84,11 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(girlsAdapter);
-
-//        apiInterface = APIClient.getClient().create(APIInterface.class);
-//        getMappedGirlsList();
         return rootView;
     }
 
     private MappedgirltableCursor queryMappedGirlTable() {
         return new MappedgirltableSelection().orderByCreatedAt(true).query(getContext().getContentResolver());
-    }
-
-    private void getMappedGirlsList() {
-        Timber.d("get mapped girls list started");
-        Call<MappedGirl> call = apiInterface.getMappedGirls();
-        Log.d("Server", "getMappedGirlsList: made server request");
-
-        call.enqueue(new Callback<MappedGirl>() {
-            @Override
-            public void onResponse(Call<MappedGirl> call, Response<MappedGirl> response) {
-                Timber.d("onResponse() -> " + response.code());
-                try {
-                    List<Result> values = response.body().getResults();
-                    girlsAdapter = new ViewEditMappedGirlsAdapter(getActivity(), values);
-                    girlsAdapter.setClickListener(ViewEditMappedGirlsFragment.this);
-                    recyclerView.setAdapter(girlsAdapter);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MappedGirl> call, Throwable t) {
-                Timber.e("onFailure() -> " + t.getMessage());
-            }
-        });
     }
 
     @Override

@@ -18,6 +18,8 @@ public class MappedgirltableColumns implements BaseColumns {
      */
     public static final String _ID = BaseColumns._ID;
 
+    public static final String SERVERID = "serverId";
+
     public static final String FIRSTNAME = "firstName";
 
     public static final String LASTNAME = "lastName";
@@ -52,6 +54,7 @@ public class MappedgirltableColumns implements BaseColumns {
     // @formatter:off
     public static final String[] ALL_COLUMNS = new String[] {
             _ID,
+            SERVERID,
             FIRSTNAME,
             LASTNAME,
             PHONENUMBER,
@@ -72,6 +75,7 @@ public class MappedgirltableColumns implements BaseColumns {
     public static boolean hasColumns(String[] projection) {
         if (projection == null) return true;
         for (String c : projection) {
+            if (c.equals(SERVERID) || c.contains("." + SERVERID)) return true;
             if (c.equals(FIRSTNAME) || c.contains("." + FIRSTNAME)) return true;
             if (c.equals(LASTNAME) || c.contains("." + LASTNAME)) return true;
             if (c.equals(PHONENUMBER) || c.contains("." + PHONENUMBER)) return true;
