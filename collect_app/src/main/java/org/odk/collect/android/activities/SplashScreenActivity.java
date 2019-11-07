@@ -14,22 +14,11 @@
 
 package org.odk.collect.android.activities;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.util.DisplayMetrics;
-import android.view.View;
 import android.view.Window;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.pixplicity.easyprefs.library.Prefs;
 
@@ -37,19 +26,11 @@ import org.odk.collect.android.R;
 import org.odk.collect.android.application.Collect;
 import org.odk.collect.android.listeners.PermissionListener;
 import org.odk.collect.android.preferences.GeneralKeys;
-import org.odk.collect.android.preferences.GeneralSharedPreferences;
 import org.odk.collect.android.tasks.ServerPollingJob;
 import org.odk.collect.android.utilities.DialogUtils;
 import org.odk.collect.android.utilities.PermissionUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import timber.log.Timber;
-
-import static org.odk.collect.android.preferences.GeneralKeys.KEY_SPLASH_PATH;
 
 public class SplashScreenActivity extends CollectAbstractActivity {
 
@@ -62,14 +43,17 @@ public class SplashScreenActivity extends CollectAbstractActivity {
         super.onCreate(savedInstanceState);
         init();
 
+        firstRun = Prefs.getBoolean(GeneralKeys.KEY_FIRST_RUN, false);
+
         new PermissionUtils().requestStoragePermissions(this, new PermissionListener() {
             @Override
             public void granted() {
                 // must be at the beginning of any activity that can be called from an external intent
                 try {
                     Collect.createODKDirs();
-                    // download all empty forms from the server. this is required before user can fill in the form
-                    ServerPollingJob.startJobImmediately();
+                    if (firstRun)
+                        // download all empty forms from the server. this is required before user can fill in the form
+                        ServerPollingJob.startJobImmediately();
                 } catch (RuntimeException e) {
                     DialogUtils.showDialog(DialogUtils.createErrorDialog(SplashScreenActivity.this,
                             e.getMessage(), EXIT), SplashScreenActivity.this);
@@ -91,9 +75,7 @@ public class SplashScreenActivity extends CollectAbstractActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.splash_screen);
 
-        // get the shared preferences object
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+
 
         PackageInfo packageInfo = null;
         try {
@@ -104,30 +86,17 @@ public class SplashScreenActivity extends CollectAbstractActivity {
             Timber.e(e, "Unable to get package info");
         }
 
-        firstRun = sharedPreferences.getBoolean(GeneralKeys.KEY_FIRST_RUN, true);
-        boolean showSplash =
-                sharedPreferences.getBoolean(GeneralKeys.KEY_SHOW_SPLASH, false);
-        String splashPath = (String) GeneralSharedPreferences.getInstance().get(KEY_SPLASH_PATH);
-
-        // if you've increased version code, then update the version number and set firstRun to true
-        if (sharedPreferences.getLong(GeneralKeys.KEY_LAST_VERSION, 0)
-                < packageInfo.versionCode) {
-            editor.putLong(GeneralKeys.KEY_LAST_VERSION, packageInfo.versionCode);
-            editor.apply();
-
-            firstRun = true;
-        }
-
-        startSplashScreen(splashPath);
+        startSplashScreenTimer();
     }
 
     private void endSplashScreen() {
         //todo navigate directly to home screen if already logged in
         startActivity(new Intent(this, ChooseUserActivity.class));
         finish();
+        Prefs.putBoolean(GeneralKeys.KEY_FIRST_RUN, true);
     }
 
-    private void startSplashScreen(String path) {
+    private void startSplashScreenTimer() {
         // create a thread that counts up to the timeout
         Thread t = new Thread() {
             int count;

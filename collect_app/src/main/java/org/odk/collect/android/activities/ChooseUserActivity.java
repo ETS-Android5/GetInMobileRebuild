@@ -41,8 +41,9 @@ public class ChooseUserActivity extends CollectAbstractActivity {
         mapGirlButton.setOnClickListener(v -> {
             Intent i = new Intent(getApplicationContext(),
                     LoginActivity.class);
-            i.putExtra("user_type", "Chew");
+            i.putExtra("user_type", "CHEW");
             startActivity(i);
+            finish();
         });
 
         Button midwifeButton = findViewById(R.id.midwife_button);
@@ -51,6 +52,7 @@ public class ChooseUserActivity extends CollectAbstractActivity {
                     LoginActivity.class);
             i.putExtra("user_type", "Midwife");
             startActivity(i);
+            finish();
         });
     }
 
