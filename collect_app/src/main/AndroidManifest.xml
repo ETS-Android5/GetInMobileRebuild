@@ -320,6 +320,12 @@
             android:name=".provider.InstanceProvider"
             android:authorities="org.odk.collect.android.provider.odk.instances"
             android:exported="true" /> <!-- Enable Shortcuts for Command Actions -->
+
+        <provider
+            android:name="org.odk.collect.android.provider.MappedGirlsProvider"
+            android:authorities="org.odk.collect.android.provider.odk.mappedgirls"
+            android:exported="true" />
+
         <activity
             android:name=".activities.AndroidShortcuts"
             android:label="ODK Form"

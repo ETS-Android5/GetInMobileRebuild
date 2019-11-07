@@ -43,7 +43,7 @@ public class SplashScreenActivity extends CollectAbstractActivity {
         super.onCreate(savedInstanceState);
         init();
 
-        firstRun = Prefs.getBoolean(GeneralKeys.KEY_FIRST_RUN, false);
+        firstRun = Prefs.getBoolean(GeneralKeys.KEY_FIRST_RUN, true);
 
         new PermissionUtils().requestStoragePermissions(this, new PermissionListener() {
             @Override
@@ -93,7 +93,7 @@ public class SplashScreenActivity extends CollectAbstractActivity {
         //todo navigate directly to home screen if already logged in
         startActivity(new Intent(this, ChooseUserActivity.class));
         finish();
-        Prefs.putBoolean(GeneralKeys.KEY_FIRST_RUN, true);
+        Prefs.putBoolean(GeneralKeys.KEY_FIRST_RUN, false);
     }
 
     private void startSplashScreenTimer() {
