@@ -90,9 +90,9 @@ public class MainMenuActivity extends CollectAbstractActivity {
     // buttons
     private Button manageFilesButton;
     private Button sendDataButton;
-    private Button postNatalFormButton;
+    private Button callMidwifeOrChewButton;
     private Button reviewDataButton;
-    private Button getFormsButton;
+    private Button callAmbulanceButton;
     private AlertDialog alertDialog;
     private SharedPreferences adminPreferences;
     private int completedCount;
@@ -161,25 +161,21 @@ public class MainMenuActivity extends CollectAbstractActivity {
             }
         });
 
-        postNatalFormButton = findViewById(R.id.call_nurse);
-        postNatalFormButton.setText("Midwives");
-        postNatalFormButton.setOnClickListener(new OnClickListener() {
+        callMidwifeOrChewButton = findViewById(R.id.call_midwife_or_chew);
+        callMidwifeOrChewButton.setText("Midwives");
+        callMidwifeOrChewButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (Collect.allowClick(getClass().getName())) {
-//                    Intent i = new Intent(getApplicationContext(),
-//                            PostNatalActivity.class);
-//                    startActivity(i);
-//                    startPostNatalFormActivity();
                     Intent i = new Intent(getApplicationContext(), InstanceUploaderListActivity.class);
                     startActivity(i);
                 }
             }
         });
 
-        getFormsButton = findViewById(R.id.call_ambulance);
-        getFormsButton.setText(getString(R.string.ambulance));
-        getFormsButton.setOnClickListener(new OnClickListener() {
+        callAmbulanceButton = findViewById(R.id.call_ambulance);
+        callAmbulanceButton.setText(getString(R.string.ambulance));
+        callAmbulanceButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (Collect.allowClick(getClass().getName())) {
@@ -334,24 +330,24 @@ public class MainMenuActivity extends CollectAbstractActivity {
         boolean viewSent = sharedPreferences.getBoolean(
                 AdminKeys.KEY_VIEW_SENT, true);
         if (!viewSent) {
-            if (postNatalFormButton != null) {
-                postNatalFormButton.setVisibility(View.GONE);
+            if (callMidwifeOrChewButton != null) {
+                callMidwifeOrChewButton.setVisibility(View.GONE);
             }
         } else {
-            if (postNatalFormButton != null) {
-                postNatalFormButton.setVisibility(View.VISIBLE);
+            if (callMidwifeOrChewButton != null) {
+                callMidwifeOrChewButton.setVisibility(View.VISIBLE);
             }
         }
 
         boolean getBlank = sharedPreferences.getBoolean(
                 AdminKeys.KEY_GET_BLANK, true);
         if (!getBlank) {
-            if (getFormsButton != null) {
-                getFormsButton.setVisibility(View.GONE);
+            if (callAmbulanceButton != null) {
+                callAmbulanceButton.setVisibility(View.GONE);
             }
         } else {
-            if (getFormsButton != null) {
-                getFormsButton.setVisibility(View.VISIBLE);
+            if (callAmbulanceButton != null) {
+                callAmbulanceButton.setVisibility(View.VISIBLE);
             }
         }
 
@@ -371,38 +367,6 @@ public class MainMenuActivity extends CollectAbstractActivity {
                 .getDefaultTracker()
                 .enableAutoActivityTracking(true);
     }
-
-    private void startPostNatalFormActivity() {
-        String selectionClause = FormsProviderAPI.FormsColumns.DISPLAY_NAME + " LIKE ?";
-        String[] selectionArgs = {"build_GetINPostnatalFormTest%"};
-
-        Cursor c = getContentResolver().query(
-                FormsProviderAPI.FormsColumns.CONTENT_URI,  // The content URI of the words table
-                null,                       // The columns to return for each row
-                selectionClause,                  // Either null, or the word the user entered
-                selectionArgs,                    // Either empty, or the string the user entered
-                null);
-
-        c.moveToFirst();
-
-        Uri formUri =
-                ContentUris.withAppendedId(FormsProviderAPI.FormsColumns.CONTENT_URI,
-                        c.getLong(c.getColumnIndex(FormsProviderAPI.FormsColumns._ID)));
-
-        String action = getIntent().getAction();
-        if (Intent.ACTION_PICK.equals(action)) {
-            // caller is waiting on a picked form
-            setResult(RESULT_OK, new Intent().setData(formUri));
-        } else {
-            // caller wants to view/edit a form, so launch formentryactivity
-            Intent intent = new Intent(Intent.ACTION_EDIT, formUri);
-            intent.putExtra(ApplicationConstants.BundleKeys.FORM_MODE, ApplicationConstants.FormModes.EDIT_SAVED);
-            startActivity(intent);
-        }
-
-        finish();
-    }
-
 
     private void startFormActivity(String formId) {
         try {

@@ -155,6 +155,7 @@ public class LoginActivity extends CollectAbstractActivity {
 //                loadingProgressBar.setVisibility(View.VISIBLE);
 //                loginViewModel.login(usernameEditText.getText().toString(),
 //                        passwordEditText.getText().toString());
+                loginButton.setEnabled(false);
                 try {
                     Timber.d("start post request");
                     postRequest(usernameEditText.getText().toString(),
