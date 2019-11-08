@@ -125,6 +125,10 @@ public class MainMenuActivity extends CollectAbstractActivity {
 
         disableSmsIfNeeded();
 
+        // download data from django server; mapped girls
+        Intent intent = new Intent(this, SetupIntentService.class);
+        startService(intent);
+
         // map girl button. expects a result.
         Button mapGirlButton = findViewById(R.id.chew_button);
         mapGirlButton.setText(getString(R.string.map_girl_button));
@@ -306,9 +310,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
     protected void onResume() {
         super.onResume();
 
-        // download data from django server; mapped girls
-        Intent intent = new Intent(this, SetupIntentService.class);
-        startService(intent);
+
 
         SharedPreferences sharedPreferences = this.getSharedPreferences(
                 AdminPreferencesActivity.ADMIN_PREFERENCES, 0);

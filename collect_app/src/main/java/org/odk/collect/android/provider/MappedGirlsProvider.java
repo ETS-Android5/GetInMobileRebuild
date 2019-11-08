@@ -14,6 +14,7 @@ import org.odk.collect.android.database.helpers.MappedGirlsDatabaseHelper;
 import org.odk.collect.android.provider.base.BaseContentProvider;
 import org.odk.collect.android.provider.appointmentstable.AppointmentstableColumns;
 import org.odk.collect.android.provider.mappedgirltable.MappedgirltableColumns;
+import org.odk.collect.android.provider.userstable.UserstableColumns;
 
 public class MappedGirlsProvider extends BaseContentProvider {
     private static final String TAG = MappedGirlsProvider.class.getSimpleName();
@@ -32,6 +33,9 @@ public class MappedGirlsProvider extends BaseContentProvider {
     private static final int URI_TYPE_MAPPEDGIRLTABLE = 2;
     private static final int URI_TYPE_MAPPEDGIRLTABLE_ID = 3;
 
+    private static final int URI_TYPE_USERSTABLE = 4;
+    private static final int URI_TYPE_USERSTABLE_ID = 5;
+
 
 
     private static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
@@ -41,6 +45,8 @@ public class MappedGirlsProvider extends BaseContentProvider {
         URI_MATCHER.addURI(AUTHORITY, AppointmentstableColumns.TABLE_NAME + "/#", URI_TYPE_APPOINTMENTSTABLE_ID);
         URI_MATCHER.addURI(AUTHORITY, MappedgirltableColumns.TABLE_NAME, URI_TYPE_MAPPEDGIRLTABLE);
         URI_MATCHER.addURI(AUTHORITY, MappedgirltableColumns.TABLE_NAME + "/#", URI_TYPE_MAPPEDGIRLTABLE_ID);
+        URI_MATCHER.addURI(AUTHORITY, UserstableColumns.TABLE_NAME, URI_TYPE_USERSTABLE);
+        URI_MATCHER.addURI(AUTHORITY, UserstableColumns.TABLE_NAME + "/#", URI_TYPE_USERSTABLE_ID);
     }
 
     @Override
@@ -66,6 +72,11 @@ public class MappedGirlsProvider extends BaseContentProvider {
                 return TYPE_CURSOR_DIR + MappedgirltableColumns.TABLE_NAME;
             case URI_TYPE_MAPPEDGIRLTABLE_ID:
                 return TYPE_CURSOR_ITEM + MappedgirltableColumns.TABLE_NAME;
+
+            case URI_TYPE_USERSTABLE:
+                return TYPE_CURSOR_DIR + UserstableColumns.TABLE_NAME;
+            case URI_TYPE_USERSTABLE_ID:
+                return TYPE_CURSOR_ITEM + UserstableColumns.TABLE_NAME;
 
         }
         return null;
@@ -125,6 +136,14 @@ public class MappedGirlsProvider extends BaseContentProvider {
                 res.orderBy = MappedgirltableColumns.DEFAULT_ORDER;
                 break;
 
+            case URI_TYPE_USERSTABLE:
+            case URI_TYPE_USERSTABLE_ID:
+                res.table = UserstableColumns.TABLE_NAME;
+                res.idColumn = UserstableColumns._ID;
+                res.tablesWithJoins = UserstableColumns.TABLE_NAME;
+                res.orderBy = UserstableColumns.DEFAULT_ORDER;
+                break;
+
             default:
                 throw new IllegalArgumentException("The uri '" + uri + "' is not supported by this ContentProvider");
         }
@@ -132,6 +151,7 @@ public class MappedGirlsProvider extends BaseContentProvider {
         switch (matchedId) {
             case URI_TYPE_APPOINTMENTSTABLE_ID:
             case URI_TYPE_MAPPEDGIRLTABLE_ID:
+            case URI_TYPE_USERSTABLE_ID:
                 id = uri.getLastPathSegment();
         }
         if (id != null) {

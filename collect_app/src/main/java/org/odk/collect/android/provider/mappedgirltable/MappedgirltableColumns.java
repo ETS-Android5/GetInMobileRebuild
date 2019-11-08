@@ -4,7 +4,9 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 import org.odk.collect.android.provider.MappedGirlsProvider;
+import org.odk.collect.android.provider.appointmentstable.AppointmentstableColumns;
 import org.odk.collect.android.provider.mappedgirltable.MappedgirltableColumns;
+import org.odk.collect.android.provider.userstable.UserstableColumns;
 
 /**
  * Columns for the {@code mappedgirltable} table.
@@ -48,6 +50,8 @@ public class MappedgirltableColumns implements BaseColumns {
 
     public static final String MISSED_VISITS = "missed_visits";
 
+    public static final String VILLAGE = "village";
+
 
     public static final String DEFAULT_ORDER = TABLE_NAME + "." +_ID;
 
@@ -68,7 +72,8 @@ public class MappedgirltableColumns implements BaseColumns {
             CREATED_AT,
             COMPLETED_ALL_VISITS,
             PENDING_VISITS,
-            MISSED_VISITS
+            MISSED_VISITS,
+            VILLAGE
     };
     // @formatter:on
 
@@ -90,6 +95,7 @@ public class MappedgirltableColumns implements BaseColumns {
             if (c.equals(COMPLETED_ALL_VISITS) || c.contains("." + COMPLETED_ALL_VISITS)) return true;
             if (c.equals(PENDING_VISITS) || c.contains("." + PENDING_VISITS)) return true;
             if (c.equals(MISSED_VISITS) || c.contains("." + MISSED_VISITS)) return true;
+            if (c.equals(VILLAGE) || c.contains("." + VILLAGE)) return true;
         }
         return false;
     }

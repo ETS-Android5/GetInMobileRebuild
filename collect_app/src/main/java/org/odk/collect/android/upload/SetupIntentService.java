@@ -13,12 +13,16 @@ import org.odk.collect.android.provider.appointmentstable.AppointmentstableColum
 import org.odk.collect.android.provider.appointmentstable.AppointmentstableContentValues;
 import org.odk.collect.android.provider.mappedgirltable.MappedgirltableColumns;
 import org.odk.collect.android.provider.mappedgirltable.MappedgirltableContentValues;
+import org.odk.collect.android.provider.userstable.UserstableColumns;
+import org.odk.collect.android.provider.userstable.UserstableContentValues;
 import org.odk.collect.android.retrofit.APIClient;
 import org.odk.collect.android.retrofit.APIInterface;
 import org.odk.collect.android.retrofitmodels.appointments.Appointments;
 import org.odk.collect.android.retrofitmodels.appointments.Result;
 import org.odk.collect.android.retrofitmodels.mappedgirls.MappedGirl;
 import org.odk.collect.android.retrofitmodels.mappedgirls.Girl;
+import org.odk.collect.android.retrofitmodels.systemusers.SystemUsers;
+import org.odk.collect.android.retrofitmodels.systemusers.UserSystemModel;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -65,6 +69,71 @@ public class SetupIntentService extends IntentService {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+            try {
+                loadUsers();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void loadUsers() {
+        Timber.d("get users started");
+        Call<UserSystemModel> call = apiInterface.getUsers();
+
+        call.enqueue(new Callback<UserSystemModel>() {
+            @Override
+            public void onResponse(Call<UserSystemModel> call, Response<UserSystemModel> response) {
+                try {
+                    Timber.d("Users: " + response.code());
+                    Timber.d("Users: " + response.body());
+                    if (response.code() == 200) {
+                        saveUsers(response.body());
+                    } else {
+                        Timber.e("Failed to get users");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Timber.e("Failed to get users");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserSystemModel> call, Throwable t) {
+                Timber.e("onFailure() -> %s", t.getMessage());
+            }
+        });
+    }
+
+    private void saveUsers(UserSystemModel userSystemModel) {
+        Timber.d("INSERT: users starting");
+        if (userSystemModel == null)
+            throw new NullPointerException("User not found");
+        List<SystemUsers> users = userSystemModel.getSystemUsers();
+
+
+        long deleted = 0;
+        try {
+            deleted = getContentResolver().delete(UserstableColumns.CONTENT_URI, null, null);
+            Timber.d("deleted data count %s", deleted);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        for (SystemUsers user : users) {
+            Timber.d("SystemUser data: " + user.getFirstName() + user.getRole());
+            UserstableContentValues values = new UserstableContentValues();
+            values.putFirstname(user.getFirstName());
+            values.putLastname(user.getLastName());
+            values.putPhonenumber(user.getPhone());
+            values.putCreatedAt(user.getCreatedAt());
+            values.putMidwifeid(user.getMidwife());
+            values.putNumberPlate(user.getNumberPlate());
+            values.putRole(user.getRole());
+            values.putVillage(String.valueOf(user.getVillage()));
+            final Uri uri = values.insert(getContentResolver());
+            Timber.d("saved user %s", uri);
         }
     }
 
@@ -102,7 +171,12 @@ public class SetupIntentService extends IntentService {
             throw new NullPointerException("Appointments not found");
         List<Result> appointments = appointmentsObject.getResults();
 
-        long deleted = getContentResolver().delete(AppointmentstableColumns.CONTENT_URI, null, null);
+        long deleted = 0;
+        try {
+            deleted = getContentResolver().delete(AppointmentstableColumns.CONTENT_URI, null, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Timber.d("deleted data count %s", deleted);
 
         for (Result appointment : appointments) {
@@ -193,6 +267,7 @@ public class SetupIntentService extends IntentService {
             values.putCompletedAllVisits(girl.isCompletedAllVisits());
             values.putPendingVisits(girl.getPendingVisits());
             values.putMissedVisits(girl.getMissedVisits());
+            values.putVillage(girl.getVillage().getName());
             values.putServerid(girl.getId());
             final Uri uri = values.insert(getContentResolver());
             Timber.d("saved mapped girl %s", uri);

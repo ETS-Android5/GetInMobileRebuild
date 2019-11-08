@@ -1,10 +1,10 @@
 package org.odk.collect.android.provider.mappedgirltable;
 
+import androidx.annotation.Nullable;
+
 import org.odk.collect.android.provider.base.BaseModel;
 
 import java.util.Date;
-
-import androidx.annotation.Nullable;
 
 
 /**
@@ -116,4 +116,11 @@ public interface MappedgirltableModel extends BaseModel {
      */
     @Nullable
     Integer getMissedVisits();
+
+    /**
+     * Get the {@code village} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    String getVillage();
 }

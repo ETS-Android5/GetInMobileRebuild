@@ -3,8 +3,8 @@ package org.odk.collect.android.provider.mappedgirltable;
 import java.util.Date;
 
 import android.database.Cursor;
-import androidx.annotation.Nullable;
 
+import androidx.annotation.Nullable;
 
 import org.odk.collect.android.provider.base.AbstractCursor;
 
@@ -173,6 +173,16 @@ public class MappedgirltableCursor extends AbstractCursor implements Mappedgirlt
     @Nullable
     public Integer getMissedVisits() {
         Integer res = getIntegerOrNull(MappedgirltableColumns.MISSED_VISITS);
+        return res;
+    }
+
+    /**
+     * Get the {@code village} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public String getVillage() {
+        String res = getStringOrNull(MappedgirltableColumns.VILLAGE);
         return res;
     }
 }

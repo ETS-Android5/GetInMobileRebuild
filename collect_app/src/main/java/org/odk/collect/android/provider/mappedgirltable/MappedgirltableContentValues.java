@@ -5,8 +5,6 @@ import java.util.Date;
 import android.content.Context;
 import android.content.ContentResolver;
 import android.net.Uri;
-
-
 import androidx.annotation.Nullable;
 
 import org.odk.collect.android.provider.base.AbstractContentValues;
@@ -192,6 +190,16 @@ public class MappedgirltableContentValues extends AbstractContentValues {
 
     public MappedgirltableContentValues putMissedVisitsNull() {
         mContentValues.putNull(MappedgirltableColumns.MISSED_VISITS);
+        return this;
+    }
+
+    public MappedgirltableContentValues putVillage(@Nullable String value) {
+        mContentValues.put(MappedgirltableColumns.VILLAGE, value);
+        return this;
+    }
+
+    public MappedgirltableContentValues putVillageNull() {
+        mContentValues.putNull(MappedgirltableColumns.VILLAGE);
         return this;
     }
 }

@@ -12,6 +12,7 @@ import android.util.Log;
 import org.odk.collect.android.BuildConfig;
 import org.odk.collect.android.provider.appointmentstable.AppointmentstableColumns;
 import org.odk.collect.android.provider.mappedgirltable.MappedgirltableColumns;
+import org.odk.collect.android.provider.userstable.UserstableColumns;
 
 public class MappedGirlsDatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = MappedGirlsDatabaseHelper.class.getSimpleName();
@@ -65,7 +66,21 @@ public class MappedGirlsDatabaseHelper extends SQLiteOpenHelper {
             + MappedgirltableColumns.CREATED_AT + " INTEGER, "
             + MappedgirltableColumns.COMPLETED_ALL_VISITS + " INTEGER, "
             + MappedgirltableColumns.PENDING_VISITS + " INTEGER, "
-            + MappedgirltableColumns.MISSED_VISITS + " INTEGER "
+            + MappedgirltableColumns.MISSED_VISITS + " INTEGER, "
+            + MappedgirltableColumns.VILLAGE + " TEXT "
+            + " );";
+
+    public static final String SQL_CREATE_TABLE_USERSTABLE = "CREATE TABLE IF NOT EXISTS "
+            + UserstableColumns.TABLE_NAME + " ( "
+            + UserstableColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + UserstableColumns.FIRSTNAME + " TEXT, "
+            + UserstableColumns.LASTNAME + " TEXT, "
+            + UserstableColumns.PHONENUMBER + " TEXT, "
+            + UserstableColumns.CREATED_AT + " INTEGER, "
+            + UserstableColumns.NUMBER_PLATE + " TEXT, "
+            + UserstableColumns.ROLE + " INTEGER, "
+            + UserstableColumns.MIDWIFEID + " TEXT, "
+            + UserstableColumns.VILLAGE + " TEXT "
             + " );";
 
     // @formatter:on
@@ -124,6 +139,7 @@ public class MappedGirlsDatabaseHelper extends SQLiteOpenHelper {
         mOpenHelperCallbacks.onPreCreate(mContext, db);
         db.execSQL(SQL_CREATE_TABLE_APPOINTMENTSTABLE);
         db.execSQL(SQL_CREATE_TABLE_MAPPEDGIRLTABLE);
+        db.execSQL(SQL_CREATE_TABLE_USERSTABLE);
         mOpenHelperCallbacks.onPostCreate(mContext, db);
     }
 

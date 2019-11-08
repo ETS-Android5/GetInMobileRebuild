@@ -6,6 +6,7 @@ import android.provider.BaseColumns;
 import org.odk.collect.android.provider.MappedGirlsProvider;
 import org.odk.collect.android.provider.appointmentstable.AppointmentstableColumns;
 import org.odk.collect.android.provider.mappedgirltable.MappedgirltableColumns;
+import org.odk.collect.android.provider.userstable.UserstableColumns;
 
 /**
  * Columns for the {@code appointmentstable} table.

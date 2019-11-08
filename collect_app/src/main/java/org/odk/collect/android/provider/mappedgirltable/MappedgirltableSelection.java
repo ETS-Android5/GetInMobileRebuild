@@ -657,4 +657,44 @@ public class MappedgirltableSelection extends AbstractSelection<MappedgirltableS
         orderBy(MappedgirltableColumns.MISSED_VISITS, false);
         return this;
     }
+
+    public MappedgirltableSelection village(String... value) {
+        addEquals(MappedgirltableColumns.VILLAGE, value);
+        return this;
+    }
+
+    public MappedgirltableSelection villageNot(String... value) {
+        addNotEquals(MappedgirltableColumns.VILLAGE, value);
+        return this;
+    }
+
+    public MappedgirltableSelection villageLike(String... value) {
+        addLike(MappedgirltableColumns.VILLAGE, value);
+        return this;
+    }
+
+    public MappedgirltableSelection villageContains(String... value) {
+        addContains(MappedgirltableColumns.VILLAGE, value);
+        return this;
+    }
+
+    public MappedgirltableSelection villageStartsWith(String... value) {
+        addStartsWith(MappedgirltableColumns.VILLAGE, value);
+        return this;
+    }
+
+    public MappedgirltableSelection villageEndsWith(String... value) {
+        addEndsWith(MappedgirltableColumns.VILLAGE, value);
+        return this;
+    }
+
+    public MappedgirltableSelection orderByVillage(boolean desc) {
+        orderBy(MappedgirltableColumns.VILLAGE, desc);
+        return this;
+    }
+
+    public MappedgirltableSelection orderByVillage() {
+        orderBy(MappedgirltableColumns.VILLAGE, false);
+        return this;
+    }
 }

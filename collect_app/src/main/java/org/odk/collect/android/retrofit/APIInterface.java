@@ -6,6 +6,7 @@ import org.odk.collect.android.retrofitmodels.UserModel;
 import org.odk.collect.android.retrofitmodels.appointments.Appointments;
 import org.odk.collect.android.retrofitmodels.appointments.Result;
 import org.odk.collect.android.retrofitmodels.mappedgirls.MappedGirl;
+import org.odk.collect.android.retrofitmodels.systemusers.UserSystemModel;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -19,6 +20,9 @@ public interface APIInterface {
 
     @GET("api/v1/appointments")
     Call<Appointments> getAppointments();
+
+    @GET("api/v1/users")
+    Call<UserSystemModel> getUsers();
 
     @GET("auth/me/")
     Call<UserModel> getLoggedInUserDetails();
