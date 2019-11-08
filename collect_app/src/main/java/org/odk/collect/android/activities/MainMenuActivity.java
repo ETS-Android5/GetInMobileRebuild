@@ -42,6 +42,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import org.odk.collect.android.R;
 import org.odk.collect.android.application.Collect;
@@ -68,13 +69,16 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.lang.ref.WeakReference;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import timber.log.Timber;
 
 import static org.odk.collect.android.preferences.GeneralKeys.KEY_SUBMISSION_TRANSPORT_TYPE;
 import static org.odk.collect.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_ID;
+import static org.odk.collect.android.utilities.ApplicationConstants.USER_CREDS;
 
 /**
  * Responsible for displaying buttons to launch the major activities. Launches

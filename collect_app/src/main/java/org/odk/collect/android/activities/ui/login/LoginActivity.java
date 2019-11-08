@@ -36,6 +36,8 @@ import org.odk.collect.android.retrofit.APIInterface;
 import org.odk.collect.android.retrofitmodels.UserModel;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -47,13 +49,20 @@ import okhttp3.Response;
 import timber.log.Timber;
 
 import static org.odk.collect.android.utilities.ApplicationConstants.APP_USER_URL;
+import static org.odk.collect.android.utilities.ApplicationConstants.CHEW_ROLE;
 import static org.odk.collect.android.utilities.ApplicationConstants.DJANGO_BACKEND_URL;
+import static org.odk.collect.android.utilities.ApplicationConstants.MIDWIFE_ROLE;
 import static org.odk.collect.android.utilities.ApplicationConstants.SERVER_TOKEN;
+import static org.odk.collect.android.utilities.ApplicationConstants.USER_FIRST_NAME;
 import static org.odk.collect.android.utilities.ApplicationConstants.USER_ID;
+import static org.odk.collect.android.utilities.ApplicationConstants.USER_LAST_NAME;
+import static org.odk.collect.android.utilities.ApplicationConstants.USER_NAME;
+import static org.odk.collect.android.utilities.ApplicationConstants.USER_ROLE;
 
 public class LoginActivity extends CollectAbstractActivity {
 
     private LoginViewModel loginViewModel;
+    private String userType;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,7 +70,7 @@ public class LoginActivity extends CollectAbstractActivity {
         setContentView(R.layout.activity_login);
         initToolbar();
 
-        String userType = getIntent().getStringExtra("user_type");
+        userType = getIntent().getStringExtra("user_type");
 
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
@@ -217,23 +226,50 @@ public class LoginActivity extends CollectAbstractActivity {
                     if (response.code() == 200) {
                         JSONObject responseJsonObject = new JSONObject(responseBody);
                         String authToken = responseJsonObject.getString("auth_token");
-                        Prefs.putString(SERVER_TOKEN, authToken);
-                        Timber.d(authToken);
-                        getLoggedInUserDetails();
 
-                        Timber.d("start main activity");
-                        Intent i = new Intent(getApplicationContext(), MainMenuActivity.class);
-                        startActivity(i);
-                        finish();
+                        JSONObject userObject = responseJsonObject.getJSONObject("user");
+                        Timber.d(userObject.toString());
+                        String firstName = userObject.getString("first_name");
+                        Timber.d(firstName);
+                        String lastName = userObject.getString("last_name");
+                        String loggedInUserName = userObject.getString("username");
+                        String userId = userObject.getString("id");
+                        int role = userObject.getInt("role");
+
+                        String userLoggedInType = role == 3 ? CHEW_ROLE : MIDWIFE_ROLE;
+
+                        if (!userType.equals(userLoggedInType)) {
+                            throw new IllegalAccessException("User is not a " + userType);
+                        }
+
+                        Prefs.putString(SERVER_TOKEN, authToken);
+                        Prefs.putString(USER_FIRST_NAME, firstName);
+                        Prefs.putString(USER_LAST_NAME, lastName);
+                        Prefs.putString(USER_NAME, loggedInUserName);
+                        Prefs.putString(USER_ROLE, userLoggedInType);
+                        Prefs.putString(USER_ID, userId);
+                        Timber.d(authToken + firstName + lastName + role);
 
                         //TODO GET ODK CENTRAL APP USER URL
                         Prefs.putString("APP_USER_URL", APP_USER_URL);
+
+                        Intent i = new Intent(getApplicationContext(), MainMenuActivity.class);
+                        startActivity(i);
+                        finish();
                     } else {
                         runOnUiThread(() -> Toast.makeText(LoginActivity.this,
                                 "Login failed. Wrong username or password", Toast.LENGTH_SHORT).show());
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Timber.e("ERROR " + e.getMessage());
+                    Timber.e(e);
+                    runOnUiThread(() -> Toast.makeText(LoginActivity.this,
+                            "Login failed. Wrong username or password. Try again", Toast.LENGTH_SHORT).show());
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                    runOnUiThread(() -> Toast.makeText(LoginActivity.this,
+                            "Login failed. User is not a " + userType, Toast.LENGTH_SHORT).show());
                 }
             }
         });

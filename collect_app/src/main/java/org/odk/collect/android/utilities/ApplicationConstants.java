@@ -108,6 +108,13 @@ public class ApplicationConstants {
     }
 
     public static final String SERVER_TOKEN = "server_token";
+    public static final String USER_FIRST_NAME = "user_first_name";
+    public static final String USER_LAST_NAME = "user_last_name";
+    public static final String USER_NAME = "user_name";
+    public static final String USER_ROLE = "user_role";
+    public static final String CHEW_ROLE = "CHEW";
+    public static final String MIDWIFE_ROLE = "Midwife";
+    public static final String USER_CREDS = "user_creds";
     public static final String LOGIN_STATUS = "login_status";
     public static final String APPOINTMENT_FORM_ID = "GetINAppointment6_chew";
     public static final String FOLLOW_UP_FORM_ID = "GetInFollowup14_chew";
