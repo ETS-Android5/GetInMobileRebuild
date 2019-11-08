@@ -115,7 +115,8 @@ public class SetupIntentService extends IntentService {
 
         long deleted = 0;
         try {
-            deleted = getContentResolver().delete(UserstableColumns.CONTENT_URI, null, null);
+            if (users.size() > 1)
+                deleted = getContentResolver().delete(UserstableColumns.CONTENT_URI, null, null);
             Timber.d("deleted data count %s", deleted);
         } catch (Exception e) {
             e.printStackTrace();
@@ -173,7 +174,8 @@ public class SetupIntentService extends IntentService {
 
         long deleted = 0;
         try {
-            deleted = getContentResolver().delete(AppointmentstableColumns.CONTENT_URI, null, null);
+            if (appointments.size() > 1)
+                deleted = getContentResolver().delete(AppointmentstableColumns.CONTENT_URI, null, null);
         } catch (Exception e) {
             e.printStackTrace();
         }

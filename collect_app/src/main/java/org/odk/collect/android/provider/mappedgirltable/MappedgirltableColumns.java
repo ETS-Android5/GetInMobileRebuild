@@ -36,7 +36,7 @@ public class MappedgirltableColumns implements BaseColumns {
 
     public static final String EDUCATIONLEVEL = "educationLevel";
 
-    public static final String MARITALSTATUS = "maritalStatus";
+    public static final String MARITALSTATUS = "healthCenter";
 
     public static final String AGE = "age";
 

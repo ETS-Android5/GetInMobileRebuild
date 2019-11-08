@@ -57,6 +57,8 @@ import org.odk.collect.android.preferences.PreferencesActivity;
 import org.odk.collect.android.preferences.Transport;
 import org.odk.collect.android.provider.FormsProviderAPI;
 import org.odk.collect.android.provider.InstanceProviderAPI.InstanceColumns;
+import org.odk.collect.android.provider.mappedgirltable.MappedgirltableCursor;
+import org.odk.collect.android.provider.mappedgirltable.MappedgirltableSelection;
 import org.odk.collect.android.tasks.ServerPollingJob;
 import org.odk.collect.android.upload.SetupIntentService;
 import org.odk.collect.android.utilities.ApplicationConstants;
@@ -128,6 +130,11 @@ public class MainMenuActivity extends CollectAbstractActivity {
         // download data from django server; mapped girls
         Intent intent = new Intent(this, SetupIntentService.class);
         startService(intent);
+//        MappedgirltableCursor mapped = new MappedgirltableSelection().orderByCreatedAt(true).query(getContentResolver());
+//        mapped.moveToFirst();
+//        Timber.d(mapped.getLastname());
+//        Timber.d(mapped.getLastname());
+
 
         // map girl button. expects a result.
         Button mapGirlButton = findViewById(R.id.chew_button);
@@ -187,26 +194,27 @@ public class MainMenuActivity extends CollectAbstractActivity {
         callAmbulanceButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Collect.allowClick(getClass().getName())) {
-                    SharedPreferences sharedPreferences = PreferenceManager
-                            .getDefaultSharedPreferences(MainMenuActivity.this);
-                    String protocol = sharedPreferences.getString(
-                            GeneralKeys.KEY_PROTOCOL, getString(R.string.protocol_odk_default));
-                    Intent i = null;
-                    if (protocol.equalsIgnoreCase(getString(R.string.protocol_google_sheets))) {
-                        if (PlayServicesUtil.isGooglePlayServicesAvailable(MainMenuActivity.this)) {
-                            i = new Intent(getApplicationContext(),
-                                    GoogleDriveActivity.class);
-                        } else {
-                            PlayServicesUtil.showGooglePlayServicesAvailabilityErrorDialog(MainMenuActivity.this);
-                            return;
-                        }
-                    } else {
-                        i = new Intent(getApplicationContext(),
-                                FormDownloadList.class);
-                    }
-                    startActivity(i);
-                }
+//                if (Collect.allowClick(getClass().getName())) {
+//                    SharedPreferences sharedPreferences = PreferenceManager
+//                            .getDefaultSharedPreferences(MainMenuActivity.this);
+//                    String protocol = sharedPreferences.getString(
+//                            GeneralKeys.KEY_PROTOCOL, getString(R.string.protocol_odk_default));
+//                    Intent i = null;
+//                    if (protocol.equalsIgnoreCase(getString(R.string.protocol_google_sheets))) {
+//                        if (PlayServicesUtil.isGooglePlayServicesAvailable(MainMenuActivity.this)) {
+//                            i = new Intent(getApplicationContext(),
+//                                    GoogleDriveActivity.class);
+//                        } else {
+//                            PlayServicesUtil.showGooglePlayServicesAvailabilityErrorDialog(MainMenuActivity.this);
+//                            return;
+//                        }
+//                    } else {
+//                        i = new Intent(getApplicationContext(),
+//                                FormDownloadList.class);
+//                    }
+//                    startActivity(i);
+//                }
+                startActivity(new Intent(v.getContext(), AmbulanceViewActivity.class));
             }
         });
 

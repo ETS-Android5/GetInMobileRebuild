@@ -3,7 +3,6 @@ package org.odk.collect.android.activities.ui.upcomingappointments;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,34 +11,19 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.odk.collect.android.R;
-import org.odk.collect.android.activities.PregnancySummaryActivity;
 import org.odk.collect.android.activities.UpcomingAppointmentsActivity;
-import org.odk.collect.android.activities.ViewEditMappedGirlsActivity;
-import org.odk.collect.android.activities.ui.vieweditmappedgirls.ViewEditMappedGirlsFragment;
 import org.odk.collect.android.adapters.UpcomingAppointmentsAdapter;
-import org.odk.collect.android.adapters.ViewEditMappedGirlsAdapter;
 import org.odk.collect.android.provider.appointmentstable.AppointmentstableCursor;
 import org.odk.collect.android.provider.appointmentstable.AppointmentstableSelection;
-import org.odk.collect.android.provider.mappedgirltable.MappedgirltableCursor;
-import org.odk.collect.android.provider.mappedgirltable.MappedgirltableSelection;
 import org.odk.collect.android.retrofit.APIClient;
 import org.odk.collect.android.retrofit.APIInterface;
-import org.odk.collect.android.retrofitmodels.MappedGirls;
 import org.odk.collect.android.retrofitmodels.Value;
 import org.odk.collect.android.utilities.ToastUtils;
-
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import timber.log.Timber;
 
 
 public class UpcomingAppointmentsFragment extends Fragment implements UpcomingAppointmentsAdapter.ItemClickListener {

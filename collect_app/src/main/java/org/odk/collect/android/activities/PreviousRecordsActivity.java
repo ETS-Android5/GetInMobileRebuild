@@ -1,6 +1,5 @@
 package org.odk.collect.android.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,7 +29,7 @@ public class PreviousRecordsActivity extends CollectAbstractActivity implements 
         previousRecordsAdapter = new PreviousRecordsAdapter(this, (List<Value>) null);
         previousRecordsAdapter.setClickListener(this);
 
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view_upcoming_appointments);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.app_bar);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(previousRecordsAdapter);
