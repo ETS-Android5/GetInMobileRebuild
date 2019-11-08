@@ -58,6 +58,7 @@ import static org.odk.collect.android.utilities.ApplicationConstants.USER_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.USER_LAST_NAME;
 import static org.odk.collect.android.utilities.ApplicationConstants.USER_NAME;
 import static org.odk.collect.android.utilities.ApplicationConstants.USER_ROLE;
+import static org.odk.collect.android.utilities.ApplicationConstants.VHT_MIDWIFE_ID;
 
 public class LoginActivity extends CollectAbstractActivity {
 
@@ -233,6 +234,7 @@ public class LoginActivity extends CollectAbstractActivity {
                         Timber.d(firstName);
                         String lastName = userObject.getString("last_name");
                         String loggedInUserName = userObject.getString("username");
+                        String midwife = userObject.getString("midwife");
                         String userId = userObject.getString("id");
                         int role = userObject.getInt("role");
 
@@ -247,6 +249,7 @@ public class LoginActivity extends CollectAbstractActivity {
                         Prefs.putString(USER_LAST_NAME, lastName);
                         Prefs.putString(USER_NAME, loggedInUserName);
                         Prefs.putString(USER_ROLE, userLoggedInType);
+                        Prefs.putString(VHT_MIDWIFE_ID, midwife);
                         Prefs.putString(USER_ID, userId);
                         Timber.d(authToken + firstName + lastName + role);
 

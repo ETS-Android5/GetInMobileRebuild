@@ -70,8 +70,12 @@ public class UpcomingAppointmentsFragment extends Fragment implements UpcomingAp
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setHasOptionsMenu(true);
 
-        upcomingAppointmentsAdapter = new UpcomingAppointmentsAdapter(getActivity(), queryAppointmentTable());
-        upcomingAppointmentsAdapter.setClickListener(this);
+        try {
+            upcomingAppointmentsAdapter = new UpcomingAppointmentsAdapter(getActivity(), queryAppointmentTable());
+            upcomingAppointmentsAdapter.setClickListener(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view_upcoming_appointments);
         recyclerView.setHasFixedSize(true);
@@ -96,7 +100,7 @@ public class UpcomingAppointmentsFragment extends Fragment implements UpcomingAp
     @Override
     public void onItemClick(View view, int position, Value value) {
         ToastUtils.showShortToast("clicked item");
-        Intent intent = new Intent(getActivity(), PregnancySummaryActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(getActivity(), PregnancySummaryActivity.class);
+//        startActivity(intent);
     }
 }
