@@ -33,7 +33,7 @@ public class IconUtils {
 
     public static int getNotificationAppIcon() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ?
-                R.drawable.ic_notes_white : R.drawable.ic_notes_white_png;
+                R.drawable.getin_logo : R.drawable.getin_logo;
     }
 
     /** Renders a Drawable (such as a vector drawable) into a Bitmap. */

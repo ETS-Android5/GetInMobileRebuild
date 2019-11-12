@@ -292,7 +292,7 @@
     <string name="google_set_account">You have selected Google Sheets as your server, please select a corresponding Google account in the General Settings before continuing</string>
     <string name="media_upload_error">Failed to upload media file that does not exist: %1$s</string>
     <string name="odk_permissions_fail">GetIn auto send permission failure, please make sure your have granted all required permissions</string>
-    <string name="getin_auto_send_note">You are online. GetIn has sent your appointments</string>
+    <string name="getin_auto_send_note">You are online. GetIn has sent your results</string>
     <string name="odk_auto_download_notification_title">GetIn has loaded all your forms</string>
     <string name="notification_error">Error displaying notification text</string>
     <string name="delete_after_send">Delete after send</string>
