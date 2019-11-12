@@ -118,12 +118,12 @@ public class ApplicationConstants {
     public static final String USER_CREDS = "user_creds";
     public static final String LOGIN_STATUS = "login_status";
     public static final String APPOINTMENT_FORM_ID = "GetINAppointment6_chew";
-    public static final String APPOINTMENT_FORM_MIDWIFE_ID = "GetINAppointment6_midwife";
+    public static final String APPOINTMENT_FORM_MIDWIFE_ID = "GetINAppointment7_midwife";
     public static final String FOLLOW_UP_FORM_ID = "GetInFollowup14_chew";
     public static final String FOLLOW_UP_FORM_MIDWIFE_ID = "GetInFollowup13_midwife";
     public static final String MAP_GIRL_FORM_ID = "GetInTest18";
-    public static final String MAP_GIRL_BUNDIBUGYO_FORM_ID = "GetInMapGirlBundibugyo6_chew";
-    public static final String MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID = "GetInMapGirlBundibugyo6_midwife";
+    public static final String MAP_GIRL_BUNDIBUGYO_FORM_ID = "GetInMapGirlBundibugyo7_chew";
+    public static final String MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID = "GetInMapGirlBundibugyo7_midwife";
     public static final String POSTNATAL_FORM_ID = "GetINPostnatalForm3_chew";
     public static final String POSTNATAL_FORM_MIDWIFE_ID = "GetINPostnatalForm3_midwife";
     public static final String GIRL_ID = "GIRL_ID";
