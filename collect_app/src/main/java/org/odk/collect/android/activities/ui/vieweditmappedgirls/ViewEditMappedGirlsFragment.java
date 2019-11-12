@@ -80,7 +80,7 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
     @Override
     public void onItemClick(View view, int position, Value value) {
         Timber.d("Clicked list item");
-        displayDialog();
+//        displayDialog();
     }
 
     private void displayDialog() {
@@ -143,6 +143,7 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
                 ToastUtils.showShortToast("SearchOnQueryTextSubmit: " + query);
                 if (!searchView.isIconified()) {
                     searchView.setIconified(true);
+                    girlsAdapter.filter(query);
                 }
                 myActionMenuItem.collapseActionView();
                 return false;
@@ -151,6 +152,15 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
             @Override
             public boolean onQueryTextChange(String s) {
                 // UserFeedback.show( "SearchOnQueryTextChanged: " + s);
+                return false;
+            }
+        });
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                girlsAdapter = new ViewEditMappedGirlsAdapter(getActivity(), queryMappedGirlTable());
+                recyclerView.setAdapter(girlsAdapter);
                 return false;
             }
         });

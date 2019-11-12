@@ -41,7 +41,7 @@ public class ChooseUserActivity extends CollectAbstractActivity {
         mapGirlButton.setOnClickListener(v -> {
             Intent i = new Intent(getApplicationContext(),
                     LoginActivity.class);
-            i.putExtra("user_type", "CHEW");
+            i.putExtra("user_type", "chew");
             startActivity(i);
             finish();
         });
@@ -50,7 +50,7 @@ public class ChooseUserActivity extends CollectAbstractActivity {
         midwifeButton.setOnClickListener(v -> {
             Intent i = new Intent(getApplicationContext(),
                     LoginActivity.class);
-            i.putExtra("user_type", "Midwife");
+            i.putExtra("user_type", "midwife");
             startActivity(i);
             finish();
         });

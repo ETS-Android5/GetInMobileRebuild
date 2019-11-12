@@ -36,6 +36,7 @@ import org.odk.collect.android.retrofit.APIInterface;
 import org.odk.collect.android.retrofitmodels.UserModel;
 
 import java.io.IOException;
+import java.sql.Time;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -235,11 +236,10 @@ public class LoginActivity extends CollectAbstractActivity {
                         String lastName = userObject.getString("last_name");
                         String loggedInUserName = userObject.getString("username");
                         String userId = userObject.getString("id");
-                        int role = userObject.getInt("role");
+                        String role = userObject.getString("role");
+                        Timber.d("Role# " + role);
 
-                        String userLoggedInType = role == 3 ? CHEW_ROLE : MIDWIFE_ROLE;
-
-                        if (!userType.equals(userLoggedInType)) {
+                        if (!userType.equals(role)) {
                             throw new IllegalAccessException("User is not a " + userType);
                         }
 
@@ -247,7 +247,7 @@ public class LoginActivity extends CollectAbstractActivity {
                         Prefs.putString(USER_FIRST_NAME, firstName);
                         Prefs.putString(USER_LAST_NAME, lastName);
                         Prefs.putString(USER_NAME, loggedInUserName);
-                        Prefs.putString(USER_ROLE, userLoggedInType);
+                        Prefs.putString(USER_ROLE, role);
 
                         String midwife = null;
                         try {
@@ -276,7 +276,8 @@ public class LoginActivity extends CollectAbstractActivity {
                     Timber.e(e);
                     runOnUiThread(() -> Toast.makeText(LoginActivity.this,
                             "Login failed. Wrong username or password. Try again", Toast.LENGTH_SHORT).show());
-                } catch (IllegalAccessException e) {
+                }
+                catch (IllegalAccessException e) {
                     e.printStackTrace();
                     runOnUiThread(() -> Toast.makeText(LoginActivity.this,
                             "Login failed. User is not a " + userType, Toast.LENGTH_SHORT).show());

@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,16 +26,22 @@ import com.pixplicity.easyprefs.library.Prefs;
 import org.odk.collect.android.R;
 import org.odk.collect.android.provider.FormsProviderAPI;
 import org.odk.collect.android.provider.mappedgirltable.MappedgirltableCursor;
+import org.odk.collect.android.provider.mappedgirltable.MappedgirltableSelection;
 import org.odk.collect.android.retrofitmodels.Value;
 import org.odk.collect.android.utilities.ApplicationConstants;
 
 import timber.log.Timber;
 
 import static org.odk.collect.android.utilities.ApplicationConstants.APPOINTMENT_FORM_ID;
+import static org.odk.collect.android.utilities.ApplicationConstants.APPOINTMENT_FORM_MIDWIFE_ID;
+import static org.odk.collect.android.utilities.ApplicationConstants.CHEW_ROLE;
 import static org.odk.collect.android.utilities.ApplicationConstants.FOLLOW_UP_FORM_ID;
+import static org.odk.collect.android.utilities.ApplicationConstants.FOLLOW_UP_FORM_MIDWIFE_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.GIRL_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.GIRL_NAME;
 import static org.odk.collect.android.utilities.ApplicationConstants.POSTNATAL_FORM_ID;
+import static org.odk.collect.android.utilities.ApplicationConstants.POSTNATAL_FORM_MIDWIFE_ID;
+import static org.odk.collect.android.utilities.ApplicationConstants.USER_ROLE;
 
 public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMappedGirlsAdapter.ViewHolder>  implements ActivityCompat.OnRequestPermissionsResultCallback {
 
@@ -49,7 +56,6 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
         public TextView age;
         public TextView maritalStatus;
         public TextView village;
-        public TextView appointment;
         public Button followUpButton;
         public Button appointmentButton;
         public Button postNatalButton;
@@ -62,7 +68,6 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
             maritalStatus = (TextView) v.findViewById(R.id.marital_status);
             age = (TextView) v.findViewById(R.id.age);
             village = (TextView) v.findViewById(R.id.village);
-//            appointmentDate = (TextView) v.findViewById(R.id.upcomingappointments);
             followUpButton = (Button) v.findViewById(R.id.create_follow_up_button);
             appointmentButton = (Button) v.findViewById(R.id.create_upcoming_appointment_button);
             postNatalButton = (Button) v.findViewById(R.id.create_post_natal_button);
@@ -107,21 +112,32 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
                 Timber.d("clicked postnatal");
                 Prefs.putString(GIRL_ID, cursor.getServerid());
                 Prefs.putString(GIRL_NAME, holder.name.getText().toString());
-                startFormActivity(POSTNATAL_FORM_ID);
+//                startFormActivity(POSTNATAL_FORM_ID);
+                if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE))
+                    startFormActivity(POSTNATAL_FORM_ID);
+                else
+                    startFormActivity(POSTNATAL_FORM_MIDWIFE_ID);
             });
 
             holder.appointmentButton.setOnClickListener(v -> {
                 Timber.d("clicked appointmentDate");
                 Prefs.putString(GIRL_ID, cursor.getServerid());
                 Prefs.putString(GIRL_NAME, holder.name.getText().toString());
-                startFormActivity(APPOINTMENT_FORM_ID);
+                if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE))
+                    startFormActivity(APPOINTMENT_FORM_ID);
+                else
+                    startFormActivity(APPOINTMENT_FORM_MIDWIFE_ID);
             });
 
 
             holder.followUpButton.setOnClickListener(v -> {
                 Prefs.putString(GIRL_ID, cursor.getServerid());
                 Prefs.putString(GIRL_NAME, holder.name.getText().toString());
-                startFormActivity(FOLLOW_UP_FORM_ID);
+//                startFormActivity(FOLLOW_UP_FORM_ID);
+                if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE))
+                    startFormActivity(FOLLOW_UP_FORM_ID);
+                else
+                    startFormActivity(FOLLOW_UP_FORM_MIDWIFE_ID);
             });
 
             holder.callGirlButton.setOnClickListener(v -> {
@@ -197,5 +213,30 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
                 return;
             }
         }
+    }
+
+    public void filter(String text) {
+        if (!text.isEmpty()) {
+            text = text.toLowerCase();
+            swapCursor(queryMappedGirlsTable(text));
+        }
+    }
+
+    public MappedgirltableCursor swapCursor(MappedgirltableCursor cursor) {
+        if (this.cursor == cursor) {
+            return null;
+        }
+        MappedgirltableCursor oldCursor = this.cursor;
+        this.cursor = cursor;
+        if (cursor != null) {
+            this.notifyDataSetChanged();
+        }
+        return oldCursor;
+    }
+
+    private MappedgirltableCursor queryMappedGirlsTable(String text) {
+        MappedgirltableSelection selection = new MappedgirltableSelection();
+        selection.firstnameContains(text).or().lastnameContains(text);
+        return selection.query(activity.getContentResolver());
     }
 }

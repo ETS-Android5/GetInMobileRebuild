@@ -181,9 +181,12 @@ import static android.content.DialogInterface.BUTTON_POSITIVE;
 import static org.odk.collect.android.preferences.AdminKeys.KEY_MOVING_BACKWARDS;
 import static org.odk.collect.android.preferences.GeneralKeys.KEY_BACKGROUND_LOCATION;
 import static org.odk.collect.android.utilities.ApplicationConstants.APPOINTMENT_FORM_ID;
+import static org.odk.collect.android.utilities.ApplicationConstants.APPOINTMENT_FORM_MIDWIFE_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.GIRL_NAME;
 import static org.odk.collect.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_ID;
+import static org.odk.collect.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.POSTNATAL_FORM_ID;
+import static org.odk.collect.android.utilities.ApplicationConstants.POSTNATAL_FORM_MIDWIFE_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.RequestCodes;
 import static org.odk.collect.android.utilities.PermissionUtils.areStoragePermissionsGranted;
 import static org.odk.collect.android.utilities.PermissionUtils.finishAllActivities;
@@ -1091,11 +1094,11 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
 
 
         saveName = formController.getFormTitle();
-        if (saveName.contains(MAP_GIRL_BUNDIBUGYO_FORM_ID)) {
+        if (saveName.contains(MAP_GIRL_BUNDIBUGYO_FORM_ID) || saveName.contains(MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID)) {
             title = "Map a girl";
-        } else if (saveName.contains(POSTNATAL_FORM_ID)) {
+        } else if (saveName.contains(POSTNATAL_FORM_ID) || saveName.contains(POSTNATAL_FORM_MIDWIFE_ID)) {
             title = "Postnatal, " + clicked_girl;
-        } else if (saveName.contains(APPOINTMENT_FORM_ID)) {
+        } else if (saveName.contains(APPOINTMENT_FORM_ID) || saveName.contains(APPOINTMENT_FORM_MIDWIFE_ID)) {
             title = "Appointments, " + clicked_girl;
         } else {
             title = "Follow Up, " + clicked_girl;

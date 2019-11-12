@@ -33,8 +33,11 @@ import org.odk.collect.android.utilities.ApplicationConstants;
 import timber.log.Timber;
 
 import static org.odk.collect.android.utilities.ApplicationConstants.APPOINTMENT_FORM_ID;
+import static org.odk.collect.android.utilities.ApplicationConstants.APPOINTMENT_FORM_MIDWIFE_ID;
+import static org.odk.collect.android.utilities.ApplicationConstants.CHEW_ROLE;
 import static org.odk.collect.android.utilities.ApplicationConstants.GIRL_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.GIRL_NAME;
+import static org.odk.collect.android.utilities.ApplicationConstants.USER_ROLE;
 
 public class UpcomingAppointmentsAdapter extends RecyclerView.Adapter<UpcomingAppointmentsAdapter.ViewHolder> implements ActivityCompat.OnRequestPermissionsResultCallback {
 
@@ -124,7 +127,10 @@ public class UpcomingAppointmentsAdapter extends RecyclerView.Adapter<UpcomingAp
                 Timber.d("clicked appointmentDate");
                 Prefs.putString(GIRL_ID, cursor.getServerid());
                 Prefs.putString(GIRL_NAME, holder.name.getText().toString());
-                startFormActivity(APPOINTMENT_FORM_ID);
+                if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE))
+                    startFormActivity(APPOINTMENT_FORM_ID);
+                else
+                    startFormActivity(APPOINTMENT_FORM_MIDWIFE_ID);
             });
 
             holder.callGirlButton.setOnClickListener(v -> {

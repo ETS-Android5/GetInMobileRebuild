@@ -79,8 +79,13 @@ import java.util.Set;
 import timber.log.Timber;
 
 import static org.odk.collect.android.preferences.GeneralKeys.KEY_SUBMISSION_TRANSPORT_TYPE;
+import static org.odk.collect.android.utilities.ApplicationConstants.APPOINTMENT_FORM_ID;
+import static org.odk.collect.android.utilities.ApplicationConstants.APPOINTMENT_FORM_MIDWIFE_ID;
+import static org.odk.collect.android.utilities.ApplicationConstants.CHEW_ROLE;
 import static org.odk.collect.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_ID;
+import static org.odk.collect.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.USER_CREDS;
+import static org.odk.collect.android.utilities.ApplicationConstants.USER_ROLE;
 
 /**
  * Responsible for displaying buttons to launch the major activities. Launches
@@ -126,13 +131,15 @@ public class MainMenuActivity extends CollectAbstractActivity {
         initToolbar();
 
         disableSmsIfNeeded();
+        Timber.d("User role");
+        Timber.d(Prefs.getString(USER_ROLE, CHEW_ROLE));
+        Timber.d(String.valueOf(Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE)));
 
         // download data from django server; mapped girls
         Intent intent = new Intent(this, SetupIntentService.class);
         startService(intent);
 //        MappedgirltableCursor mapped = new MappedgirltableSelection().orderByCreatedAt(true).query(getContentResolver());
 //        mapped.moveToFirst();
-//        Timber.d(mapped.getLastname());
 //        Timber.d(mapped.getLastname());
 
 
@@ -144,7 +151,11 @@ public class MainMenuActivity extends CollectAbstractActivity {
             public void onClick(View v) {
                 if (Collect.allowClick(getClass().getName())) {
                     // get form depending on loggin user district
-                    startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_ID);
+//                    startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_ID);
+                    if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE))
+                        startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_ID);
+                    else
+                        startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID);
 //                    Intent i = new Intent(getApplicationContext(),
 //                            FormChooserList.class);
 //                    startActivity(i);
