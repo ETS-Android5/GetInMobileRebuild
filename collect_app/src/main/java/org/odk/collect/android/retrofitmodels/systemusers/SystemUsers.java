@@ -31,16 +31,16 @@ public class SystemUsers {
     private String password;
     @SerializedName("gender")
     @Expose
-    private Integer gender;
+    private String gender;
     @SerializedName("village")
     @Expose
-    private Integer village;
+    private Village village;
     @SerializedName("number_plate")
     @Expose
     private String numberPlate;
     @SerializedName("role")
     @Expose
-    private Integer role;
+    private String role;
     @SerializedName("midwife")
     @Expose
     private String midwife;
@@ -107,19 +107,19 @@ public class SystemUsers {
         this.password = password;
     }
 
-    public Integer getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Integer gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
-    public Integer getVillage() {
+    public Village getVillage() {
         return village;
     }
 
-    public void setVillage(Integer village) {
+    public void setVillage(Village village) {
         this.village = village;
     }
 
@@ -131,11 +131,11 @@ public class SystemUsers {
         this.numberPlate = numberPlate;
     }
 
-    public Integer getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Integer role) {
+    public void setRole(String role) {
         this.role = role;
     }
 

@@ -1,7 +1,7 @@
 package org.odk.collect.android.listeners;
 
 /**
- * Generic Girl interface that returns a result of type T
+ * Generic MappedGirlObject interface that returns a result of type T
  * from another thread or function.
  *
  */

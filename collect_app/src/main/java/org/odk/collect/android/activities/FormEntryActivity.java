@@ -1090,7 +1090,7 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
 
         //todo change title based on form name
         String title;
-        String clicked_girl = Prefs.getString(GIRL_NAME, "Girl");
+        String clicked_girl = Prefs.getString(GIRL_NAME, "MappedGirlObject");
 
 
         saveName = formController.getFormTitle();

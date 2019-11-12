@@ -283,33 +283,33 @@ public class UserstableSelection extends AbstractSelection<UserstableSelection> 
         return this;
     }
 
-    public UserstableSelection role(Integer... value) {
+    public UserstableSelection role(String... value) {
         addEquals(UserstableColumns.ROLE, value);
         return this;
     }
 
-    public UserstableSelection roleNot(Integer... value) {
+    public UserstableSelection roleNot(String... value) {
         addNotEquals(UserstableColumns.ROLE, value);
         return this;
     }
 
-    public UserstableSelection roleGt(int value) {
-        addGreaterThan(UserstableColumns.ROLE, value);
+    public UserstableSelection roleLike(String... value) {
+        addLike(UserstableColumns.ROLE, value);
         return this;
     }
 
-    public UserstableSelection roleGtEq(int value) {
-        addGreaterThanOrEquals(UserstableColumns.ROLE, value);
+    public UserstableSelection roleContains(String... value) {
+        addContains(UserstableColumns.ROLE, value);
         return this;
     }
 
-    public UserstableSelection roleLt(int value) {
-        addLessThan(UserstableColumns.ROLE, value);
+    public UserstableSelection roleStartsWith(String... value) {
+        addStartsWith(UserstableColumns.ROLE, value);
         return this;
     }
 
-    public UserstableSelection roleLtEq(int value) {
-        addLessThanOrEquals(UserstableColumns.ROLE, value);
+    public UserstableSelection roleEndsWith(String... value) {
+        addEndsWith(UserstableColumns.ROLE, value);
         return this;
     }
 

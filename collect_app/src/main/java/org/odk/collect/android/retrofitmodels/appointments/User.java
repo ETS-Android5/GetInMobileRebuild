@@ -1,10 +1,14 @@
 
 package org.odk.collect.android.retrofitmodels.appointments;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.os.Parcelable.Creator;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+public class User implements Parcelable
+{
 
     @SerializedName("id")
     @Expose
@@ -15,24 +19,59 @@ public class User {
     @SerializedName("last_name")
     @Expose
     private String lastName;
+    @SerializedName("username")
+    @Expose
+    private String username;
     @SerializedName("email")
     @Expose
     private String email;
     @SerializedName("gender")
     @Expose
-    private Integer gender;
+    private String gender;
     @SerializedName("village")
     @Expose
     private Integer village;
     @SerializedName("number_plate")
     @Expose
-    private Object numberPlate;
+    private String numberPlate;
     @SerializedName("role")
     @Expose
-    private Integer role;
+    private String role;
     @SerializedName("phone")
     @Expose
     private String phone;
+    public final static Creator<User> CREATOR = new Creator<User>() {
+
+
+        @SuppressWarnings({
+            "unchecked"
+        })
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        public User[] newArray(int size) {
+            return (new User[size]);
+        }
+
+    }
+    ;
+
+    protected User(Parcel in) {
+        this.id = ((String) in.readValue((String.class.getClassLoader())));
+        this.firstName = ((String) in.readValue((String.class.getClassLoader())));
+        this.lastName = ((String) in.readValue((String.class.getClassLoader())));
+        this.username = ((String) in.readValue((String.class.getClassLoader())));
+        this.email = ((String) in.readValue((String.class.getClassLoader())));
+        this.gender = ((String) in.readValue((String.class.getClassLoader())));
+        this.village = ((Integer) in.readValue((Integer.class.getClassLoader())));
+        this.numberPlate = ((String) in.readValue((String.class.getClassLoader())));
+        this.role = ((String) in.readValue((String.class.getClassLoader())));
+        this.phone = ((String) in.readValue((String.class.getClassLoader())));
+    }
+
+    public User() {
+    }
 
     public String getId() {
         return id;
@@ -58,6 +97,14 @@ public class User {
         this.lastName = lastName;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -66,11 +113,11 @@ public class User {
         this.email = email;
     }
 
-    public Integer getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Integer gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
@@ -82,19 +129,19 @@ public class User {
         this.village = village;
     }
 
-    public Object getNumberPlate() {
+    public String getNumberPlate() {
         return numberPlate;
     }
 
-    public void setNumberPlate(Object numberPlate) {
+    public void setNumberPlate(String numberPlate) {
         this.numberPlate = numberPlate;
     }
 
-    public Integer getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Integer role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
@@ -104,6 +151,23 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(id);
+        dest.writeValue(firstName);
+        dest.writeValue(lastName);
+        dest.writeValue(username);
+        dest.writeValue(email);
+        dest.writeValue(gender);
+        dest.writeValue(village);
+        dest.writeValue(numberPlate);
+        dest.writeValue(role);
+        dest.writeValue(phone);
+    }
+
+    public int describeContents() {
+        return  0;
     }
 
 }

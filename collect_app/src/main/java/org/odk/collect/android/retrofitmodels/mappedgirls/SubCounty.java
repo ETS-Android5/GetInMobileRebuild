@@ -4,14 +4,14 @@ package org.odk.collect.android.retrofitmodels.mappedgirls;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Parish {
+public class SubCounty {
 
     @SerializedName("id")
     @Expose
     private Integer id;
-    @SerializedName("sub_county")
+    @SerializedName("county")
     @Expose
-    private SubCounty subCounty;
+    private County county;
     @SerializedName("name")
     @Expose
     private String name;
@@ -24,12 +24,12 @@ public class Parish {
         this.id = id;
     }
 
-    public SubCounty getSubCounty() {
-        return subCounty;
+    public County getCounty() {
+        return county;
     }
 
-    public void setSubCounty(SubCounty subCounty) {
-        this.subCounty = subCounty;
+    public void setCounty(County county) {
+        this.county = county;
     }
 
     public String getName() {

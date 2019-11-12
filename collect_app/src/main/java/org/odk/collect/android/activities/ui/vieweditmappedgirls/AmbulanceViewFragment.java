@@ -66,7 +66,6 @@ public class AmbulanceViewFragment extends Fragment implements ViewEditMappedGir
         setHasOptionsMenu(true);
 
         girlsAdapter = new AmbulanceAdapter(getActivity(), queryUserTable());
-//        girlsAdapter.setClickListener(this);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view_ambulance);
         recyclerView.setHasFixedSize(true);
@@ -75,18 +74,13 @@ public class AmbulanceViewFragment extends Fragment implements ViewEditMappedGir
         return rootView;
     }
 
-//    private UserstableCursor queryMappedGirlTable() {
-//        return new MappedgirltableSelection().orderByCreatedAt(true).query(getContext().getContentResolver());
-//    }
-
     private UserstableCursor queryUserTable() {
-        return new UserstableSelection().role(5).orderByCreatedAt(true).query(getContext().getContentResolver());
+        return new UserstableSelection().roleContains("ambulance").orderByCreatedAt(true).query(getContext().getContentResolver());
     }
 
     @Override
     public void onItemClick(View view, int position, Value value) {
         Timber.d("Clicked list item");
-//        displayDialog();
     }
 
 

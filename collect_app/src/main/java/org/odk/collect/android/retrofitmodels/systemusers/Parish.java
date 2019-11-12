@@ -1,5 +1,5 @@
 
-package org.odk.collect.android.retrofitmodels.mappedgirls;
+package org.odk.collect.android.retrofitmodels.systemusers;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

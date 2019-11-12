@@ -4,7 +4,6 @@ import org.odk.collect.android.retrofitmodels.LoginResult;
 import org.odk.collect.android.retrofitmodels.AuthModel;
 import org.odk.collect.android.retrofitmodels.UserModel;
 import org.odk.collect.android.retrofitmodels.appointments.Appointments;
-import org.odk.collect.android.retrofitmodels.appointments.Result;
 import org.odk.collect.android.retrofitmodels.mappedgirls.MappedGirl;
 import org.odk.collect.android.retrofitmodels.systemusers.UserSystemModel;
 

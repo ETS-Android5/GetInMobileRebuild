@@ -85,7 +85,7 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
 
     private void displayDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-        alertDialog.setTitle("Girl Data");
+        alertDialog.setTitle("MappedGirlObject Data");
         alertDialog.setMessage("Please choose action");
 //                alertDialog.setIcon(R.drawable.delete);
         alertDialog.setPositiveButton("UPDATE",

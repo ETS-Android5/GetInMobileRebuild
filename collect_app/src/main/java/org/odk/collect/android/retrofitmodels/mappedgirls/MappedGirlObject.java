@@ -6,20 +6,20 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-public class Girl {
+public class MappedGirlObject {
 
     @SerializedName("id")
     @Expose
     private String id;
-    @SerializedName("village")
-    @Expose
-    private Village village;
     @SerializedName("first_name")
     @Expose
     private String firstName;
     @SerializedName("last_name")
     @Expose
     private String lastName;
+    @SerializedName("village")
+    @Expose
+    private Village village;
     @SerializedName("phone_number")
     @Expose
     private String phoneNumber;
@@ -47,24 +47,27 @@ public class Girl {
     @SerializedName("dob")
     @Expose
     private String dob;
-    @SerializedName("created_at")
-    @Expose
-    private Date createdAt;
-    @SerializedName("age")
-    @Expose
-    private Integer age;
     @SerializedName("user")
     @Expose
     private String user;
+    @SerializedName("odk_instance_id")
+    @Expose
+    private Object odkInstanceId;
+    @SerializedName("age")
+    @Expose
+    private Integer age;
     @SerializedName("completed_all_visits")
     @Expose
     private Boolean completedAllVisits;
     @SerializedName("pending_visits")
     @Expose
-    private int pendingVisits;
+    private Integer pendingVisits;
     @SerializedName("missed_visits")
     @Expose
-    private int missedVisits;
+    private Integer missedVisits;
+    @SerializedName("created_at")
+    @Expose
+    private Date createdAt;
 
     public String getId() {
         return id;
@@ -72,14 +75,6 @@ public class Girl {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public Village getVillage() {
-        return village;
-    }
-
-    public void setVillage(Village village) {
-        this.village = village;
     }
 
     public String getFirstName() {
@@ -96,6 +91,14 @@ public class Girl {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public Village getVillage() {
+        return village;
+    }
+
+    public void setVillage(Village village) {
+        this.village = village;
     }
 
     public String getPhoneNumber() {
@@ -170,14 +173,6 @@ public class Girl {
         this.dob = dob;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public String getUser() {
         return user;
     }
@@ -186,28 +181,12 @@ public class Girl {
         this.user = user;
     }
 
-    public Boolean isCompletedAllVisits() {
-        return completedAllVisits;
+    public Object getOdkInstanceId() {
+        return odkInstanceId;
     }
 
-    public void setCompletedAllVisits(Boolean completedAllVisits) {
-        this.completedAllVisits = completedAllVisits;
-    }
-
-    public int getPendingVisits() {
-        return pendingVisits;
-    }
-
-    public void setPendingVisits(int pendingVisits) {
-        this.pendingVisits = pendingVisits;
-    }
-
-    public int getMissedVisits() {
-        return missedVisits;
-    }
-
-    public void setMissedVisits(int missedVisits) {
-        this.missedVisits = missedVisits;
+    public void setOdkInstanceId(Object odkInstanceId) {
+        this.odkInstanceId = odkInstanceId;
     }
 
     public Integer getAge() {
@@ -217,4 +196,37 @@ public class Girl {
     public void setAge(Integer age) {
         this.age = age;
     }
+
+    public Boolean getCompletedAllVisits() {
+        return completedAllVisits;
+    }
+
+    public void setCompletedAllVisits(Boolean completedAllVisits) {
+        this.completedAllVisits = completedAllVisits;
+    }
+
+    public Integer getPendingVisits() {
+        return pendingVisits;
+    }
+
+    public void setPendingVisits(Integer pendingVisits) {
+        this.pendingVisits = pendingVisits;
+    }
+
+    public Integer getMissedVisits() {
+        return missedVisits;
+    }
+
+    public void setMissedVisits(Integer missedVisits) {
+        this.missedVisits = missedVisits;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
 }

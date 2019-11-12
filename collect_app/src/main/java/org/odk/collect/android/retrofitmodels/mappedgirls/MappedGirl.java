@@ -18,7 +18,7 @@ public class MappedGirl {
     private Object previous;
     @SerializedName("results")
     @Expose
-    private List<Girl> girls = null;
+    private List<MappedGirlObject> results = null;
 
     public Integer getCount() {
         return count;
@@ -44,12 +44,12 @@ public class MappedGirl {
         this.previous = previous;
     }
 
-    public List<Girl> getGirls() {
-        return girls;
+    public List<MappedGirlObject> getGirls() {
+        return results;
     }
 
-    public void setGirls(List<Girl> girls) {
-        this.girls = girls;
+    public void setGirls(List<MappedGirlObject> results) {
+        this.results = results;
     }
 
 }

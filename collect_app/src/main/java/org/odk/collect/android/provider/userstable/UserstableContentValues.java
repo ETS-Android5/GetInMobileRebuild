@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.ContentResolver;
 import android.net.Uri;
 import androidx.annotation.Nullable;
-
 import org.odk.collect.android.provider.base.AbstractContentValues;
 
 /**
@@ -93,7 +92,7 @@ public class UserstableContentValues extends AbstractContentValues {
         return this;
     }
 
-    public UserstableContentValues putRole(@Nullable Integer value) {
+    public UserstableContentValues putRole(@Nullable String value) {
         mContentValues.put(UserstableColumns.ROLE, value);
         return this;
     }

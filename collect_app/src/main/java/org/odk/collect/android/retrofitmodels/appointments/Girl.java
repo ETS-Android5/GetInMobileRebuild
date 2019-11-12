@@ -1,6 +1,9 @@
 
 package org.odk.collect.android.retrofitmodels.appointments;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.os.Parcelable.Creator;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -68,6 +71,9 @@ public class Girl {
     @SerializedName("created_at")
     @Expose
     private Date createdAt;
+
+    public Girl() {
+    }
 
     public String getId() {
         return id;
@@ -228,5 +234,4 @@ public class Girl {
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
-
 }

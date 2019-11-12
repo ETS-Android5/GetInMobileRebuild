@@ -80,8 +80,8 @@ public class UserstableCursor extends AbstractCursor implements UserstableModel 
      * Can be {@code null}.
      */
     @Nullable
-    public Integer getRole() {
-        Integer res = getIntegerOrNull(UserstableColumns.ROLE);
+    public String getRole() {
+        String res = getStringOrNull(UserstableColumns.ROLE);
         return res;
     }
 

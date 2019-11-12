@@ -7,42 +7,42 @@ import android.os.Parcelable.Creator;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Parish implements Parcelable
+public class County implements Parcelable
 {
 
     @SerializedName("id")
     @Expose
     private Integer id;
-    @SerializedName("sub_county")
+    @SerializedName("district")
     @Expose
-    private SubCounty subCounty;
+    private District district;
     @SerializedName("name")
     @Expose
     private String name;
-    public final static Creator<Parish> CREATOR = new Creator<Parish>() {
+    public final static Creator<County> CREATOR = new Creator<County>() {
 
 
         @SuppressWarnings({
             "unchecked"
         })
-        public Parish createFromParcel(Parcel in) {
-            return new Parish(in);
+        public County createFromParcel(Parcel in) {
+            return new County(in);
         }
 
-        public Parish[] newArray(int size) {
-            return (new Parish[size]);
+        public County[] newArray(int size) {
+            return (new County[size]);
         }
 
     }
     ;
 
-    protected Parish(Parcel in) {
+    protected County(Parcel in) {
         this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
-        this.subCounty = ((SubCounty) in.readValue((SubCounty.class.getClassLoader())));
+        this.district = ((District) in.readValue((District.class.getClassLoader())));
         this.name = ((String) in.readValue((String.class.getClassLoader())));
     }
 
-    public Parish() {
+    public County() {
     }
 
     public Integer getId() {
@@ -53,12 +53,12 @@ public class Parish implements Parcelable
         this.id = id;
     }
 
-    public SubCounty getSubCounty() {
-        return subCounty;
+    public District getDistrict() {
+        return district;
     }
 
-    public void setSubCounty(SubCounty subCounty) {
-        this.subCounty = subCounty;
+    public void setDistrict(District district) {
+        this.district = district;
     }
 
     public String getName() {
@@ -71,7 +71,7 @@ public class Parish implements Parcelable
 
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(id);
-        dest.writeValue(subCounty);
+        dest.writeValue(district);
         dest.writeValue(name);
     }
 

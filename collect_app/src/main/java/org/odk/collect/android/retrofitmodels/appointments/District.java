@@ -7,42 +7,38 @@ import android.os.Parcelable.Creator;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Parish implements Parcelable
+public class District implements Parcelable
 {
 
     @SerializedName("id")
     @Expose
     private Integer id;
-    @SerializedName("sub_county")
-    @Expose
-    private SubCounty subCounty;
     @SerializedName("name")
     @Expose
     private String name;
-    public final static Creator<Parish> CREATOR = new Creator<Parish>() {
+    public final static Creator<District> CREATOR = new Creator<District>() {
 
 
         @SuppressWarnings({
             "unchecked"
         })
-        public Parish createFromParcel(Parcel in) {
-            return new Parish(in);
+        public District createFromParcel(Parcel in) {
+            return new District(in);
         }
 
-        public Parish[] newArray(int size) {
-            return (new Parish[size]);
+        public District[] newArray(int size) {
+            return (new District[size]);
         }
 
     }
     ;
 
-    protected Parish(Parcel in) {
+    protected District(Parcel in) {
         this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
-        this.subCounty = ((SubCounty) in.readValue((SubCounty.class.getClassLoader())));
         this.name = ((String) in.readValue((String.class.getClassLoader())));
     }
 
-    public Parish() {
+    public District() {
     }
 
     public Integer getId() {
@@ -51,14 +47,6 @@ public class Parish implements Parcelable
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public SubCounty getSubCounty() {
-        return subCounty;
-    }
-
-    public void setSubCounty(SubCounty subCounty) {
-        this.subCounty = subCounty;
     }
 
     public String getName() {
@@ -71,7 +59,6 @@ public class Parish implements Parcelable
 
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(id);
-        dest.writeValue(subCounty);
         dest.writeValue(name);
     }
 

@@ -1,12 +1,16 @@
 
 package org.odk.collect.android.retrofitmodels.appointments;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-public class Result {
+public class Appointment implements Parcelable
+{
 
     @SerializedName("id")
     @Expose
@@ -32,6 +36,36 @@ public class Result {
     @SerializedName("health_facility")
     @Expose
     private Object healthFacility;
+    public final static Creator<Appointment> CREATOR = new Creator<Appointment>() {
+
+
+        @SuppressWarnings({
+            "unchecked"
+        })
+        public Appointment createFromParcel(Parcel in) {
+            return new Appointment(in);
+        }
+
+        public Appointment[] newArray(int size) {
+            return (new Appointment[size]);
+        }
+
+    }
+    ;
+
+    protected Appointment(Parcel in) {
+        this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
+        this.girl = ((Girl) in.readValue((Girl.class.getClassLoader())));
+        this.user = ((User) in.readValue((User.class.getClassLoader())));
+        this.date = ((Date) in.readValue((Date.class.getClassLoader())));
+        this.status = ((String) in.readValue((String.class.getClassLoader())));
+        this.odkInstanceId = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.createdAt = ((String) in.readValue((String.class.getClassLoader())));
+        this.healthFacility = ((Object) in.readValue((Object.class.getClassLoader())));
+    }
+
+    public Appointment() {
+    }
 
     public Integer getId() {
         return id;
@@ -95,6 +129,21 @@ public class Result {
 
     public void setHealthFacility(Object healthFacility) {
         this.healthFacility = healthFacility;
+    }
+
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(id);
+        dest.writeValue(girl);
+        dest.writeValue(user);
+        dest.writeValue(date);
+        dest.writeValue(status);
+        dest.writeValue(odkInstanceId);
+        dest.writeValue(createdAt);
+        dest.writeValue(healthFacility);
+    }
+
+    public int describeContents() {
+        return  0;
     }
 
 }

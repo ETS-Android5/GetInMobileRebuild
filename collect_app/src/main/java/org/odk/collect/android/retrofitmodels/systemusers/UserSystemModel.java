@@ -18,7 +18,7 @@ public class UserSystemModel {
     private Object previous;
     @SerializedName("results")
     @Expose
-    private List<SystemUsers> systemUsers = null;
+    private List<SystemUsers> results = null;
 
     public Integer getCount() {
         return count;
@@ -45,11 +45,11 @@ public class UserSystemModel {
     }
 
     public List<SystemUsers> getSystemUsers() {
-        return systemUsers;
+        return results;
     }
 
-    public void setSystemUsers(List<SystemUsers> systemUsers) {
-        this.systemUsers = systemUsers;
+    public void setResults(List<SystemUsers> results) {
+        this.results = results;
     }
 
 }

@@ -17,10 +17,11 @@ import org.odk.collect.android.provider.userstable.UserstableColumns;
 import org.odk.collect.android.provider.userstable.UserstableContentValues;
 import org.odk.collect.android.retrofit.APIClient;
 import org.odk.collect.android.retrofit.APIInterface;
+import org.odk.collect.android.retrofitmodels.appointments.Appointment;
 import org.odk.collect.android.retrofitmodels.appointments.Appointments;
-import org.odk.collect.android.retrofitmodels.appointments.Result;
+import org.odk.collect.android.retrofitmodels.appointments.Girl;
 import org.odk.collect.android.retrofitmodels.mappedgirls.MappedGirl;
-import org.odk.collect.android.retrofitmodels.mappedgirls.Girl;
+import org.odk.collect.android.retrofitmodels.mappedgirls.MappedGirlObject;
 import org.odk.collect.android.retrofitmodels.systemusers.SystemUsers;
 import org.odk.collect.android.retrofitmodels.systemusers.UserSystemModel;
 
@@ -170,7 +171,7 @@ public class SetupIntentService extends IntentService {
         Timber.d("INSERT: appointments starting");
         if (appointmentsObject == null)
             throw new NullPointerException("Appointments not found");
-        List<Result> appointments = appointmentsObject.getResults();
+        List<Appointment> appointments = appointmentsObject.getAppointments();
 
         long deleted = 0;
         try {
@@ -181,7 +182,7 @@ public class SetupIntentService extends IntentService {
         }
         Timber.d("deleted data count %s", deleted);
 
-        for (Result appointment : appointments) {
+        for (Appointment appointment : appointments) {
             Timber.d("Appointment data " + appointment.getDate().toString() + appointment.getGirl().getLastName());
             AppointmentstableContentValues values = new AppointmentstableContentValues();
             values.putFirstname(appointment.getGirl().getFirstName());
@@ -248,13 +249,13 @@ public class SetupIntentService extends IntentService {
         Timber.d("INSERT: mapped girl starting");
         if (mappedGirl == null)
             throw new NullPointerException("Mapped girls not found");
-        List<Girl> mappedGirls = mappedGirl.getGirls();
+        List<MappedGirlObject> mappedGirls = mappedGirl.getGirls();
 
         deleteData();
 
-        for (Girl girl : mappedGirls) {
+        for (MappedGirlObject girl : mappedGirls) {
             MappedgirltableContentValues values = new MappedgirltableContentValues();
-            Timber.d("Girl data " + girl.getAge() + girl.getMaritalStatus());
+            Timber.d("MappedGirlObject data " + girl.getAge() + girl.getMaritalStatus());
             values.putFirstname(girl.getFirstName());
             values.putLastname(girl.getLastName());
             values.putPhonenumber(girl.getPhoneNumber());
@@ -266,7 +267,7 @@ public class SetupIntentService extends IntentService {
             values.putAge(girl.getAge());
             values.putUser(girl.getUser());
             values.putCreatedAt(girl.getCreatedAt());
-            values.putCompletedAllVisits(girl.isCompletedAllVisits());
+            values.putCompletedAllVisits(girl.getCompletedAllVisits());
             values.putPendingVisits(girl.getPendingVisits());
             values.putMissedVisits(girl.getMissedVisits());
             values.putVillage(girl.getVillage().getName());

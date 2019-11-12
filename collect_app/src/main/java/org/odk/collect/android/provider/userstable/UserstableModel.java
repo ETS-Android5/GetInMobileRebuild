@@ -1,10 +1,11 @@
 package org.odk.collect.android.provider.userstable;
 
+import androidx.annotation.Nullable;
+
 import org.odk.collect.android.provider.base.BaseModel;
 
 import java.util.Date;
 
-import androidx.annotation.Nullable;
 
 /**
  * Data model for the {@code userstable} table.
@@ -51,7 +52,7 @@ public interface UserstableModel extends BaseModel {
      * Can be {@code null}.
      */
     @Nullable
-    Integer getRole();
+    String getRole();
 
     /**
      * Get the {@code midwifeid} value.
