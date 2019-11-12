@@ -444,34 +444,6 @@ public class MainMenuActivity extends CollectAbstractActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_about:
-                startActivity(new Intent(this, AboutActivity.class));
-                return true;
-            case R.id.menu_general_preferences:
-                startActivity(new Intent(this, PreferencesActivity.class));
-                return true;
-            case R.id.menu_admin_preferences:
-                String pw = adminPreferences.getString(
-                        AdminKeys.KEY_ADMIN_PW, "");
-                if ("".equalsIgnoreCase(pw)) {
-                    startActivity(new Intent(this, AdminPreferencesActivity.class));
-                } else {
-                    showDialog(PASSWORD_DIALOG);
-                }
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     private void createErrorDialog(String errorMsg, final boolean shouldExit) {
         alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setIcon(android.R.drawable.ic_dialog_info);
