@@ -33,6 +33,9 @@ import org.odk.collect.android.provider.mappedgirltable.MappedgirltableCursor;
 import org.odk.collect.android.retrofitmodels.Value;
 import org.odk.collect.android.utilities.ApplicationConstants;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import timber.log.Timber;
 
 import static org.odk.collect.android.utilities.ApplicationConstants.APPOINTMENT_FORM_ID;
@@ -47,7 +50,8 @@ public class UpcomingAppointmentsAdapter extends RecyclerView.Adapter<UpcomingAp
     private static final int REQUEST_PHONE_CALL = 34;
     private AppointmentstableCursor cursor;
     private UpcomingAppointmentsAdapter.ItemClickListener mClickListener;
-    Activity activity;
+    private Activity activity;
+    private SimpleDateFormat simpleformat = new SimpleDateFormat("dd MMM yyyy", Locale.US);
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView name;
@@ -100,7 +104,10 @@ public class UpcomingAppointmentsAdapter extends RecyclerView.Adapter<UpcomingAp
             cursor.moveToPosition(position);
             Timber.d("add values " + cursor.getFirstname());
             holder.name.setText(cursor.getFirstname() + " " + cursor.getLastname());
-            holder.maritalStatus.setText(cursor.getMaritalstatus());
+            holder.maritalStatus.setText(org.odk.collect.android.utilities
+                    .TextUtils.toCapitalize(cursor.getMaritalstatus()));
+
+//            holder.village.setText(cursor.getVillage());
 
             final String phoneNumber = getActivePhoneNumber(cursor);
             holder.phoneNumber.setText(phoneNumber);
@@ -111,7 +118,8 @@ public class UpcomingAppointmentsAdapter extends RecyclerView.Adapter<UpcomingAp
             }
 
             holder.appointmentStatus.setText(cursor.getStatus());
-            holder.appointmentDate.setText("Appointment Date: " + cursor.getAppointmentDate().toString().split("GMT")[0]);
+            String date = simpleformat.format(cursor.getAppointmentDate());
+            holder.appointmentDate.setText(activity.getString(R.string.appointment_date, date));
 
             Timber.d(cursor.getStatus());
             Timber.d(String.valueOf(cursor.getStatus().equals("Missed")));

@@ -34,6 +34,7 @@ import org.odk.collect.android.activities.MainMenuActivity;
 import org.odk.collect.android.retrofit.APIClient;
 import org.odk.collect.android.retrofit.APIInterface;
 import org.odk.collect.android.retrofitmodels.UserModel;
+import org.odk.collect.android.utilities.TextUtils;
 
 import java.io.IOException;
 import java.sql.Time;
@@ -81,7 +82,8 @@ public class LoginActivity extends CollectAbstractActivity {
         final EditText passwordEditText = findViewById(R.id.password);
         final Button loginButton = findViewById(R.id.login);
         final TextView userTypeTextView = findViewById(R.id.user_type);
-        userTypeTextView.setText(userType);
+        userTypeTextView.setText(TextUtils.toCapitalize(userType));
+
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {

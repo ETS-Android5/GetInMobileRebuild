@@ -20,7 +20,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.util.StringUtil;
 
+import com.google.api.client.repackaged.org.apache.commons.codec.binary.StringUtils;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import org.odk.collect.android.R;
@@ -102,8 +104,9 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
             Timber.d("add values " + cursor.getFirstname());
             holder.name.setText(cursor.getFirstname() + " "
                     + cursor.getLastname());
-            holder.maritalStatus.setText(cursor.getMaritalstatus());
-//            holder.village.setText(cursor.getvi);
+            holder.maritalStatus.setText(org.odk.collect.android.utilities
+                    .TextUtils.toCapitalize(cursor.getMaritalstatus()));
+            holder.village.setText(cursor.getVillage());
 
             final String phoneNumber = getActivePhoneNumber(cursor);
             holder.phoneNumber.setText(phoneNumber);
