@@ -130,7 +130,15 @@ public class SetupIntentService extends IntentService {
             values.putLastname(user.getLastName());
             values.putPhonenumber(user.getPhone());
             values.putCreatedAt(user.getCreatedAt());
-            values.putMidwifeid(user.getMidwife());
+            try {
+                values.putMidwifeidNull();
+//                values.putMidwifeid(user.getMidwife());
+            } catch (Exception e) {
+                e.printStackTrace();
+                Timber.e("Error adding midwife");
+                values.putMidwifeidNull();
+
+            }
             values.putNumberPlate(user.getNumberPlate());
             values.putRole(user.getRole());
             values.putVillage(String.valueOf(user.getVillage()));

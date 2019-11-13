@@ -61,6 +61,8 @@ import static org.odk.collect.android.utilities.ApplicationConstants.USER_LAST_N
 import static org.odk.collect.android.utilities.ApplicationConstants.USER_NAME;
 import static org.odk.collect.android.utilities.ApplicationConstants.USER_ROLE;
 import static org.odk.collect.android.utilities.ApplicationConstants.VHT_MIDWIFE_ID;
+import static org.odk.collect.android.utilities.ApplicationConstants.VHT_MIDWIFE_NAME;
+import static org.odk.collect.android.utilities.ApplicationConstants.VHT_MIDWIFE_PHONE;
 
 public class LoginActivity extends CollectAbstractActivity {
 
@@ -82,7 +84,10 @@ public class LoginActivity extends CollectAbstractActivity {
         final EditText passwordEditText = findViewById(R.id.password);
         final Button loginButton = findViewById(R.id.login);
         final TextView userTypeTextView = findViewById(R.id.user_type);
-        userTypeTextView.setText(TextUtils.toCapitalize(userType));
+        if (userType.equals("chew"))
+            userTypeTextView.setText("VHT");
+        else
+            userTypeTextView.setText(TextUtils.toCapitalize(userType));
 
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
@@ -251,10 +256,20 @@ public class LoginActivity extends CollectAbstractActivity {
                         Prefs.putString(USER_NAME, loggedInUserName);
                         Prefs.putString(USER_ROLE, role);
 
-                        String midwife = null;
                         try {
-                            midwife = userObject.getString("midwife");
-                            Prefs.putString(VHT_MIDWIFE_ID, midwife);
+                            if (role.equals(CHEW_ROLE)){
+                                // get details of midwife attached to the vht
+                                JSONObject midwifeObject = userObject.getJSONObject("midwife");
+                                Timber.d("midwife phone: " + midwifeObject.getString("phone"));
+                                String midwifeId = midwifeObject.getString("id");
+                                Prefs.putString(VHT_MIDWIFE_ID, midwifeObject.getString("id"));
+                                Prefs.putString(VHT_MIDWIFE_NAME, midwifeObject.getString("last_name")
+                                        + " " + midwifeObject.getString("last_name"));
+                                Prefs.putString(VHT_MIDWIFE_PHONE, midwifeObject.getString("phone"));
+                            } else {
+                                // get details of vhts attached to the midwife
+                                //todo make request to fetch vhts
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Prefs.putString(VHT_MIDWIFE_ID, "cfad4c4f-c8eb-48d9-a056-7fe4b4888921");

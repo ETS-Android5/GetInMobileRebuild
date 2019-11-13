@@ -14,9 +14,11 @@
 
 package org.odk.collect.android.activities;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -32,10 +34,10 @@ import android.preference.PreferenceManager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+
 import android.text.InputType;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -56,16 +58,12 @@ import org.odk.collect.android.preferences.AdminSharedPreferences;
 import org.odk.collect.android.preferences.AutoSendPreferenceMigrator;
 import org.odk.collect.android.preferences.GeneralSharedPreferences;
 import org.odk.collect.android.preferences.GeneralKeys;
-import org.odk.collect.android.preferences.PreferencesActivity;
 import org.odk.collect.android.preferences.Transport;
 import org.odk.collect.android.provider.FormsProviderAPI;
 import org.odk.collect.android.provider.InstanceProviderAPI.InstanceColumns;
-import org.odk.collect.android.provider.mappedgirltable.MappedgirltableCursor;
-import org.odk.collect.android.provider.mappedgirltable.MappedgirltableSelection;
 import org.odk.collect.android.tasks.ServerPollingJob;
 import org.odk.collect.android.upload.SetupIntentService;
 import org.odk.collect.android.utilities.ApplicationConstants;
-import org.odk.collect.android.utilities.PlayServicesUtil;
 import org.odk.collect.android.utilities.SharedPreferencesUtils;
 import org.odk.collect.android.utilities.ToastUtils;
 
@@ -74,22 +72,18 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.lang.ref.WeakReference;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import timber.log.Timber;
 
 import static org.odk.collect.android.preferences.GeneralKeys.KEY_SUBMISSION_TRANSPORT_TYPE;
-import static org.odk.collect.android.utilities.ApplicationConstants.APPOINTMENT_FORM_ID;
-import static org.odk.collect.android.utilities.ApplicationConstants.APPOINTMENT_FORM_MIDWIFE_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.CHEW_ROLE;
 import static org.odk.collect.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID;
-import static org.odk.collect.android.utilities.ApplicationConstants.USER_CREDS;
 import static org.odk.collect.android.utilities.ApplicationConstants.USER_ROLE;
 import static org.odk.collect.android.utilities.ApplicationConstants.VHT_MIDWIFE_ID;
+import static org.odk.collect.android.utilities.ApplicationConstants.VHT_MIDWIFE_PHONE;
 
 /**
  * Responsible for displaying buttons to launch the major activities. Launches
@@ -120,6 +114,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
     private final IncomingHandler handler = new IncomingHandler(this);
     private final MyContentObserver contentObserver = new MyContentObserver();
     private static final int REQUEST_PHONE_CALL = 34;
+    private String midwifePhoneNumber;
 
 
     // private static boolean DO_NOT_EXIT = false;
@@ -187,21 +182,29 @@ public class MainMenuActivity extends CollectAbstractActivity {
         });
 
         callMidwifeOrChewButton = findViewById(R.id.call_midwife_or_chew);
-        if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE)){
-            callMidwifeOrChewButton.setText("Midwives");
-            String midwifeId = Prefs.getString(VHT_MIDWIFE_ID, "");
+        if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE)) {
+            callMidwifeOrChewButton.setText(R.string.call_midwive);
         } else {
-            callMidwifeOrChewButton.setText("VHT");
+            callMidwifeOrChewButton.setText(R.string.call_vhts);
         }
 
 
-        callMidwifeOrChewButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Prefs.getString(USER_ROLE, CHEW_ROLE) == CHEW_ROLE)
-                    callMidwifeOrChewButton.setText("Midwives");
-                else
-                    callMidwifeOrChewButton.setText("VHT");
+        callMidwifeOrChewButton.setOnClickListener(v -> {
+            if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE)) {
+                midwifePhoneNumber = Prefs.getString(VHT_MIDWIFE_PHONE, "0");
+                try {
+                    if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(MainMenuActivity.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
+                    } else {
+                        startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + midwifePhoneNumber)));
+                    }
+                } catch (ActivityNotFoundException e) {
+                    Timber.e(e);
+                    startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + midwifePhoneNumber)));
+                }
+            } else {
+                //todo open list of vhts
+                ToastUtils.showShortToast("Call VHTs");
             }
         });
 
@@ -308,7 +311,6 @@ public class MainMenuActivity extends CollectAbstractActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
 
 
         SharedPreferences sharedPreferences = this.getSharedPreferences(

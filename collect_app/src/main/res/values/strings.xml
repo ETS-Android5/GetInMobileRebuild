@@ -841,11 +841,13 @@
     <string name="follow_up">Follow up</string>
     <string name="mapped_girls">Mapped Girls</string>
     <string name="call_midwife">Call Midwife</string>
-    <string name="chew">CHEW</string>
+    <string name="chew">VHT</string>
     <string name="midwife">Midwife</string>
     <string name="set_appointment">Set appointment</string>
     <string name="appointment_details">Appointment details</string>
-    <string name="appointments">Appointments</string>
+    <string name="appointments">ANC Visits</string>
     <string name="title_activity_ambulance">AmbulanceActivity</string>
     <string name="appointment_date">Appointment date: %s</string>
+    <string name="call_midwive">Call Midwive</string>
+    <string name="call_vhts">Call VHTs</string>
 </resources>

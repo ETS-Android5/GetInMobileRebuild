@@ -43,7 +43,7 @@ public class SystemUsers {
     private String role;
     @SerializedName("midwife")
     @Expose
-    private String midwife;
+    private Object midwife;
     @SerializedName("user_permissions")
     @Expose
     private List<Object> userPermissions = null;
@@ -139,11 +139,11 @@ public class SystemUsers {
         this.role = role;
     }
 
-    public String getMidwife() {
+    public Object getMidwife() {
         return midwife;
     }
 
-    public void setMidwife(String midwife) {
+    public void setMidwife(Object midwife) {
         this.midwife = midwife;
     }
 
