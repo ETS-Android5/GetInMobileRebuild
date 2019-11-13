@@ -138,10 +138,6 @@ public class MainMenuActivity extends CollectAbstractActivity {
         // download data from django server; mapped girls
         Intent intent = new Intent(this, SetupIntentService.class);
         startService(intent);
-//        MappedgirltableCursor mapped = new MappedgirltableSelection().orderByCreatedAt(true).query(getContentResolver());
-//        mapped.moveToFirst();
-//        Timber.d(mapped.getLastname());
-
 
         // map girl button. expects a result.
         Button mapGirlButton = findViewById(R.id.chew_button);
@@ -151,14 +147,10 @@ public class MainMenuActivity extends CollectAbstractActivity {
             public void onClick(View v) {
                 if (Collect.allowClick(getClass().getName())) {
                     // get form depending on loggin user district
-//                    startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_ID);
                     if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE))
                         startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_ID);
                     else
                         startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID);
-//                    Intent i = new Intent(getApplicationContext(),
-//                            FormChooserList.class);
-//                    startActivity(i);
                 }
             }
         });
@@ -202,32 +194,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
 
         callAmbulanceButton = findViewById(R.id.call_ambulance);
         callAmbulanceButton.setText(getString(R.string.ambulance));
-        callAmbulanceButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                if (Collect.allowClick(getClass().getName())) {
-//                    SharedPreferences sharedPreferences = PreferenceManager
-//                            .getDefaultSharedPreferences(MainMenuActivity.this);
-//                    String protocol = sharedPreferences.getString(
-//                            GeneralKeys.KEY_PROTOCOL, getString(R.string.protocol_odk_default));
-//                    Intent i = null;
-//                    if (protocol.equalsIgnoreCase(getString(R.string.protocol_google_sheets))) {
-//                        if (PlayServicesUtil.isGooglePlayServicesAvailable(MainMenuActivity.this)) {
-//                            i = new Intent(getApplicationContext(),
-//                                    GoogleDriveActivity.class);
-//                        } else {
-//                            PlayServicesUtil.showGooglePlayServicesAvailabilityErrorDialog(MainMenuActivity.this);
-//                            return;
-//                        }
-//                    } else {
-//                        i = new Intent(getApplicationContext(),
-//                                FormDownloadList.class);
-//                    }
-//                    startActivity(i);
-//                }
-                startActivity(new Intent(v.getContext(), AmbulanceViewActivity.class));
-            }
-        });
+        callAmbulanceButton.setOnClickListener(v -> startActivity(new Intent(v.getContext(), AmbulanceViewActivity.class)));
 
         // must be at the beginning of any activity that can be called from an
         // external intent
@@ -586,10 +553,6 @@ public class MainMenuActivity extends CollectAbstractActivity {
 
         @Override
         public void handleMessage(Message msg) {
-//            MainMenuActivity target = this.target.get();
-//            if (target != null) {
-//                target.updateButtons();
-//            }
         }
     }
 

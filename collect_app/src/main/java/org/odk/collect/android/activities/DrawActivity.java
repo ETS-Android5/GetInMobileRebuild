@@ -198,14 +198,11 @@ public class DrawActivity extends CollectAbstractActivity {
         // output -- where the output should be written
 
         if (OPTION_SIGNATURE.equals(loadOption)) {
-            alertTitleString = getString(R.string.quit_application,
-                    getString(R.string.sign_button));
+            alertTitleString = "Exit Form";
         } else if (OPTION_ANNOTATE.equals(loadOption)) {
-            alertTitleString = getString(R.string.quit_application,
-                    getString(R.string.markup_image));
+            alertTitleString = "Exit Form";
         } else {
-            alertTitleString = getString(R.string.quit_application,
-                    getString(R.string.draw_image));
+            alertTitleString = "Exit Form";
         }
 
         drawView = findViewById(R.id.drawView);

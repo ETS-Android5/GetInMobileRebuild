@@ -69,7 +69,8 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
             age = (TextView) v.findViewById(R.id.age);
             village = (TextView) v.findViewById(R.id.village);
             followUpButton = (Button) v.findViewById(R.id.create_follow_up_button);
-            appointmentButton = (Button) v.findViewById(R.id.create_upcoming_appointment_button);
+            if (!Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE))
+                appointmentButton = (Button) v.findViewById(R.id.create_upcoming_appointment_button);
             postNatalButton = (Button) v.findViewById(R.id.create_post_natal_button);
             callGirlButton = (ImageButton) v.findViewById(R.id.call_girl_button);
         }
@@ -83,8 +84,13 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
     @NonNull
     @Override
     public ViewEditMappedGirlsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View cardview = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.view_edit_mapped_girls_row, parent, false);
+        View cardview;
+        if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE))
+            cardview = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.view_edit_mapped_girls_row, parent, false);
+        else
+            cardview = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.view_edit_mapped_girls_midwife_row, parent, false);
         return new ViewHolder(cardview);
     }
 
@@ -110,30 +116,26 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
 
             holder.postNatalButton.setOnClickListener(v -> {
                 Timber.d("clicked postnatal");
-                Prefs.putString(GIRL_ID, cursor.getServerid());
-                Prefs.putString(GIRL_NAME, holder.name.getText().toString());
-//                startFormActivity(POSTNATAL_FORM_ID);
+                saveCredentialsInSharedPrefs(holder);
                 if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE))
                     startFormActivity(POSTNATAL_FORM_ID);
                 else
                     startFormActivity(POSTNATAL_FORM_MIDWIFE_ID);
             });
 
-            holder.appointmentButton.setOnClickListener(v -> {
-                Timber.d("clicked appointmentDate");
-                Prefs.putString(GIRL_ID, cursor.getServerid());
-                Prefs.putString(GIRL_NAME, holder.name.getText().toString());
-                if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE))
-                    startFormActivity(APPOINTMENT_FORM_ID);
-                else
-                    startFormActivity(APPOINTMENT_FORM_MIDWIFE_ID);
-            });
+            if (!Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE))
+                holder.appointmentButton.setOnClickListener(v -> {
+                    saveCredentialsInSharedPrefs(holder);
+
+                    if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE))
+                        startFormActivity(APPOINTMENT_FORM_ID);
+                    else
+                        startFormActivity(APPOINTMENT_FORM_MIDWIFE_ID);
+                });
 
 
             holder.followUpButton.setOnClickListener(v -> {
-                Prefs.putString(GIRL_ID, cursor.getServerid());
-                Prefs.putString(GIRL_NAME, holder.name.getText().toString());
-//                startFormActivity(FOLLOW_UP_FORM_ID);
+                saveCredentialsInSharedPrefs(holder);
                 if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE))
                     startFormActivity(FOLLOW_UP_FORM_ID);
                 else
@@ -156,6 +158,15 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
         } catch (Exception e) {
             Timber.e(e);
         }
+    }
+
+    private void saveCredentialsInSharedPrefs(@NonNull ViewHolder holder) {
+        String girlName = holder.name.getText().toString();
+        MappedgirltableCursor girlCursor = queryMappedGirlsTable(girlName.split(" ")[0]);
+        girlCursor.moveToFirst();
+        Prefs.putString(GIRL_NAME, girlName);
+        Prefs.putString(GIRL_ID, girlCursor.getServerid());
+        Timber.d("clicked appointmentDate girl id " + girlCursor.getServerid() + girlName);
     }
 
     private String getActivePhoneNumber(MappedgirltableCursor cursor) {

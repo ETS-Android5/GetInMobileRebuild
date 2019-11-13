@@ -25,8 +25,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import org.odk.collect.android.R;
+import org.odk.collect.android.activities.ui.upcomingappointments.UpcomingAppointmentsViewModel;
 import org.odk.collect.android.provider.FormsProviderAPI;
 import org.odk.collect.android.provider.appointmentstable.AppointmentstableCursor;
+import org.odk.collect.android.provider.appointmentstable.AppointmentstableSelection;
+import org.odk.collect.android.provider.mappedgirltable.MappedgirltableCursor;
 import org.odk.collect.android.retrofitmodels.Value;
 import org.odk.collect.android.utilities.ApplicationConstants;
 
@@ -125,8 +128,8 @@ public class UpcomingAppointmentsAdapter extends RecyclerView.Adapter<UpcomingAp
 
             holder.appointmentButton.setOnClickListener(v -> {
                 Timber.d("clicked appointmentDate");
-                Prefs.putString(GIRL_ID, cursor.getServerid());
-                Prefs.putString(GIRL_NAME, holder.name.getText().toString());
+                Timber.d("clicked appointmentDate girl id " + cursor.getServerid());
+                saveCredentialsInSharedPrefs(holder);
                 if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE))
                     startFormActivity(APPOINTMENT_FORM_ID);
                 else
@@ -153,6 +156,21 @@ public class UpcomingAppointmentsAdapter extends RecyclerView.Adapter<UpcomingAp
         } catch (Exception e) {
             Timber.e(e);
         }
+    }
+
+    private void saveCredentialsInSharedPrefs(@NonNull UpcomingAppointmentsAdapter.ViewHolder holder) {
+        String girlName = holder.name.getText().toString();
+        AppointmentstableCursor girlCursor = queryAppointmentTable(girlName.split(" ")[0]);
+        girlCursor.moveToFirst();
+        Prefs.putString(GIRL_NAME, girlName);
+        Prefs.putString(GIRL_ID, girlCursor.getServerid());
+        Timber.d("clicked appointmentDate girl id " + girlCursor.getServerid() + girlName);
+    }
+
+    private AppointmentstableCursor queryAppointmentTable(String girlName) {
+        return new AppointmentstableSelection().firstnameContains(girlName).or()
+                .lastnameContains(girlName).orderByCreatedAt(true)
+                .query(this.activity.getContentResolver());
     }
 
     private String getActivePhoneNumber(AppointmentstableCursor cursor) {
