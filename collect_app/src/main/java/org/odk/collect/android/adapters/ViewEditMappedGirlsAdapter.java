@@ -106,7 +106,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
                     + cursor.getLastname());
             holder.maritalStatus.setText(org.odk.collect.android.utilities
                     .TextUtils.toCapitalize(cursor.getMaritalstatus()));
-            holder.village.setText(cursor.getVillage());
+//            holder.village.setText(cursor.getVillage());
 
             final String phoneNumber = getActivePhoneNumber(cursor);
             holder.phoneNumber.setText(phoneNumber);

@@ -21,6 +21,7 @@ import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
@@ -28,6 +29,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -86,6 +89,7 @@ import static org.odk.collect.android.utilities.ApplicationConstants.MAP_GIRL_BU
 import static org.odk.collect.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.USER_CREDS;
 import static org.odk.collect.android.utilities.ApplicationConstants.USER_ROLE;
+import static org.odk.collect.android.utilities.ApplicationConstants.VHT_MIDWIFE_ID;
 
 /**
  * Responsible for displaying buttons to launch the major activities. Launches
@@ -115,6 +119,8 @@ public class MainMenuActivity extends CollectAbstractActivity {
     private Cursor viewSentCursor;
     private final IncomingHandler handler = new IncomingHandler(this);
     private final MyContentObserver contentObserver = new MyContentObserver();
+    private static final int REQUEST_PHONE_CALL = 34;
+
 
     // private static boolean DO_NOT_EXIT = false;
 
@@ -181,14 +187,21 @@ public class MainMenuActivity extends CollectAbstractActivity {
         });
 
         callMidwifeOrChewButton = findViewById(R.id.call_midwife_or_chew);
-        callMidwifeOrChewButton.setText("Midwives");
+        if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE)){
+            callMidwifeOrChewButton.setText("Midwives");
+            String midwifeId = Prefs.getString(VHT_MIDWIFE_ID, "");
+        } else {
+            callMidwifeOrChewButton.setText("VHT");
+        }
+
+
         callMidwifeOrChewButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Collect.allowClick(getClass().getName())) {
-                    Intent i = new Intent(getApplicationContext(), InstanceUploaderListActivity.class);
-                    startActivity(i);
-                }
+                if (Prefs.getString(USER_ROLE, CHEW_ROLE) == CHEW_ROLE)
+                    callMidwifeOrChewButton.setText("Midwives");
+                else
+                    callMidwifeOrChewButton.setText("VHT");
             }
         });
 
@@ -590,6 +603,19 @@ public class MainMenuActivity extends CollectAbstractActivity {
             builder
                     .create()
                     .show();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_PHONE_CALL: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "256756878460")));
+                }
+                return;
+            }
         }
     }
 }
