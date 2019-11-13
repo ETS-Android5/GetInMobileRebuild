@@ -36,7 +36,15 @@ import org.odk.collect.android.provider.InstanceProviderAPI.InstanceColumns;
 
 import timber.log.Timber;
 
-
+/**
+ * Mapped Girl's view displays a list of mapped girls by the VHT and midwife
+ * The VHT view only has follow up and postnatal
+ * The midwife view has appointment, follow up and postnatal
+ * The midwife is able to see all mapped girls from the vhts that she is attached to
+ * while the VHT can only see her mapped girls
+ *
+ * @author Phillip Kigenyi (codephillip@gmail.com)
+ * */
 public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMappedGirlsAdapter.ItemClickListener {
 
     View rootView;
