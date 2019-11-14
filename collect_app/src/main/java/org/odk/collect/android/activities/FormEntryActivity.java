@@ -1971,7 +1971,7 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
             return;
         }
 
-        nextButton.setVisibility(formController.getEvent() != FormEntryController.EVENT_END_OF_FORM ? View.VISIBLE : View.GONE);
+        nextButton.setVisibility(formController.getEvent() != FormEntryController.EVENT_END_OF_FORM ? View.VISIBLE : View.INVISIBLE);
     }
 
     @Override
