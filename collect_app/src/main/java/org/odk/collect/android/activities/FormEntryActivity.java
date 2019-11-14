@@ -1099,9 +1099,9 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
         } else if (saveName.contains(POSTNATAL_FORM_ID) || saveName.contains(POSTNATAL_FORM_MIDWIFE_ID)) {
             title = "Postnatal, " + clicked_girl;
         } else if (saveName.contains(APPOINTMENT_FORM_ID) || saveName.contains(APPOINTMENT_FORM_MIDWIFE_ID)) {
-            title = "Appointments, " + clicked_girl;
+            title = "ANC visit, " + clicked_girl;
         } else {
-            title = "Follow Up, " + clicked_girl;
+            title = "Follow up, " + clicked_girl;
         }
         setTitle(title);
 

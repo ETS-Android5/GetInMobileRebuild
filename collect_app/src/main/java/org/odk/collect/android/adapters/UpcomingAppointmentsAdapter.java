@@ -134,15 +134,20 @@ public class UpcomingAppointmentsAdapter extends RecyclerView.Adapter<UpcomingAp
                 holder.appointmentStatus.setTextColor(this.activity.getResources().getColor(R.color.light_orange));
             }
 
-            holder.appointmentButton.setOnClickListener(v -> {
-                Timber.d("clicked appointmentDate");
-                Timber.d("clicked appointmentDate girl id " + cursor.getServerid());
-                saveCredentialsInSharedPrefs(holder);
-                if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE))
-                    startFormActivity(APPOINTMENT_FORM_ID);
-                else
-                    startFormActivity(APPOINTMENT_FORM_MIDWIFE_ID);
-            });
+            if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE)) {
+                holder.appointmentButton.setVisibility(View.GONE);
+            } else {
+                holder.appointmentButton.setOnClickListener(v -> {
+                    Timber.d("clicked appointmentDate");
+                    Timber.d("clicked appointmentDate girl id " + cursor.getServerid());
+                    saveCredentialsInSharedPrefs(holder);
+                    if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE))
+                        startFormActivity(APPOINTMENT_FORM_ID);
+                    else
+                        startFormActivity(APPOINTMENT_FORM_MIDWIFE_ID);
+                });
+            }
+
 
             holder.callGirlButton.setOnClickListener(v -> {
 
