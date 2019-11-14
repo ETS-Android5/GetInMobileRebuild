@@ -267,8 +267,10 @@ public class SetupIntentService extends IntentService {
             values.putFirstname(girl.getFirstName());
             values.putLastname(girl.getLastName());
             values.putPhonenumber(girl.getPhoneNumber());
-            values.putNextofkinfirstname(girl.getNextOfKinFirstName());
-            values.putNextofkinlastname(girl.getNextOfKinLastName());
+            values.putNextofkinfirstnameNull();
+            values.putNextofkinlastnameNull();
+//            values.putNextofkinfirstname(girl.getNextOfKinFirstName());
+//            values.putNextofkinlastname(girl.getNextOfKinLastName());
             values.putNextofkinphonenumber(girl.getNextOfKinPhoneNumber());
             values.putEducationlevel(girl.getEducationLevel());
             values.putMaritalstatus(girl.getMaritalStatus());
@@ -293,10 +295,6 @@ public class SetupIntentService extends IntentService {
                 for (int i = 0; i < info.length; i++)
                     if (info[i].getState() == NetworkInfo.State.CONNECTED) {
                         try {
-                            //todo replace with async task
-                            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                            StrictMode.setThreadPolicy(policy);
-
                             HttpURLConnection urlc = (HttpURLConnection) (new URL("http://clients3.google.com").openConnection());
                             urlc.setRequestProperty("User-Agent", "Test");
                             urlc.setRequestProperty("Connection", "close");

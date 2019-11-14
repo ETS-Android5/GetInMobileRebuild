@@ -843,7 +843,7 @@
     <string name="call_midwife">Call Midwife</string>
     <string name="chew">VHT</string>
     <string name="midwife">Midwife</string>
-    <string name="set_appointment">Set appointment</string>
+    <string name="set_appointment">Set ANC visit</string>
     <string name="appointment_details">Appointment details</string>
     <string name="appointments">ANC Visits</string>
     <string name="title_activity_ambulance">AmbulanceActivity</string>
