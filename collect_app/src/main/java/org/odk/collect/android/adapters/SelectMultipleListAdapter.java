@@ -81,8 +81,6 @@ public class SelectMultipleListAdapter extends AbstractSelectListAdapter {
         AppCompatCheckBox checkBox = new AppCompatCheckBox(widget.getContext());
         adjustButton(checkBox, index);
         checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            Toast.makeText(buttonView.getContext(), "checkbox", Toast.LENGTH_SHORT).show();
-            Log.d("Checkbox", "setUpButton: clicked");
             if (isChecked) {
                 addItem(filteredItems.get(index).selection());
             } else {
