@@ -29,4 +29,10 @@ public class AmbulanceActivity extends CollectAbstractActivity {
         }
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
+
 }

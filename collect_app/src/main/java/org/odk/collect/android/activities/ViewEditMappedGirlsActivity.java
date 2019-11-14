@@ -21,4 +21,10 @@ public class ViewEditMappedGirlsActivity extends CollectAbstractActivity {
                     .commitNow();
         }
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
 }

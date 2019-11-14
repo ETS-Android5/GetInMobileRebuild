@@ -1328,6 +1328,8 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
                         if (event == FormEntryController.EVENT_BEGINNING_OF_FORM) {
                             event = formController.stepToNextScreenEvent();
                             beenSwiped = false;
+                            createQuitDialog();
+
 
                             if (event != FormEntryController.EVENT_PROMPT_NEW_REPEAT) {
                                 // Returning here prevents the same view sliding when user is on the first screen
@@ -1969,7 +1971,6 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
             return;
         }
 
-        backButton.setVisibility(formController.getEvent() != FormEntryController.EVENT_END_OF_FORM ? View.VISIBLE : View.GONE);
         nextButton.setVisibility(formController.getEvent() != FormEntryController.EVENT_END_OF_FORM ? View.VISIBLE : View.GONE);
     }
 
@@ -2878,7 +2879,6 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
     @Override
     public boolean onSupportNavigateUp() {
         showPreviousView();
-//        onBackPressed();
         return true;
     }
 }

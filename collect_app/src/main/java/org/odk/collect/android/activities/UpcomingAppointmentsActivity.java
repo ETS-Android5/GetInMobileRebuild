@@ -24,4 +24,10 @@ public class UpcomingAppointmentsActivity extends CollectAbstractActivity {
                     .commitNow();
         }
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
 }
