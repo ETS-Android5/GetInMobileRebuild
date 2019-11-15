@@ -73,10 +73,19 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true">
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".activities.AmbulanceActivity"
             android:label="@string/title_activity_ambulance"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <service
             android:name=".upload.SetupIntentService"
@@ -113,7 +122,6 @@
         <activity
             android:name=".activities.ViewEditMappedGirlsActivity"
             android:theme="@style/Theme.Collect.Activity.FormEntryActivity.Light" />
-
         <activity
             android:name=".activities.AmbulanceViewActivity"
             android:theme="@style/Theme.Collect.Activity.FormEntryActivity.Light" />

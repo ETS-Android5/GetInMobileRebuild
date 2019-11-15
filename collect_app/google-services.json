@@ -1,40 +1,45 @@
 {
   "project_info": {
-    "project_number": "895206029843",
-    "project_id": "opendatakit-collect-forks"
+    "project_number": "1055833680899",
+    "firebase_url": "https://hellofirechat.firebaseio.com",
+    "project_id": "hellofirechat",
+    "storage_bucket": "hellofirechat.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:895206029843:android:5e1d7c3c296329e8",
+        "mobilesdk_app_id": "1:1055833680899:android:105f903191b00356a5b236",
         "android_client_info": {
           "package_name": "org.odk.collect.android"
         }
       },
       "oauth_client": [
         {
-          "client_id": "895206029843-btufcdli1qptfd4sjrq5f0vdacsg68fj.apps.googleusercontent.com",
+          "client_id": "1055833680899-85lf6q6dkbu6ek7g33dpttjv3m8ejnj5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.odk.collect.android",
+            "certificate_hash": "f35f9d6de6edd310e53d2a356ce7c4f9fdca4a8a"
+          }
+        },
+        {
+          "client_id": "1055833680899-tc7jq30k377rk80m87isgeebfqn82fgq.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAD_MRym4ELgrqCJ4IGkPAdkfPXYX1WDeI"
+          "current_key": "AIzaSyAobIiltqZ55w6ic46Ti447B7BdRwwl2RI"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 2,
-          "analytics_property": {
-            "tracking_id": "UA-111083836-1"
-          }
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 1
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1055833680899-tc7jq30k377rk80m87isgeebfqn82fgq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
