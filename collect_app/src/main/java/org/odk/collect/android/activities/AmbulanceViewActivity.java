@@ -20,4 +20,10 @@ public class AmbulanceViewActivity extends CollectAbstractActivity {
                     .commitNow();
         }
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
 }

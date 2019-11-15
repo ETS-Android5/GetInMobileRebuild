@@ -259,7 +259,15 @@ public class SetupIntentService extends IntentService {
             throw new NullPointerException("Mapped girls not found");
         List<MappedGirlObject> mappedGirls = mappedGirl.getGirls();
 
-        deleteData();
+        long deleted = 0;
+        try {
+            if (mappedGirls.size() > 1)
+                deleted = getContentResolver().delete(MappedgirltableColumns.CONTENT_URI, null, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Timber.d("deleted data count %s", deleted);
+
 
         for (MappedGirlObject girl : mappedGirls) {
             MappedgirltableContentValues values = new MappedgirltableContentValues();
@@ -267,8 +275,8 @@ public class SetupIntentService extends IntentService {
             values.putFirstname(girl.getFirstName());
             values.putLastname(girl.getLastName());
             values.putPhonenumber(girl.getPhoneNumber());
-            values.putNextofkinfirstnameNull();
-            values.putNextofkinlastnameNull();
+//            values.putNextofkinfirstnameNull();
+//            values.putNextofkinlastnameNull();
 //            values.putNextofkinfirstname(girl.getNextOfKinFirstName());
 //            values.putNextofkinlastname(girl.getNextOfKinLastName());
             values.putNextofkinphonenumber(girl.getNextOfKinPhoneNumber());
@@ -280,7 +288,7 @@ public class SetupIntentService extends IntentService {
             values.putCompletedAllVisits(girl.getCompletedAllVisits());
             values.putPendingVisits(girl.getPendingVisits());
             values.putMissedVisits(girl.getMissedVisits());
-            values.putVillage(girl.getVillage().getName());
+//            values.putVillage(girl.getVillage().getName());
             values.putServerid(girl.getId());
             final Uri uri = values.insert(getContentResolver());
             Timber.d("saved mapped girl %s", uri);
