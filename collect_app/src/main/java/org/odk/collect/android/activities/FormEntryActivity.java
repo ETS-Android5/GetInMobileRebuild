@@ -183,6 +183,8 @@ import static org.odk.collect.android.preferences.GeneralKeys.KEY_BACKGROUND_LOC
 import static org.odk.collect.android.utilities.ApplicationConstants.APPOINTMENT_FORM_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.APPOINTMENT_FORM_MIDWIFE_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.GIRL_NAME;
+import static org.odk.collect.android.utilities.ApplicationConstants.MAP_GIRL_ARUA_FORM_CHEW_ID;
+import static org.odk.collect.android.utilities.ApplicationConstants.MAP_GIRL_ARUA_FORM_MIDWIFE_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.POSTNATAL_FORM_ID;
@@ -1094,15 +1096,30 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
 
 
         saveName = formController.getFormTitle();
-        if (saveName.contains(MAP_GIRL_BUNDIBUGYO_FORM_ID) || saveName.contains(MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID)) {
-            title = "Map a girl";
-        } else if (saveName.contains(POSTNATAL_FORM_ID) || saveName.contains(POSTNATAL_FORM_MIDWIFE_ID)) {
-            title = "Postnatal, " + clicked_girl;
-        } else if (saveName.contains(APPOINTMENT_FORM_ID) || saveName.contains(APPOINTMENT_FORM_MIDWIFE_ID)) {
-            title = "ANC visit, " + clicked_girl;
-        } else {
-            title = "Follow up, " + clicked_girl;
+
+        switch (saveName) {
+            case MAP_GIRL_BUNDIBUGYO_FORM_ID:
+            case MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID:
+            case MAP_GIRL_ARUA_FORM_CHEW_ID:
+            case MAP_GIRL_ARUA_FORM_MIDWIFE_ID:{
+                title = "Map a girl";
+                break;
+            }
+            case POSTNATAL_FORM_ID:
+            case POSTNATAL_FORM_MIDWIFE_ID: {
+                title = "Postnatal, " + clicked_girl;
+                break;
+            }
+            case APPOINTMENT_FORM_ID:
+            case APPOINTMENT_FORM_MIDWIFE_ID: {
+                title = "ANC visit, " + clicked_girl;
+                break;
+            }
+            default:
+                title = "Follow up, " + clicked_girl;
+                break;
         }
+
         setTitle(title);
 
         if (event != FormEntryController.EVENT_QUESTION) {

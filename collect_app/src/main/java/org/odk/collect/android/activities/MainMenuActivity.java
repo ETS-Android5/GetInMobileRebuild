@@ -85,8 +85,11 @@ import timber.log.Timber;
 
 import static org.odk.collect.android.preferences.GeneralKeys.KEY_SUBMISSION_TRANSPORT_TYPE;
 import static org.odk.collect.android.utilities.ApplicationConstants.CHEW_ROLE;
+import static org.odk.collect.android.utilities.ApplicationConstants.MAP_GIRL_ARUA_FORM_CHEW_ID;
+import static org.odk.collect.android.utilities.ApplicationConstants.MAP_GIRL_ARUA_FORM_MIDWIFE_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID;
+import static org.odk.collect.android.utilities.ApplicationConstants.USER_DISTRICT;
 import static org.odk.collect.android.utilities.ApplicationConstants.USER_ROLE;
 import static org.odk.collect.android.utilities.ApplicationConstants.VHT_MIDWIFE_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.VHT_MIDWIFE_PHONE;
@@ -138,22 +141,18 @@ public class MainMenuActivity extends CollectAbstractActivity {
         initToolbar();
 
         FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (!task.isSuccessful()) {
-                            Timber.w("getInstanceId failed" + task.getException());
-                            return;
-                        }
-
-                        // Get new Instance ID token
-                        String token = task.getResult().getToken();
-
-                        // Log and toast
-                        String msg = getString(R.string.msg_token_fmt, token);
-                        Timber.d(msg);
-                        ToastUtils.showShortToast(msg);
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Timber.w("getInstanceId failed" + task.getException());
+                        return;
                     }
+
+                    // Get new Instance ID token
+                    String token = task.getResult().getToken();
+
+                    // Log and toast
+                    String msg = getString(R.string.msg_token_fmt, token);
+                    Timber.d(msg);
                 });
 
         disableSmsIfNeeded();
@@ -174,9 +173,15 @@ public class MainMenuActivity extends CollectAbstractActivity {
                 if (Collect.allowClick(getClass().getName())) {
                     // get form depending on loggin user district
                     if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE))
-                        startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_ID);
+                        if (Prefs.getString(USER_DISTRICT, "BUNDIBUGYO").equals("BUNDIBUGYO"))
+                            startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_ID);
+                        else
+                            startFormActivity(MAP_GIRL_ARUA_FORM_CHEW_ID);
                     else
-                        startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID);
+                        if (Prefs.getString(USER_DISTRICT, "BUNDIBUGYO").equals("BUNDIBUGYO"))
+                            startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID);
+                        else
+                            startFormActivity(MAP_GIRL_ARUA_FORM_MIDWIFE_ID);
                 }
             }
         });

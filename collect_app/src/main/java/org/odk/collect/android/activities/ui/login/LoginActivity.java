@@ -55,6 +55,7 @@ import static org.odk.collect.android.utilities.ApplicationConstants.CHEW_ROLE;
 import static org.odk.collect.android.utilities.ApplicationConstants.DJANGO_BACKEND_URL;
 import static org.odk.collect.android.utilities.ApplicationConstants.MIDWIFE_ROLE;
 import static org.odk.collect.android.utilities.ApplicationConstants.SERVER_TOKEN;
+import static org.odk.collect.android.utilities.ApplicationConstants.USER_DISTRICT;
 import static org.odk.collect.android.utilities.ApplicationConstants.USER_FIRST_NAME;
 import static org.odk.collect.android.utilities.ApplicationConstants.USER_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.USER_LAST_NAME;
@@ -241,6 +242,8 @@ public class LoginActivity extends CollectAbstractActivity {
                         String firstName = userObject.getString("first_name");
                         Timber.d(firstName);
                         String lastName = userObject.getString("last_name");
+                        String district = userObject.getJSONObject("village").getJSONObject("parish").getJSONObject("sub_county")
+                                .getJSONObject("county").getJSONObject("district").getString("name");
                         String loggedInUserName = userObject.getString("username");
                         String userId = userObject.getString("id");
                         String role = userObject.getString("role");
@@ -253,11 +256,12 @@ public class LoginActivity extends CollectAbstractActivity {
                         Prefs.putString(SERVER_TOKEN, authToken);
                         Prefs.putString(USER_FIRST_NAME, firstName);
                         Prefs.putString(USER_LAST_NAME, lastName);
+                        Prefs.putString(USER_DISTRICT, district);
                         Prefs.putString(USER_NAME, loggedInUserName);
                         Prefs.putString(USER_ROLE, role);
 
                         try {
-                            if (role.equals(CHEW_ROLE)){
+                            if (role.equals(CHEW_ROLE)) {
                                 // get details of midwife attached to the vht
                                 JSONObject midwifeObject = userObject.getJSONObject("midwife");
                                 Timber.d("midwife phone: " + midwifeObject.getString("phone"));
@@ -293,8 +297,7 @@ public class LoginActivity extends CollectAbstractActivity {
                     Timber.e(e);
                     runOnUiThread(() -> Toast.makeText(LoginActivity.this,
                             "Login failed. Wrong username or password. Try again", Toast.LENGTH_SHORT).show());
-                }
-                catch (IllegalAccessException e) {
+                } catch (IllegalAccessException e) {
                     e.printStackTrace();
                     runOnUiThread(() -> Toast.makeText(LoginActivity.this,
                             "Login failed. User is not a " + userType, Toast.LENGTH_SHORT).show());

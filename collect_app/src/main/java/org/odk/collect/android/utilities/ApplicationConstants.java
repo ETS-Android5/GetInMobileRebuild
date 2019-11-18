@@ -110,6 +110,7 @@ public class ApplicationConstants {
     public static final String SERVER_TOKEN = "server_token";
     public static final String USER_FIRST_NAME = "user_first_name";
     public static final String USER_LAST_NAME = "user_last_name";
+    public static final String USER_DISTRICT = "user_district";
     public static final String USER_NAME = "user_name";
     public static final String VHT_MIDWIFE_ID = "vht_midwife_Id";
     public static final String VHT_MIDWIFE_NAME = "vht_midwife_Id";
@@ -121,15 +122,17 @@ public class ApplicationConstants {
     public static final String LOGIN_STATUS = "login_status";
     public static final String APPOINTMENT_FORM_ID = "GetINAppointment6_chew";
     public static final String APPOINTMENT_FORM_MIDWIFE_ID = "GetINAppointment10_midwife";
-    public static final String FOLLOW_UP_FORM_ID = "GetInFollowup17_chew";
-    public static final String FOLLOW_UP_FORM_MIDWIFE_ID = "GetInFollowup17_midwife";
+    public static final String FOLLOW_UP_FORM_ID = "GetInFollowup18_chew";
+    public static final String FOLLOW_UP_FORM_MIDWIFE_ID = "GetInFollowup18_midwife";
     public static final String MAP_GIRL_BUNDIBUGYO_FORM_ID = "GetInMapGirlBundibugyo17_chew";
     public static final String MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID = "GetInMapGirlBundibugyo16_midwife";
+    public static final String MAP_GIRL_ARUA_FORM_CHEW_ID = "GetInMapGirlArua1_chew";
+    public static final String MAP_GIRL_ARUA_FORM_MIDWIFE_ID = "GetInMapGirlArua1_midwife";
     public static final String POSTNATAL_FORM_ID = "GetINPostnatalForm5_chew";
     public static final String POSTNATAL_FORM_MIDWIFE_ID = "GetINPostnatalForm5_midwife";
     public static final String GIRL_ID = "GIRL_ID";
     public static final String GIRL_NAME = "GIRL_NAME";
     public static final String USER_ID = "USER_ID";
     public static final String DJANGO_BACKEND_URL = "http://testbackend.getinmobile.org/";
-    public static final String APP_USER_URL = "https://central.getinmobile.org/v1/key/WCoZ55Bi48dUnENkvbr7HG2MDk2FJVU7A6wCq1cWaDInwiGBwYjnX5Jefx464iFJ/projects/2";
+    public static final String APP_USER_URL = "https://testcentral.getinmobile.org/v1/key/WCoZ55Bi48dUnENkvbr7HG2MDk2FJVU7A6wCq1cWaDInwiGBwYjnX5Jefx464iFJ/projects/2";
 }

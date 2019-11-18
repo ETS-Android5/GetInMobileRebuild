@@ -66,7 +66,7 @@
     <string name="entering_repeat">Add Group</string>
     <string name="entering_repeat_ask">Add New Group?</string>
     <string name="enter_data">Fill Blank Form</string>
-    <string name="map_girl_button">Map Girl</string>
+    <string name="map_girl_button">Map a girl</string>
     <string name="error_occured">Error Occurred</string>
     <string name="error_attaching_binary_file">An error occurred while attaching the media: %s</string>
     <string name="fetching_file">Getting %1$s.\n\nForm %2$s of %3$s form(s).</string>
@@ -848,7 +848,7 @@
     <string name="appointments">ANC Visits</string>
     <string name="title_activity_ambulance">AmbulanceActivity</string>
     <string name="appointment_date">Appointment date: %s</string>
-    <string name="call_midwive">Call Midwive</string>
+    <string name="call_midwive">Call Midwife</string>
     <string name="call_vhts">Call VHTs</string>
 
     <string name="quickstart_message">Click the SUBSCRIBE TO WEATHER button below to subscribe to the
