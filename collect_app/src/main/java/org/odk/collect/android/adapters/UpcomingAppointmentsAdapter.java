@@ -31,7 +31,9 @@ import org.odk.collect.android.provider.appointmentstable.AppointmentstableCurso
 import org.odk.collect.android.provider.appointmentstable.AppointmentstableSelection;
 import org.odk.collect.android.provider.mappedgirltable.MappedgirltableCursor;
 import org.odk.collect.android.retrofitmodels.Value;
+import org.odk.collect.android.tasks.ServerPollingJob;
 import org.odk.collect.android.utilities.ApplicationConstants;
+import org.odk.collect.android.utilities.ToastUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -210,24 +212,32 @@ public class UpcomingAppointmentsAdapter extends RecyclerView.Adapter<UpcomingAp
     }
 
     private void startFormActivity(String formId) {
-        String selectionClause = FormsProviderAPI.FormsColumns.JR_FORM_ID + " LIKE ?";
-        String[] selectionArgs = {formId + "%"};
+        String selectionClause = null;
+        try {
+            selectionClause = FormsProviderAPI.FormsColumns.JR_FORM_ID + " LIKE ?";
+            String[] selectionArgs = {formId + "%"};
 
-        Cursor c = activity.getContentResolver().query(
-                FormsProviderAPI.FormsColumns.CONTENT_URI,  // The content URI of the words table
-                null,                       // The columns to return for each row
-                selectionClause,                  // Either null, or the word the user entered
-                selectionArgs,                    // Either empty, or the string the user entered
-                null);
+            Cursor c = activity.getContentResolver().query(
+                    FormsProviderAPI.FormsColumns.CONTENT_URI,  // The content URI of the words table
+                    null,                       // The columns to return for each row
+                    selectionClause,                  // Either null, or the word the user entered
+                    selectionArgs,                    // Either empty, or the string the user entered
+                    null);
 
-        c.moveToFirst();
+            c.moveToFirst();
 
-        Uri formUri = ContentUris.withAppendedId(FormsProviderAPI.FormsColumns.CONTENT_URI,
-                c.getLong(c.getColumnIndex(FormsProviderAPI.FormsColumns._ID)));
+            Uri formUri = ContentUris.withAppendedId(FormsProviderAPI.FormsColumns.CONTENT_URI,
+                    c.getLong(c.getColumnIndex(FormsProviderAPI.FormsColumns._ID)));
 
-        Intent intent = new Intent(Intent.ACTION_EDIT, formUri);
-        intent.putExtra(ApplicationConstants.BundleKeys.FORM_MODE, ApplicationConstants.FormModes.EDIT_SAVED);
-        activity.startActivity(intent);
+            Intent intent = new Intent(Intent.ACTION_EDIT, formUri);
+            intent.putExtra(ApplicationConstants.BundleKeys.FORM_MODE, ApplicationConstants.FormModes.EDIT_SAVED);
+            activity.startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            ToastUtils.showLongToast("Please connect to Internet and try again");
+            // download all empty forms from the server. this is required before user can fill in the form
+            ServerPollingJob.startJobImmediately();
+        }
     }
 
     @Override
