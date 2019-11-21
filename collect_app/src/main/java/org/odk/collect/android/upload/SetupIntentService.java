@@ -203,6 +203,8 @@ public class SetupIntentService extends IntentService {
         }
         Timber.d("deleted data count %s", deleted);
 
+        Timber.d("appointment row count " + appointments.size());
+
         for (Appointment appointment : appointments) {
             Timber.d("Appointment data " + appointment.getDate().toString() + appointment.getGirl().getLastName());
             AppointmentstableContentValues values = new AppointmentstableContentValues();
@@ -220,7 +222,13 @@ public class SetupIntentService extends IntentService {
             values.putMissedVisits(appointment.getGirl().getMissedVisits());
             values.putServerid(appointment.getGirl().getId());
             values.putTrimester(appointment.getGirl().getTrimester());
-            values.putVillage(appointment.getGirl().getVillage().getName());
+
+            try {
+                values.putVillage(appointment.getGirl().getVillage().getName());
+            } catch (Exception e) {
+                e.printStackTrace();
+                values.putVillageNull();
+            }
             values.putVhtName(appointment.getUser().getFirstName() + " " + appointment.getUser().getLastName());
             values.putAppointmentDate(appointment.getDate());
             values.putStatus(appointment.getStatus());
