@@ -36,7 +36,7 @@ public class UserstableColumns implements BaseColumns {
 
     public static final String MIDWIFEID = "midwifeId";
 
-    public static final String VILLAGE = "subcounty";
+    public static final String VILLAGE = "village";
 
 
     public static final String DEFAULT_ORDER = TABLE_NAME + "." +_ID;

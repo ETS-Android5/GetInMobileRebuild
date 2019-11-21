@@ -49,7 +49,7 @@ public class AppointmentstableColumns implements BaseColumns {
 
     public static final String TRIMESTER = "trimester";
 
-    public static final String VILLAGE = "subcounty";
+    public static final String VILLAGE = "village";
 
     public static final String STATUS = "status";
 

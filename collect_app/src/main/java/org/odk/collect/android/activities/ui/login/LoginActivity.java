@@ -242,7 +242,7 @@ public class LoginActivity extends CollectAbstractActivity {
                         String firstName = userObject.getString("first_name");
                         Timber.d(firstName);
                         String lastName = userObject.getString("last_name");
-                        String district = userObject.getJSONObject("subcounty").getJSONObject("parish").getJSONObject("sub_county")
+                        String district = userObject.getJSONObject("village").getJSONObject("parish").getJSONObject("sub_county")
                                 .getJSONObject("county").getJSONObject("district").getString("name");
                         String loggedInUserName = userObject.getString("username");
                         String userId = userObject.getString("id");

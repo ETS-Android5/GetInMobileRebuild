@@ -119,7 +119,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
             holder.phoneNumber.setText(phoneNumber);
             try {
                 holder.age.setText(cursor.getAge() + " Years");
-                Timber.d("girl subcounty " + cursor.getVillage());
+                Timber.d("girl village " + cursor.getVillage());
                 holder.village.setText(cursor.getVillage());
             } catch (Exception e) {
                 e.printStackTrace();

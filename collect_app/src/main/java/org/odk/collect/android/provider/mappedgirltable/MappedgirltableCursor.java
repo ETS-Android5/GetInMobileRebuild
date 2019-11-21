@@ -177,7 +177,7 @@ public class MappedgirltableCursor extends AbstractCursor implements Mappedgirlt
     }
 
     /**
-     * Get the {@code subcounty} value.
+     * Get the {@code village} value.
      * Can be {@code null}.
      */
     @Nullable

@@ -24,7 +24,7 @@ public class Midwife {
     @SerializedName("gender")
     @Expose
     private String gender;
-    @SerializedName("subcounty")
+    @SerializedName("village")
     @Expose
     private Integer village;
     @SerializedName("number_plate")

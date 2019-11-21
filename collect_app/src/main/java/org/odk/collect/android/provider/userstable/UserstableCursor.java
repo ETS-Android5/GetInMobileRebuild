@@ -106,7 +106,7 @@ public class UserstableCursor extends AbstractCursor implements UserstableModel 
     }
 
     /**
-     * Get the {@code subcounty} value.
+     * Get the {@code village} value.
      * Can be {@code null}.
      */
     @Nullable

@@ -68,7 +68,7 @@ public interface UserstableModel extends BaseModel {
     String getMidwifeid();
 
     /**
-     * Get the {@code subcounty} value.
+     * Get the {@code village} value.
      * Can be {@code null}.
      */
     @Nullable

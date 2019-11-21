@@ -118,7 +118,7 @@ public interface MappedgirltableModel extends BaseModel {
     Integer getMissedVisits();
 
     /**
-     * Get the {@code subcounty} value.
+     * Get the {@code village} value.
      * Can be {@code null}.
      */
     @Nullable

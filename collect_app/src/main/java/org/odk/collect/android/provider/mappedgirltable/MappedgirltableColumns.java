@@ -47,7 +47,7 @@ public class MappedgirltableColumns implements BaseColumns {
 
     public static final String MISSED_VISITS = "missed_visits";
 
-    public static final String VILLAGE = "subcounty";
+    public static final String VILLAGE = "village";
 
 
     public static final String DEFAULT_ORDER = TABLE_NAME + "." +_ID;

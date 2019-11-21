@@ -32,7 +32,7 @@ public class SystemUsers {
     @SerializedName("gender")
     @Expose
     private String gender;
-    @SerializedName("subcounty")
+    @SerializedName("village")
     @Expose
     private Village village;
     @SerializedName("number_plate")
