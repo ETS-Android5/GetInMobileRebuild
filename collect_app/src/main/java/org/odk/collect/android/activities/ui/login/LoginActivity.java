@@ -211,7 +211,6 @@ public class LoginActivity extends CollectAbstractActivity {
             public void onFailure(Call call, IOException e) {
                 String mMessage = e.getMessage().toString();
                 Timber.e("failure Response login" + mMessage);
-                loadingProgressBar.setVisibility(View.GONE);
                 runOnUiThread(() -> {
                     Toast.makeText(LoginActivity.this,
                             "Login failed. Wrong username or password", Toast.LENGTH_SHORT).show();
