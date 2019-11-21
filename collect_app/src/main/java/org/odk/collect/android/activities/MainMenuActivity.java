@@ -14,9 +14,11 @@
 
 package org.odk.collect.android.activities;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -32,6 +34,7 @@ import android.preference.PreferenceManager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -311,6 +314,20 @@ public class MainMenuActivity extends CollectAbstractActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setTitle(getString(R.string.app_name));
         setSupportActionBar(toolbar);
+
+        Button button = toolbar.findViewById(R.id.help_button);
+        button.setOnClickListener(v -> {
+            try {
+                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(MainMenuActivity.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
+                } else {
+                    startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + getString(R.string.help_phone))));
+                }
+            } catch (ActivityNotFoundException e) {
+                Timber.e(e);
+                startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + getString(R.string.help_phone))));
+            }
+        });
     }
 
     @Override
@@ -619,7 +636,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
             case REQUEST_PHONE_CALL: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "256756878460")));
+                    startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + getString(R.string.help_phone))));
                 }
                 return;
             }
