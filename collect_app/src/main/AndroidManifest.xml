@@ -73,6 +73,14 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true">
+        <receiver
+            android:name=".NotificationAlarmTrigger"
+            android:enabled="true"
+            android:exported="true"></receiver>
+
+        <service
+            android:name=".NotificationTriggerService"
+            android:exported="false" />
         <service
             android:name=".MyFirebaseMessagingService"
             android:enabled="true"
@@ -81,7 +89,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <service
             android:name=".upload.SetupIntentService"
             android:exported="false" />

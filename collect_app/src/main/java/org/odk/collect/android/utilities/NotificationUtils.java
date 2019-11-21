@@ -20,10 +20,14 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import androidx.core.app.NotificationCompat;
 
 import org.odk.collect.android.R;
+import org.odk.collect.android.activities.MainMenuActivity;
 import org.odk.collect.android.application.Collect;
 
 public class NotificationUtils {
@@ -31,7 +35,7 @@ public class NotificationUtils {
     public static final String CHANNEL_ID = "collect_notification_channel";
     public static final int FORM_UPDATE_NOTIFICATION_ID = 0;
 
-    private NotificationUtils() {
+    public NotificationUtils() {
     }
 
     public static void createNotificationChannel(Collect collect) {
@@ -66,5 +70,37 @@ public class NotificationUtils {
         if (manager != null) {
             manager.notify(notificationId, builder.build());
         }
+    }
+
+    public static void showNotificationMessage(String messageBody) {
+        Context context = Collect.getInstance();
+        Intent intent = new Intent(context, MainMenuActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* Request code */, intent,
+                PendingIntent.FLAG_ONE_SHOT);
+
+        String channelId = context.getString(R.string.default_notification_channel_id);
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder =
+                new NotificationCompat.Builder(context, channelId)
+                        .setSmallIcon(R.drawable.ic_getinlogo_notification)
+                        .setContentTitle(context.getString(R.string.fcm_message))
+                        .setContentText(messageBody)
+                        .setAutoCancel(true)
+                        .setSound(defaultSoundUri)
+                        .setContentIntent(pendingIntent);
+
+        NotificationManager notificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        // Since android Oreo notification channel is needed.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(channelId,
+                    "Channel human readable title",
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        notificationManager.notify(46 /* ID of notification */, notificationBuilder.build());
     }
 }

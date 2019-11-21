@@ -16,10 +16,13 @@ package org.odk.collect.android.activities;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,10 +36,17 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.Observer;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkInfo;
+import androidx.work.WorkManager;
 
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -45,10 +55,15 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+
+import com.evernote.android.job.JobManager;
+import com.evernote.android.job.JobRequest;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.pixplicity.easyprefs.library.Prefs;
 
+import org.odk.collect.android.NotificationAlarmTrigger;
+import org.odk.collect.android.NotifyWorker;
 import org.odk.collect.android.R;
 import org.odk.collect.android.application.Collect;
 import org.odk.collect.android.dao.InstancesDao;
@@ -72,12 +87,15 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.lang.ref.WeakReference;
+import java.util.Calendar;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
 
 import timber.log.Timber;
 
 import static org.odk.collect.android.preferences.GeneralKeys.KEY_SUBMISSION_TRANSPORT_TYPE;
+import static org.odk.collect.android.tasks.ServerPollingJob.ONE_DAY_PERIOD;
 import static org.odk.collect.android.utilities.ApplicationConstants.CHEW_ROLE;
 import static org.odk.collect.android.utilities.ApplicationConstants.MAP_GIRL_ARUA_FORM_CHEW_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.MAP_GIRL_ARUA_FORM_MIDWIFE_ID;
@@ -99,6 +117,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
     private static final int PASSWORD_DIALOG = 1;
 
     private static final boolean EXIT = true;
+    private static final String TASK_ID = "NotificationWorker";
     // buttons
     private Button manageFilesButton;
     private Button sendDataButton;
@@ -230,6 +249,11 @@ public class MainMenuActivity extends CollectAbstractActivity {
             return;
         }
 
+
+        // trigger periodic worker and alarm manager to re enforce the success of the notifications
+        // since some phone manufactures kill background services
+        triggerAppUsageReminderWorkManager();
+        triggerAppUsageReminderNotificationAlarm(this);
 
         File f = new File(Collect.ODK_ROOT + "/collect.settings");
         File j = new File(Collect.ODK_ROOT + "/collect.settings.json");
@@ -642,4 +666,25 @@ public class MainMenuActivity extends CollectAbstractActivity {
             }
         }
     }
+
+    private void triggerAppUsageReminderWorkManager() {
+        WorkManager workManager = WorkManager.getInstance();
+        PeriodicWorkRequest notifyAlarmRequest = new PeriodicWorkRequest.Builder(NotifyWorker.class, 1, TimeUnit.HOURS).build();
+        workManager.enqueueUniquePeriodicWork(TASK_ID, ExistingPeriodicWorkPolicy.REPLACE, notifyAlarmRequest);
+    }
+
+    private void triggerAppUsageReminderNotificationAlarm(Context context) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 11);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.add(Calendar.DATE, 1);
+
+        Intent alarmIntent = new Intent(context, NotificationAlarmTrigger.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() + AlarmManager.INTERVAL_FIFTEEN_MINUTES, AlarmManager.INTERVAL_DAY, pendingIntent);
+    }
+
 }

@@ -361,6 +361,7 @@ dependencies {
     implementation 'com.rilixtech:materialfancybuttons:1.8.8'
     implementation 'com.rilixtech:fontawesome-typeface:4.7.0.4'
     implementation 'com.pixplicity.easyprefs:library:1.8.1@aar'
+    implementation "androidx.work:work-runtime:2.3.0-beta01"
 }
 
 // Must be at bottom to prevent dependency collisions
