@@ -14,11 +14,9 @@
 
 package org.odk.collect.android.activities;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -34,10 +32,8 @@ import android.preference.PreferenceManager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
 
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -46,13 +42,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Toast;
-
 import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import org.odk.collect.android.R;
@@ -92,7 +83,6 @@ import static org.odk.collect.android.utilities.ApplicationConstants.MAP_GIRL_BU
 import static org.odk.collect.android.utilities.ApplicationConstants.USER_DISTRICT;
 import static org.odk.collect.android.utilities.ApplicationConstants.USER_ROLE;
 import static org.odk.collect.android.utilities.ApplicationConstants.VHT_MIDWIFE_ID;
-import static org.odk.collect.android.utilities.ApplicationConstants.VHT_MIDWIFE_PHONE;
 
 /**
  * Responsible for displaying buttons to launch the major activities. Launches
@@ -123,10 +113,6 @@ public class MainMenuActivity extends CollectAbstractActivity {
     private final IncomingHandler handler = new IncomingHandler(this);
     private final MyContentObserver contentObserver = new MyContentObserver();
     private static final int REQUEST_PHONE_CALL = 34;
-    private String midwifePhoneNumber;
-
-
-    // private static boolean DO_NOT_EXIT = false;
 
     public static void startActivityAndCloseAllOthers(Activity activity) {
         activity.startActivity(new Intent(activity, MainMenuActivity.class));
@@ -225,23 +211,6 @@ public class MainMenuActivity extends CollectAbstractActivity {
                 Intent i = new Intent(getApplicationContext(), CallUserViewActivity.class);
                 startActivity(i);
             }
-
-//            if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE)) {
-//                midwifePhoneNumber = Prefs.getString(VHT_MIDWIFE_PHONE, "0");
-//                try {
-//                    if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-//                        ActivityCompat.requestPermissions(MainMenuActivity.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
-//                    } else {
-//                        startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + midwifePhoneNumber)));
-//                    }
-//                } catch (ActivityNotFoundException e) {
-//                    Timber.e(e);
-//                    startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + midwifePhoneNumber)));
-//                }
-//            } else {
-//                //todo open list of vhts
-//                ToastUtils.showShortToast("Call VHTs");
-//            }
         });
 
         callAmbulanceButton = findViewById(R.id.call_ambulance);

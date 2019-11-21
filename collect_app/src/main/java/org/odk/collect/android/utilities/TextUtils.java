@@ -155,7 +155,7 @@ public class TextUtils {
     }
 
     public static String toCapitalize(String word) {
-        return word.substring(0, 1).toUpperCase() + word.substring(1);
+        return word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase();
     }
 }
 
