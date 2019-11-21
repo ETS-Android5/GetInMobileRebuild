@@ -201,9 +201,9 @@ public class ODKView extends FrameLayout implements OnLongClickListener, WidgetV
             indexAccountingForDividers += 1;
         }
 
-        if (index > 0) {
-            view.addView(getDividerView(), indexAccountingForDividers - 1);
-        }
+//        if (index > 0) {
+//            view.addView(getDividerView(), indexAccountingForDividers - 1);
+//        }
         view.addView(qw, indexAccountingForDividers, layout);
     }
 
@@ -277,7 +277,7 @@ public class ODKView extends FrameLayout implements OnLongClickListener, WidgetV
         if (!path.isEmpty()) {
             TextView tv = new TextView(getContext());
             tv.setText(path);
-            tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Collect.getQuestionFontsize() - 4);
+            tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Collect.getQuestionFontsize() + 2);
             tv.setPadding(0, 0, 0, 5);
             view.addView(tv, layout);
         }
@@ -394,7 +394,7 @@ public class ODKView extends FrameLayout implements OnLongClickListener, WidgetV
             }
         });
 
-        view.addView(getDividerView());
+//        view.addView(getDividerView());
 
         view.addView(launchIntentButton, layout);
     }
