@@ -99,12 +99,6 @@ public class LoginActivity extends CollectAbstractActivity {
                     return;
                 }
                 loginButton.setEnabled(loginFormState.isDataValid());
-                if (loginFormState.getUsernameError() != null) {
-                    usernameEditText.setError(getString(loginFormState.getUsernameError()));
-                }
-                if (loginFormState.getPasswordError() != null) {
-                    passwordEditText.setError(getString(loginFormState.getPasswordError()));
-                }
             }
         });
 
@@ -156,20 +150,15 @@ public class LoginActivity extends CollectAbstractActivity {
             }
         });
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                loadingProgressBar.setVisibility(View.VISIBLE);
-//                loginViewModel.login(usernameEditText.getText().toString(),
-//                        passwordEditText.getText().toString());
-                loginButton.setEnabled(false);
-                try {
-                    Timber.d("start post request");
-                    postRequest(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        loginButton.setOnClickListener(v -> {
+            loadingProgressBar.setVisibility(View.VISIBLE);
+            loginButton.setEnabled(false);
+            try {
+                Timber.d("start post request");
+                postRequest(usernameEditText.getText().toString(),
+                        passwordEditText.getText().toString());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
     }

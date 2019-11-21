@@ -109,7 +109,11 @@ public class UpcomingAppointmentsAdapter extends RecyclerView.Adapter<UpcomingAp
             holder.maritalStatus.setText(org.odk.collect.android.utilities
                     .TextUtils.toCapitalize(cursor.getMaritalstatus()));
 
-//            holder.subcounty.setText(cursor.getVillage());
+            try {
+                holder.village.setText(cursor.getVillage());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             final String phoneNumber = getActivePhoneNumber(cursor);
             holder.phoneNumber.setText(phoneNumber);

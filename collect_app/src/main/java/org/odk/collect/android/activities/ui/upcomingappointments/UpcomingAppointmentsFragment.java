@@ -84,7 +84,5 @@ public class UpcomingAppointmentsFragment extends Fragment implements UpcomingAp
     @Override
     public void onItemClick(View view, int position, Value value) {
         ToastUtils.showShortToast("clicked item");
-//        Intent intent = new Intent(getActivity(), PregnancySummaryActivity.class);
-//        startActivity(intent);
     }
 }

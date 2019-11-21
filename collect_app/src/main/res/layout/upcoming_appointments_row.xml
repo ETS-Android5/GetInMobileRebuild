@@ -87,6 +87,7 @@
                     android:text="20 Years" />
 
                 <TextView
+                    android:id="@+id/village"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_medium"
@@ -130,14 +131,13 @@
 
             <Button
                 android:id="@+id/create_upcoming_appointment_button"
-                style="@style/Widget.Collect.Button.HomeScreen"
+                style="@style/Widget.Collect.Button.ListViewScreen"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@drawable/round_button_white"
                 android:text="@string/set_appointment"
                 android:textAllCaps="false"
-                android:textColor="@color/getin_blue"
-                android:textSize="@dimen/text_size_extra_small" />
+                android:textColor="@color/getin_blue" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

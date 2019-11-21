@@ -173,9 +173,6 @@ public class ODKView extends FrameLayout implements OnLongClickListener, WidgetV
 
         widgets.add(qw);
 
-//        if (widgets.size() > 1) {
-//            view.addView(getDividerView());
-//        }
         view.addView(qw, layout);
     }
 
@@ -201,9 +198,6 @@ public class ODKView extends FrameLayout implements OnLongClickListener, WidgetV
             indexAccountingForDividers += 1;
         }
 
-//        if (index > 0) {
-//            view.addView(getDividerView(), indexAccountingForDividers - 1);
-//        }
         view.addView(qw, indexAccountingForDividers, layout);
     }
 
@@ -219,14 +213,6 @@ public class ODKView extends FrameLayout implements OnLongClickListener, WidgetV
         qw.setId(ViewIds.generateViewId());
 
         return qw;
-    }
-
-    private View getDividerView() {
-        View divider = new View(getContext());
-        divider.setBackgroundResource(new ThemeUtils(getContext()).getDivider());
-        divider.setMinimumHeight(3);
-
-        return divider;
     }
 
     public Bundle getState() {
