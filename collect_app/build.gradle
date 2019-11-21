@@ -92,49 +92,49 @@ android {
         }
     }
 
-    buildTypes {
-        // Release build for all forks
-        release {
-            if (secrets.getProperty('RELEASE_STORE_FILE')) {
-                signingConfig signingConfigs.release
-            }
-            minifyEnabled(true)
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-            resValue("bool", "FIREBASE_ENABLED", "false")
-            resValue("string", "GOOGLE_MAPS_API_KEY", googleMapsApiKey)
-            buildConfigField 'String', "MAPBOX_ACCESS_TOKEN", '"' + mapboxToken + '"'
-        }
-        // Release build for the official ODK Collect app
-        odkCollectRelease {
-            if (secrets.getProperty('RELEASE_STORE_FILE')) {
-                signingConfig signingConfigs.release
-            }
-            minifyEnabled(true)
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-            resValue("bool", "FIREBASE_ENABLED", "true")
-            resValue("string", "GOOGLE_MAPS_API_KEY", googleMapsApiKey)
-            buildConfigField 'String', "MAPBOX_ACCESS_TOKEN", '"' + mapboxToken + '"'
-        }
-        debug {
-            debuggable(true)
-            testCoverageEnabled(true)
-            resValue("bool", "FIREBASE_ENABLED", "false")
-            resValue("string", "GOOGLE_MAPS_API_KEY", googleMapsApiKey)
-            buildConfigField 'String', "MAPBOX_ACCESS_TOKEN", '"' + mapboxToken + '"'
-        }
-    }
+//    buildTypes {
+//        // Release build for all forks
+//        release {
+//            if (secrets.getProperty('RELEASE_STORE_FILE')) {
+//                signingConfig signingConfigs.release
+//            }
+//            minifyEnabled(false)
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+//            resValue("bool", "FIREBASE_ENABLED", "false")
+//            resValue("string", "GOOGLE_MAPS_API_KEY", googleMapsApiKey)
+//            buildConfigField 'String', "MAPBOX_ACCESS_TOKEN", '"' + mapboxToken + '"'
+//        }
+//        // Release build for the official ODK Collect app
+//        odkCollectRelease {
+//            if (secrets.getProperty('RELEASE_STORE_FILE')) {
+//                signingConfig signingConfigs.release
+//            }
+//            minifyEnabled(false)
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+//            resValue("bool", "FIREBASE_ENABLED", "true")
+//            resValue("string", "GOOGLE_MAPS_API_KEY", googleMapsApiKey)
+//            buildConfigField 'String', "MAPBOX_ACCESS_TOKEN", '"' + mapboxToken + '"'
+//        }
+//        debug {
+//            debuggable(true)
+//            testCoverageEnabled(true)
+//            resValue("bool", "FIREBASE_ENABLED", "false")
+//            resValue("string", "GOOGLE_MAPS_API_KEY", googleMapsApiKey)
+//            buildConfigField 'String', "MAPBOX_ACCESS_TOKEN", '"' + mapboxToken + '"'
+//        }
+//    }
 
     // https://stackoverflow.com/a/27119543/152938
-    applicationVariants.all { variant ->
-        variant.outputs.all { output ->
-            outputFileName = new File(outputFileName.replace(".apk", "-${defaultConfig.versionName}.apk"))
-        }
-    }
-    testVariants.all { variant ->
-        variant.outputs.all { output ->
-            outputFileName = new File(outputFileName.replace(".apk", "-${defaultConfig.versionName}.apk"))
-        }
-    }
+//    applicationVariants.all { variant ->
+//        variant.outputs.all { output ->
+//            outputFileName = new File(outputFileName.replace(".apk", "-${defaultConfig.versionName}.apk"))
+//        }
+//    }
+//    testVariants.all { variant ->
+//        variant.outputs.all { output ->
+//            outputFileName = new File(outputFileName.replace(".apk", "-${defaultConfig.versionName}.apk"))
+//        }
+//    }
 
     packagingOptions {
         // Pick first occurrence of any files that cause conflicts, as defined
@@ -277,7 +277,7 @@ dependencies {
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${rootProject.leakyCanaryVersion}"
     testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${rootProject.leakyCanaryVersion}"
     androidTestImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${rootProject.leakyCanaryVersion}"
-    odkCollectReleaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${rootProject.leakyCanaryVersion}"
+//    odkCollectReleaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${rootProject.leakyCanaryVersion}"
 
     // Android Architecture Components:
     implementation "androidx.lifecycle:lifecycle-extensions:2.1.0-alpha04"

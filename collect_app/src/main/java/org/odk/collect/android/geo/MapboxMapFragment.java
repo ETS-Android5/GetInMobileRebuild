@@ -478,7 +478,7 @@ public class MapboxMapFragment extends org.odk.collect.android.geo.mapboxsdk.Map
     }
 
     private Style.Builder getBasemapStyleBuilder() {
-        if (BuildConfig.MAPBOX_ACCESS_TOKEN.isEmpty()) {
+        if (true) {
             // When the MAPBOX_ACCESS_TOKEN is missing, any attempt to load
             // map data from Mapbox will cause the Mapbox SDK to abort with an
             // uncatchable assertion failure, so we have to be careful to avoid

@@ -134,9 +134,10 @@ public class ApplicationConstants {
     public static final String GIRL_NAME = "GIRL_NAME";
     public static final String USER_ID = "USER_ID";
     //todo use env
-    public static final String DJANGO_BACKEND_URL = "http://testbackend.getinmobile.org/";
-//    public static final String DJANGO_BACKEND_URL = "http://backend.getinmobile.org/";
-    public static final String APP_USER_URL = "https://testcentral.getinmobile.org/v1/key/WCoZ55Bi48dUnENkvbr7HG2MDk2FJVU7A6wCq1cWaDInwiGBwYjnX5Jefx464iFJ/projects/2";
+//    public static final String DJANGO_BACKEND_URL = "http://testbackend.getinmobile.org/";
+    public static final String DJANGO_BACKEND_URL = "http://backend.getinmobile.org/";
+//    public static final String APP_USER_URL = "https://testcentral.getinmobile.org/v1/key/WCoZ55Bi48dUnENkvbr7HG2MDk2FJVU7A6wCq1cWaDInwiGBwYjnX5Jefx464iFJ/projects/2";
+    public static final String APP_USER_URL = "https://odkcentral.getinmobile.org/v1/key/VpxV1j2OKjioeXi3X3tVDaD9F4EE8rOAp8xeV5mdwycmBRvf!CQ$RYvKnnQx8dKf/projects/2";
     public static final String LAST_NOTIFICATION_TIME = "last_notification";
-//    public static final String APP_USER_URL = "https://odkcentral.getinmobile.org/v1/key/VpxV1j2OKjioeXi3X3tVDaD9F4EE8rOAp8xeV5mdwycmBRvf!CQ$RYvKnnQx8dKf/projects/2";
+
 }

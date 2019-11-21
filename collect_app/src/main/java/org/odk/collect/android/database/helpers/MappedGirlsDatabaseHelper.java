@@ -138,8 +138,8 @@ public class MappedGirlsDatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         if (BuildConfig.DEBUG) Log.d(TAG, "onCreate");
         mOpenHelperCallbacks.onPreCreate(mContext, db);
-        db.execSQL(SQL_CREATE_TABLE_APPOINTMENTSTABLE);
         db.execSQL(SQL_CREATE_TABLE_MAPPEDGIRLTABLE);
+        db.execSQL(SQL_CREATE_TABLE_APPOINTMENTSTABLE);
         db.execSQL(SQL_CREATE_TABLE_USERSTABLE);
         mOpenHelperCallbacks.onPostCreate(mContext, db);
     }

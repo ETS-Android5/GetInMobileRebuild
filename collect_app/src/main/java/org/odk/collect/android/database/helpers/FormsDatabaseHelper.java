@@ -26,6 +26,9 @@ import org.odk.collect.android.utilities.CustomSQLiteQueryBuilder;
 import timber.log.Timber;
 
 import static android.provider.BaseColumns._ID;
+import static org.odk.collect.android.database.helpers.MappedGirlsDatabaseHelper.SQL_CREATE_TABLE_APPOINTMENTSTABLE;
+import static org.odk.collect.android.database.helpers.MappedGirlsDatabaseHelper.SQL_CREATE_TABLE_MAPPEDGIRLTABLE;
+import static org.odk.collect.android.database.helpers.MappedGirlsDatabaseHelper.SQL_CREATE_TABLE_USERSTABLE;
 import static org.odk.collect.android.provider.FormsProviderAPI.FormsColumns.AUTO_DELETE;
 import static org.odk.collect.android.provider.FormsProviderAPI.FormsColumns.AUTO_SEND;
 import static org.odk.collect.android.provider.FormsProviderAPI.FormsColumns.BASE64_RSA_PUBLIC_KEY;
@@ -85,6 +88,7 @@ public class FormsDatabaseHelper extends SQLiteOpenHelper {
                 break;
             default:
                 Timber.i("Unknown version %s", oldVersion);
+                break;
         }
 
         Timber.i("Upgrading database from version %d to %d completed with success.", oldVersion, newVersion);
@@ -321,5 +325,8 @@ public class FormsDatabaseHelper extends SQLiteOpenHelper {
                 + AUTO_SEND + " text, "
                 + AUTO_DELETE + " text, "
                 + LAST_DETECTED_FORM_VERSION_HASH + " text);");
+//        db.execSQL(SQL_CREATE_TABLE_MAPPEDGIRLTABLE);
+//        db.execSQL(SQL_CREATE_TABLE_APPOINTMENTSTABLE);
+//        db.execSQL(SQL_CREATE_TABLE_USERSTABLE);
     }
 }
