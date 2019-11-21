@@ -10,15 +10,46 @@ import android.net.Uri;
 import android.os.Build;
 import androidx.core.app.NotificationCompat;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.odk.collect.android.activities.MainMenuActivity;
 import org.odk.collect.android.activities.data.LoginDataSource;
+import org.odk.collect.android.activities.ui.login.LoginActivity;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import timber.log.Timber;
+
+import static org.odk.collect.android.utilities.ApplicationConstants.APP_USER_URL;
+import static org.odk.collect.android.utilities.ApplicationConstants.CHEW_ROLE;
+import static org.odk.collect.android.utilities.ApplicationConstants.DJANGO_BACKEND_URL;
+import static org.odk.collect.android.utilities.ApplicationConstants.SERVER_TOKEN;
+import static org.odk.collect.android.utilities.ApplicationConstants.USER_DISTRICT;
+import static org.odk.collect.android.utilities.ApplicationConstants.USER_FIRST_NAME;
+import static org.odk.collect.android.utilities.ApplicationConstants.USER_ID;
+import static org.odk.collect.android.utilities.ApplicationConstants.USER_LAST_NAME;
+import static org.odk.collect.android.utilities.ApplicationConstants.USER_NAME;
+import static org.odk.collect.android.utilities.ApplicationConstants.USER_ROLE;
+import static org.odk.collect.android.utilities.ApplicationConstants.VHT_MIDWIFE_ID;
+import static org.odk.collect.android.utilities.ApplicationConstants.VHT_MIDWIFE_NAME;
+import static org.odk.collect.android.utilities.ApplicationConstants.VHT_MIDWIFE_PHONE;
 
 /**
  * NOTE: There can only be one service in each app that receives FCM messages. If multiple
@@ -90,8 +121,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     // [END receive_message]
 
 
-    // [START on_new_token]
-
     /**
      * Called if InstanceID token is updated. This may occur if the security of
      * the previous token had been compromised. Note that this is called when the InstanceID token
@@ -101,12 +130,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onNewToken(String token) {
         Log.d(TAG, "Refreshed token: " + token);
 
-        // If you want to send messages to this application instance or
-        // manage this apps subscriptions on the server side, send the
-        // Instance ID token to your app server.
+        // Inorder to send the Instance ID token to the app server.
         sendRegistrationToServer(token);
     }
-    // [END on_new_token]
 
     /**
      * Schedule async work using WorkManager.
@@ -132,10 +158,47 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * Modify this method to associate the user's FCM InstanceID token with any server-side account
      * maintained by your application.
      *
-     * @param token The new token.
+     * @param firebase_device_id The new token.
      */
-    private void sendRegistrationToServer(String token) {
-        // TODO: Implement this method to send token to your app server.
+    private void sendRegistrationToServer(String firebase_device_id) {
+        Timber.d("postrequest started");
+
+        MediaType MEDIA_TYPE = MediaType.parse("application/json");
+        String url = DJANGO_BACKEND_URL + "api/v1/notifier";
+
+        OkHttpClient client = new OkHttpClient();
+
+        JSONObject postdata = new JSONObject();
+        try {
+            postdata.put("user_id", firebase_device_id);
+            postdata.put("firebase_device_id", firebase_device_id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RequestBody body = RequestBody.create(MEDIA_TYPE, postdata.toString());
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .header("Accept", "application/json")
+                .header("Content-Type", "application/json")
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                String mMessage = e.getMessage().toString();
+                Timber.e("failure Response login" + mMessage);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String responseBody = response.body().string();
+                Timber.d("onResponse: notifier" + responseBody);
+                Timber.d("onResponse: notifier" + response.code());
+            }
+        });
     }
 
     /**
