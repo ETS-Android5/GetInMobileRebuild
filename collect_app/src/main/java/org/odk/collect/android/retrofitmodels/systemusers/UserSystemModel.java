@@ -48,7 +48,7 @@ public class UserSystemModel {
         return results;
     }
 
-    public void setResults(List<SystemUsers> results) {
+    public void setSystemUsers(List<SystemUsers> results) {
         this.results = results;
     }
 

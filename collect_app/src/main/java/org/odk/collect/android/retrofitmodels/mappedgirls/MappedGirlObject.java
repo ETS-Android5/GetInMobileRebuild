@@ -17,7 +17,7 @@ public class MappedGirlObject {
     @SerializedName("last_name")
     @Expose
     private String lastName;
-    @SerializedName("village")
+    @SerializedName("subcounty")
     @Expose
     private Village village;
     @SerializedName("phone_number")

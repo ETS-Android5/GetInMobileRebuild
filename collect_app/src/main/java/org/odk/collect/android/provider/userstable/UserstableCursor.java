@@ -26,6 +26,16 @@ public class UserstableCursor extends AbstractCursor implements UserstableModel 
     }
 
     /**
+     * Get the {@code userid} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public String getUserid() {
+        String res = getStringOrNull(UserstableColumns.USERID);
+        return res;
+    }
+
+    /**
      * Get the {@code firstname} value.
      * Can be {@code null}.
      */
@@ -96,7 +106,7 @@ public class UserstableCursor extends AbstractCursor implements UserstableModel 
     }
 
     /**
-     * Get the {@code village} value.
+     * Get the {@code subcounty} value.
      * Can be {@code null}.
      */
     @Nullable

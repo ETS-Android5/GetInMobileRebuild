@@ -242,7 +242,7 @@ public class LoginActivity extends CollectAbstractActivity {
                         String firstName = userObject.getString("first_name");
                         Timber.d(firstName);
                         String lastName = userObject.getString("last_name");
-                        String district = userObject.getJSONObject("village").getJSONObject("parish").getJSONObject("sub_county")
+                        String district = userObject.getJSONObject("subcounty").getJSONObject("parish").getJSONObject("sub_county")
                                 .getJSONObject("county").getJSONObject("district").getString("name");
                         String loggedInUserName = userObject.getString("username");
                         String userId = userObject.getString("id");
@@ -269,6 +269,7 @@ public class LoginActivity extends CollectAbstractActivity {
                                 Prefs.putString(VHT_MIDWIFE_ID, midwifeObject.getString("id"));
                                 Prefs.putString(VHT_MIDWIFE_NAME, midwifeObject.getString("last_name")
                                         + " " + midwifeObject.getString("last_name"));
+                                Timber.d("midwife phone from object " + midwifeObject.getString("id"));
                                 Prefs.putString(VHT_MIDWIFE_PHONE, midwifeObject.getString("phone"));
                             } else {
                                 // get details of vhts attached to the midwife

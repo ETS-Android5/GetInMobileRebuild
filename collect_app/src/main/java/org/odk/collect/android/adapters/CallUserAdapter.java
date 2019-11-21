@@ -6,7 +6,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,9 +23,7 @@ import org.odk.collect.android.retrofitmodels.Value;
 
 import timber.log.Timber;
 
-import static org.odk.collect.android.utilities.TextUtils.toCapitalize;
-
-public class AmbulanceAdapter extends RecyclerView.Adapter<AmbulanceAdapter.ViewHolder> implements ActivityCompat.OnRequestPermissionsResultCallback {
+public class CallUserAdapter extends RecyclerView.Adapter<CallUserAdapter.ViewHolder> implements ActivityCompat.OnRequestPermissionsResultCallback {
 
     private static final int REQUEST_PHONE_CALL = 34;
     private UserstableCursor cursor;
@@ -37,40 +34,39 @@ public class AmbulanceAdapter extends RecyclerView.Adapter<AmbulanceAdapter.View
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public Button callButton;
         public TextView name;
-        public TextView numberPlate;
         public TextView phoneNumber;
-//        public TextView age;
-//        public TextView healthCenter;
-//        public TextView subcounty;
+        public TextView age;
+        public TextView healthCenter;
+        public TextView subcounty;
+        public TextView appointment;
         public Button postNatalButton;
         public ImageButton callGirlButton;
 
         public ViewHolder(View v) {
             super(v);
             name = (TextView) v.findViewById(R.id.name);
-            numberPlate = (TextView) v.findViewById(R.id.number_plate);
-//            healthCenter = (TextView) v.findViewById(R.id.health_center);
-//            age = (TextView) v.findViewById(R.id.age);
-//            subcounty = (TextView) v.findViewById(R.id.subcounty);
+            healthCenter = (TextView) v.findViewById(R.id.health_center);
+            age = (TextView) v.findViewById(R.id.age);
+            subcounty = (TextView) v.findViewById(R.id.sub_county);
             callButton = (Button) v.findViewById(R.id.call_button);
         }
     }
 
-    public AmbulanceAdapter(Activity activity, UserstableCursor cursor) {
+    public CallUserAdapter(Activity activity, UserstableCursor cursor) {
         this.cursor = cursor;
         this.activity = activity;
     }
 
     @NonNull
     @Override
-    public AmbulanceAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CallUserAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View cardview = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.ambulance_row, parent, false);
+                .inflate(R.layout.call_user_row, parent, false);
         return new ViewHolder(cardview);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final AmbulanceAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final CallUserAdapter.ViewHolder holder, int position) {
         try {
             Timber.d("onbindviewholder called ");
             cursor.moveToPosition(position);
@@ -78,16 +74,15 @@ public class AmbulanceAdapter extends RecyclerView.Adapter<AmbulanceAdapter.View
 
             holder.name.setText(cursor.getFirstname() + " "
                     + cursor.getLastname());
-
-            try {
-                holder.numberPlate.setText(cursor.getNumberPlate());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
             phoneNumber = cursor.getPhonenumber();
             try {
                 holder.phoneNumber.setText(phoneNumber);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+//                holder.age.setText(cursor.getAge() + " Years");
+                holder.subcounty.setText(cursor.getVillage());
             } catch (Exception e) {
                 e.printStackTrace();
             }

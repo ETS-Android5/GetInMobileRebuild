@@ -82,11 +82,6 @@
             </intent-filter>
         </service>
 
-        <activity
-            android:name=".activities.AmbulanceActivity"
-            android:label="@string/title_activity_ambulance"
-            android:theme="@style/AppTheme.NoActionBar" />
-
         <service
             android:name=".upload.SetupIntentService"
             android:exported="false" />
@@ -358,6 +353,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activities.CallUserViewActivity"
+            android:theme="@style/Theme.Collect.Activity.FormEntryActivity.Light" />
     </application>
 
 </manifest>

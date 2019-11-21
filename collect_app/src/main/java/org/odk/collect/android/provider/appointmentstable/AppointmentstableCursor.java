@@ -187,7 +187,7 @@ public class AppointmentstableCursor extends AbstractCursor implements Appointme
     }
 
     /**
-     * Get the {@code village} value.
+     * Get the {@code subcounty} value.
      * Can be {@code null}.
      */
     @Nullable

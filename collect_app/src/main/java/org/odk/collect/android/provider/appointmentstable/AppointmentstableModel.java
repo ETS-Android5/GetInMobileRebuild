@@ -125,7 +125,7 @@ public interface AppointmentstableModel extends BaseModel {
     Integer getTrimester();
 
     /**
-     * Get the {@code village} value.
+     * Get the {@code subcounty} value.
      * Can be {@code null}.
      */
     @Nullable

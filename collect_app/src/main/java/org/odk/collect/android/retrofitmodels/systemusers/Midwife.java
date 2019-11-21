@@ -1,12 +1,10 @@
 
 package org.odk.collect.android.retrofitmodels.systemusers;
 
-import java.util.Date;
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class SystemUsers {
+public class Midwife {
 
     @SerializedName("id")
     @Expose
@@ -23,33 +21,21 @@ public class SystemUsers {
     @SerializedName("email")
     @Expose
     private String email;
-    @SerializedName("phone")
-    @Expose
-    private String phone;
-    @SerializedName("password")
-    @Expose
-    private String password;
     @SerializedName("gender")
     @Expose
     private String gender;
     @SerializedName("subcounty")
     @Expose
-    private Village village;
+    private Integer village;
     @SerializedName("number_plate")
     @Expose
     private Object numberPlate;
     @SerializedName("role")
     @Expose
     private String role;
-    @SerializedName("midwife")
+    @SerializedName("phone")
     @Expose
-    private Midwife midwife;
-    @SerializedName("user_permissions")
-    @Expose
-    private List<Object> userPermissions = null;
-    @SerializedName("created_at")
-    @Expose
-    private Date createdAt;
+    private String phone;
 
     public String getId() {
         return id;
@@ -91,22 +77,6 @@ public class SystemUsers {
         this.email = email;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getGender() {
         return gender;
     }
@@ -115,11 +85,11 @@ public class SystemUsers {
         this.gender = gender;
     }
 
-    public Village getVillage() {
+    public Integer getVillage() {
         return village;
     }
 
-    public void setVillage(Village village) {
+    public void setVillage(Integer village) {
         this.village = village;
     }
 
@@ -139,28 +109,12 @@ public class SystemUsers {
         this.role = role;
     }
 
-    public Midwife getMidwife() {
-        return midwife;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setMidwife(Midwife midwife) {
-        this.midwife = midwife;
-    }
-
-    public List<Object> getUserPermissions() {
-        return userPermissions;
-    }
-
-    public void setUserPermissions(List<Object> userPermissions) {
-        this.userPermissions = userPermissions;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
 }

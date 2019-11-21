@@ -158,6 +158,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
         disableSmsIfNeeded();
         Timber.d("User role");
         Timber.d(Prefs.getString(USER_ROLE, CHEW_ROLE));
+        Timber.d("Midwife id: " + Prefs.getString(VHT_MIDWIFE_ID, ""));
         Timber.d(String.valueOf(Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE)));
 
         // download data from django server; mapped girls
@@ -220,22 +221,27 @@ public class MainMenuActivity extends CollectAbstractActivity {
 
 
         callMidwifeOrChewButton.setOnClickListener(v -> {
-            if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE)) {
-                midwifePhoneNumber = Prefs.getString(VHT_MIDWIFE_PHONE, "0");
-                try {
-                    if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(MainMenuActivity.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
-                    } else {
-                        startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + midwifePhoneNumber)));
-                    }
-                } catch (ActivityNotFoundException e) {
-                    Timber.e(e);
-                    startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + midwifePhoneNumber)));
-                }
-            } else {
-                //todo open list of vhts
-                ToastUtils.showShortToast("Call VHTs");
+            if (Collect.allowClick(getClass().getName())) {
+                Intent i = new Intent(getApplicationContext(), CallUserViewActivity.class);
+                startActivity(i);
             }
+
+//            if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE)) {
+//                midwifePhoneNumber = Prefs.getString(VHT_MIDWIFE_PHONE, "0");
+//                try {
+//                    if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+//                        ActivityCompat.requestPermissions(MainMenuActivity.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
+//                    } else {
+//                        startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + midwifePhoneNumber)));
+//                    }
+//                } catch (ActivityNotFoundException e) {
+//                    Timber.e(e);
+//                    startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + midwifePhoneNumber)));
+//                }
+//            } else {
+//                //todo open list of vhts
+//                ToastUtils.showShortToast("Call VHTs");
+//            }
         });
 
         callAmbulanceButton = findViewById(R.id.call_ambulance);

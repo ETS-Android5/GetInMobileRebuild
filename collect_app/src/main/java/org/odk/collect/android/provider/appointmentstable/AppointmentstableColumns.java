@@ -4,9 +4,6 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 import org.odk.collect.android.provider.MappedGirlsProvider;
-import org.odk.collect.android.provider.appointmentstable.AppointmentstableColumns;
-import org.odk.collect.android.provider.mappedgirltable.MappedgirltableColumns;
-import org.odk.collect.android.provider.userstable.UserstableColumns;
 
 /**
  * Columns for the {@code appointmentstable} table.
@@ -52,7 +49,7 @@ public class AppointmentstableColumns implements BaseColumns {
 
     public static final String TRIMESTER = "trimester";
 
-    public static final String VILLAGE = "village";
+    public static final String VILLAGE = "subcounty";
 
     public static final String STATUS = "status";
 

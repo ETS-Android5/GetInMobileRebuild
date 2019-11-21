@@ -28,7 +28,7 @@ public class User implements Parcelable
     @SerializedName("gender")
     @Expose
     private String gender;
-    @SerializedName("village")
+    @SerializedName("subcounty")
     @Expose
     private Integer village;
     @SerializedName("number_plate")

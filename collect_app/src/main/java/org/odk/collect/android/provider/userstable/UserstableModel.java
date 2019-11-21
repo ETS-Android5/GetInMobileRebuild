@@ -1,16 +1,22 @@
 package org.odk.collect.android.provider.userstable;
 
-import androidx.annotation.Nullable;
-
 import org.odk.collect.android.provider.base.BaseModel;
 
 import java.util.Date;
 
+import androidx.annotation.Nullable;
 
 /**
  * Data model for the {@code userstable} table.
  */
 public interface UserstableModel extends BaseModel {
+
+    /**
+     * Get the {@code userid} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    String getUserid();
 
     /**
      * Get the {@code firstname} value.
@@ -62,7 +68,7 @@ public interface UserstableModel extends BaseModel {
     String getMidwifeid();
 
     /**
-     * Get the {@code village} value.
+     * Get the {@code subcounty} value.
      * Can be {@code null}.
      */
     @Nullable

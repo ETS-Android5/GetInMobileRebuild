@@ -78,6 +78,46 @@ public class UserstableSelection extends AbstractSelection<UserstableSelection> 
         return orderById(false);
     }
 
+    public UserstableSelection userid(String... value) {
+        addEquals(UserstableColumns.USERID, value);
+        return this;
+    }
+
+    public UserstableSelection useridNot(String... value) {
+        addNotEquals(UserstableColumns.USERID, value);
+        return this;
+    }
+
+    public UserstableSelection useridLike(String... value) {
+        addLike(UserstableColumns.USERID, value);
+        return this;
+    }
+
+    public UserstableSelection useridContains(String... value) {
+        addContains(UserstableColumns.USERID, value);
+        return this;
+    }
+
+    public UserstableSelection useridStartsWith(String... value) {
+        addStartsWith(UserstableColumns.USERID, value);
+        return this;
+    }
+
+    public UserstableSelection useridEndsWith(String... value) {
+        addEndsWith(UserstableColumns.USERID, value);
+        return this;
+    }
+
+    public UserstableSelection orderByUserid(boolean desc) {
+        orderBy(UserstableColumns.USERID, desc);
+        return this;
+    }
+
+    public UserstableSelection orderByUserid() {
+        orderBy(UserstableColumns.USERID, false);
+        return this;
+    }
+
     public UserstableSelection firstname(String... value) {
         addEquals(UserstableColumns.FIRSTNAME, value);
         return this;

@@ -46,6 +46,7 @@ import static org.odk.collect.android.utilities.ApplicationConstants.GIRL_NAME;
 import static org.odk.collect.android.utilities.ApplicationConstants.POSTNATAL_FORM_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.POSTNATAL_FORM_MIDWIFE_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.USER_ROLE;
+import static org.odk.collect.android.utilities.TextUtils.toCapitalize;
 
 public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMappedGirlsAdapter.ViewHolder>  implements ActivityCompat.OnRequestPermissionsResultCallback {
 
@@ -106,14 +107,19 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
             Timber.d("add values " + cursor.getFirstname());
             holder.name.setText(cursor.getFirstname() + " "
                     + cursor.getLastname());
-            holder.maritalStatus.setText(org.odk.collect.android.utilities
-                    .TextUtils.toCapitalize(cursor.getMaritalstatus()));
-//            holder.village.setText(cursor.getVillage());
+            holder.maritalStatus.setText(toCapitalize(cursor.getMaritalstatus()));
+
+            try {
+                holder.village.setText(toCapitalize(cursor.getVillage()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             final String phoneNumber = getActivePhoneNumber(cursor);
             holder.phoneNumber.setText(phoneNumber);
             try {
                 holder.age.setText(cursor.getAge() + " Years");
+                Timber.d("girl subcounty " + cursor.getVillage());
                 holder.village.setText(cursor.getVillage());
             } catch (Exception e) {
                 e.printStackTrace();

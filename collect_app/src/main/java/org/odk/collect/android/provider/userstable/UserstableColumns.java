@@ -20,6 +20,8 @@ public class UserstableColumns implements BaseColumns {
      */
     public static final String _ID = BaseColumns._ID;
 
+    public static final String USERID = "userId";
+
     public static final String FIRSTNAME = "firstName";
 
     public static final String LASTNAME = "lastName";
@@ -34,7 +36,7 @@ public class UserstableColumns implements BaseColumns {
 
     public static final String MIDWIFEID = "midwifeId";
 
-    public static final String VILLAGE = "village";
+    public static final String VILLAGE = "subcounty";
 
 
     public static final String DEFAULT_ORDER = TABLE_NAME + "." +_ID;
@@ -42,6 +44,7 @@ public class UserstableColumns implements BaseColumns {
     // @formatter:off
     public static final String[] ALL_COLUMNS = new String[] {
             _ID,
+            USERID,
             FIRSTNAME,
             LASTNAME,
             PHONENUMBER,
@@ -56,6 +59,7 @@ public class UserstableColumns implements BaseColumns {
     public static boolean hasColumns(String[] projection) {
         if (projection == null) return true;
         for (String c : projection) {
+            if (c.equals(USERID) || c.contains("." + USERID)) return true;
             if (c.equals(FIRSTNAME) || c.contains("." + FIRSTNAME)) return true;
             if (c.equals(LASTNAME) || c.contains("." + LASTNAME)) return true;
             if (c.equals(PHONENUMBER) || c.contains("." + PHONENUMBER)) return true;

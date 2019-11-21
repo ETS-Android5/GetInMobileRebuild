@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.StrictMode;
 import android.telephony.TelephonyManager;
 
 import org.odk.collect.android.provider.appointmentstable.AppointmentstableColumns;
@@ -19,7 +18,6 @@ import org.odk.collect.android.retrofit.APIClient;
 import org.odk.collect.android.retrofit.APIInterface;
 import org.odk.collect.android.retrofitmodels.appointments.Appointment;
 import org.odk.collect.android.retrofitmodels.appointments.Appointments;
-import org.odk.collect.android.retrofitmodels.appointments.Girl;
 import org.odk.collect.android.retrofitmodels.mappedgirls.MappedGirl;
 import org.odk.collect.android.retrofitmodels.mappedgirls.MappedGirlObject;
 import org.odk.collect.android.retrofitmodels.systemusers.SystemUsers;
@@ -123,25 +121,40 @@ public class SetupIntentService extends IntentService {
             e.printStackTrace();
         }
 
+        Timber.d("Users count " + users.size());
+
         for (SystemUsers user : users) {
             Timber.d("SystemUser data: " + user.getFirstName() + user.getRole());
             UserstableContentValues values = new UserstableContentValues();
+            Timber.d("User id # " + user.getId());
+            values.putUserid(user.getId());
             values.putFirstname(user.getFirstName());
             values.putLastname(user.getLastName());
             values.putPhonenumber(user.getPhone());
             values.putCreatedAt(user.getCreatedAt());
+
             try {
-                values.putMidwifeidNull();
-//                values.putMidwifeid(user.getMidwife());
+                values.putMidwifeid(user.getMidwife().getId());
+                Timber.d("midwife id " + user.getMidwife().getId() + user.getMidwife().getPhone());
             } catch (Exception e) {
                 e.printStackTrace();
                 Timber.e("Error adding midwife");
                 values.putMidwifeidNull();
-
             }
-            values.putNumberPlate(user.getNumberPlate());
+
+            try {
+                values.putNumberPlate(String.valueOf(user.getNumberPlate()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             values.putRole(user.getRole());
-            values.putVillage(String.valueOf(user.getVillage()));
+
+            try {
+                values.putVillage(user.getVillage().getName());
+            } catch (Exception e) {
+                e.printStackTrace();
+                values.putVillageNull();
+            }
             final Uri uri = values.insert(getContentResolver());
             Timber.d("saved user %s", uri);
         }
@@ -196,8 +209,6 @@ public class SetupIntentService extends IntentService {
             values.putFirstname(appointment.getGirl().getFirstName());
             values.putLastname(appointment.getGirl().getLastName());
             values.putPhonenumber(appointment.getGirl().getPhoneNumber());
-            values.putNextofkinfirstname(appointment.getGirl().getNextOfKinFirstName());
-            values.putNextofkinlastname(appointment.getGirl().getNextOfKinLastName());
             values.putNextofkinphonenumber(appointment.getGirl().getNextOfKinPhoneNumber());
             values.putEducationlevel(appointment.getGirl().getEducationLevel());
             values.putMaritalstatus(appointment.getGirl().getMaritalStatus());
@@ -271,14 +282,10 @@ public class SetupIntentService extends IntentService {
 
         for (MappedGirlObject girl : mappedGirls) {
             MappedgirltableContentValues values = new MappedgirltableContentValues();
-            Timber.d("MappedGirlObject data " + girl.getAge() + girl.getMaritalStatus());
+            Timber.d("MappedGirlObject data " + girl.getAge() + girl.getMaritalStatus() + girl.getVillage().getName());
             values.putFirstname(girl.getFirstName());
             values.putLastname(girl.getLastName());
             values.putPhonenumber(girl.getPhoneNumber());
-//            values.putNextofkinfirstnameNull();
-//            values.putNextofkinlastnameNull();
-//            values.putNextofkinfirstname(girl.getNextOfKinFirstName());
-//            values.putNextofkinlastname(girl.getNextOfKinLastName());
             values.putNextofkinphonenumber(girl.getNextOfKinPhoneNumber());
             values.putEducationlevel(girl.getEducationLevel());
             values.putMaritalstatus(girl.getMaritalStatus());
@@ -288,7 +295,7 @@ public class SetupIntentService extends IntentService {
             values.putCompletedAllVisits(girl.getCompletedAllVisits());
             values.putPendingVisits(girl.getPendingVisits());
             values.putMissedVisits(girl.getMissedVisits());
-//            values.putVillage(girl.getVillage().getName());
+            values.putVillage(girl.getVillage().getName());
             values.putServerid(girl.getId());
             final Uri uri = values.insert(getContentResolver());
             Timber.d("saved mapped girl %s", uri);

@@ -37,6 +37,16 @@ public class UserstableContentValues extends AbstractContentValues {
         return context.getContentResolver().update(uri(), values(), where == null ? null : where.sel(), where == null ? null : where.args());
     }
 
+    public UserstableContentValues putUserid(@Nullable String value) {
+        mContentValues.put(UserstableColumns.USERID, value);
+        return this;
+    }
+
+    public UserstableContentValues putUseridNull() {
+        mContentValues.putNull(UserstableColumns.USERID);
+        return this;
+    }
+
     public UserstableContentValues putFirstname(@Nullable String value) {
         mContentValues.put(UserstableColumns.FIRSTNAME, value);
         return this;

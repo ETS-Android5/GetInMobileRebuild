@@ -84,30 +84,4 @@ public class AmbulanceViewFragment extends Fragment implements ViewEditMappedGir
     }
 
 
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-
-        this.getActivity().getMenuInflater().inflate(R.menu.view_edit_mapped_girls_menu, menu);
-
-        MenuItem myActionMenuItem = menu.findItem(R.id.action_search);
-        searchView = (SearchView) myActionMenuItem.getActionView();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                ToastUtils.showShortToast("SearchOnQueryTextSubmit: " + query);
-                if (!searchView.isIconified()) {
-                    searchView.setIconified(true);
-                }
-                myActionMenuItem.collapseActionView();
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                // UserFeedback.show( "SearchOnQueryTextChanged: " + s);
-                return false;
-            }
-        });
-    }
 }
