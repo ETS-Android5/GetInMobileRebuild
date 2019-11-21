@@ -53,6 +53,7 @@ public class AmbulanceAdapter extends RecyclerView.Adapter<AmbulanceAdapter.View
 //            age = (TextView) v.findViewById(R.id.age);
 //            subcounty = (TextView) v.findViewById(R.id.subcounty);
             callButton = (Button) v.findViewById(R.id.call_button);
+            phoneNumber = (TextView) v.findViewById(R.id.phone_number);
         }
     }
 
@@ -85,15 +86,14 @@ public class AmbulanceAdapter extends RecyclerView.Adapter<AmbulanceAdapter.View
                 e.printStackTrace();
             }
 
-            phoneNumber = cursor.getPhonenumber();
             try {
-                holder.phoneNumber.setText(phoneNumber);
+                holder.phoneNumber.setText(cursor.getPhonenumber());
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
             holder.callButton.setOnClickListener(v -> {
-
+                phoneNumber = holder.phoneNumber.getText().toString();
                 try {
                     if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);

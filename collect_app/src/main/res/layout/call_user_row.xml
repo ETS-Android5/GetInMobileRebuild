@@ -54,12 +54,18 @@
                     android:layout_height="wrap_content"
                     android:text="Mukasa" />
 
+                <!--<TextView-->
+                    <!--android:id="@+id/health_center"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="@dimen/margin_medium"-->
+                    <!--android:text="Busunga HCII" />-->
                 <TextView
-                    android:id="@+id/health_center"
+                    android:id="@+id/phone_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_medium"
-                    android:text="Busunga HCII" />
+                    android:text="0756878443" />
 
                 <TextView
                     android:id="@+id/sub_county"

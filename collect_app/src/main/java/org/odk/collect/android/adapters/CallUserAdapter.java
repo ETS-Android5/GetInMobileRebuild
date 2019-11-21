@@ -45,8 +45,9 @@ public class CallUserAdapter extends RecyclerView.Adapter<CallUserAdapter.ViewHo
         public ViewHolder(View v) {
             super(v);
             name = (TextView) v.findViewById(R.id.name);
-            healthCenter = (TextView) v.findViewById(R.id.health_center);
+//            healthCenter = (TextView) v.findViewById(R.id.health_center);
             age = (TextView) v.findViewById(R.id.age);
+            phoneNumber = (TextView) v.findViewById(R.id.phone_number);
             subcounty = (TextView) v.findViewById(R.id.sub_county);
             callButton = (Button) v.findViewById(R.id.call_button);
         }
@@ -74,9 +75,9 @@ public class CallUserAdapter extends RecyclerView.Adapter<CallUserAdapter.ViewHo
 
             holder.name.setText(cursor.getFirstname() + " "
                     + cursor.getLastname());
-            phoneNumber = cursor.getPhonenumber();
+
             try {
-                holder.phoneNumber.setText(phoneNumber);
+                holder.phoneNumber.setText(cursor.getPhonenumber());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -88,6 +89,7 @@ public class CallUserAdapter extends RecyclerView.Adapter<CallUserAdapter.ViewHo
             }
 
             holder.callButton.setOnClickListener(v -> {
+                phoneNumber = holder.phoneNumber.getText().toString();
 
                 try {
                     if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
