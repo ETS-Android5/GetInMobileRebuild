@@ -69,6 +69,7 @@ public class LoginActivity extends CollectAbstractActivity {
 
     private LoginViewModel loginViewModel;
     private String userType;
+    ProgressBar loadingProgressBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,7 +91,7 @@ public class LoginActivity extends CollectAbstractActivity {
         else
             userTypeTextView.setText(TextUtils.toCapitalize(userType));
 
-        final ProgressBar loadingProgressBar = findViewById(R.id.loading);
+        loadingProgressBar = findViewById(R.id.loading);
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
@@ -210,8 +211,12 @@ public class LoginActivity extends CollectAbstractActivity {
             public void onFailure(Call call, IOException e) {
                 String mMessage = e.getMessage().toString();
                 Timber.e("failure Response login" + mMessage);
-                runOnUiThread(() -> Toast.makeText(LoginActivity.this,
-                        "Login failed. Wrong username or password", Toast.LENGTH_SHORT).show());
+                loadingProgressBar.setVisibility(View.GONE);
+                runOnUiThread(() -> {
+                    Toast.makeText(LoginActivity.this,
+                            "Login failed. Wrong username or password", Toast.LENGTH_SHORT).show();
+                    loadingProgressBar.setVisibility(View.GONE);
+                });
                 //call.cancel();
             }
 
@@ -292,6 +297,9 @@ public class LoginActivity extends CollectAbstractActivity {
                     runOnUiThread(() -> Toast.makeText(LoginActivity.this,
                             "Login failed. User is not a " + userType, Toast.LENGTH_SHORT).show());
                 }
+                runOnUiThread(() -> {
+                    loadingProgressBar.setVisibility(View.GONE);
+                });
             }
         });
     }

@@ -69,6 +69,7 @@
 
                 <TextView
                     android:id="@+id/sub_county"
+                    android:drawableLeft="@drawable/ic_location_on_48px"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_medium"
