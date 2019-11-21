@@ -170,7 +170,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         JSONObject postdata = new JSONObject();
         try {
-            postdata.put("user_id", firebase_device_id);
+            postdata.put("user_id", Prefs.getString(USER_ID, "0"));
             postdata.put("firebase_device_id", firebase_device_id);
         } catch (JSONException e) {
             e.printStackTrace();
