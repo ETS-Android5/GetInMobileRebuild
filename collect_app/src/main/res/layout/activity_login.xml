@@ -101,6 +101,8 @@
                 android:background="@drawable/edit_text_border_layout"
                 android:hint="@string/prompt_password"
                 android:imeActionLabel="@string/action_sign_in"
+                android:maxLines="1"
+                android:inputType="text"
                 android:imeOptions="actionDone"
                 android:padding="@dimen/padding_large"
                 android:selectAllOnFocus="true"

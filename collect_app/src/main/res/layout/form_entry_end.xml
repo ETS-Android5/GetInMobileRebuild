@@ -32,7 +32,7 @@ the specific language governing permissions and limitations under the License.
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/margin_extra_extra_large">
+            android:paddingBottom="@dimen/margin_medium">
 
             <TextView
                 android:gravity="center"
