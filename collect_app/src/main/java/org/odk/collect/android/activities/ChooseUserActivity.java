@@ -20,8 +20,12 @@ import android.widget.Button;
 
 import androidx.appcompat.widget.Toolbar;
 
+import com.pixplicity.easyprefs.library.Prefs;
+
 import org.odk.collect.android.R;
 import org.odk.collect.android.activities.ui.login.LoginActivity;
+
+import static org.odk.collect.android.utilities.ApplicationConstants.USER_LOGGED_IN;
 
 /**
  * Responsible for displaying buttons to launch activities.

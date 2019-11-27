@@ -32,6 +32,8 @@ import org.odk.collect.android.utilities.PermissionUtils;
 
 import timber.log.Timber;
 
+import static org.odk.collect.android.utilities.ApplicationConstants.USER_LOGGED_IN;
+
 public class SplashScreenActivity extends CollectAbstractActivity {
 
     private static final int SPLASH_TIMEOUT = 2000; // milliseconds
@@ -90,9 +92,18 @@ public class SplashScreenActivity extends CollectAbstractActivity {
     }
 
     private void endSplashScreen() {
-        //todo navigate directly to home screen if already logged in
-        startActivity(new Intent(this, ChooseUserActivity.class));
-        finish();
+        if (Prefs.getBoolean(USER_LOGGED_IN, false)) {
+            // navigate the user to the main activity if they logged in once
+            // this allows the user the use the app offline
+            Intent i = new Intent(getApplicationContext(),
+                    MainMenuActivity.class);
+            startActivity(i);
+            //Complete and destroy login activity once successful
+            finish();
+        } else {
+            startActivity(new Intent(this, ChooseUserActivity.class));
+            finish();
+        }
     }
 
     private void startSplashScreenTimer() {

@@ -116,6 +116,7 @@ public class ApplicationConstants {
     public static final String VHT_MIDWIFE_NAME = "vht_midwife_name";
     public static final String VHT_MIDWIFE_PHONE = "vht_midwife_phone";
     public static final String USER_ROLE = "user_role";
+    public static final String USER_LOGGED_IN = "user_logged_in";
     public static final String CHEW_ROLE = "chew";
     public static final String MIDWIFE_ROLE = "midwife";
     public static final String USER_CREDS = "user_creds";

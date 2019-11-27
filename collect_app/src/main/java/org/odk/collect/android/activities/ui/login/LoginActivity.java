@@ -59,6 +59,7 @@ import static org.odk.collect.android.utilities.ApplicationConstants.USER_DISTRI
 import static org.odk.collect.android.utilities.ApplicationConstants.USER_FIRST_NAME;
 import static org.odk.collect.android.utilities.ApplicationConstants.USER_ID;
 import static org.odk.collect.android.utilities.ApplicationConstants.USER_LAST_NAME;
+import static org.odk.collect.android.utilities.ApplicationConstants.USER_LOGGED_IN;
 import static org.odk.collect.android.utilities.ApplicationConstants.USER_NAME;
 import static org.odk.collect.android.utilities.ApplicationConstants.USER_ROLE;
 import static org.odk.collect.android.utilities.ApplicationConstants.VHT_MIDWIFE_ID;
@@ -252,6 +253,7 @@ public class LoginActivity extends CollectAbstractActivity {
                         Prefs.putString(USER_DISTRICT, district);
                         Prefs.putString(USER_NAME, loggedInUserName);
                         Prefs.putString(USER_ROLE, role);
+                        Prefs.putBoolean(USER_LOGGED_IN, true);
 
                         try {
                             if (role.equals(CHEW_ROLE)) {
