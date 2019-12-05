@@ -18,9 +18,9 @@ the License.
     <color name="red_500">#F44336</color>
     <color name="blue_500">#2196F3</color>
     <color name="getin_blue">#4CC4D4</color>
-    <color name="light_red">#e57373</color>
-    <color name="light_orange">#ffd54f</color>
-    <color name="light_green">#4db6ac</color>
+    <color name="light_red">#F44336</color>
+    <color name="light_orange">#FFEB3B</color>
+    <color name="light_green">#4CAF50</color>
     <color name="light_blue">#204CC4D4</color>
     <color name="getin_light_blue">#0C8EB4</color>
     <color name="getin_dark_blue">#22555C</color>
