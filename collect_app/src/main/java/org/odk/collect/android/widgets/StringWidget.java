@@ -27,9 +27,13 @@ import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
+import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -62,6 +66,7 @@ public class StringWidget extends QuestionWidget {
         answerText.setId(ViewIds.generateViewId());
         answerText.setBackgroundResource(R.drawable.edit_text_border_layout);
         answerText.setPadding(30,25,30,25);
+        answerText.setSingleLine();
 
         readOnly = prompt.isReadOnly() || readOnlyOverride;
 
@@ -97,10 +102,8 @@ public class StringWidget extends QuestionWidget {
 
         // capitalize the first letter of the sentence
         answerText.setKeyListener(new TextKeyListener(Capitalize.SENTENCES, false));
-
-        // needed to make long read only text scroll
-        answerText.setHorizontallyScrolling(false);
-        answerText.setSingleLine(false);
+        answerText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        answerText.setImeActionLabel("DONE", EditorInfo.IME_ACTION_DONE);
 
         setDisplayValueFromModel();
 
