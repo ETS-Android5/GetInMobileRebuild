@@ -145,8 +145,14 @@ public class LoginActivity extends CollectAbstractActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    loginViewModel.login(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString());
+                    loginButton.setEnabled(false);
+                    try {
+                        Timber.d("start post request");
+                        postRequest(usernameEditText.getText().toString(),
+                                passwordEditText.getText().toString());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
                 return false;
             }
