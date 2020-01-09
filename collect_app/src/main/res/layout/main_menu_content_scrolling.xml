@@ -23,6 +23,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="@dimen/padding_extra_large">
+            
+            <Button
+                android:id="@+id/view_edit_mapped_girls"
+                style="@style/Widget.Collect.Button.HomeScreen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_mapped_girls" />
 
             <Button
                 android:id="@+id/chew_button"
@@ -30,13 +37,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_girl" />
-
-            <Button
-                android:id="@+id/view_edit_mapped_girls"
-                style="@style/Widget.Collect.Button.HomeScreen"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_mapped_girls" />
 
             <Button
                 android:id="@+id/upcoming_appointments_button"
