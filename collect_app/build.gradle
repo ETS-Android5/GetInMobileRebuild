@@ -70,10 +70,10 @@ android {
     compileSdkVersion(28)
 
     defaultConfig {
-        applicationId('org.odk.collect.android')
+        applicationId('org.odk.getin.android')
         minSdkVersion(16)
-        targetSdkVersion(26)
-        versionCode LEGACY_BUILD_NUMBER_OFFSET + getMasterCommitCount()
+        targetSdkVersion(28)
+        versionCode LEGACY_BUILD_NUMBER_OFFSET + getMasterCommitCount() + 300
         versionName getVersionName()
         testInstrumentationRunner('androidx.test.runner.AndroidJUnitRunner')
         multiDexEnabled true

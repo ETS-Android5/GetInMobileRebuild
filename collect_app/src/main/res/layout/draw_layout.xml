@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:activity="org.odk.collect.android.activities.DrawActivity">
+    tools:activity="org.odk.getin.android.activities.DrawActivity">
 
-    <org.odk.collect.android.views.DrawView
+    <org.odk.getin.android.views.DrawView
         android:id="@+id/drawView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
-    </org.odk.collect.android.views.DrawView>
+    </org.odk.getin.android.views.DrawView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_clear"

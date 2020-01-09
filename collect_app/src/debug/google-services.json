@@ -47,7 +47,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:153628662466:android:f8b748ab52c1bdfd92795b",
         "android_client_info": {
-          "package_name": "org.odk.collect.android"
+          "package_name": "org.odk.getin.android"
         }
       },
       "oauth_client": [
