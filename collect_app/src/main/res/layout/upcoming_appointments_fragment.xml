@@ -25,7 +25,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_upcoming_appointments"
         android:layout_width="match_parent"
-        android:layout_height="719dp"
+        android:layout_height="wrap_content"
+        android:paddingBottom="110dp"
         android:clipToPadding="false"
         android:scrollbars="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
