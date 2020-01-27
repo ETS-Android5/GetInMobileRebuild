@@ -266,13 +266,6 @@
         <activity android:name="org.odk.getin.android.preferences.AdminPreferencesActivity" />
         <activity android:name="org.odk.getin.android.activities.FormHierarchyActivity" />
         <activity android:name="org.odk.getin.android.activities.ViewOnlyFormHierarchyActivity" />
-        <activity android:name="org.odk.getin.android.activities.GeoPointActivity" />
-        <activity
-            android:name="org.odk.getin.android.activities.GeoPointMapActivity"
-            android:configChanges="orientation" />
-        <activity
-            android:name="org.odk.getin.android.activities.GeoPolyActivity"
-            android:configChanges="orientation" />
         <activity android:name="org.odk.getin.android.activities.BearingActivity" />
         <activity
             android:name="org.odk.getin.android.activities.SplashScreenActivity"

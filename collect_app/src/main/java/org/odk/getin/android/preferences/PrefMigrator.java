@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 
 import com.google.android.gms.maps.GoogleMap;
-import com.mapbox.mapboxsdk.maps.Style;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,7 +18,6 @@ import static org.odk.getin.android.preferences.GeneralKeys.BASEMAP_SOURCE_USGS;
 import static org.odk.getin.android.preferences.GeneralKeys.KEY_BASEMAP_SOURCE;
 import static org.odk.getin.android.preferences.GeneralKeys.KEY_CARTO_MAP_STYLE;
 import static org.odk.getin.android.preferences.GeneralKeys.KEY_GOOGLE_MAP_STYLE;
-import static org.odk.getin.android.preferences.GeneralKeys.KEY_MAPBOX_MAP_STYLE;
 import static org.odk.getin.android.preferences.GeneralKeys.KEY_USGS_MAP_STYLE;
 
 /** Migrates old preference keys and values to new ones. */
@@ -42,15 +40,6 @@ public class PrefMigrator {
             .fromValue("terrain").toValue(Integer.toString(GoogleMap.MAP_TYPE_TERRAIN))
             .fromValue("hybrid").toValue(Integer.toString(GoogleMap.MAP_TYPE_HYBRID))
             .fromValue("satellite").toValue(Integer.toString(GoogleMap.MAP_TYPE_SATELLITE)),
-
-        translateKey("map_basemap_behavior").toKey(KEY_MAPBOX_MAP_STYLE)
-            .fromValue("mapbox_streets").toValue(Style.MAPBOX_STREETS)
-            .fromValue("mapbox_light").toValue(Style.LIGHT)
-            .fromValue("mapbox_dark").toValue(Style.DARK)
-            .fromValue("mapbox_satellite").toValue(Style.SATELLITE)
-            .fromValue("mapbox_satellite_streets").toValue(Style.SATELLITE_STREETS)
-            .fromValue("mapbox_outdoors").toValue(Style.OUTDOORS),
-
         // When the map_sdk_behavior is "osmdroid", we have to also examine the
         // map_basemap_behavior key to determine the new basemap source.
         combineKeys("map_sdk_behavior", "map_basemap_behavior")

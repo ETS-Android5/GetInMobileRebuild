@@ -74,15 +74,6 @@ public class WidgetFactory {
                                     appearance.contains(WidgetAppearanceUtils.THOUSANDS_SEP));
                         }
                         break;
-                    case Constants.DATATYPE_GEOPOINT:
-                        questionWidget = new GeoPointWidget(context, fep);
-                        break;
-                    case Constants.DATATYPE_GEOSHAPE:
-                        questionWidget = new GeoShapeWidget(context, fep);
-                        break;
-                    case Constants.DATATYPE_GEOTRACE:
-                        questionWidget = new GeoTraceWidget(context, fep);
-                        break;
                     case Constants.DATATYPE_BARCODE:
                         questionWidget = new BarcodeWidget(context, fep);
                         break;

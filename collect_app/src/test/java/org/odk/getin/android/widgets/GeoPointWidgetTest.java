@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.odk.getin.android.R;
 import org.odk.getin.android.ShadowPlayServicesUtil;
-import org.odk.getin.android.activities.GeoPointActivity;
 import org.odk.getin.android.widgets.base.BinaryWidgetTest;
 import org.robolectric.annotation.Config;
 

@@ -7,8 +7,6 @@ import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.odk.getin.android.R;
-import org.odk.getin.android.activities.GeoPointMapActivity;
-import org.odk.getin.android.geo.MapPoint;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.android.controller.ActivityController;

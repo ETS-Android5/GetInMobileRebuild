@@ -75,9 +75,6 @@ public class GeneralPreferencesFragment extends BasePreferenceFragment implement
             case "user_interface":
                 basePreferenceFragment = UserInterfacePreferences.newInstance(adminMode);
                 break;
-            case "maps":
-                basePreferenceFragment = MapsPreferences.newInstance(adminMode);
-                break;
             case "form_management":
                 basePreferenceFragment = FormManagementPreferences.newInstance(adminMode);
                 break;
