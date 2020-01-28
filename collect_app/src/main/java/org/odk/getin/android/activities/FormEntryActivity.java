@@ -76,6 +76,8 @@ import org.javarosa.form.api.FormEntryCaption;
 import org.javarosa.form.api.FormEntryController;
 import org.javarosa.form.api.FormEntryPrompt;
 import org.joda.time.LocalDateTime;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.odk.getin.android.R;
 import org.odk.getin.android.adapters.IconMenuListAdapter;
 import org.odk.getin.android.adapters.model.IconMenuItem;
@@ -118,6 +120,7 @@ import org.odk.getin.android.preferences.GeneralKeys;
 import org.odk.getin.android.preferences.GeneralSharedPreferences;
 import org.odk.getin.android.provider.FormsProviderAPI.FormsColumns;
 import org.odk.getin.android.provider.InstanceProviderAPI.InstanceColumns;
+import org.odk.getin.android.provider.mappedgirltable.MappedgirltableContentValues;
 import org.odk.getin.android.tasks.FormLoaderTask;
 import org.odk.getin.android.tasks.SaveFormIndexTask;
 import org.odk.getin.android.tasks.SavePointTask;
@@ -146,20 +149,27 @@ import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 
 import javax.inject.Inject;
 
+import fr.arnaudguyon.xmltojsonlib.XmlToJson;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -332,12 +342,12 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
 
         compositeDisposable
                 .add(eventBus
-                .register(ReadPhoneStatePermissionRxEvent.class)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(event -> {
-                    readPhoneStatePermissionRequestNeeded = true;
-                }));
+                        .register(ReadPhoneStatePermissionRxEvent.class)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(event -> {
+                            readPhoneStatePermissionRequestNeeded = true;
+                        }));
 
         errorMessage = null;
 
@@ -2449,6 +2459,69 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
 
                 break;
         }
+        String newlySavedFormXMLPath = formController.getInstanceFile().getAbsolutePath();
+        extractLastSavedFormData(newlySavedFormXMLPath);
+    }
+
+    private void extractLastSavedFormData(String targetFilePath) {
+        try {
+            Timber.d("started extracting last saved data from %s", targetFilePath);
+            FileInputStream is = new FileInputStream(targetFilePath);
+            XmlToJson xmlToJson = new XmlToJson.Builder(is, null).build();
+            JSONObject jsonObject = xmlToJson.toJson();
+            Timber.d("Content " + jsonObject.toString());
+
+            // This prevents us from manually checking for each form id
+            Iterator keys = jsonObject.keys();
+            JSONObject dataJsonObject = (JSONObject) jsonObject.get(keys.next().toString());
+            Timber.d("jsonObject " + dataJsonObject.toString());
+            saveOfflineMappedGirl(dataJsonObject);
+        } catch (IOException e) {
+            Timber.e(e,"failed to parse xml");
+        } catch (JSONException e) {
+            Timber.e(e,"failed to parse json");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void saveOfflineMappedGirl(JSONObject dataJsonObject) throws JSONException, ParseException {
+        MappedgirltableContentValues values = new MappedgirltableContentValues();
+
+        JSONObject girlDemographic = dataJsonObject.getJSONObject("GirlDemographic");
+        values.putFirstname(girlDemographic.getString("FirstName"));
+        values.putLastname(girlDemographic.getString("LastName"));
+        values.putPhonenumber(girlDemographic.getString("GirlsPhoneNumber"));
+
+        JSONObject girlDemographic2 = dataJsonObject.getJSONObject("GirlDemographic2");
+        values.putNextofkinphonenumber(girlDemographic2.getString("NextOfKinNumber"));
+
+        JSONObject Observations3 = dataJsonObject.getJSONObject("Observations3");
+        values.putEducationlevel(Observations3.getString("education_level"));
+        values.putMaritalstatus(Observations3.getString("marital_status"));
+
+        String dateFormat = "yyyy-MM-dd";
+        Date dob = new SimpleDateFormat(dateFormat).parse(girlDemographic.getString("DOB"));
+        Date today = new Date();
+        long years = ((today.getTime() - dob.getTime()) / (1000 * 60 * 60 * 24)) / 365;
+
+        // add some default values. Though these values are not currently used
+        values.putAge((int) years);
+        values.putUserNull();
+        values.putCreatedAt(today);
+        values.putCompletedAllVisits(false);
+        values.putPendingVisits(3);
+        values.putMissedVisits(0);
+
+        JSONObject girlLocation = dataJsonObject.getJSONObject("GirlLocation");
+        values.putVillage(girlLocation.getString("village").replace("_", " "));
+
+        byte[] array = new byte[7];
+        new Random().nextBytes(array);
+        String generatedString = new String(array, Charset.forName("UTF-8"));
+        values.putServerid(generatedString);
+        final Uri uri = values.insert(getContentResolver());
+        Timber.d("saved mapped girl %s", uri);
     }
 
     @Override
