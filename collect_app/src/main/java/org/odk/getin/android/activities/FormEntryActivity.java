@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -56,6 +57,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.loader.content.CursorLoader;
 import androidx.work.Constraints;
 import androidx.work.ExistingWorkPolicy;
 import androidx.work.NetworkType;
@@ -93,7 +95,6 @@ import org.odk.getin.android.external.ExternalDataManager;
 import org.odk.getin.android.formentry.FormEntryViewModel;
 import org.odk.getin.android.formentry.backgroundlocation.BackgroundLocationHelper;
 import org.odk.getin.android.formentry.backgroundlocation.BackgroundLocationManager;
-import org.odk.getin.android.formentry.models.MappedGirlForm;
 import org.odk.getin.android.fragments.MediaLoadingFragment;
 import org.odk.getin.android.fragments.dialogs.CustomDatePickerDialog;
 import org.odk.getin.android.fragments.dialogs.FormLoadingDialogFragment;
@@ -119,6 +120,7 @@ import org.odk.getin.android.preferences.AdminSharedPreferences;
 import org.odk.getin.android.preferences.GeneralKeys;
 import org.odk.getin.android.preferences.GeneralSharedPreferences;
 import org.odk.getin.android.provider.FormsProviderAPI.FormsColumns;
+import org.odk.getin.android.provider.InstanceProviderAPI;
 import org.odk.getin.android.provider.InstanceProviderAPI.InstanceColumns;
 import org.odk.getin.android.provider.mappedgirltable.MappedgirltableContentValues;
 import org.odk.getin.android.tasks.FormLoaderTask;
@@ -144,9 +146,6 @@ import org.odk.getin.android.widgets.DateTimeWidget;
 import org.odk.getin.android.widgets.QuestionWidget;
 import org.odk.getin.android.widgets.RangeWidget;
 import org.odk.getin.android.widgets.StringWidget;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -180,11 +179,14 @@ import static android.content.DialogInterface.BUTTON_POSITIVE;
 import static org.odk.getin.android.preferences.AdminKeys.KEY_MOVING_BACKWARDS;
 import static org.odk.getin.android.utilities.ApplicationConstants.APPOINTMENT_FORM_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.APPOINTMENT_FORM_MIDWIFE_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.EDIT_GIRL;
 import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_NAME;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ARUA_FORM_CHEW_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ARUA_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_FIRST_NAME;
+import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_LAST_NAME;
 import static org.odk.getin.android.utilities.ApplicationConstants.POSTNATAL_FORM_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.POSTNATAL_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.RequestCodes;
@@ -594,6 +596,46 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
                         instancePath = instanceFile
                                 .getAbsolutePath();
                         break;
+                    }
+                }
+
+                if (Prefs.getBoolean(EDIT_GIRL, false)) {
+                    // deactivate edit girl functionality
+                    Prefs.putBoolean(EDIT_GIRL, false);
+
+                    try {
+                        CursorLoader cursorLoader = new CursorLoader(
+                                this, InstanceProviderAPI.InstanceColumns.CONTENT_URI,
+                                null, null, null, null);
+
+                        Cursor c = cursorLoader.loadInBackground();
+                        if (c.moveToFirst()) {
+                            do {
+                                Timber.d("looping forms");
+                                String name = c.getString(c.getColumnIndex(InstanceProviderAPI.InstanceColumns.DISPLAY_NAME));
+                                String formFilePath = c.getString(c.getColumnIndex(InstanceColumns.INSTANCE_FILE_PATH));
+                                Timber.d("URI_CURSOR_VALUES ###" + name + " ### " + formFilePath);
+
+                                JSONObject dataJsonObject = extractLastSavedFormData(formFilePath);
+                                JSONObject girlDemographic = dataJsonObject.getJSONObject("GirlDemographic");
+                                String firstName = girlDemographic.getString("FirstName");
+                                String lastName = girlDemographic.getString("LastName");
+                                Timber.d("Saved forms data: " + firstName + lastName);
+
+                                String girlFirstName = Prefs.getString(GIRL_FIRST_NAME, "");
+                                String girlLastName = Prefs.getString(GIRL_LAST_NAME, "");
+                                Timber.d("Clicked girl data: " + girlFirstName + girlLastName);
+
+                                if (firstName.contains(girlFirstName)
+                                        && lastName.contains(girlLastName)) {
+                                    Timber.d("Found matching form");
+                                    instancePath = formFilePath;
+                                    ToastUtils.showLongToast("Found matching form");
+                                }
+                            } while (c.moveToNext());
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             }
@@ -1099,7 +1141,7 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
             case MAP_GIRL_BUNDIBUGYO_FORM_ID:
             case MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID:
             case MAP_GIRL_ARUA_FORM_CHEW_ID:
-            case MAP_GIRL_ARUA_FORM_MIDWIFE_ID:{
+            case MAP_GIRL_ARUA_FORM_MIDWIFE_ID: {
                 title = "Map a girl";
                 break;
             }
@@ -1627,16 +1669,6 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
             errorMessage = errorMsg;
         }
 
-        if(true) {
-            System.out.println("Helloworld");
-        }
-
-        int x = 10;
-
-        if (x > 2) {
-            System.out.println("helloworld");
-        }
-
         alertDialog.setTitle(getString(R.string.error_occured));
         alertDialog.setMessage(errorMsg);
         DialogInterface.OnClickListener errorListener = new DialogInterface.OnClickListener() {
@@ -1692,7 +1724,6 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
         }
 
         synchronized (saveDialogLock) {
-//            parseXML();
             saveToDiskTask = new SaveToDiskTask(getIntent().getData(), exit, complete,
                     updatedSaveName);
             saveToDiskTask.setFormSavedListener(this);
@@ -1703,46 +1734,6 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
         }
 
         return true;
-    }
-
-
-    private void parseXML() {
-        Timber.d("parseXML started");
-        XmlPullParserFactory parserFactory;
-        try {
-            parserFactory = XmlPullParserFactory.newInstance();
-            XmlPullParser parser = parserFactory.newPullParser();
-            InputStream is =  getAssets().open("/storage/emulated/0/odk/.cache/GetInTest18_2019-09-19_17-29-42.xml");
-            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-            parser.setInput(is, null);
-
-            processParsing(parser);
-
-        } catch (XmlPullParserException e) {
-            Timber.e(e);
-        } catch (IOException e) {
-            Timber.e(e);
-        }
-    }
-
-    private void processParsing(XmlPullParser parser) throws IOException, XmlPullParserException{
-        Timber.d(parser.getText());
-        ArrayList<MappedGirlForm> players = new ArrayList<>();
-        int eventType = parser.getEventType();
-        MappedGirlForm mappedGirlForm = null;
-
-        while (eventType != XmlPullParser.END_DOCUMENT) {
-            String eltName = null;
-
-            switch (eventType) {
-                case XmlPullParser.START_TAG:
-                    eltName = parser.getName();
-                    Timber.d("processParsing: eltName" + eltName);
-                    break;
-            }
-
-            eventType = parser.next();
-        }
     }
 
     /**
@@ -1977,7 +1968,7 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
      * - we are at the first question in the form so the back button is hidden
      * - we are at the end screen so the next button is hidden
      * - settings prevent backwards navigation of the form so the back button is hidden
-     *
+     * <p>
      * The visibility of the container for these buttons is determined once {@link #onResume()}.
      */
     private void updateNavigationButtonVisibility() {
@@ -2217,7 +2208,7 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
      * existing instance, shows that instance to the user. Either launches {@link FormHierarchyActivity}
      * if an existing instance is being edited or builds the view for the current question(s) if a
      * new instance is being created.
-     *
+     * <p>
      * May do some or all of these depending on current state:
      * - Ensures phone state permissions are given if this form needs them
      * - Cleans up {@link #formLoaderTask}
@@ -2459,11 +2450,20 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
 
                 break;
         }
-        String newlySavedFormXMLPath = formController.getInstanceFile().getAbsolutePath();
-        extractLastSavedFormData(newlySavedFormXMLPath);
+
+        try {
+            String newlySavedFormXMLPath = formController.getInstanceFile().getAbsolutePath();
+            JSONObject dataJsonObject = extractLastSavedFormData(newlySavedFormXMLPath);
+            saveOfflineMappedGirl(dataJsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
     }
 
-    private void extractLastSavedFormData(String targetFilePath) {
+    private JSONObject extractLastSavedFormData(String targetFilePath) {
         try {
             Timber.d("started extracting last saved data from %s", targetFilePath);
             FileInputStream is = new FileInputStream(targetFilePath);
@@ -2475,14 +2475,13 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
             Iterator keys = jsonObject.keys();
             JSONObject dataJsonObject = (JSONObject) jsonObject.get(keys.next().toString());
             Timber.d("jsonObject " + dataJsonObject.toString());
-            saveOfflineMappedGirl(dataJsonObject);
+            return dataJsonObject;
         } catch (IOException e) {
-            Timber.e(e,"failed to parse xml");
+            Timber.e(e, "failed to parse xml");
         } catch (JSONException e) {
-            Timber.e(e,"failed to parse json");
-        } catch (ParseException e) {
-            e.printStackTrace();
+            Timber.e(e, "failed to parse json");
         }
+        return null;
     }
 
     private void saveOfflineMappedGirl(JSONObject dataJsonObject) throws JSONException, ParseException {
@@ -2546,7 +2545,7 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
     /**
      * Requests that unsent finalized forms be auto-sent. If no network connection is available,
      * the work will be performed when a connection becomes available.
-     *
+     * <p>
      * TODO: if the user changes auto-send settings, should an auto-send job immediately be enqueued?
      */
     private void requestAutoSend() {
@@ -2872,7 +2871,7 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
      * - adds widgets corresponding to questions that are newly-relevant
      * - removes and rebuilds widgets corresponding to questions that have changed in some way. For
      * example, the question text or hint may have updated due to a value they refer to changing.
-     *
+     * <p>
      * The widget corresponding to the {@param lastChangedIndex} is never changed.
      */
     private void updateFieldListQuestions(FormIndex lastChangedIndex) {

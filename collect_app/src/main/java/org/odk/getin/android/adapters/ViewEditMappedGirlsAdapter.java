@@ -36,12 +36,20 @@ import timber.log.Timber;
 import static org.odk.getin.android.utilities.ApplicationConstants.APPOINTMENT_FORM_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.APPOINTMENT_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.CHEW_ROLE;
+import static org.odk.getin.android.utilities.ApplicationConstants.EDIT_GIRL;
 import static org.odk.getin.android.utilities.ApplicationConstants.FOLLOW_UP_FORM_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.FOLLOW_UP_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_NAME;
+import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ARUA_FORM_CHEW_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ARUA_FORM_MIDWIFE_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_FIRST_NAME;
+import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_LAST_NAME;
 import static org.odk.getin.android.utilities.ApplicationConstants.POSTNATAL_FORM_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.POSTNATAL_FORM_MIDWIFE_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.USER_DISTRICT;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_ROLE;
 import static org.odk.getin.android.utilities.TextUtils.toCapitalize;
 
@@ -62,6 +70,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
         public Button appointmentButton;
         public Button postNatalButton;
         public ImageButton callGirlButton;
+        public ImageButton editGirlButton;
 
         public ViewHolder(View v) {
             super(v);
@@ -75,6 +84,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
                 appointmentButton = (Button) v.findViewById(R.id.create_upcoming_appointment_button);
             postNatalButton = (Button) v.findViewById(R.id.create_post_natal_button);
             callGirlButton = (ImageButton) v.findViewById(R.id.call_girl_button);
+            editGirlButton = (ImageButton) v.findViewById(R.id.edit_girl_button);
         }
     }
 
@@ -161,6 +171,26 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
                 } catch (ActivityNotFoundException e) {
                     Timber.e(e);
                     activity.startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNumber)));
+                }
+            });
+
+            holder.editGirlButton.setOnClickListener(v -> {
+                String girlFirstName = holder.name.getText().toString().split(" ")[0];
+                String girlLastName = holder.name.getText().toString().split(" ")[1];
+                Prefs.putString(GIRL_FIRST_NAME, girlFirstName);
+                Prefs.putString(GIRL_LAST_NAME, girlLastName);
+                Prefs.putBoolean(EDIT_GIRL, true);
+
+                if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE)) {
+                    if (Prefs.getString(USER_DISTRICT, "BUNDIBUGYO").equals("BUNDIBUGYO"))
+                        startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_ID);
+                    else
+                        startFormActivity(MAP_GIRL_ARUA_FORM_CHEW_ID);
+                } else {
+                    if (Prefs.getString(USER_DISTRICT, "BUNDIBUGYO").equals("BUNDIBUGYO"))
+                        startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID);
+                    else
+                        startFormActivity(MAP_GIRL_ARUA_FORM_MIDWIFE_ID);
                 }
             });
         } catch (Exception e) {

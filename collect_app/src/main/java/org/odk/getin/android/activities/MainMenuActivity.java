@@ -186,16 +186,17 @@ public class MainMenuActivity extends CollectAbstractActivity {
             public void onClick(View v) {
                 if (Collect.allowClick(getClass().getName())) {
                     // get form depending on loggin user district
-                    if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE))
+                    if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE)) {
                         if (Prefs.getString(USER_DISTRICT, "BUNDIBUGYO").equals("BUNDIBUGYO"))
                             startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_ID);
                         else
                             startFormActivity(MAP_GIRL_ARUA_FORM_CHEW_ID);
-                    else
+                    } else {
                         if (Prefs.getString(USER_DISTRICT, "BUNDIBUGYO").equals("BUNDIBUGYO"))
                             startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID);
                         else
                             startFormActivity(MAP_GIRL_ARUA_FORM_MIDWIFE_ID);
+                    }
                 }
             }
         });

@@ -88,27 +88,6 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
     @Override
     public void onItemClick(View view, int position, Value value) {
         Timber.d("Clicked list item");
-//        displayDialog();
-    }
-
-    private void displayDialog() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-        alertDialog.setTitle("MappedGirlObject Data");
-        alertDialog.setMessage("Please choose action");
-//                alertDialog.setIcon(R.drawable.delete);
-        alertDialog.setPositiveButton("UPDATE",
-                (dialog, which) -> {
-                    updateGirlForm();
-                    ToastUtils.showShortToast("Update clicked");
-                });
-        alertDialog.setNegativeButton("VIEW",
-                (dialog, which) -> {
-                    ToastUtils.showShortToast("View clicked");
-                    Intent intent = new Intent(getActivity(), PregnancySummaryActivity.class);
-                    startActivity(intent);
-                    dialog.cancel();
-                });
-        alertDialog.show();
     }
 
     private void updateGirlForm() {
@@ -159,18 +138,14 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
 
             @Override
             public boolean onQueryTextChange(String s) {
-                // UserFeedback.show( "SearchOnQueryTextChanged: " + s);
                 return false;
             }
         });
 
-        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                girlsAdapter = new ViewEditMappedGirlsAdapter(getActivity(), queryMappedGirlTable());
-                recyclerView.setAdapter(girlsAdapter);
-                return false;
-            }
+        searchView.setOnCloseListener(() -> {
+            girlsAdapter = new ViewEditMappedGirlsAdapter(getActivity(), queryMappedGirlTable());
+            recyclerView.setAdapter(girlsAdapter);
+            return false;
         });
     }
 }
