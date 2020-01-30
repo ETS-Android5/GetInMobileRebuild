@@ -74,6 +74,7 @@ import org.javarosa.core.model.FormDef;
 import org.javarosa.core.model.FormIndex;
 import org.javarosa.core.model.data.IAnswerData;
 import org.javarosa.core.model.instance.TreeElement;
+import org.javarosa.core.services.transport.payload.ByteArrayPayload;
 import org.javarosa.form.api.FormEntryCaption;
 import org.javarosa.form.api.FormEntryController;
 import org.javarosa.form.api.FormEntryPrompt;
@@ -119,6 +120,7 @@ import org.odk.getin.android.preferences.AdminKeys;
 import org.odk.getin.android.preferences.AdminSharedPreferences;
 import org.odk.getin.android.preferences.GeneralKeys;
 import org.odk.getin.android.preferences.GeneralSharedPreferences;
+import org.odk.getin.android.provider.FormsProviderAPI;
 import org.odk.getin.android.provider.FormsProviderAPI.FormsColumns;
 import org.odk.getin.android.provider.InstanceProviderAPI;
 import org.odk.getin.android.provider.InstanceProviderAPI.InstanceColumns;
@@ -146,6 +148,10 @@ import org.odk.getin.android.widgets.DateTimeWidget;
 import org.odk.getin.android.widgets.QuestionWidget;
 import org.odk.getin.android.widgets.RangeWidget;
 import org.odk.getin.android.widgets.StringWidget;
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -153,6 +159,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.RandomAccessFile;
+import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -165,8 +174,17 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 import javax.inject.Inject;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import fr.arnaudguyon.xmltojsonlib.XmlToJson;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -600,43 +618,7 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
                 }
 
                 if (Prefs.getBoolean(EDIT_GIRL, false)) {
-                    // deactivate edit girl functionality
-                    Prefs.putBoolean(EDIT_GIRL, false);
-
-                    try {
-                        CursorLoader cursorLoader = new CursorLoader(
-                                this, InstanceProviderAPI.InstanceColumns.CONTENT_URI,
-                                null, null, null, null);
-
-                        Cursor c = cursorLoader.loadInBackground();
-                        if (c.moveToFirst()) {
-                            do {
-                                Timber.d("looping forms");
-                                String name = c.getString(c.getColumnIndex(InstanceProviderAPI.InstanceColumns.DISPLAY_NAME));
-                                String formFilePath = c.getString(c.getColumnIndex(InstanceColumns.INSTANCE_FILE_PATH));
-                                Timber.d("URI_CURSOR_VALUES ###" + name + " ### " + formFilePath);
-
-                                JSONObject dataJsonObject = extractLastSavedFormData(formFilePath);
-                                JSONObject girlDemographic = dataJsonObject.getJSONObject("GirlDemographic");
-                                String firstName = girlDemographic.getString("FirstName");
-                                String lastName = girlDemographic.getString("LastName");
-                                Timber.d("Saved forms data: " + firstName + lastName);
-
-                                String girlFirstName = Prefs.getString(GIRL_FIRST_NAME, "");
-                                String girlLastName = Prefs.getString(GIRL_LAST_NAME, "");
-                                Timber.d("Clicked girl data: " + girlFirstName + girlLastName);
-
-                                if (firstName.contains(girlFirstName)
-                                        && lastName.contains(girlLastName)) {
-                                    Timber.d("Found matching form");
-                                    instancePath = formFilePath;
-                                    ToastUtils.showLongToast("Found matching form");
-                                }
-                            } while (c.moveToNext());
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    loadPreviouslyMappedGirlInstanceForm();
                 }
             }
         } else {
@@ -648,6 +630,75 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
         formLoaderTask = new FormLoaderTask(instancePath, null, null);
         showFormLoadingDialogFragment();
         formLoaderTask.execute(formPath);
+    }
+
+    private void loadPreviouslyMappedGirlInstanceForm() {
+        // deactivate edit girl functionality
+        Prefs.putBoolean(EDIT_GIRL, false);
+
+        try {
+            CursorLoader cursorLoader = new CursorLoader(
+                    this, InstanceColumns.CONTENT_URI,
+                    null, null, null, null);
+
+            Cursor c = cursorLoader.loadInBackground();
+            if (c.moveToFirst()) {
+                do {
+                    Timber.d("looping forms");
+                    String name = c.getString(c.getColumnIndex(InstanceColumns.DISPLAY_NAME));
+                    String formFilePath = c.getString(c.getColumnIndex(InstanceColumns.INSTANCE_FILE_PATH));
+                    Timber.d("URI_CURSOR_VALUES " + name + " " + formFilePath);
+
+                    JSONObject dataJsonObject = extractLastSavedFormData(formFilePath);
+                    JSONObject girlDemographic = dataJsonObject.getJSONObject("GirlDemographic");
+                    String firstName = girlDemographic.getString("FirstName");
+                    String lastName = girlDemographic.getString("LastName");
+
+
+                    if (firstName.contains(Prefs.getString(GIRL_FIRST_NAME, ""))
+                            && lastName.contains(Prefs.getString(GIRL_LAST_NAME, ""))) {
+                        instancePath = formFilePath;
+
+                        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                        DocumentBuilder builder = factory.newDocumentBuilder();
+                        File xmlFile = new File(formFilePath);
+
+                        Document doc = builder.parse(xmlFile);
+                        Node instanceIdNode = doc.getElementsByTagName("instanceID").item(0);
+
+                        // replace instanceID since ODK the IDs are unique to each instance(submission)
+                        String instanceId = "uuid:" + UUID.randomUUID().toString();
+                        instanceIdNode.setTextContent(instanceId);
+
+                        // resave the instance(submission) form with the new id
+                        File xmlFormFile = new File(formFilePath);
+                        FileOutputStream fileout = new FileOutputStream(xmlFormFile);
+                        OutputStreamWriter outputWriter = new OutputStreamWriter(fileout);
+                        outputWriter.write(documentToString(doc));
+                        outputWriter.close();
+                    }
+                } while (c.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String documentToString(Document doc) {
+        try {
+            StringWriter sw = new StringWriter();
+            TransformerFactory tf = TransformerFactory.newInstance();
+            Transformer transformer = tf.newTransformer();
+            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+            transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+
+            transformer.transform(new DOMSource(doc), new StreamResult(sw));
+            return sw.toString();
+        } catch (Exception ex) {
+            throw new RuntimeException("Error converting to String", ex);
+        }
     }
 
     public Bundle getState() {
