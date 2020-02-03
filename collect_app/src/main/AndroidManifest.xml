@@ -21,11 +21,10 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!--<uses-permission android:name="android.permission.CAMERA" />-->
-    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
-    <!--<uses-permission android:name="android.permission.RECORD_AUDIO" />-->
-    <!--<uses-permission android:name="android.permission.GET_ACCOUNTS" /> &lt;!&ndash; <uses-permission android:name="android.permission.SEND_SMS" /> &ndash;&gt;-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- <uses-permission android:name="android.permission.CAMERA" /> -->
+    <!-- <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
+    <!-- <uses-permission android:name="android.permission.RECORD_AUDIO" /> -->
+    <!-- <uses-permission android:name="android.permission.GET_ACCOUNTS" /> &lt;!&ndash; <uses-permission android:name="android.permission.SEND_SMS" /> &ndash;&gt; -->
     <!-- Normal permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -67,22 +66,34 @@
         android:xlargeScreens="true" />
 
     <application
-        android:name="org.odk.getin.android.application.Collect"
+        android:name=".application.Collect"
         android:icon="@drawable/getin_logo"
         android:installLocation="auto"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true">
+        <activity
+            android:name=".activities.ProfileActivity"
+            android:label="@string/title_activity_profile"
+            android:theme="@style/AppTheme.NoActionBar">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.DEFAULT" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+
         <receiver
-            android:name="org.odk.getin.android.NotificationAlarmTrigger"
+            android:name=".NotificationAlarmTrigger"
             android:enabled="true"
-            android:exported="true"></receiver>
+            android:exported="true" />
 
         <service
-            android:name="org.odk.getin.android.NotificationTriggerService"
+            android:name=".NotificationTriggerService"
             android:exported="false" />
         <service
-            android:name="org.odk.getin.android.MyFirebaseMessagingService"
+            android:name=".MyFirebaseMessagingService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -90,10 +101,10 @@
             </intent-filter>
         </service>
         <service
-            android:name="org.odk.getin.android.upload.SetupIntentService"
+            android:name=".upload.SetupIntentService"
             android:exported="false" />
 
-        <activity android:name="org.odk.getin.android.activities.EmergencyCallActivity">
+        <activity android:name=".activities.EmergencyCallActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -106,26 +117,26 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="org.odk.getin.android.activities.ui.login.LoginActivity"
+            android:name=".activities.ui.login.LoginActivity"
             android:label="@string/title_activity_login"
-            android:parentActivityName="org.odk.getin.android.activities.ChooseUserActivity"
+            android:parentActivityName=".activities.ChooseUserActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.odk.getin.android.activities.ChooseUserActivity" />
         </activity>
-        <activity android:name="org.odk.getin.android.activities.PostNatalActivity" />
-        <activity android:name="org.odk.getin.android.activities.PreviousRecordsActivity" />
-        <activity android:name="org.odk.getin.android.activities.UpcomingAppointmentsActivity" />
+        <activity android:name=".activities.PostNatalActivity" />
+        <activity android:name=".activities.PreviousRecordsActivity" />
+        <activity android:name=".activities.UpcomingAppointmentsActivity" />
         <activity
-            android:name="org.odk.getin.android.activities.PregnancySummaryActivity"
+            android:name=".activities.PregnancySummaryActivity"
             android:label="@string/title_activity_pregnancy_summary"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="org.odk.getin.android.activities.ViewEditMappedGirlsActivity"
+            android:name=".activities.ViewEditMappedGirlsActivity"
             android:theme="@style/Theme.Collect.Activity.FormEntryActivity.Light" />
         <activity
-            android:name="org.odk.getin.android.activities.AmbulanceViewActivity"
+            android:name=".activities.AmbulanceViewActivity"
             android:theme="@style/Theme.Collect.Activity.FormEntryActivity.Light" />
 
         <provider
@@ -139,24 +150,24 @@
         </provider>
 
         <activity
-            android:name="org.odk.getin.android.activities.MainMenuActivity"
+            android:name=".activities.MainMenuActivity"
             android:configChanges="locale|orientation|screenSize" />
         <activity
-            android:name="org.odk.getin.android.activities.ChooseUserActivity"
+            android:name=".activities.ChooseUserActivity"
             android:configChanges="locale|orientation|screenSize" />
         <activity
-            android:name="org.odk.getin.android.activities.ScannerWithFlashlightActivity"
+            android:name=".activities.ScannerWithFlashlightActivity"
             android:screenOrientation="portrait"
             android:stateNotNeeded="true"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name="org.odk.getin.android.activities.FormEntryActivity"
+            android:name=".activities.FormEntryActivity"
             android:configChanges="orientation"
             android:windowSoftInputMode="adjustResize" />
 
         <activity-alias
             android:name=".activities.FormEntryActivity"
-            android:targetActivity="org.odk.getin.android.activities.FormEntryActivity">
+            android:targetActivity=".activities.FormEntryActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.EDIT" />
@@ -169,23 +180,23 @@
         </activity-alias>
 
         <activity
-            android:name="org.odk.getin.android.activities.NotificationActivity"
+            android:name=".activities.NotificationActivity"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:taskAffinity=""
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
         <activity
-            android:name="org.odk.getin.android.activities.DrawActivity"
+            android:name=".activities.DrawActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name="org.odk.getin.android.activities.GoogleDriveActivity"
+            android:name=".activities.GoogleDriveActivity"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name="org.odk.getin.android.activities.InstanceChooserList" />
+        <activity android:name=".activities.InstanceChooserList" />
 
         <activity-alias
             android:name=".activities.InstanceChooserList"
-            android:targetActivity="org.odk.getin.android.activities.InstanceChooserList">
+            android:targetActivity=".activities.InstanceChooserList">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.EDIT" />
@@ -196,11 +207,11 @@
             </intent-filter>
         </activity-alias>
 
-        <activity android:name="org.odk.getin.android.activities.FormChooserList" />
+        <activity android:name=".activities.FormChooserList" />
 
         <activity-alias
             android:name=".activities.FormChooserList"
-            android:targetActivity="org.odk.getin.android.activities.FormChooserList">
+            android:targetActivity=".activities.FormChooserList">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.EDIT" />
@@ -212,11 +223,11 @@
             </intent-filter>
         </activity-alias>
 
-        <activity android:name="org.odk.getin.android.activities.FormDownloadList" />
+        <activity android:name=".activities.FormDownloadList" />
 
         <activity-alias
             android:name=".activities.FormDownloadList"
-            android:targetActivity="org.odk.getin.android.activities.FormDownloadList">
+            android:targetActivity=".activities.FormDownloadList">
             <intent-filter>
                 <action android:name="org.odk.getin.android.FORM_DOWNLOAD" />
 
@@ -227,18 +238,18 @@
         </activity-alias>
 
         <activity
-            android:name="org.odk.getin.android.activities.FileManagerTabs"
+            android:name=".activities.FileManagerTabs"
             android:configChanges="orientation|screenSize" />
         <activity
-            android:name="org.odk.getin.android.activities.GoogleSheetsUploaderActivity"
+            android:name=".activities.GoogleSheetsUploaderActivity"
             android:configChanges="orientation|screenSize" />
         <activity
-            android:name="org.odk.getin.android.activities.InstanceUploaderListActivity"
+            android:name=".activities.InstanceUploaderListActivity"
             android:configChanges="orientation|screenSize" />
 
         <activity-alias
             android:name=".activities.InstanceUploaderList"
-            android:targetActivity="org.odk.getin.android.activities.InstanceUploaderListActivity">
+            android:targetActivity=".activities.InstanceUploaderListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.EDIT" />
@@ -247,11 +258,11 @@
             </intent-filter>
         </activity-alias>
 
-        <activity android:name="org.odk.getin.android.activities.InstanceUploaderActivity" />
+        <activity android:name=".activities.InstanceUploaderActivity" />
 
         <activity-alias
             android:name=".activities.InstanceUploaderActivity"
-            android:targetActivity="org.odk.getin.android.activities.InstanceUploaderActivity">
+            android:targetActivity=".activities.InstanceUploaderActivity">
             <intent-filter>
                 <action android:name="org.odk.getin.android.INSTANCE_UPLOAD" />
 
@@ -261,19 +272,19 @@
             </intent-filter>
         </activity-alias>
 
-        <activity android:name="org.odk.getin.android.activities.AboutActivity" />
-        <activity android:name="org.odk.getin.android.preferences.PreferencesActivity" />
-        <activity android:name="org.odk.getin.android.preferences.AdminPreferencesActivity" />
-        <activity android:name="org.odk.getin.android.activities.FormHierarchyActivity" />
-        <activity android:name="org.odk.getin.android.activities.ViewOnlyFormHierarchyActivity" />
-        <activity android:name="org.odk.getin.android.activities.BearingActivity" />
+        <activity android:name=".activities.AboutActivity" />
+        <activity android:name=".preferences.PreferencesActivity" />
+        <activity android:name=".preferences.AdminPreferencesActivity" />
+        <activity android:name=".activities.FormHierarchyActivity" />
+        <activity android:name=".activities.ViewOnlyFormHierarchyActivity" />
+        <activity android:name=".activities.BearingActivity" />
         <activity
-            android:name="org.odk.getin.android.activities.SplashScreenActivity"
+            android:name=".activities.SplashScreenActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
 
         <activity-alias
             android:name=".activities.SplashScreenActivity"
-            android:targetActivity="org.odk.getin.android.activities.SplashScreenActivity">
+            android:targetActivity=".activities.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -282,11 +293,11 @@
             </intent-filter>
         </activity-alias>
 
-        <activity android:name="org.odk.getin.android.activities.CaptureSelfieActivity" />
-        <activity android:name="org.odk.getin.android.activities.CaptureSelfieActivityNewApi" />
-        <activity android:name="org.odk.getin.android.activities.WebViewActivity" />
-        <activity android:name="org.odk.getin.android.activities.CaptureSelfieVideoActivity" />
-        <activity android:name="org.odk.getin.android.activities.CaptureSelfieVideoActivityNewApi" />
+        <activity android:name=".activities.CaptureSelfieActivity" />
+        <activity android:name=".activities.CaptureSelfieActivityNewApi" />
+        <activity android:name=".activities.WebViewActivity" />
+        <activity android:name=".activities.CaptureSelfieVideoActivity" />
+        <activity android:name=".activities.CaptureSelfieVideoActivityNewApi" />
         <!--
         Register AnalyticsReceiver and AnalyticsService to support background
         dispatching on non-Google Play devices.
@@ -304,20 +315,19 @@
             android:enabled="true"
             android:exported="false" /> <!-- ... -->
         <!-- Configure this key by setting GOOGLE_MAPS_API_KEY in collect_app/secrets.properties. -->
-        <!--<meta-data-->
-            <!--android:name="com.google.android.geo.API_KEY"-->
-            <!--android:value="@string/GOOGLE_MAPS_API_KEY" />-->
+        <!-- <meta-data -->
+        <!-- android:name="com.google.android.geo.API_KEY" -->
+        <!-- android:value="@string/GOOGLE_MAPS_API_KEY" /> -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"
             tools:replace="android:value" /> <!-- integer/google_play_services_version -->
-        <!--<meta-data-->
-            <!--android:name="firebase_crashlytics_collection_enabled"-->
-            <!--android:value="@bool/FIREBASE_ENABLED" />-->
-        <!--<meta-data-->
-            <!--android:name="firebase_analytics_collection_enabled"-->
-            <!--android:value="@bool/FIREBASE_ENABLED" />-->
-
+        <!-- <meta-data -->
+        <!-- android:name="firebase_crashlytics_collection_enabled" -->
+        <!-- android:value="@bool/FIREBASE_ENABLED" /> -->
+        <!-- <meta-data -->
+        <!-- android:name="firebase_analytics_collection_enabled" -->
+        <!-- android:value="@bool/FIREBASE_ENABLED" /> -->
         <uses-library
             android:name="com.google.android.maps"
             android:required="false" />
@@ -331,20 +341,20 @@
              **************************************************************************************
         -->
         <provider
-            android:name="org.odk.getin.android.provider.FormsProvider"
+            android:name=".provider.FormsProvider"
             android:authorities="org.odk.getin.android.provider.odk.forms"
             android:exported="true" />
         <provider
-            android:name="org.odk.getin.android.provider.InstanceProvider"
+            android:name=".provider.InstanceProvider"
             android:authorities="org.odk.getin.android.provider.odk.instances"
             android:exported="true" /> <!-- Enable Shortcuts for Command Actions -->
         <provider
-            android:name="org.odk.getin.android.provider.MappedGirlsProvider"
+            android:name=".provider.MappedGirlsProvider"
             android:authorities="org.odk.getin.android.provider.odk.mappedgirls"
             android:exported="true" />
 
         <activity
-            android:name="org.odk.getin.android.activities.AndroidShortcuts"
+            android:name=".activities.AndroidShortcuts"
             android:label="ODK Form"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
@@ -354,7 +364,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="org.odk.getin.android.activities.CallUserViewActivity"
+            android:name=".activities.CallUserViewActivity"
             android:theme="@style/Theme.Collect.Activity.FormEntryActivity.Light" />
     </application>
 

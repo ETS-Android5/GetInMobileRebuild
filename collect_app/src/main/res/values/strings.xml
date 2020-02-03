@@ -871,4 +871,12 @@
     <!-- [END fcm_default_icon_string] -->
     <string name="msg_subscribe_failed">Failed to subscribe to GetIn reminder topic</string>
     <string name="fcm_message">GetIn message</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="girl_details">Girl details</string>
+    <string name="name">Name</string>
+    <string name="marital_status">Marital status</string>
+    <string name="age">Age</string>
+    <string name="village">Village</string>
+    <string name="education_level">Education level</string>
+    <string name="kin_phone_number">Kin phone number</string>
 </resources>

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".activities.ProfileActivity"
+    tools:showIn="@layout/activity_profile">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/headerText"
+            android:layout_marginBottom="20dp"
+            android:text="@string/girl_details" />
+
+        <RelativeLayout style="@style/profileDetailsLayout">
+
+            <ImageView
+                android:id="@+id/nameImageView"
+                style="@style/profileDetailsImage"
+                app:srcCompat="@drawable/ic_woman" />
+
+            <TextView
+                android:id="@+id/nameTextView"
+                style="@style/profileDetailsTextMain"
+                android:layout_toEndOf="@id/nameImageView"
+                android:layout_toRightOf="@id/nameImageView"
+                android:text="@string/name" />
+
+            <TextView
+                android:id="@+id/name"
+                style="@style/profileDetailsMiniText"
+                android:layout_toEndOf="@id/nameImageView"
+                android:layout_toRightOf="@id/nameImageView"
+                android:text="Nakasi" />
+
+        </RelativeLayout>
+
+        <View style="@style/profileDetailsView" />
+
+        <RelativeLayout style="@style/profileDetailsLayout">
+
+            <ImageView
+                android:id="@+id/mobileImageView"
+                style="@style/profileDetailsImage"
+                app:srcCompat="@drawable/ic_telephone" />
+
+            <TextView
+                style="@style/profileDetailsTextMain"
+                android:layout_toEndOf="@id/mobileImageView"
+                android:layout_toRightOf="@id/mobileImageView"
+                android:text="@string/phone_number" />
+
+            <TextView
+                android:id="@+id/phone_number"
+                style="@style/profileDetailsMiniText"
+                android:layout_toEndOf="@id/mobileImageView"
+                android:layout_toRightOf="@id/mobileImageView"
+                android:text="0756878462" />
+
+        </RelativeLayout>
+
+        <View style="@style/profileDetailsView" />
+
+        <RelativeLayout style="@style/profileDetailsLayout">
+
+            <ImageView
+                android:id="@+id/mobileKinImageView"
+                style="@style/profileDetailsImage"
+                app:srcCompat="@drawable/ic_telephone" />
+
+            <TextView
+                style="@style/profileDetailsTextMain"
+                android:layout_toEndOf="@id/mobileKinImageView"
+                android:layout_toRightOf="@id/mobileKinImageView"
+                android:text="@string/kin_phone_number" />
+
+            <TextView
+                android:id="@+id/kin_phone_number"
+                style="@style/profileDetailsMiniText"
+                android:layout_toEndOf="@id/mobileKinImageView"
+                android:layout_toRightOf="@id/mobileKinImageView"
+                android:text="0756878462" />
+        </RelativeLayout>
+
+        <View style="@style/profileDetailsView" />
+
+        <RelativeLayout style="@style/profileDetailsLayout">
+
+            <ImageView
+                android:id="@+id/maritalStatusImageView"
+                style="@style/profileDetailsImage"
+                app:srcCompat="@drawable/ic_wedding_rings" />
+
+            <TextView
+                style="@style/profileDetailsTextMain"
+                android:layout_toEndOf="@id/maritalStatusImageView"
+                android:layout_toRightOf="@id/maritalStatusImageView"
+                android:text="@string/marital_status" />
+
+            <TextView
+                android:id="@+id/marital_status"
+                style="@style/profileDetailsMiniText"
+                android:layout_toEndOf="@id/maritalStatusImageView"
+                android:layout_toRightOf="@id/maritalStatusImageView"
+                android:text="Single" />
+
+        </RelativeLayout>
+
+        <View style="@style/profileDetailsView" />
+
+        <RelativeLayout style="@style/profileDetailsLayout">
+
+            <ImageView
+                android:id="@+id/addressImageView"
+                style="@style/profileDetailsImage"
+                app:srcCompat="@drawable/ic_timetable" />
+
+            <TextView
+                style="@style/profileDetailsTextMain"
+                android:layout_toEndOf="@id/addressImageView"
+                android:layout_toRightOf="@id/addressImageView"
+                android:text="@string/age" />
+
+            <TextView
+                android:id="@+id/age"
+                style="@style/profileDetailsMiniText"
+                android:layout_toEndOf="@id/addressImageView"
+                android:layout_toRightOf="@id/addressImageView"
+                android:text="14 Years" />
+
+        </RelativeLayout>
+
+        <View style="@style/profileDetailsView" />
+
+        <RelativeLayout style="@style/profileDetailsLayout">
+
+            <ImageView
+                android:id="@+id/dobImageView"
+                style="@style/profileDetailsImage"
+                app:srcCompat="@drawable/ic_pin" />
+
+            <TextView
+                style="@style/profileDetailsTextMain"
+                android:layout_toEndOf="@id/dobImageView"
+                android:layout_toRightOf="@id/dobImageView"
+                android:text="@string/village" />
+
+            <TextView
+                android:id="@+id/village"
+                style="@style/profileDetailsMiniText"
+                android:layout_toEndOf="@id/dobImageView"
+                android:layout_toRightOf="@id/dobImageView"
+                android:text="Bundiselya" />
+
+        </RelativeLayout>
+
+        <View style="@style/profileDetailsView" />
+
+        <RelativeLayout style="@style/profileDetailsLayout">
+
+            <ImageView
+                android:id="@+id/education_image_view"
+                style="@style/profileDetailsImage"
+                app:srcCompat="@drawable/ic_book" />
+
+            <TextView
+                style="@style/profileDetailsTextMain"
+                android:layout_toEndOf="@id/education_image_view"
+                android:layout_toRightOf="@id/education_image_view"
+                android:text="@string/education_level" />
+
+            <TextView
+                android:id="@+id/education"
+                style="@style/profileDetailsMiniText"
+                android:layout_toEndOf="@id/education_image_view"
+                android:layout_toRightOf="@id/education_image_view"
+                android:text="A Level" />
+
+        </RelativeLayout>
+
+        <View style="@style/profileDetailsView" />
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import org.odk.getin.android.R;
+import org.odk.getin.android.activities.ProfileActivity;
 import org.odk.getin.android.provider.FormsProviderAPI;
 import org.odk.getin.android.provider.mappedgirltable.MappedgirltableCursor;
 import org.odk.getin.android.provider.mappedgirltable.MappedgirltableSelection;
@@ -192,6 +193,14 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
                     else
                         startFormActivity(MAP_GIRL_ARUA_FORM_MIDWIFE_ID);
                 }
+            });
+
+            holder.itemView.setOnClickListener(v -> {
+                String girlFirstName = holder.name.getText().toString().split(" ")[0];
+                String girlLastName = holder.name.getText().toString().split(" ")[1];
+                Prefs.putString(GIRL_FIRST_NAME, girlFirstName);
+                Prefs.putString(GIRL_LAST_NAME, girlLastName);
+                activity.startActivity(new Intent(activity.getApplicationContext(), ProfileActivity.class));
             });
         } catch (Exception e) {
             Timber.e(e);

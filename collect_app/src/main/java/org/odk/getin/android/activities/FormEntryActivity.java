@@ -679,6 +679,7 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
                     }
                 } while (c.moveToNext());
             }
+            c.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -693,7 +694,6 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
             transformer.setOutputProperty(OutputKeys.METHOD, "xml");
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-
             transformer.transform(new DOMSource(doc), new StreamResult(sw));
             return sw.toString();
         } catch (Exception ex) {
