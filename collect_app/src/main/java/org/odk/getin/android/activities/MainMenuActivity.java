@@ -31,6 +31,7 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
@@ -43,6 +44,7 @@ import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -75,6 +77,8 @@ import org.odk.getin.android.provider.InstanceProviderAPI.InstanceColumns;
 import org.odk.getin.android.tasks.ServerPollingJob;
 import org.odk.getin.android.upload.SetupIntentService;
 import org.odk.getin.android.utilities.ApplicationConstants;
+import org.odk.getin.android.utilities.GeneralUtils;
+import org.odk.getin.android.utilities.NotificationUtils;
 import org.odk.getin.android.utilities.SharedPreferencesUtils;
 import org.odk.getin.android.utilities.ToastUtils;
 
@@ -139,6 +143,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
     private final IncomingHandler handler = new IncomingHandler(this);
     private final MyContentObserver contentObserver = new MyContentObserver();
     private static final int REQUEST_PHONE_CALL = 34;
+    private CountDownTimer countDownTimer;
 
     public static void startActivityAndCloseAllOthers(Activity activity) {
         activity.startActivity(new Intent(activity, MainMenuActivity.class));
@@ -151,6 +156,8 @@ public class MainMenuActivity extends CollectAbstractActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_menu);
         initToolbar();
+
+//        networkStatusCheckTimer();
 
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(task -> {
@@ -337,6 +344,42 @@ public class MainMenuActivity extends CollectAbstractActivity {
 
 //        updateButtons();
         setupGoogleAnalytics();
+    }
+
+    public void networkStatusCheckTimer() {
+        countDownTimer = new CountDownTimer(Long.MAX_VALUE, 10000) {
+
+            // This is called after every 10 sec interval.
+            public void onTick(long millisUntilFinished) {
+                boolean isConnected = GeneralUtils.isConnectedToInternet(getApplicationContext());
+                Timber.d("onTick: internet connection status " + isConnected);
+                /*
+                 * the chances of online status appearing are much lower than offline
+                 * prioritise online status and only change incase the user is online.
+                 * Offline will be triggered by the InternetAvailabilityChecker
+                 * */
+                if (isConnected) {
+                    changeNetworkStatusIndicatorText(isConnected);
+                }
+
+                if (GeneralUtils.getShowNetworkStatus()) {
+                    Intent intent = new Intent(getApplicationContext(), SplashScreenActivity.class);
+                    NotificationUtils notificationUtils = new NotificationUtils();
+                    String networkStatusText = isConnected ? getString(R.string.networkon_short) : getString(R.string.networkoff);
+                    notificationUtils.showNetworkNotificationMessage(getString(R.string.networkstatus), networkStatusText, intent, 21);
+                    GeneralUtils.saveShowNetworkStatus(false);
+                }
+            }
+
+            public void onFinish() {
+                start();
+            }
+        }.start();
+    }
+
+    private void changeNetworkStatusIndicatorText(boolean isConnected) {
+        String dataStatus = isConnected ? "ONLINE" : "OFFLINE";
+//        offlineTextView.setText(dataStatus);
     }
 
     private void initToolbar() {

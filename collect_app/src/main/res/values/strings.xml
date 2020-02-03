@@ -114,7 +114,7 @@
     <string name="play_video">Play Video</string>
     <string name="please_wait">Please wait a few moments.</string>
     <string name="please_wait_long">Please wait. This could take a few minutes.</string>
-    <string name="quit_application">Exit %s</string>
+    <string name="quit_application">Are you sure you want to exit?</string>
     <string name="quit_entry">Submit</string>
     <string name="refresh">Refresh</string>
     <string name="group_label">Group</string>
@@ -879,4 +879,9 @@
     <string name="village">Village</string>
     <string name="education_level">Education level</string>
     <string name="kin_phone_number">Kin phone number</string>
+    <string name="networkon_short">You are ONLINE</string>
+    <string name="networkstatus">Network Status</string>
+    <string name="internet">INTERNET</string>
+    <string name="online">Online</string>
+    <string name="networkoff">You are OFFLINE. Please turn on mobile data</string>
 </resources>

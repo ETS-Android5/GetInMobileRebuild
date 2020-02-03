@@ -1792,61 +1792,34 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
      * saving
      */
     private void createQuitDialog() {
-        String title;
-        {
-            FormController formController = getFormController();
-            title = (formController == null) ? null : formController.getFormTitle();
-            if (title == null) {
-                title = getString(R.string.no_form_loaded);
-            }
-        }
-
         List<IconMenuItem> items;
-        if ((boolean) AdminSharedPreferences.getInstance().get(AdminKeys.KEY_SAVE_MID)) {
-            items = ImmutableList.of(new IconMenuItem(R.drawable.ic_save, R.string.keep_changes),
-                    new IconMenuItem(R.drawable.ic_delete, R.string.do_not_save));
-        } else {
-            items = ImmutableList.of(new IconMenuItem(R.drawable.ic_delete, R.string.do_not_save));
-        }
+        items = ImmutableList.of(new IconMenuItem(R.drawable.ic_delete, R.string.do_not_save));
 
         ListView listView = DialogUtils.createActionListView(this);
 
         final IconMenuListAdapter adapter = new IconMenuListAdapter(this, items);
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                IconMenuItem item = (IconMenuItem) adapter.getItem(position);
-                if (item.getTextResId() == R.string.keep_changes) {
-                    saveDataToDisk(EXIT, InstancesDaoHelper.isInstanceComplete(false), null);
-                } else {
-                    // close all open databases of external data.
-                    ExternalDataManager manager = Collect.getInstance().getExternalDataManager();
-                    if (manager != null) {
-                        manager.close();
-                    }
-
-                    FormController formController = getFormController();
-                    if (formController != null) {
-                        formController.getAuditEventLogger().logEvent(AuditEvent.AuditEventType.FORM_EXIT, true);
-                    }
-                    removeTempInstance();
-                    MediaManager.INSTANCE.revertChanges();
-                    finishReturnInstance();
-                }
-                alertDialog.dismiss();
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            // close all open databases of external data.
+            ExternalDataManager manager = Collect.getInstance().getExternalDataManager();
+            if (manager != null) {
+                manager.close();
             }
+
+            FormController formController = getFormController();
+            if (formController != null) {
+                formController.getAuditEventLogger().logEvent(AuditEvent.AuditEventType.FORM_EXIT, true);
+            }
+            removeTempInstance();
+            MediaManager.INSTANCE.revertChanges();
+            finishReturnInstance();
+            alertDialog.dismiss();
         });
+
         alertDialog = new AlertDialog.Builder(this)
-                .setTitle(
-                        getString(R.string.quit_application, title))
+                .setTitle(getString(R.string.quit_application))
                 .setPositiveButton(getString(R.string.do_not_exit),
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        })
+                        (dialog, id) -> dialog.cancel())
                 .setView(listView).create();
         alertDialog.show();
     }

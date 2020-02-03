@@ -143,5 +143,6 @@ public class ApplicationConstants {
 //    public static final String APP_USER_URL = "https://testcentral.getinmobile.org/v1/key/WCoZ55Bi48dUnENkvbr7HG2MDk2FJVU7A6wCq1cWaDInwiGBwYjnX5Jefx464iFJ/projects/2";
     public static final String APP_USER_URL = "https://odkcentral.getinmobile.org/v1/key/VpxV1j2OKjioeXi3X3tVDaD9F4EE8rOAp8xeV5mdwycmBRvf!CQ$RYvKnnQx8dKf/projects/2";
     public static final String LAST_NOTIFICATION_TIME = "last_notification";
+    public static final String SHOW_NETWORK_STATUS = "show_network_status";
 
 }
