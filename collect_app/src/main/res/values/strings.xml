@@ -884,4 +884,5 @@
     <string name="internet">INTERNET</string>
     <string name="online">Online</string>
     <string name="networkoff">You are OFFLINE. Please turn on mobile data</string>
+    <string name="getin_reminder">GetIn reminder</string>
 </resources>

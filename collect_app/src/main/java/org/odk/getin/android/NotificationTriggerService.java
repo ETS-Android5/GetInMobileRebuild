@@ -34,21 +34,17 @@ public class NotificationTriggerService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.d(TAG, "onHandleIntent: running NotificationTriggerService");
-
         ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
         String activityName = cn.getPackageName();
-        Log.d(TAG, "onHandleIntent: current activity " + activityName);
 
         long lastNotitifcationTime = Prefs.getLong(ApplicationConstants.LAST_NOTIFICATION_TIME, 0);
         long currentTimeMillis = System.currentTimeMillis();
         boolean hasDisplayedNotification = (currentTimeMillis - lastNotitifcationTime) < TimeUnit.HOURS.toMillis(24);
-        Log.d(TAG, "onHandleIntent: hasDisplayedNotification " + hasDisplayedNotification);
 
         // only show notification when app is not open
         if (!activityName.contains("org.odk.getin.android") && !hasDisplayedNotification) {
-            NotificationUtils.showNotificationMessage("Please don't forget to use the GetIn app to map");
+            NotificationUtils.showNotificationMessage("Please don't forget to use the GetIn app to map", getString(R.string.getin_reminder));
             updateLastNotificationPref();
         }
     }
@@ -59,7 +55,6 @@ public class NotificationTriggerService extends IntentService {
 
     @Override
     public void onDestroy() {
-        Log.d(TAG, "onDestroy: ondestroy NotificationTriggerService");
         super.onDestroy();
         triggerAppUsageReminderNotificationAlarm();
         triggerAppUsageReminderWorkManager();
@@ -83,11 +78,9 @@ public class NotificationTriggerService extends IntentService {
     }
 
     private void triggerAppUsageReminderWorkManager() {
-        Log.d(TAG, "triggerAppUsageReminderNotification: started");
         String TASK_ID = "NotificationWorker";
         WorkManager workManager = WorkManager.getInstance();
         PeriodicWorkRequest notifyAlarmRequest = new PeriodicWorkRequest.Builder(NotifyWorker.class, 1, TimeUnit.DAYS).build();
         workManager.enqueueUniquePeriodicWork(TASK_ID, ExistingPeriodicWorkPolicy.REPLACE, notifyAlarmRequest);
-        Log.d(TAG, "triggerAppUsageReminderNotification: job id " + notifyAlarmRequest.getId());
     }
 }

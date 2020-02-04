@@ -53,6 +53,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -127,23 +128,19 @@ public class MainMenuActivity extends CollectAbstractActivity {
     private static final boolean EXIT = true;
     private static final String TASK_ID = "NotificationWorker";
     // buttons
-    private Button manageFilesButton;
-    private Button sendDataButton;
     private Button callMidwifeOrChewButton;
-    private Button reviewDataButton;
     private Button callAmbulanceButton;
     private AlertDialog alertDialog;
     private SharedPreferences adminPreferences;
-    private int completedCount;
-    private int savedCount;
-    private int viewSentCount;
     private Cursor finalizedCursor;
     private Cursor savedCursor;
     private Cursor viewSentCursor;
     private final IncomingHandler handler = new IncomingHandler(this);
     private final MyContentObserver contentObserver = new MyContentObserver();
     private static final int REQUEST_PHONE_CALL = 34;
+    private TextView networkStatusTextView;
     private CountDownTimer countDownTimer;
+    private int viewSentCount;
 
     public static void startActivityAndCloseAllOthers(Activity activity) {
         activity.startActivity(new Intent(activity, MainMenuActivity.class));
@@ -157,7 +154,8 @@ public class MainMenuActivity extends CollectAbstractActivity {
         setContentView(R.layout.main_menu);
         initToolbar();
 
-//        networkStatusCheckTimer();
+        networkStatusTextView = findViewById(R.id.network_status);
+        networkStatusCheckTimer();
 
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(task -> {
@@ -312,7 +310,6 @@ public class MainMenuActivity extends CollectAbstractActivity {
         if (finalizedCursor != null) {
             startManagingCursor(finalizedCursor);
         }
-        completedCount = finalizedCursor != null ? finalizedCursor.getCount() : 0;
         getContentResolver().registerContentObserver(InstanceColumns.CONTENT_URI, true,
                 contentObserver);
         // finalizedCursor.registerContentObserver(contentObserver);
@@ -328,7 +325,6 @@ public class MainMenuActivity extends CollectAbstractActivity {
         if (savedCursor != null) {
             startManagingCursor(savedCursor);
         }
-        savedCount = savedCursor != null ? savedCursor.getCount() : 0;
 
         //count for view sent form
         try {
@@ -341,8 +337,6 @@ public class MainMenuActivity extends CollectAbstractActivity {
             startManagingCursor(viewSentCursor);
         }
         viewSentCount = viewSentCursor != null ? viewSentCursor.getCount() : 0;
-
-//        updateButtons();
         setupGoogleAnalytics();
     }
 
@@ -356,19 +350,8 @@ public class MainMenuActivity extends CollectAbstractActivity {
                 /*
                  * the chances of online status appearing are much lower than offline
                  * prioritise online status and only change incase the user is online.
-                 * Offline will be triggered by the InternetAvailabilityChecker
                  * */
-                if (isConnected) {
-                    changeNetworkStatusIndicatorText(isConnected);
-                }
-
-                if (GeneralUtils.getShowNetworkStatus()) {
-                    Intent intent = new Intent(getApplicationContext(), SplashScreenActivity.class);
-                    NotificationUtils notificationUtils = new NotificationUtils();
-                    String networkStatusText = isConnected ? getString(R.string.networkon_short) : getString(R.string.networkoff);
-                    notificationUtils.showNetworkNotificationMessage(getString(R.string.networkstatus), networkStatusText, intent, 21);
-                    GeneralUtils.saveShowNetworkStatus(false);
-                }
+                changeNetworkStatusIndicatorText(isConnected);
             }
 
             public void onFinish() {
@@ -379,7 +362,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
 
     private void changeNetworkStatusIndicatorText(boolean isConnected) {
         String dataStatus = isConnected ? "ONLINE" : "OFFLINE";
-//        offlineTextView.setText(dataStatus);
+        networkStatusTextView.setText(dataStatus);
     }
 
     private void initToolbar() {
@@ -406,70 +389,6 @@ public class MainMenuActivity extends CollectAbstractActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-
-        SharedPreferences sharedPreferences = this.getSharedPreferences(
-                AdminPreferencesActivity.ADMIN_PREFERENCES, 0);
-
-        boolean edit = sharedPreferences.getBoolean(
-                AdminKeys.KEY_EDIT_SAVED, true);
-        if (!edit) {
-            if (reviewDataButton != null) {
-                reviewDataButton.setVisibility(View.GONE);
-            }
-        } else {
-            if (reviewDataButton != null) {
-                reviewDataButton.setVisibility(View.VISIBLE);
-            }
-        }
-
-        boolean send = sharedPreferences.getBoolean(
-                AdminKeys.KEY_SEND_FINALIZED, true);
-        if (!send) {
-            if (sendDataButton != null) {
-                sendDataButton.setVisibility(View.GONE);
-            }
-        } else {
-            if (sendDataButton != null) {
-                sendDataButton.setVisibility(View.VISIBLE);
-            }
-        }
-
-        boolean viewSent = sharedPreferences.getBoolean(
-                AdminKeys.KEY_VIEW_SENT, true);
-        if (!viewSent) {
-            if (callMidwifeOrChewButton != null) {
-                callMidwifeOrChewButton.setVisibility(View.GONE);
-            }
-        } else {
-            if (callMidwifeOrChewButton != null) {
-                callMidwifeOrChewButton.setVisibility(View.VISIBLE);
-            }
-        }
-
-        boolean getBlank = sharedPreferences.getBoolean(
-                AdminKeys.KEY_GET_BLANK, true);
-        if (!getBlank) {
-            if (callAmbulanceButton != null) {
-                callAmbulanceButton.setVisibility(View.GONE);
-            }
-        } else {
-            if (callAmbulanceButton != null) {
-                callAmbulanceButton.setVisibility(View.VISIBLE);
-            }
-        }
-
-        boolean deleteSaved = sharedPreferences.getBoolean(
-                AdminKeys.KEY_DELETE_SAVED, true);
-        if (!deleteSaved) {
-            if (manageFilesButton != null) {
-                manageFilesButton.setVisibility(View.GONE);
-            }
-        } else {
-            if (manageFilesButton != null) {
-                manageFilesButton.setVisibility(View.VISIBLE);
-            }
-        }
 
         ((Collect) getApplication())
                 .getDefaultTracker()

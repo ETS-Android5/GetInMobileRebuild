@@ -16,7 +16,6 @@
 
 package org.odk.getin.android.utilities;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -26,7 +25,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Vibrator;
-import android.text.TextUtils;
 
 import androidx.core.app.NotificationCompat;
 
@@ -41,7 +39,7 @@ public class NotificationUtils {
 
     public static final String CHANNEL_ID = "collect_notification_channel";
     public static final int FORM_UPDATE_NOTIFICATION_ID = 0;
-    private int vibrationCycles = 0;
+    private static int vibrationCycles;
 
     public NotificationUtils() {
     }
@@ -80,7 +78,7 @@ public class NotificationUtils {
         }
     }
 
-    public static void showNotificationMessage(String messageBody) {
+    public static void showNotificationMessage(String messageBody, String title) {
         Context context = Collect.getInstance();
         Intent intent = new Intent(context, MainMenuActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -92,7 +90,7 @@ public class NotificationUtils {
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(context, channelId)
                         .setSmallIcon(R.drawable.ic_getinlogo_notification)
-                        .setContentTitle(context.getString(R.string.fcm_message))
+                        .setContentTitle(title)
                         .setContentText(messageBody)
                         .setAutoCancel(true)
                         .setSound(defaultSoundUri)
@@ -109,30 +107,17 @@ public class NotificationUtils {
             notificationManager.createNotificationChannel(channel);
         }
 
-        notificationManager.notify(46 /* ID of notification */, notificationBuilder.build());
-    }
+        notificationManager.notify(46, notificationBuilder.build());
 
-    public void showNotificationMessage(final String title, final String message, Intent intent, int id) {
-        Context context = Collect.getInstance();
-        // Check for empty push message
-        if (TextUtils.isEmpty(message))
-            return;
-
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        final PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-
-        showSmallNotification(title, message, resultPendingIntent, id);
-    }
-
-    private void showSmallNotification(String title, String message, PendingIntent resultPendingIntent, int id) {
-        Context context = Collect.getInstance();
-        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel("default", "Default", NotificationManager.IMPORTANCE_HIGH);
-            channel.setDescription("General App notifications");
-            mNotificationManager.createNotificationChannel(channel);
+        try {
+            startVibration(context);
+            playNotificationSound();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
 
+    private static void startVibration(Context context) {
         long[] pattern = new long[]{0, 400, 800, 600, 800, 800, 800, 800, 600, 1000};
         Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         vibrator.vibrate(pattern, -1);
@@ -149,53 +134,10 @@ public class NotificationUtils {
                 }
             }
         }, 6000, 6000);
-
-        playNotificationSound();
-
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, "default")
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(title)
-                .setContentText(message)
-                .setContentIntent(resultPendingIntent)
-                .setDefaults(Notification.DEFAULT_LIGHTS);
-        mNotificationManager.notify(id, mBuilder.build());
     }
 
-    private void playNotificationSound(){
+    private static void playNotificationSound(){
         Context context = Collect.getInstance();
         AudioPlay.playAudio(context);
     }
-
-    public void showNetworkNotificationMessage(final String title, final String message, Intent intent, int id) {
-        Context context = Collect.getInstance();
-        // Check for empty push message
-        if (TextUtils.isEmpty(message))
-            return;
-
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        final PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        showNetworkNotification(title, message, resultPendingIntent, id);
-    }
-
-    private void showNetworkNotification(String title, String message, PendingIntent resultPendingIntent, int id) {
-        Context context = Collect.getInstance();
-
-        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel("default", "Default", NotificationManager.IMPORTANCE_HIGH);
-            channel.setDescription("General App notifications");
-            mNotificationManager.createNotificationChannel(channel);
-        }
-
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, "default")
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(title)
-                .setContentText(message)
-                .setContentIntent(resultPendingIntent)
-                .setDefaults(Notification.DEFAULT_ALL)
-                .setAutoCancel(true);
-
-        mNotificationManager.notify(id, mBuilder.build());
-    }
-
 }
