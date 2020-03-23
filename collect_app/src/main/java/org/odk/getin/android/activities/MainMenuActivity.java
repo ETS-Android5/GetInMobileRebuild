@@ -120,11 +120,9 @@ import static org.odk.getin.android.utilities.ApplicationConstants.VHT_MIDWIFE_I
  *
  * @author Carl Hartung (carlhartung@gmail.com)
  * @author Yaw Anokwa (yanokwa@gmail.com)
+ * @author Phillip Kigenyi (codephillip@gmail.com)
  */
 public class MainMenuActivity extends CollectAbstractActivity {
-
-    private static final int PASSWORD_DIALOG = 1;
-
     private static final boolean EXIT = true;
     private static final String TASK_ID = "NotificationWorker";
     // buttons
@@ -463,61 +461,6 @@ public class MainMenuActivity extends CollectAbstractActivity {
 
     @Override
     protected Dialog onCreateDialog(int id) {
-        switch (id) {
-            case PASSWORD_DIALOG:
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                final AlertDialog passwordDialog = builder.create();
-                passwordDialog.setTitle(getString(R.string.enter_admin_password));
-                LayoutInflater inflater = this.getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.dialogbox_layout, null);
-                passwordDialog.setView(dialogView, 20, 10, 20, 10);
-                final CheckBox checkBox = dialogView.findViewById(R.id.checkBox);
-                final EditText input = dialogView.findViewById(R.id.editText);
-                checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                        if (!checkBox.isChecked()) {
-                            input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                        } else {
-                            input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                        }
-                    }
-                });
-                passwordDialog.setButton(AlertDialog.BUTTON_POSITIVE,
-                        getString(R.string.ok),
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,
-                                                int whichButton) {
-                                String value = input.getText().toString();
-                                String pw = adminPreferences.getString(
-                                        AdminKeys.KEY_ADMIN_PW, "");
-                                if (pw.compareTo(value) == 0) {
-                                    Intent i = new Intent(getApplicationContext(),
-                                            AdminPreferencesActivity.class);
-                                    startActivity(i);
-                                    input.setText("");
-                                    passwordDialog.dismiss();
-                                } else {
-                                    ToastUtils.showShortToast(R.string.admin_password_incorrect);
-                                }
-                            }
-                        });
-
-                passwordDialog.setButton(AlertDialog.BUTTON_NEGATIVE,
-                        getString(R.string.cancel),
-                        new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int which) {
-                                input.setText("");
-                            }
-                        });
-
-                passwordDialog.getWindow().setSoftInputMode(
-                        WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                return passwordDialog;
-
-        }
         return null;
     }
 
@@ -627,7 +570,6 @@ public class MainMenuActivity extends CollectAbstractActivity {
         switch (requestCode) {
             case REQUEST_PHONE_CALL: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
                     startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + getString(R.string.help_phone))));
                 }
                 return;
