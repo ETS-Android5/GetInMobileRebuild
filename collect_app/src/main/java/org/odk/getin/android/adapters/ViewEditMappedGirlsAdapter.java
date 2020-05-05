@@ -48,6 +48,8 @@ import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_BUND
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_FIRST_NAME;
 import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_LAST_NAME;
+import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_KAMPALA_FORM_CHEW_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_KAMPALA_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.POSTNATAL_FORM_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.POSTNATAL_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_DISTRICT;
@@ -181,15 +183,21 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
                 Prefs.putString(GIRL_FIRST_NAME, girlFirstName);
                 Prefs.putString(GIRL_LAST_NAME, girlLastName);
                 Prefs.putBoolean(EDIT_GIRL, true);
+                Timber.d("District###");
+                Timber.d(Prefs.getString(USER_DISTRICT, "BUNDIBUGYO"));
 
                 if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE)) {
                     if (Prefs.getString(USER_DISTRICT, "BUNDIBUGYO").equals("BUNDIBUGYO"))
                         startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_ID);
+                    else if (Prefs.getString(USER_DISTRICT, "Kampala").equals("Kampala"))
+                        startFormActivity(MAP_GIRL_KAMPALA_FORM_CHEW_ID);
                     else
                         startFormActivity(MAP_GIRL_ARUA_FORM_CHEW_ID);
                 } else {
                     if (Prefs.getString(USER_DISTRICT, "BUNDIBUGYO").equals("BUNDIBUGYO"))
                         startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID);
+                    else if (Prefs.getString(USER_DISTRICT, "Kampala").equals("Kampala"))
+                        startFormActivity(MAP_GIRL_KAMPALA_FORM_MIDWIFE_ID);
                     else
                         startFormActivity(MAP_GIRL_ARUA_FORM_MIDWIFE_ID);
                 }

@@ -109,6 +109,8 @@ import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ARUA
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ARUA_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_KAMPALA_FORM_CHEW_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_KAMPALA_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_DISTRICT;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_ROLE;
@@ -192,11 +194,15 @@ public class MainMenuActivity extends CollectAbstractActivity {
                     if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE)) {
                         if (Prefs.getString(USER_DISTRICT, "BUNDIBUGYO").equals("BUNDIBUGYO"))
                             startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_ID);
+                        else if (Prefs.getString(USER_DISTRICT, "Kampala").equals("Kampala"))
+                            startFormActivity(MAP_GIRL_KAMPALA_FORM_CHEW_ID);
                         else
                             startFormActivity(MAP_GIRL_ARUA_FORM_CHEW_ID);
                     } else {
                         if (Prefs.getString(USER_DISTRICT, "BUNDIBUGYO").equals("BUNDIBUGYO"))
                             startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID);
+                        else if (Prefs.getString(USER_DISTRICT, "Kampala").equals("Kampala"))
+                            startFormActivity(MAP_GIRL_KAMPALA_FORM_MIDWIFE_ID);
                         else
                             startFormActivity(MAP_GIRL_ARUA_FORM_MIDWIFE_ID);
                     }

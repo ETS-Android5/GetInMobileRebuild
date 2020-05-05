@@ -205,6 +205,8 @@ import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_BUND
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_FIRST_NAME;
 import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_LAST_NAME;
+import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_KAMPALA_FORM_CHEW_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_KAMPALA_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.POSTNATAL_FORM_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.POSTNATAL_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.RequestCodes;
@@ -1191,6 +1193,8 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
         switch (saveName) {
             case MAP_GIRL_BUNDIBUGYO_FORM_ID:
             case MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID:
+            case MAP_GIRL_KAMPALA_FORM_CHEW_ID:
+            case MAP_GIRL_KAMPALA_FORM_MIDWIFE_ID:
             case MAP_GIRL_ARUA_FORM_CHEW_ID:
             case MAP_GIRL_ARUA_FORM_MIDWIFE_ID: {
                 title = "Map a girl";
