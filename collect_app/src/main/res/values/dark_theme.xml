@@ -30,6 +30,7 @@
         <item name="warningColor">@color/red_500</item>
         <item name="dividerCompat">@android:drawable/divider_horizontal_dark</item>
         <item name="spinnerItemBackgroundColor">#3f3f3f</item>
+        <item name="colorPrimaryDark">@color/getin_light_blue</item>
         <!--
             The default tint mode for ImageViews is SRC_ATOP, which produces
             incorrect blending girls when tinting images with a colour that

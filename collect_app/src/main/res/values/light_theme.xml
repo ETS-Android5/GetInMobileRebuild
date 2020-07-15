@@ -33,6 +33,7 @@
         <item name="dividerCompat">@android:drawable/divider_horizontal_bright</item>
         <item name="android:tintMode" tools:targetApi="21">src_in</item>
         <item name="spinnerItemBackgroundColor">#F9F9F9</item>
+        <item name="colorPrimaryDark">@color/getin_light_blue</item>
 
     </style>
 

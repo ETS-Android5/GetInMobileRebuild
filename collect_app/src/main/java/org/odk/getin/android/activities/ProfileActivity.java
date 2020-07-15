@@ -63,7 +63,7 @@ public class ProfileActivity extends AppCompatActivity {
         cursor = selection.query(getContentResolver());
         cursor.moveToFirst();
 
-        name.setText(cursor.getFirstname() + " " + cursor.getLastname());
+        name.setText(cursor.getFullName());
         lastName.setText(cursor.getLastname());
         phoneNumber.setText(cursor.getPhonenumber());
         phoneNumberKin.setText(cursor.getNextofkinphonenumber());

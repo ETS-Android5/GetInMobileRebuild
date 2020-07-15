@@ -185,4 +185,9 @@ public class MappedgirltableCursor extends AbstractCursor implements Mappedgirlt
         String res = getStringOrNull(MappedgirltableColumns.VILLAGE);
         return res;
     }
+
+    @Nullable
+    public String getFullName() {
+        return getFirstname() + " " + getLastname();
+    }
 }
