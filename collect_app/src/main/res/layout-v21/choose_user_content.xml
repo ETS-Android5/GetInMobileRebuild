@@ -38,5 +38,14 @@
             android:layout_marginTop="@dimen/margin_extra_extra_large"
             android:gravity="center"
             android:text="@string/terms_and_conditions" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:layout_marginTop="@dimen/margin_small"
+            android:gravity="center"
+            android:id="@+id/app_version"
+            android:text="v1.23.3" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

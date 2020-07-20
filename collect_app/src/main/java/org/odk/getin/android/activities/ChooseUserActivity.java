@@ -15,13 +15,20 @@
 package org.odk.getin.android.activities;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 
 import org.odk.getin.android.R;
 import org.odk.getin.android.activities.ui.login.LoginActivity;
+
+import static org.odk.getin.android.utilities.ApplicationConstants.APP_USER_URL;
+import static org.odk.getin.android.utilities.ApplicationConstants.DJANGO_BACKEND_URL;
 
 /**
  * Responsible for displaying buttons to launch activities.
@@ -54,6 +61,19 @@ public class ChooseUserActivity extends CollectAbstractActivity {
             startActivity(i);
             finish();
         });
+
+        TextView appVersion = findViewById(R.id.app_version);
+        try {
+            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            String versionName = pInfo.versionName.replace("-dirty", "");
+            if (DJANGO_BACKEND_URL.contains("test") || APP_USER_URL.contains("test")) {
+                versionName = versionName  + "-test";
+            }
+            appVersion.setText(versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            appVersion.setVisibility(View.GONE);
+        }
     }
 
     private void initToolbar() {
