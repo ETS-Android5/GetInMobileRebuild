@@ -2,6 +2,8 @@ package org.odk.getin.android.retrofit;
 
 import com.pixplicity.easyprefs.library.Prefs;
 
+import org.odk.getin.android.BuildConfig;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -11,7 +13,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import timber.log.Timber;
 
-import static org.odk.getin.android.utilities.ApplicationConstants.DJANGO_BACKEND_URL;
 import static org.odk.getin.android.utilities.ApplicationConstants.SERVER_TOKEN;
 
 public class APIClient {
@@ -29,7 +30,7 @@ public class APIClient {
                 }).build();
 
         return new Retrofit.Builder()
-                .baseUrl(DJANGO_BACKEND_URL)
+                .baseUrl(BuildConfig.DJANGO_BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();

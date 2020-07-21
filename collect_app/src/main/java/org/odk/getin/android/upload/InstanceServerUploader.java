@@ -23,6 +23,7 @@ import com.pixplicity.easyprefs.library.Prefs;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.odk.getin.android.BuildConfig;
 import org.odk.getin.android.R;
 import org.odk.getin.android.application.Collect;
 import org.odk.getin.android.dto.Instance;
@@ -46,7 +47,6 @@ import javax.net.ssl.HttpsURLConnection;
 
 import timber.log.Timber;
 
-import static org.odk.getin.android.utilities.ApplicationConstants.APP_USER_URL;
 import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_ID;
 
@@ -315,7 +315,7 @@ public class InstanceServerUploader extends InstanceUploader {
                 Collect.getInstance());
 //        String serverBase = settings.getString(GeneralKeys.KEY_SERVER_URL,
 //                app.getString(R.string.default_server_url));
-        String serverBase = Prefs.getString("APP_USER_URL", APP_USER_URL);
+        String serverBase = Prefs.getString("APP_USER_URL", BuildConfig.APP_USER_URL);
         //todo add the default getin odk central server url for logged in user
 //        String serverBase = "https://sandbox.aggregate.opendatakit.org";
 

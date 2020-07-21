@@ -29,6 +29,7 @@ import com.pixplicity.easyprefs.library.Prefs;
 
 import org.javarosa.xform.parse.XFormParser;
 import org.kxml2.kdom.Element;
+import org.odk.getin.android.BuildConfig;
 import org.odk.getin.android.R;
 import org.odk.getin.android.dao.FormsDao;
 import org.odk.getin.android.http.CollectServerClient;
@@ -44,8 +45,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import timber.log.Timber;
-
-import static org.odk.getin.android.utilities.ApplicationConstants.APP_USER_URL;
 
 public class DownloadFormListUtils {
 
@@ -86,7 +85,7 @@ public class DownloadFormListUtils {
 //                settings.getString(GeneralKeys.KEY_SERVER_URL,
 //                        application.getString(R.string.default_server_url));
 
-        String downloadListUrl = Prefs.getString("APP_USER_URL", APP_USER_URL);
+        String downloadListUrl = Prefs.getString("APP_USER_URL", BuildConfig.APP_USER_URL);
 
         while (downloadListUrl.endsWith("/")) {
             downloadListUrl = downloadListUrl.substring(0, downloadListUrl.length() - 1);

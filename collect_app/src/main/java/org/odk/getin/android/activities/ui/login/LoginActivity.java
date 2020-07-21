@@ -28,6 +28,7 @@ import com.pixplicity.easyprefs.library.Prefs;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.odk.getin.android.BuildConfig;
 import org.odk.getin.android.R;
 import org.odk.getin.android.activities.CollectAbstractActivity;
 import org.odk.getin.android.activities.MainMenuActivity;
@@ -49,7 +50,6 @@ import timber.log.Timber;
 
 import static org.odk.getin.android.utilities.ApplicationConstants.APP_USER_URL;
 import static org.odk.getin.android.utilities.ApplicationConstants.CHEW_ROLE;
-import static org.odk.getin.android.utilities.ApplicationConstants.DJANGO_BACKEND_URL;
 import static org.odk.getin.android.utilities.ApplicationConstants.SERVER_TOKEN;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_DISTRICT;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_FIRST_NAME;
@@ -188,7 +188,7 @@ public class LoginActivity extends CollectAbstractActivity {
         Timber.d("postrequest started");
 
         MediaType MEDIA_TYPE = MediaType.parse("application/json");
-        String url = DJANGO_BACKEND_URL + "auth/login/";
+        String url = BuildConfig.DJANGO_BACKEND_URL + "auth/login/";
 
         OkHttpClient client = new OkHttpClient();
 
@@ -280,7 +280,7 @@ public class LoginActivity extends CollectAbstractActivity {
                         Timber.d(authToken + firstName + lastName + role);
 
                         //TODO GET ODK CENTRAL APP USER URL
-                        Prefs.putString("APP_USER_URL", APP_USER_URL);
+                        Prefs.putString("APP_USER_URL", BuildConfig.APP_USER_URL);
 
                         Intent i = new Intent(getApplicationContext(), MainMenuActivity.class);
                         startActivity(i);

@@ -61,6 +61,7 @@ import com.pixplicity.easyprefs.library.Prefs;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.odk.getin.android.BuildConfig;
 import org.odk.getin.android.NotificationAlarmTrigger;
 import org.odk.getin.android.NotifyWorker;
 import org.odk.getin.android.R;
@@ -104,7 +105,6 @@ import timber.log.Timber;
 
 import static org.odk.getin.android.preferences.GeneralKeys.KEY_SUBMISSION_TRANSPORT_TYPE;
 import static org.odk.getin.android.utilities.ApplicationConstants.CHEW_ROLE;
-import static org.odk.getin.android.utilities.ApplicationConstants.DJANGO_BACKEND_URL;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ARUA_FORM_CHEW_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ARUA_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_ID;
@@ -607,7 +607,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
         Timber.d("postrequest started");
 
         MediaType MEDIA_TYPE = MediaType.parse("application/json");
-        String url = DJANGO_BACKEND_URL + "api/v1/notifier";
+        String url = BuildConfig.DJANGO_BACKEND_URL + "api/v1/notifier";
 
         OkHttpClient client = new OkHttpClient();
 

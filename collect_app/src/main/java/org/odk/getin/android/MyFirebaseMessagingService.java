@@ -18,7 +18,6 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import timber.log.Timber;
 
-import static org.odk.getin.android.utilities.ApplicationConstants.DJANGO_BACKEND_URL;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_ID;
 
 /**
@@ -60,7 +59,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Timber.d("postrequest started");
 
         MediaType MEDIA_TYPE = MediaType.parse("application/json");
-        String url = DJANGO_BACKEND_URL + "api/v1/notifier";
+        String url = BuildConfig.DJANGO_BACKEND_URL + "api/v1/notifier";
 
         OkHttpClient client = new OkHttpClient();
 

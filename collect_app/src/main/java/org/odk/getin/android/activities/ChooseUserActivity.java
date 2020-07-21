@@ -24,11 +24,11 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 
+import org.odk.getin.android.BuildConfig;
 import org.odk.getin.android.R;
 import org.odk.getin.android.activities.ui.login.LoginActivity;
 
 import static org.odk.getin.android.utilities.ApplicationConstants.APP_USER_URL;
-import static org.odk.getin.android.utilities.ApplicationConstants.DJANGO_BACKEND_URL;
 
 /**
  * Responsible for displaying buttons to launch activities.
@@ -66,7 +66,7 @@ public class ChooseUserActivity extends CollectAbstractActivity {
         try {
             PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             String versionName = pInfo.versionName.replace("-dirty", "");
-            if (DJANGO_BACKEND_URL.contains("test") || APP_USER_URL.contains("test")) {
+            if (BuildConfig.DJANGO_BACKEND_URL.contains("test") || BuildConfig.APP_USER_URL.contains("test")) {
                 versionName = versionName  + "-test";
             }
             appVersion.setText(versionName);
