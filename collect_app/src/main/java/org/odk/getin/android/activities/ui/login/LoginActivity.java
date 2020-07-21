@@ -48,7 +48,6 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import timber.log.Timber;
 
-import static org.odk.getin.android.utilities.ApplicationConstants.APP_USER_URL;
 import static org.odk.getin.android.utilities.ApplicationConstants.CHEW_ROLE;
 import static org.odk.getin.android.utilities.ApplicationConstants.SERVER_TOKEN;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_DISTRICT;

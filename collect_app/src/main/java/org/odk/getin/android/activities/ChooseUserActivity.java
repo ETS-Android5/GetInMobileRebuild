@@ -28,8 +28,6 @@ import org.odk.getin.android.BuildConfig;
 import org.odk.getin.android.R;
 import org.odk.getin.android.activities.ui.login.LoginActivity;
 
-import static org.odk.getin.android.utilities.ApplicationConstants.APP_USER_URL;
-
 /**
  * Responsible for displaying buttons to launch activities.
  * User logs in either as VHT(chew) or Midwife
