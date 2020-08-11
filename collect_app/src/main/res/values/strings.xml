@@ -888,4 +888,5 @@
     <string name="getin_reminder">GetIn reminder</string>
     <string name="help">Help</string>
     <string name="logout">Logout</string>
+    <string name="voucher_number_string">Voucher No. %s</string>
 </resources>

@@ -279,6 +279,8 @@ public class SetupIntentService extends IntentService {
 
 
         for (MappedGirlObject girl : mappedGirls) {
+            Timber.d("girl data " + girl.getFirstName());
+            Timber.d(girl.getVoucherNumber());
             MappedgirltableContentValues values = new MappedgirltableContentValues();
             values.putFirstname(girl.getFirstName());
             values.putLastname(girl.getLastName());
@@ -293,6 +295,8 @@ public class SetupIntentService extends IntentService {
             values.putPendingVisits(girl.getPendingVisits());
             values.putMissedVisits(girl.getMissedVisits());
             values.putVillage(girl.getVillage().getName());
+            values.putVoucherNumber(girl.getVoucherNumber());
+            values.putServicesReceivedNull();
             values.putServerid(girl.getId());
             final Uri uri = values.insert(getContentResolver());
         }

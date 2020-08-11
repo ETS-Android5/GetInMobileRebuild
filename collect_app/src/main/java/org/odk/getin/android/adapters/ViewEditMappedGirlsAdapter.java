@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -73,6 +74,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
         public TextView maritalStatus;
         public TextView village;
         public TextView byVht;
+        public TextView voucherNumber;
         public Button followUpButton;
         public Button appointmentButton;
         public Button postNatalButton;
@@ -86,6 +88,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
             maritalStatus = (TextView) v.findViewById(R.id.marital_status);
             age = (TextView) v.findViewById(R.id.age);
             village = (TextView) v.findViewById(R.id.village);
+            voucherNumber = (TextView) v.findViewById(R.id.voucher_number);
             followUpButton = (Button) v.findViewById(R.id.create_follow_up_button);
             if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(MIDWIFE_ROLE)) {
                 appointmentButton = (Button) v.findViewById(R.id.create_upcoming_appointment_button);
@@ -124,6 +127,15 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
 
             try {
                 holder.village.setText(toCapitalize(cursor.getVillage()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+                if (cursor.getVoucherNumber() != null)
+                    holder.voucherNumber.setText(String.format(activity.getString(R.string.voucher_number_string), cursor.getVoucherNumber()));
+                else
+                    holder.voucherNumber.setVisibility(View.GONE);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -224,6 +236,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
             }
         } catch (Exception e) {
             Timber.e(e);
+            Toast.makeText(activity, "Please call the help number on the home screen if error persist", Toast.LENGTH_SHORT).show();
         }
     }
 

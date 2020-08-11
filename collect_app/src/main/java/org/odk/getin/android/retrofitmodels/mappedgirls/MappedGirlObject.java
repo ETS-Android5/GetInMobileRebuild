@@ -68,6 +68,12 @@ public class MappedGirlObject {
     @SerializedName("created_at")
     @Expose
     private Date createdAt;
+    @SerializedName("voucher_number")
+    @Expose
+    private String voucherNumber;
+//    @SerializedName("services_received")
+//    @Expose
+//    private String serviceReceived;
 
     public String getId() {
         return id;
@@ -227,6 +233,14 @@ public class MappedGirlObject {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getVoucherNumber() {
+        return voucherNumber;
+    }
+
+    public void setVoucherNumber(String voucherNumber) {
+        this.voucherNumber = voucherNumber;
     }
 
 }
