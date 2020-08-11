@@ -89,6 +89,9 @@ public class AboutListAdapter extends RecyclerView.Adapter<AboutListAdapter.View
                 summary.setVisibility(View.VISIBLE);
                 if (resId == R.string.app_version_number) {
                     String versionName = BuildConfig.VERSION_NAME.replace("-dirty", "");
+                    if (BuildConfig.DJANGO_BACKEND_URL.contains("test") || BuildConfig.APP_USER_URL.contains("test")) {
+                        versionName = versionName  + "-test";
+                    }
                     summary.setText(String.format(context.getString(R.string.app_version_number), versionName));
                 } else {
                     summary.setText(context.getString(resId));
