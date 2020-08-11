@@ -12,6 +12,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface APIInterface {
     @GET("api/v1/girls")
@@ -33,4 +34,7 @@ public interface APIInterface {
     @FormUrlEncoded
     @POST("auth/login/")
     Call<AuthModel> loginUser(@Field("username") String username, @Field("password") String password);
+
+    @POST("auth/logout/")
+    Call<AuthModel> logOutUser();
 }

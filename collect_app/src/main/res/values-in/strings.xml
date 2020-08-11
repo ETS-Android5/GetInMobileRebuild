@@ -360,7 +360,7 @@
   <string name="version_number">Versi: %s</string>
   <string name="id_number">ID: 1 %s</string>
   <string name="odk_website">Kunjungi situs ODK </string>
-  <string name="odk_website_summary">Open Data Kit (ODK) digunakan untuk mengumpulkan data untuk kepentingan sosial di lingkungan yang menantang.</string>
+  <string name="getin_version">Open Data Kit (ODK) digunakan untuk mengumpulkan data untuk kepentingan sosial di lingkungan yang menantang.</string>
   <string name="odk_forum">Gabung forum ODK</string>
   <string name="odk_forum_summary">Bergabung di Forum untuk mendapatkan bantuan, permintaan fitur, berkontribusi kode program/terjemahan!</string>
   <string name="all_open_source_licenses">Lisensi/pustaka kode pustaka</string>

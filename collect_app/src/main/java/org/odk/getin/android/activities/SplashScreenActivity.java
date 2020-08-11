@@ -53,7 +53,7 @@ public class SplashScreenActivity extends CollectAbstractActivity {
                 // must be at the beginning of any activity that can be called from an external intent
                 try {
                     Collect.createODKDirs();
-                    if (firstRun)
+                    if (firstRun || !Prefs.getBoolean(USER_LOGGED_IN, false))
                         // download all empty forms from the server. this is required before user can fill in the form
                         ServerPollingJob.startJobImmediately();
                 } catch (RuntimeException e) {

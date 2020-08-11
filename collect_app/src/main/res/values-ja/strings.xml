@@ -404,7 +404,7 @@
   <string name="version_number">バージョン: %s</string>
   <string name="id_number">ID: %s</string>
   <string name="odk_website">ODK ウェブサイトを訪問</string>
-  <string name="odk_website_summary">オープンデータキット (ODK) は、課題のある環境での社会的利益のためのデータを収集するために使用されます。</string>
+  <string name="getin_version">オープンデータキット (ODK) は、課題のある環境での社会的利益のためのデータを収集するために使用されます。</string>
   <string name="odk_forum">ODK フォーラムに参加</string>
   <string name="odk_forum_summary">フォーラムに参加して、サポートを受けたり、機能をリクエストしたり、コード/翻訳に貢献してください!</string>
   <string name="all_open_source_licenses">オープンソースライブラリー/ライセンス</string>

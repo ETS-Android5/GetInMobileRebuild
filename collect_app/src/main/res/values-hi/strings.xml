@@ -331,7 +331,7 @@
   <string name="selected_answer">चयनित :%s</string>
   <string name="version_number">संस्करण: %s</string>
   <string name="odk_website">ODK वेबसाइट विजिट करें</string>
-  <string name="odk_website_summary">ओपन डाटा किट (ODK ) विषम परिस्थितियों में सामाजिक डाटा इकठ्ठा करने में कार्य आता है.</string>
+  <string name="getin_version">ओपन डाटा किट (ODK ) विषम परिस्थितियों में सामाजिक डाटा इकठ्ठा करने में कार्य आता है.</string>
   <string name="odk_forum">ODK फोरम ज्वाइन करें</string>
   <!--%1$s represents degrees, %2$s represents minutes and %3$s represents seconds as in W 18°48'8"-->
   <string name="west">प. %1$s%2$s%3$s</string>

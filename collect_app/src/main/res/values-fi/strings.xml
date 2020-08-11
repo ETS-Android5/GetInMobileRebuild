@@ -394,7 +394,7 @@
   <string name="version_number">Versio: %s</string>
   <string name="id_number">ID: %s</string>
   <string name="odk_website">Käy ODK:n verkkosivulla</string>
-  <string name="odk_website_summary">Open Data Kit (ODK) -sovellusta käytetään vaativissa olosuhteissa keräämään dataa yhteisen hyvän edistämiseksi.</string>
+  <string name="getin_version">Open Data Kit (ODK) -sovellusta käytetään vaativissa olosuhteissa keräämään dataa yhteisen hyvän edistämiseksi.</string>
   <string name="odk_forum">Liity ODK-foorumiin</string>
   <string name="odk_forum_summary">Liity foorumiin saadaksesi tukea, pyytääksesi toimintoja, ja auttaaksesi koodaamisessa tai kääntämisessä!</string>
   <string name="all_open_source_licenses">Avoimen lähdekoodin kirjastot/lisenssit</string>

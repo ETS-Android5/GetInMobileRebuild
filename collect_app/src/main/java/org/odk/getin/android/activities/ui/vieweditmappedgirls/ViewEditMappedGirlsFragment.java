@@ -90,32 +90,6 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
         Timber.d("Clicked list item");
     }
 
-    private void updateGirlForm() {
-        String selectionClause = InstanceColumns.DISPLAY_NAME + " LIKE ?";
-        String[] selectionArgs = {"GetInTest18%"};
-
-        Cursor c = getActivity().getContentResolver().query(
-                InstanceProviderAPI.InstanceColumns.CONTENT_URI,  // The content URI of the words table
-                null,                       // The columns to return for each row
-                selectionClause,                  // Either null, or the word the user entered
-                selectionArgs,                    // Either empty, or the string the user entered
-                null);
-
-        c.moveToFirst();
-
-        Uri instanceUri =
-                ContentUris.withAppendedId(InstanceColumns.CONTENT_URI,
-                        c.getLong(c.getColumnIndex(InstanceColumns._ID)));
-
-        Timber.d("Cursor value " + c.toString());
-        Timber.d("Uri value " + instanceUri.toString());
-
-        Intent intent = new Intent(Intent.ACTION_EDIT, instanceUri);
-        intent.putExtra(ApplicationConstants.BundleKeys.FORM_MODE, ApplicationConstants.FormModes.EDIT_SAVED);
-        startActivity(intent);
-        getActivity().finish();
-    }
-
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -127,7 +101,6 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                ToastUtils.showShortToast("SearchOnQueryTextSubmit: " + query);
                 if (!searchView.isIconified()) {
                     searchView.setIconified(true);
                     girlsAdapter.filter(query);

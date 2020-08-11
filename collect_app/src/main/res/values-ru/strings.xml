@@ -354,7 +354,7 @@
   <string name="version_number">Версия: %s</string>
   <string name="id_number">ID: %s</string>
   <string name="odk_website">Вебсайт ODK</string>
-  <string name="odk_website_summary">Open Data Kit — приложение для сбора данных работающее без интернета</string>
+  <string name="getin_version">Open Data Kit — приложение для сбора данных работающее без интернета</string>
   <string name="odk_forum">Форум</string>
   <string name="odk_forum_summary">Вопросы и предложения</string>
   <string name="all_open_source_licenses">Используемые компоненты</string>

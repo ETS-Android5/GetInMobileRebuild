@@ -85,8 +85,6 @@ public class SetupIntentService extends IntentService {
             @Override
             public void onResponse(Call<UserSystemModel> call, Response<UserSystemModel> response) {
                 try {
-                    Timber.d("Users: " + response.code());
-                    Timber.d("Users: " + response.body());
                     if (response.code() == 200) {
                         saveUsers(response.body());
                     } else {
@@ -124,9 +122,7 @@ public class SetupIntentService extends IntentService {
         Timber.d("Users count " + users.size());
 
         for (SystemUsers user : users) {
-            Timber.d("SystemUser data: " + user.getFirstName() + user.getRole());
             UserstableContentValues values = new UserstableContentValues();
-            Timber.d("User id # " + user.getId());
             values.putUserid(user.getId());
             values.putFirstname(user.getFirstName());
             values.putLastname(user.getLastName());
@@ -135,7 +131,6 @@ public class SetupIntentService extends IntentService {
 
             try {
                 values.putMidwifeid(user.getMidwife().getId());
-                Timber.d("midwife id " + user.getMidwife().getId() + user.getMidwife().getPhone());
             } catch (Exception e) {
                 e.printStackTrace();
                 Timber.e("Error adding midwife");
@@ -156,7 +151,6 @@ public class SetupIntentService extends IntentService {
                 values.putVillageNull();
             }
             final Uri uri = values.insert(getContentResolver());
-            Timber.d("saved user %s", uri);
         }
     }
 
@@ -168,8 +162,6 @@ public class SetupIntentService extends IntentService {
             @Override
             public void onResponse(Call<Appointments> call, Response<Appointments> response) {
                 try {
-                    Timber.d("Appointments: " + response.code());
-                    Timber.d("Appointments: " + response.body());
                     if (response.code() == 200) {
                         saveAppointments(response.body());
                     } else {
@@ -206,7 +198,6 @@ public class SetupIntentService extends IntentService {
         Timber.d("appointment row count " + appointments.size());
 
         for (Appointment appointment : appointments) {
-            Timber.d("Appointment data " + appointment.getDate().toString() + appointment.getGirl().getLastName());
             AppointmentstableContentValues values = new AppointmentstableContentValues();
             values.putFirstname(appointment.getGirl().getFirstName());
             values.putLastname(appointment.getGirl().getLastName());
@@ -233,7 +224,6 @@ public class SetupIntentService extends IntentService {
             values.putAppointmentDate(appointment.getDate());
             values.putStatus(appointment.getStatus());
             final Uri uri = values.insert(getContentResolver());
-            Timber.d("saved appointmentDate %s", uri);
         }
     }
 
@@ -290,7 +280,6 @@ public class SetupIntentService extends IntentService {
 
         for (MappedGirlObject girl : mappedGirls) {
             MappedgirltableContentValues values = new MappedgirltableContentValues();
-            Timber.d("MappedGirlObject data " + girl.getAge() + girl.getMaritalStatus() + girl.getVillage().getName());
             values.putFirstname(girl.getFirstName());
             values.putLastname(girl.getLastName());
             values.putPhonenumber(girl.getPhoneNumber());
@@ -306,7 +295,6 @@ public class SetupIntentService extends IntentService {
             values.putVillage(girl.getVillage().getName());
             values.putServerid(girl.getId());
             final Uri uri = values.insert(getContentResolver());
-            Timber.d("saved mapped girl %s", uri);
         }
     }
 

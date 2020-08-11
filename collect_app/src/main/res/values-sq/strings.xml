@@ -317,7 +317,7 @@
   <string name="selected_answer">Përzgjedhur: %s</string>
   <string name="version_number">Versioni: %s</string>
   <string name="odk_website">Vizitoni faqen e ODK në internet</string>
-  <string name="odk_website_summary">Open Data Kit (ODK) përdoret për mbledhur të dhëna për të mirën shoqërore në mjedise sfiduese.</string>
+  <string name="getin_version">Open Data Kit (ODK) përdoret për mbledhur të dhëna për të mirën shoqërore në mjedise sfiduese.</string>
   <string name="odk_forum">Bëhu pjesë e forumit ODK</string>
   <string name="odk_forum_summary">Regjistrohu në forum për suport, kërkuar elementë të rinj apo kontribuar me kodim apo përkthim.</string>
   <string name="all_open_source_licenses_msg">Ne qëndrojmë mbi shpatullat e gjigantëve!</string>

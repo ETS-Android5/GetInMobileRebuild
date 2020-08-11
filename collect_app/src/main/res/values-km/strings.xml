@@ -349,7 +349,7 @@
   <string name="version_number">ជំនាន់: %s</string>
   <string name="id_number">ID: %s</string>
   <string name="odk_website">ចូលទៅកាន់គេហទំព័រ ODK</string>
-  <string name="odk_website_summary">Open Data Kit (ODK) បាន​ប្រើ​ប្រាស់​ដើម្បី​ប្រមូល​ទិន្នន័យសម្រាប់ភាពប្រសើរ​របស់​សង្គមនៅក្នុងបរិយាកាស​ប្រកួត​ប្រជែង​។</string>
+  <string name="getin_version">Open Data Kit (ODK) បាន​ប្រើ​ប្រាស់​ដើម្បី​ប្រមូល​ទិន្នន័យសម្រាប់ភាពប្រសើរ​របស់​សង្គមនៅក្នុងបរិយាកាស​ប្រកួត​ប្រជែង​។</string>
   <string name="odk_forum">ចូល​រួម​ជា​មួយ​វេទិកា ODK</string>
   <string name="odk_forum_summary">ចូលរួមវេទិកាដើម្បីទទួលបានការគាំទ្រ, លក្ខណៈពិសេសស្នើសុំ, រួមចំណែកកូដ / ការបកប្រែ!</string>
   <string name="all_open_source_licenses">ប្រភពបណ្ណាល័យបើកចំហ/អាជ្ញាបណ្ណ</string>

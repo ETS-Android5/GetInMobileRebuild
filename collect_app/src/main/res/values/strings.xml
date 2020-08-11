@@ -200,6 +200,7 @@
     <string name="sending_failed_on_date_at_time">\'Sending failed on\' EEE, MMM dd, yyyy \'at\' HH:mm</string> <!-- http://docs.oracle.com/javase/6/docs/api/java/text/SimpleDateFormat.html -->
     <string name="deleted_on_date_at_time">\'Deleted on\' EEE, MMM dd, yyyy \'at\' HH:mm</string>
     <string name="submission_deleted">Submission deleted</string>
+    <string name="app_version_number">Version: %s</string>
     <string name="version">Version:</string>
     <string name="parent_form_not_present">Unable to edit this saved form because the corresponding blank form is not present or was deleted.\n\nForm ID: %1$s</string>
     <string name="launch_app">Launch</string>
@@ -885,4 +886,6 @@
     <string name="online">Online</string>
     <string name="networkoff">You are OFFLINE. Please turn on mobile data</string>
     <string name="getin_reminder">GetIn reminder</string>
+    <string name="help">Help</string>
+    <string name="logout">Logout</string>
 </resources>

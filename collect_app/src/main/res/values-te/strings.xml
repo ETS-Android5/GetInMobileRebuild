@@ -407,7 +407,7 @@
   <string name="version_number">వెర్షన్: %s</string>
   <string name="id_number">ID:%s</string>
   <string name="odk_website">ODK వెబ్‌సైట్‌ను సందర్శించండి</string>
-  <string name="odk_website_summary">సవాలు చేసే వాతావరణాలలో సామాజిక మంచి కోసం డేటాను సేకరించడానికి ఓపెన్ డేటా కిట్ (ODK) ఉపయోగించబడుతుంది.</string>
+  <string name="getin_version">సవాలు చేసే వాతావరణాలలో సామాజిక మంచి కోసం డేటాను సేకరించడానికి ఓపెన్ డేటా కిట్ (ODK) ఉపయోగించబడుతుంది.</string>
   <string name="odk_forum">ODK ఫోరమ్‌లో చేరండి</string>
   <string name="odk_forum_summary">మద్దతు పొందడానికి ఫోరమ్‌లో చేరండి, లక్షణాలను అభ్యర్థించండి, కోడ్ / అనువాదాలను అందించండి!</string>
   <string name="all_open_source_licenses">ఓపెన్ సోర్స్ లైబ్రరీలు/లైసెన్సులు</string>

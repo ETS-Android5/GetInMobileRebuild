@@ -17,18 +17,17 @@ limitations under the License.
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/menu_help"
+        android:title="@string/help"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/menu_logout"
+        android:title="@string/logout"
+        app:showAsAction="never"/>
+
+    <item
         android:id="@+id/menu_about"
-        android:title="@string/about_preferences"
+        android:title="@string/about"
         app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/menu_general_preferences"
-        android:title="@string/general_preferences"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/menu_admin_preferences"
-        android:title="@string/admin_preferences"
-        app:showAsAction="never"/>
-
 </menu>
