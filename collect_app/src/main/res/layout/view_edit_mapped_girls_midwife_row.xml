@@ -76,6 +76,13 @@
                     android:text="20 Years" />
 
                 <TextView
+                    android:id="@+id/byvht"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:text="Mapped by VHT" />
+
+                <TextView
                     android:id="@+id/village"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

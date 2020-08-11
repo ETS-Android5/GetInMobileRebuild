@@ -28,6 +28,7 @@ import org.odk.getin.android.provider.FormsProviderAPI;
 import org.odk.getin.android.provider.mappedgirltable.MappedgirltableCursor;
 import org.odk.getin.android.provider.mappedgirltable.MappedgirltableSelection;
 import org.odk.getin.android.retrofitmodels.Value;
+import org.odk.getin.android.retrofitmodels.systemusers.Midwife;
 import org.odk.getin.android.tasks.ServerPollingJob;
 import org.odk.getin.android.utilities.ApplicationConstants;
 import org.odk.getin.android.utilities.ToastUtils;
@@ -50,9 +51,11 @@ import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_FIRST_NA
 import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_LAST_NAME;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_KAMPALA_FORM_CHEW_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_KAMPALA_FORM_MIDWIFE_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.MIDWIFE_ROLE;
 import static org.odk.getin.android.utilities.ApplicationConstants.POSTNATAL_FORM_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.POSTNATAL_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_DISTRICT;
+import static org.odk.getin.android.utilities.ApplicationConstants.USER_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_ROLE;
 import static org.odk.getin.android.utilities.TextUtils.toCapitalize;
 
@@ -69,6 +72,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
         public TextView age;
         public TextView maritalStatus;
         public TextView village;
+        public TextView byVht;
         public Button followUpButton;
         public Button appointmentButton;
         public Button postNatalButton;
@@ -83,8 +87,10 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
             age = (TextView) v.findViewById(R.id.age);
             village = (TextView) v.findViewById(R.id.village);
             followUpButton = (Button) v.findViewById(R.id.create_follow_up_button);
-            if (!Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE))
+            if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(MIDWIFE_ROLE)) {
                 appointmentButton = (Button) v.findViewById(R.id.create_upcoming_appointment_button);
+                byVht = (TextView) v.findViewById(R.id.byvht);
+            }
             postNatalButton = (Button) v.findViewById(R.id.create_post_natal_button);
             callGirlButton = (ImageButton) v.findViewById(R.id.call_girl_button);
             editGirlButton = (ImageButton) v.findViewById(R.id.edit_girl_button);
@@ -113,8 +119,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
     public void onBindViewHolder(@NonNull final ViewEditMappedGirlsAdapter.ViewHolder holder, int position) {
         try {
             cursor.moveToPosition(position);
-            holder.name.setText(cursor.getFirstname() + " "
-                    + cursor.getLastname());
+            holder.name.setText(cursor.getFirstname() + " " + cursor.getLastname());
             holder.maritalStatus.setText(toCapitalize(cursor.getMaritalstatus()));
 
             try {
@@ -205,6 +210,18 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
                 Prefs.putString(GIRL_LAST_NAME, girlLastName);
                 activity.startActivity(new Intent(activity.getApplicationContext(), ProfileActivity.class));
             });
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+
+        try {
+            if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(MIDWIFE_ROLE)) {
+                if (!cursor.getUser().equals(Prefs.getString(USER_ID, ""))) {
+                    holder.byVht.setVisibility(View.VISIBLE);
+                } else {
+                    holder.byVht.setVisibility(View.GONE);
+                }
+            }
         } catch (Exception e) {
             Timber.e(e);
         }
