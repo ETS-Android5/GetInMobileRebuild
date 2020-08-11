@@ -326,7 +326,7 @@
   <string name="selected_answer">निवडलेले: %s</string>
   <string name="version_number">आवृत्ती: %s</string>
   <string name="odk_website">ओडीके वेबसाइट ला भेट द्या</string>
-  <string name="odk_website_summary">ओपन डाटा किट (ओडीकेे) चा उपयोग आव्हानात्मक पर्यावरणात सामाजिक चांगल्यासाठी डेटा गोळा करण्यासाठी केला जातो.</string>
+  <string name="getin_version">ओपन डाटा किट (ओडीकेे) चा उपयोग आव्हानात्मक पर्यावरणात सामाजिक चांगल्यासाठी डेटा गोळा करण्यासाठी केला जातो.</string>
   <string name="odk_forum">ओडीके मंचात सहभागी व्हा</string>
   <!--%1$s represents degrees, %2$s represents minutes and %3$s represents seconds as in W 18°48'8"-->
   <string name="west">पश्चिम %1$s%2$s%3$s</string>

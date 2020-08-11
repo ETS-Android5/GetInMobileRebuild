@@ -396,7 +396,7 @@
   <string name="version_number">Verzija: %s</string>
   <string name="id_number">ID: %s</string>
   <string name="odk_website">Posjeti ODK vebsajt</string>
-  <string name="odk_website_summary">Open Data Kit (ODK) se koristi za prikupljanje podataka o društvenim stvarima u izazovnim situacijama.</string>
+  <string name="getin_version">Open Data Kit (ODK) se koristi za prikupljanje podataka o društvenim stvarima u izazovnim situacijama.</string>
   <string name="odk_forum">Pridruži se ODK forumu</string>
   <string name="odk_forum_summary">Pridruži se forumu za podršku, traži opcije, ili doprinesi kodu/prevodu!</string>
   <string name="all_open_source_licenses">Otvori biblioteke/ licence koda</string>

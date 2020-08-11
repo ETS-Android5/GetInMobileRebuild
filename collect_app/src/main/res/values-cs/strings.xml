@@ -400,7 +400,7 @@
   <string name="version_number">Verze: %s</string>
   <string name="id_number">ID: %s</string>
   <string name="odk_website">Navštivte web ODK</string>
-  <string name="odk_website_summary">Open Data Kit (ODK) slouží k shromažďování dat pro sociální účely v náročných prostředích.</string>
+  <string name="getin_version">Open Data Kit (ODK) slouží k shromažďování dat pro sociální účely v náročných prostředích.</string>
   <string name="odk_forum">Připojit se k fóru ODK</string>
   <string name="odk_forum_summary">Připojte se na fórum, abyste získali podporu, žádali o nové funkce aplikace, přispěli kódem / překlady!</string>
   <string name="all_open_source_licenses">Open source knihovny / licence</string>

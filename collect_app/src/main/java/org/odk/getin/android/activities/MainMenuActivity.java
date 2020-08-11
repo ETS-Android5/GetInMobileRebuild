@@ -645,6 +645,9 @@ public class MainMenuActivity extends CollectAbstractActivity {
             case R.id.menu_help:
                 callGetInHelpUser();
                 return true;
+            case R.id.menu_about:
+                startActivity(new Intent(this, AboutActivity.class));
+                return true;
             case R.id.menu_logout:
                 logoutDialog();
                 return true;

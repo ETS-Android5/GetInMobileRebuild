@@ -22,7 +22,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.odk.getin.android.BuildConfig;
 import org.odk.getin.android.R;
+
+import timber.log.Timber;
 
 public class AboutListAdapter extends RecyclerView.Adapter<AboutListAdapter.ViewHolder> {
 
@@ -84,7 +87,12 @@ public class AboutListAdapter extends RecyclerView.Adapter<AboutListAdapter.View
                 summary.setVisibility(View.GONE);
             } else {
                 summary.setVisibility(View.VISIBLE);
-                summary.setText(context.getString(resId));
+                if (resId == R.string.app_version_number) {
+                    String versionName = BuildConfig.VERSION_NAME.replace("-dirty", "");
+                    summary.setText(String.format(context.getString(R.string.app_version_number), versionName));
+                } else {
+                    summary.setText(context.getString(resId));
+                }
             }
         }
     }

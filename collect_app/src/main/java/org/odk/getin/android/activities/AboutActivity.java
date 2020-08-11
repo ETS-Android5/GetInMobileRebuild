@@ -16,24 +16,23 @@
 
 package org.odk.getin.android.activities;
 
-import android.content.ComponentName;
+import android.Manifest;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.content.pm.ResolveInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
-import android.widget.Toast;
 
 import org.odk.getin.android.R;
 import org.odk.getin.android.adapters.AboutListAdapter;
 import org.odk.getin.android.application.Collect;
 import org.odk.getin.android.utilities.CustomTabHelper;
-
-import java.util.List;
 
 import timber.log.Timber;
 
@@ -41,14 +40,7 @@ public class AboutActivity extends CollectAbstractActivity implements
         AboutListAdapter.AboutItemClickListener {
 
     private static final String LICENSES_HTML_PATH = "file:///android_asset/open_source_licenses.html";
-    private static final String GOOGLE_PLAY_URL = "https://play.google.com/store/apps/details?id=";
-    private static final String ODK_WEBSITE = "https://opendatakit.org";
-    private static final String ODK_FORUM = "https://forum.opendatakit.org";
-
-    private CustomTabHelper websiteTabHelper;
-    private CustomTabHelper forumTabHelper;
-    private Uri websiteUri;
-    private Uri forumUri;
+    private static final int REQUEST_PHONE_CALL = 34;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +49,8 @@ public class AboutActivity extends CollectAbstractActivity implements
         initToolbar();
 
         int[][] items = {
-                {R.drawable.ic_website, R.string.odk_website, R.string.odk_website_summary},
-                {R.drawable.ic_forum, R.string.odk_forum, R.string.odk_forum_summary},
-                {R.drawable.ic_share, R.string.tell_your_friends, R.string.tell_your_friends_msg},
-                {R.drawable.ic_review_rate, R.string.leave_a_review, R.string.leave_a_review_msg},
+                {R.drawable.information_outline_accent, R.string.app_name, R.string.app_version_number},
+                {R.drawable.ic_call_accent_24px, R.string.help, R.string.help_phone},
                 {R.drawable.ic_stars, R.string.all_open_source_licenses, R.string.all_open_source_licenses_msg}
         };
 
@@ -69,12 +59,6 @@ public class AboutActivity extends CollectAbstractActivity implements
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(new AboutListAdapter(items, this, this));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        websiteTabHelper = new CustomTabHelper();
-        forumTabHelper = new CustomTabHelper();
-
-        websiteUri = Uri.parse(ODK_WEBSITE);
-        forumUri = Uri.parse(ODK_FORUM);
     }
 
     private void initToolbar() {
@@ -88,51 +72,11 @@ public class AboutActivity extends CollectAbstractActivity implements
         if (Collect.allowClick(getClass().getName())) {
             switch (position) {
                 case 0:
-                    websiteTabHelper.openUri(this, websiteUri);
                     break;
                 case 1:
-                    forumTabHelper.openUri(this, forumUri);
+                    callGetInHelpUser();
                     break;
                 case 2:
-                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                    shareIntent.setType("text/plain");
-                    shareIntent.putExtra(Intent.EXTRA_TEXT,
-                            getString(R.string.tell_your_friends_msg) + " " + GOOGLE_PLAY_URL
-                                    + getPackageName());
-                    startActivity(Intent.createChooser(shareIntent,
-                            getString(R.string.tell_your_friends)));
-                    break;
-                case 3:
-                    boolean intentStarted = false;
-                    try {
-                        // Open the google play store app if present
-                        Intent intent = new Intent(Intent.ACTION_VIEW,
-                                Uri.parse("market://details?id=" + getPackageName()));
-                        List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, 0);
-                        for (ResolveInfo info : list) {
-                            ActivityInfo activity = info.activityInfo;
-                            if (activity.name.contains("com.google.android")) {
-                                ComponentName name = new ComponentName(
-                                        activity.applicationInfo.packageName,
-                                        activity.name);
-                                intent.setComponent(name);
-                                startActivity(intent);
-                                intentStarted = true;
-                            }
-                        }
-                    } catch (android.content.ActivityNotFoundException anfe) {
-                        Toast.makeText(Collect.getInstance(),
-                                getString(R.string.activity_not_found, "market view"),
-                                Toast.LENGTH_SHORT).show();
-                        Timber.d(anfe);
-                    }
-                    if (!intentStarted) {
-                        // Show a list of all available browsers if user doesn't have a default browser
-                        startActivity(new Intent(Intent.ACTION_VIEW,
-                                Uri.parse(GOOGLE_PLAY_URL + getPackageName())));
-                    }
-                    break;
-                case 4:
                     Intent intent = new Intent(this, WebViewActivity.class);
                     intent.putExtra(CustomTabHelper.OPEN_URL, LICENSES_HTML_PATH);
                     startActivity(intent);
@@ -141,17 +85,24 @@ public class AboutActivity extends CollectAbstractActivity implements
         }
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        websiteTabHelper.bindCustomTabsService(this, websiteUri);
-        forumTabHelper.bindCustomTabsService(this, forumUri);
+    private void callGetInHelpUser() {
+        try {
+            if (ActivityCompat.checkSelfPermission(getApplicationContext(),
+                    Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(AboutActivity.this,
+                        new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
+            } else {
+                startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + getString(R.string.help_phone))));
+            }
+        } catch (ActivityNotFoundException e) {
+            Timber.e(e);
+            startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + getString(R.string.help_phone))));
+        }
     }
 
     @Override
-    public void onDestroy() {
-        unbindService(websiteTabHelper.getServiceConnection());
-        unbindService(forumTabHelper.getServiceConnection());
-        super.onDestroy();
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
     }
 }

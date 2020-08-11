@@ -405,7 +405,7 @@
   <string name="version_number">رقم الاصدار %s</string>
   <string name="id_number">المعرف : %s</string>
   <string name="odk_website">موقع ODK</string>
-  <string name="odk_website_summary">ملخص موقع ODK</string>
+  <string name="getin_version">ملخص موقع ODK</string>
   <string name="odk_forum">نقاشات ODK</string>
   <string name="odk_forum_summary">انضم إلى المنتدى للحصول على الدعم وطلب الميزات والمساهمة بالكود / الترجمات!</string>
   <string name="all_open_source_licenses">مكتبات و تراخيص مفتوحة المصدر</string>

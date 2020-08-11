@@ -50,5 +50,5 @@ limitations under the License.
         android:layout_toEndOf="@id/imageView"
         android:layout_toRightOf="@id/imageView"
         android:textSize="@dimen/text_size_small"
-        tools:text="@string/odk_website_summary" />
+        tools:text="@string/getin_version" />
 </RelativeLayout>

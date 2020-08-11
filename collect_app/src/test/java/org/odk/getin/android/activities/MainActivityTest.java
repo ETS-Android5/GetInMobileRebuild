@@ -1,33 +1,18 @@
 package org.odk.getin.android.activities;
 
-import android.content.ComponentName;
-import android.content.Intent;
-
-import androidx.appcompat.widget.ActivityChooserView;
 import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
-
-import com.pixplicity.easyprefs.library.Prefs;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.odk.getin.android.R;
-import org.odk.getin.android.preferences.PreferencesActivity;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.shadows.ShadowActivity;
-import org.robolectric.shadows.ShadowIntent;
-
-import javax.crypto.Cipher;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
-import static org.odk.getin.android.utilities.ApplicationConstants.USER_LOGGED_IN;
 import static org.robolectric.Shadows.shadowOf;
 
 /**
@@ -73,6 +58,12 @@ public class MainActivityTest {
         mainMenuActivity.onOptionsItemSelected(menu.getItem(1));
         menuTitle = mainMenuActivity.getResources().getString(R.string.logout);
         shadowTitle = menu.getItem(1).getTitle().toString();
+        assertEquals(shadowTitle, menuTitle);
+
+        //Test for about
+        mainMenuActivity.onOptionsItemSelected(menu.getItem(2));
+        menuTitle = mainMenuActivity.getResources().getString(R.string.about);
+        shadowTitle = menu.getItem(2).getTitle().toString();
         assertEquals(shadowTitle, menuTitle);
     }
 
