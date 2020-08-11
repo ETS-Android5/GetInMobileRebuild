@@ -21,8 +21,6 @@ import android.content.Intent;
 import org.junit.Before;
 import org.odk.getin.android.location.client.FakeLocationClient;
 import org.odk.getin.android.location.client.LocationClients;
-import org.odk.getin.android.geo.GoogleMapFragment;
-import org.odk.getin.android.geo.MapboxMapFragment;
 import org.robolectric.shadows.ShadowApplication;
 
 public abstract class BaseGeoActivityTest {
@@ -32,8 +30,6 @@ public abstract class BaseGeoActivityTest {
     @Before public void setUp() throws Exception {
         ShadowApplication.getInstance().grantPermissions("android.permission.ACCESS_FINE_LOCATION");
         ShadowApplication.getInstance().grantPermissions("android.permission.ACCESS_COARSE_LOCATION");
-        GoogleMapFragment.testMode = true;
-        MapboxMapFragment.testMode = true;
         fakeLocationClient = new FakeLocationClient();
         LocationClients.setTestClient(fakeLocationClient);
     }

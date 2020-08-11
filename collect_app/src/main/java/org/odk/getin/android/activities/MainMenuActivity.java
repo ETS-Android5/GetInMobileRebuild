@@ -130,6 +130,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
     // buttons
     private Button callMidwifeOrChewButton;
     private Button callAmbulanceButton;
+    private Button logOutButton;
     private AlertDialog alertDialog;
     private SharedPreferences adminPreferences;
     private Cursor finalizedCursor;
@@ -153,6 +154,16 @@ public class MainMenuActivity extends CollectAbstractActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_menu);
         initToolbar();
+
+        // must be at the beginning of any activity that can be called from an
+        // external intent
+        Timber.i("Starting up, creating directories");
+        try {
+            Collect.createODKDirs();
+        } catch (RuntimeException e) {
+            createErrorDialog(e.getMessage(), EXIT);
+            return;
+        }
 
         networkStatusTextView = findViewById(R.id.network_status);
         networkStatusCheckTimer();
@@ -253,17 +264,6 @@ public class MainMenuActivity extends CollectAbstractActivity {
         callAmbulanceButton = findViewById(R.id.call_ambulance);
         callAmbulanceButton.setText(getString(R.string.ambulance));
         callAmbulanceButton.setOnClickListener(v -> startActivity(new Intent(v.getContext(), AmbulanceViewActivity.class)));
-
-        // must be at the beginning of any activity that can be called from an
-        // external intent
-        Timber.i("Starting up, creating directories");
-        try {
-            Collect.createODKDirs();
-        } catch (RuntimeException e) {
-            createErrorDialog(e.getMessage(), EXIT);
-            return;
-        }
-
 
         // trigger periodic worker and alarm manager to re enforce the success of the notifications
         // since some phone manufactures kill background services
