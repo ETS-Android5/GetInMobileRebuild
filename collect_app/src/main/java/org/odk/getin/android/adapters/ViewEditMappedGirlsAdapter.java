@@ -112,9 +112,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
     @Override
     public void onBindViewHolder(@NonNull final ViewEditMappedGirlsAdapter.ViewHolder holder, int position) {
         try {
-            Timber.d("onbindviewholder called");
             cursor.moveToPosition(position);
-            Timber.d("add values " + cursor.getFirstname());
             holder.name.setText(cursor.getFirstname() + " "
                     + cursor.getLastname());
             holder.maritalStatus.setText(toCapitalize(cursor.getMaritalstatus()));
@@ -129,7 +127,6 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
             holder.phoneNumber.setText(phoneNumber);
             try {
                 holder.age.setText(cursor.getAge() + " Years");
-                Timber.d("girl village " + cursor.getVillage());
                 holder.village.setText(cursor.getVillage());
             } catch (Exception e) {
                 e.printStackTrace();
@@ -183,8 +180,6 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
                 Prefs.putString(GIRL_FIRST_NAME, girlFirstName);
                 Prefs.putString(GIRL_LAST_NAME, girlLastName);
                 Prefs.putBoolean(EDIT_GIRL, true);
-                Timber.d("District###");
-                Timber.d(Prefs.getString(USER_DISTRICT, "BUNDIBUGYO"));
 
                 if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE)) {
                     if (Prefs.getString(USER_DISTRICT, "BUNDIBUGYO").equals("BUNDIBUGYO"))
@@ -221,7 +216,6 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
         girlCursor.moveToFirst();
         Prefs.putString(GIRL_NAME, girlName);
         Prefs.putString(GIRL_ID, girlCursor.getServerid());
-        Timber.d("clicked appointmentDate girl id " + girlCursor.getServerid() + girlName);
     }
 
     private String getActivePhoneNumber(MappedgirltableCursor cursor) {

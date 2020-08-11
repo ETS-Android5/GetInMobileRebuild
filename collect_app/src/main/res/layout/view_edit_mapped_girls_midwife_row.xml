@@ -99,7 +99,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="3"
                     android:background="@android:color/transparent"
-                    android:padding="@dimen/padding_medium"
+                    android:padding="@dimen/padding_large"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_call_24px" />
 
@@ -109,7 +109,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="3"
                     android:background="@android:color/transparent"
-                    android:padding="@dimen/padding_medium"
+                    android:padding="@dimen/padding_large"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_edit_24px" />
             </LinearLayout>
