@@ -43,17 +43,14 @@ import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
-import android.text.InputType;
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -73,14 +70,17 @@ import org.odk.getin.android.preferences.AdminSharedPreferences;
 import org.odk.getin.android.preferences.AutoSendPreferenceMigrator;
 import org.odk.getin.android.preferences.GeneralSharedPreferences;
 import org.odk.getin.android.preferences.GeneralKeys;
+import org.odk.getin.android.preferences.PreferencesActivity;
 import org.odk.getin.android.preferences.Transport;
 import org.odk.getin.android.provider.FormsProviderAPI;
 import org.odk.getin.android.provider.InstanceProviderAPI.InstanceColumns;
+import org.odk.getin.android.retrofit.APIClient;
+import org.odk.getin.android.retrofit.APIInterface;
+import org.odk.getin.android.retrofitmodels.AuthModel;
 import org.odk.getin.android.tasks.ServerPollingJob;
 import org.odk.getin.android.upload.SetupIntentService;
 import org.odk.getin.android.utilities.ApplicationConstants;
 import org.odk.getin.android.utilities.GeneralUtils;
-import org.odk.getin.android.utilities.NotificationUtils;
 import org.odk.getin.android.utilities.SharedPreferencesUtils;
 import org.odk.getin.android.utilities.ToastUtils;
 
@@ -113,6 +113,7 @@ import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_KAMP
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_KAMPALA_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_DISTRICT;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.USER_LOGGED_IN;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_ROLE;
 import static org.odk.getin.android.utilities.ApplicationConstants.VHT_MIDWIFE_ID;
 
@@ -154,6 +155,8 @@ public class MainMenuActivity extends CollectAbstractActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_menu);
         initToolbar();
+
+        Timber.d("Login status %s", Prefs.getBoolean(USER_LOGGED_IN, false));
 
         // must be at the beginning of any activity that can be called from an
         // external intent
@@ -374,20 +377,6 @@ public class MainMenuActivity extends CollectAbstractActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setTitle(getString(R.string.app_name));
         setSupportActionBar(toolbar);
-
-        Button button = toolbar.findViewById(R.id.help_button);
-        button.setOnClickListener(v -> {
-            try {
-                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(MainMenuActivity.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
-                } else {
-                    startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + getString(R.string.help_phone))));
-                }
-            } catch (ActivityNotFoundException e) {
-                Timber.e(e);
-                startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + getString(R.string.help_phone))));
-            }
-        });
     }
 
     @Override
@@ -644,4 +633,60 @@ public class MainMenuActivity extends CollectAbstractActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_help:
+                callGetInHelpUser();
+                return true;
+            case R.id.menu_logout:
+                logoutDialog();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void callGetInHelpUser() {
+        try {
+            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(MainMenuActivity.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
+            } else {
+                startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + getString(R.string.help_phone))));
+            }
+        } catch (ActivityNotFoundException e) {
+            Timber.e(e);
+            startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + getString(R.string.help_phone))));
+        }
+    }
+
+    public void logoutDialog() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainMenuActivity.this);
+        alertDialog.setTitle("Confirm Logout");
+        alertDialog.setMessage("Are you sure you want to logout? Please make sure you have login credentials");
+
+        alertDialog.setIcon(R.drawable.information_outline);
+        alertDialog.setPositiveButton("YES", (dialog, which) -> {
+            try {
+                Prefs.putBoolean(USER_LOGGED_IN, false);
+                APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
+                retrofit2.Call<AuthModel> call = apiInterface.logOutUser();
+                retrofit2.Response<AuthModel> response = call.execute();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                finish();
+            }
+        });
+
+        alertDialog.setNegativeButton("NO", (dialog, which) -> {
+            dialog.cancel();
+        });
+        alertDialog.show();
+    }
 }

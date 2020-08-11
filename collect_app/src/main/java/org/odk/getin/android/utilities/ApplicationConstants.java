@@ -52,7 +52,6 @@ public class ApplicationConstants {
         public static final String ERROR_REASON = "ERROR_MSG";
         public static final String FORM_IDS = "FORM_IDS";
         public static final String MESSAGE = "MESSAGE";
-        public static final String FORM_ID = "FORM_ID";
         public static final String USERNAME = "USERNAME";
         public static final String PASSWORD = "PASSWORD";
         public static final String URL = "URL";
@@ -119,8 +118,6 @@ public class ApplicationConstants {
     public static final String USER_LOGGED_IN = "user_logged_in";
     public static final String CHEW_ROLE = "chew";
     public static final String MIDWIFE_ROLE = "midwife";
-    public static final String USER_CREDS = "user_creds";
-    public static final String LOGIN_STATUS = "login_status";
     public static final String APPOINTMENT_FORM_ID = "GetINAppointment6_chew";
     public static final String APPOINTMENT_FORM_MIDWIFE_ID = "GetINAppointment10_midwife";
     public static final String FOLLOW_UP_FORM_ID = "GetInFollowup20_chew";

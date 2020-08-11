@@ -16,8 +16,8 @@ import retrofit2.Call;
 import retrofit2.Response;
 import timber.log.Timber;
 
-import static org.odk.getin.android.utilities.ApplicationConstants.LOGIN_STATUS;
 import static org.odk.getin.android.utilities.ApplicationConstants.SERVER_TOKEN;
+import static org.odk.getin.android.utilities.ApplicationConstants.USER_LOGGED_IN;
 
 /**
  * Class that handles authentication w/ login credentials and retrieves user information.
@@ -35,8 +35,7 @@ public class LoginDataSource {
 
         try {
             Log.d(TAG, "login: started");
-            // TODO: determine when to log out user
-            Prefs.putBoolean(LOGIN_STATUS, false);
+            Prefs.putBoolean(USER_LOGGED_IN, false);
 
             APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
             Call<AuthModel> call = apiInterface.loginUser(username, password);

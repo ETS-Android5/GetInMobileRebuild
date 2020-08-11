@@ -41,15 +41,15 @@
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay">
 
-                <Button
-                    android:id="@+id/help_button"
-                    style="@style/Widget.Collect.Button.HomeScreen"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginEnd="@dimen/margin_large"
-                    android:layout_marginRight="@dimen/margin_large"
-                    android:text="Help" />
+<!--                <Button-->
+<!--                    android:id="@+id/help_button"-->
+<!--                    style="@style/Widget.Collect.Button.HomeScreen"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="end"-->
+<!--                    android:layout_marginEnd="@dimen/margin_large"-->
+<!--                    android:layout_marginRight="@dimen/margin_large"-->
+<!--                    android:text="Help" />-->
             </androidx.appcompat.widget.Toolbar>
 
             <TextView
