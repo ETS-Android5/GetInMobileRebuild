@@ -27,6 +27,8 @@ import org.odk.getin.android.R;
 import org.odk.getin.android.provider.FormsProviderAPI;
 import org.odk.getin.android.provider.appointmentstable.AppointmentstableCursor;
 import org.odk.getin.android.provider.appointmentstable.AppointmentstableSelection;
+import org.odk.getin.android.provider.mappedgirltable.MappedgirltableCursor;
+import org.odk.getin.android.provider.mappedgirltable.MappedgirltableSelection;
 import org.odk.getin.android.retrofitmodels.Value;
 import org.odk.getin.android.tasks.ServerPollingJob;
 import org.odk.getin.android.utilities.ApplicationConstants;
@@ -42,6 +44,7 @@ import static org.odk.getin.android.utilities.ApplicationConstants.APPOINTMENT_F
 import static org.odk.getin.android.utilities.ApplicationConstants.CHEW_ROLE;
 import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_NAME;
+import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_VOUCHER_NUMBER;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_ROLE;
 
 public class UpcomingAppointmentsAdapter extends RecyclerView.Adapter<UpcomingAppointmentsAdapter.ViewHolder> implements ActivityCompat.OnRequestPermissionsResultCallback {
@@ -176,10 +179,12 @@ public class UpcomingAppointmentsAdapter extends RecyclerView.Adapter<UpcomingAp
 
     private void saveCredentialsInSharedPrefs(@NonNull UpcomingAppointmentsAdapter.ViewHolder holder) {
         String girlName = holder.name.getText().toString();
-        AppointmentstableCursor girlCursor = queryAppointmentTable(girlName.split(" ")[0]);
+        MappedgirltableCursor girlCursor = queryMappedGirlsTable(girlName.split(" ")[0]);
         girlCursor.moveToFirst();
         Prefs.putString(GIRL_NAME, girlName);
         Prefs.putString(GIRL_ID, girlCursor.getServerid());
+        if (girlCursor.getVoucherNumber() != null)
+            Prefs.putString(GIRL_VOUCHER_NUMBER, girlCursor.getVoucherNumber());
         Timber.d("clicked appointmentDate girl id " + girlCursor.getServerid() + girlName);
     }
 
@@ -187,6 +192,12 @@ public class UpcomingAppointmentsAdapter extends RecyclerView.Adapter<UpcomingAp
         return new AppointmentstableSelection().firstnameContains(girlName).or()
                 .lastnameContains(girlName).orderByCreatedAt(true)
                 .query(this.activity.getContentResolver());
+    }
+
+    private MappedgirltableCursor queryMappedGirlsTable(String text) {
+        MappedgirltableSelection selection = new MappedgirltableSelection();
+        selection.firstnameContains(text).or().lastnameContains(text);
+        return selection.query(activity.getContentResolver());
     }
 
     private String getActivePhoneNumber(AppointmentstableCursor cursor) {

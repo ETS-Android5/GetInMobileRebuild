@@ -132,6 +132,7 @@ public class ApplicationConstants {
     public static final String POSTNATAL_FORM_MIDWIFE_ID = "GetINPostnatalForm6_midwife";
     public static final String GIRL_ID = "GIRL_ID";
     public static final String GIRL_NAME = "GIRL_NAME";
+    public static final String GIRL_VOUCHER_NUMBER = "GIRL_VOUCHER_NUMBER";
     public static final String GIRL_FIRST_NAME = "GIRL_FIRST_NAME";
     public static final String GIRL_LAST_NAME = "GIRL_LAST_NAME";
     public static final String EDIT_GIRL = "EDIT_GIRL";

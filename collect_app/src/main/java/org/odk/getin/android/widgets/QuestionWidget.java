@@ -38,6 +38,8 @@ import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
+import com.pixplicity.easyprefs.library.Prefs;
+
 import org.javarosa.core.model.FormIndex;
 import org.javarosa.form.api.FormEntryPrompt;
 import org.odk.getin.android.R;
@@ -68,6 +70,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 import timber.log.Timber;
+
+import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_VOUCHER_NUMBER;
 
 public abstract class QuestionWidget
         extends RelativeLayout
@@ -261,7 +265,10 @@ public abstract class QuestionWidget
 //        questionText.setTypeface(null, Typeface.BOLD);
         questionText.setPadding(0, 0, 0, 7);
         questionText.setTextColor(getResources().getColor(R.color.text_grey));
-        questionText.setText(promptText);
+        if (promptText.contains("Voucher number"))
+            questionText.setText(promptText + Prefs.getString(GIRL_VOUCHER_NUMBER, "123-ABC"));
+        else
+            questionText.setText(promptText);
         questionText.setTypeface(Typeface.SANS_SERIF);
         questionText.setMovementMethod(LinkMovementMethod.getInstance());
 
