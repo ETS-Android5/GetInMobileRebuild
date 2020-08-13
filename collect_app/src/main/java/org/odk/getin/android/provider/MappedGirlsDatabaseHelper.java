@@ -47,7 +47,9 @@ public class MappedGirlsDatabaseHelper extends SQLiteOpenHelper {
             + AppointmentstableColumns.VILLAGE + " TEXT, "
             + AppointmentstableColumns.STATUS + " TEXT, "
             + AppointmentstableColumns.VHT_NAME + " TEXT, "
-            + AppointmentstableColumns.APPOINTMENT_DATE + " INTEGER "
+            + AppointmentstableColumns.APPOINTMENT_DATE + " INTEGER, "
+            + AppointmentstableColumns.VOUCHER_NUMBER + " TEXT, "
+            + AppointmentstableColumns.SERVICES_RECEIVED + " TEXT "
             + " );";
 
     public static final String SQL_CREATE_TABLE_MAPPEDGIRLTABLE = "CREATE TABLE IF NOT EXISTS "
@@ -87,11 +89,17 @@ public class MappedGirlsDatabaseHelper extends SQLiteOpenHelper {
             + UserstableColumns.VILLAGE + " TEXT "
             + " );";
 
-    private static final String SQL_CREATE_TABLE_MAPPEDGIRLTABLE_VOUCHER_NUMBER_ALTER_1 = "ALTER TABLE "
+    private static final String SQL_ALTER_TABLE_MAPPEDGIRLTABLE_VOUCHER_NUMBER_ALTER_1 = "ALTER TABLE "
             + MappedgirltableColumns.TABLE_NAME + " ADD COLUMN " + MappedgirltableColumns.VOUCHER_NUMBER + " string;";
 
-    private static final String SQL_CREATE_TABLE_MAPPEDGIRLTABLE_SERVICES_RECEIVED_ALTER_1 = "ALTER TABLE "
+    private static final String SQL_ALTER_TABLE_MAPPEDGIRLTABLE_SERVICES_RECEIVED_ALTER_1 = "ALTER TABLE "
             + MappedgirltableColumns.TABLE_NAME + " ADD COLUMN " + MappedgirltableColumns.SERVICES_RECEIVED + " string;";
+
+    private static final String SQL_ALTER_TABLE_APPOINTMENTSTABLE_VOUCHER_NUMBER_ALTER_1 = "ALTER TABLE "
+            + AppointmentstableColumns.TABLE_NAME + " ADD COLUMN " + AppointmentstableColumns.VOUCHER_NUMBER + " string;";
+
+    private static final String SQL_ALTER_TABLE_APPOINTMENTSTABLE_SERVICES_RECEIVED_ALTER_1 = "ALTER TABLE "
+            + AppointmentstableColumns.TABLE_NAME + " ADD COLUMN " + AppointmentstableColumns.SERVICES_RECEIVED + " string;";
 
     // @formatter:on
 
@@ -161,9 +169,11 @@ public class MappedGirlsDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (oldVersion < 8) {
-            db.execSQL(SQL_CREATE_TABLE_MAPPEDGIRLTABLE_VOUCHER_NUMBER_ALTER_1);
-            db.execSQL(SQL_CREATE_TABLE_MAPPEDGIRLTABLE_SERVICES_RECEIVED_ALTER_1);
+        if (oldVersion < newVersion) {
+            db.execSQL(SQL_ALTER_TABLE_MAPPEDGIRLTABLE_VOUCHER_NUMBER_ALTER_1);
+            db.execSQL(SQL_ALTER_TABLE_MAPPEDGIRLTABLE_SERVICES_RECEIVED_ALTER_1);
+            db.execSQL(SQL_ALTER_TABLE_APPOINTMENTSTABLE_VOUCHER_NUMBER_ALTER_1);
+            db.execSQL(SQL_ALTER_TABLE_APPOINTMENTSTABLE_SERVICES_RECEIVED_ALTER_1);
         }
     }
 }

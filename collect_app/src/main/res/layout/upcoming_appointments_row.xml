@@ -87,6 +87,20 @@
                     android:text="20 Years" />
 
                 <TextView
+                    android:id="@+id/voucher_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:text="123-ABC" />
+
+                <TextView
+                    android:id="@+id/services_received"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:text="ANC1,ANC2" />
+
+                <TextView
                     android:id="@+id/village"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

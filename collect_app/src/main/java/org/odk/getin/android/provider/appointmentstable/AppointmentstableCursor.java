@@ -225,4 +225,24 @@ public class AppointmentstableCursor extends AbstractCursor implements Appointme
         Date res = getDateOrNull(AppointmentstableColumns.APPOINTMENT_DATE);
         return res;
     }
+
+    /**
+     * Get the {@code voucher_number} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public String getVoucherNumber() {
+        String res = getStringOrNull(AppointmentstableColumns.VOUCHER_NUMBER);
+        return res;
+    }
+
+    /**
+     * Get the {@code services_received} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public String getServicesReceived() {
+        String res = getStringOrNull(AppointmentstableColumns.SERVICES_RECEIVED);
+        return res;
+    }
 }

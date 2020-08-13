@@ -71,9 +71,9 @@ public class MappedGirlObject {
     @SerializedName("voucher_number")
     @Expose
     private String voucherNumber;
-//    @SerializedName("services_received")
-//    @Expose
-//    private String serviceReceived;
+    @SerializedName("services_received")
+    @Expose
+    private String serviceReceived;
 
     public String getId() {
         return id;
@@ -243,4 +243,11 @@ public class MappedGirlObject {
         this.voucherNumber = voucherNumber;
     }
 
+    public String getServiceReceived() {
+        return serviceReceived;
+    }
+
+    public void setServiceReceived(String serviceReceived) {
+        this.serviceReceived = serviceReceived;
+    }
 }

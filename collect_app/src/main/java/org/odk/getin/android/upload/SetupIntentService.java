@@ -213,6 +213,8 @@ public class SetupIntentService extends IntentService {
             values.putMissedVisits(appointment.getGirl().getMissedVisits());
             values.putServerid(appointment.getGirl().getId());
             values.putTrimester(appointment.getGirl().getTrimester());
+            values.putVoucherNumber(appointment.getGirl().getVoucherNumber());
+            values.putServicesReceived(appointment.getGirl().getServiceReceived());
 
             try {
                 values.putVillage(appointment.getGirl().getVillage().getName());
@@ -296,7 +298,7 @@ public class SetupIntentService extends IntentService {
             values.putMissedVisits(girl.getMissedVisits());
             values.putVillage(girl.getVillage().getName());
             values.putVoucherNumber(girl.getVoucherNumber());
-            values.putServicesReceivedNull();
+            values.putServicesReceived(girl.getServiceReceived());
             values.putServerid(girl.getId());
             final Uri uri = values.insert(getContentResolver());
         }

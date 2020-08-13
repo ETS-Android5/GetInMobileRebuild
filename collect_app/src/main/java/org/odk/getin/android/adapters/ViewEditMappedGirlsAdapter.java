@@ -133,7 +133,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
             }
 
             try {
-                if (cursor.getVoucherNumber() != null)
+                if (!TextUtils.isEmpty(cursor.getVoucherNumber()))
                     holder.voucherNumber.setText(String.format(activity.getString(R.string.voucher_number_string), cursor.getVoucherNumber()));
                 else
                     holder.voucherNumber.setVisibility(View.GONE);
@@ -151,7 +151,6 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
             }
 
             holder.postNatalButton.setOnClickListener(v -> {
-                Timber.d("clicked postnatal");
                 saveCredentialsInSharedPrefs(holder);
                 if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE))
                     startFormActivity(POSTNATAL_FORM_ID);

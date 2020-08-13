@@ -33,7 +33,7 @@ public class AppointmentstableColumns implements BaseColumns {
 
     public static final String EDUCATIONLEVEL = "educationLevel";
 
-    public static final String MARITALSTATUS = "healthCenter";
+    public static final String MARITALSTATUS = "maritalStatus";
 
     public static final String AGE = "age";
 
@@ -56,6 +56,10 @@ public class AppointmentstableColumns implements BaseColumns {
     public static final String VHT_NAME = "vht_name";
 
     public static final String APPOINTMENT_DATE = "appointment_date";
+
+    public static final String VOUCHER_NUMBER = "voucher_number";
+
+    public static final String SERVICES_RECEIVED = "services_received";
 
 
     public static final String DEFAULT_ORDER = TABLE_NAME + "." +_ID;
@@ -82,7 +86,9 @@ public class AppointmentstableColumns implements BaseColumns {
             VILLAGE,
             STATUS,
             VHT_NAME,
-            APPOINTMENT_DATE
+            APPOINTMENT_DATE,
+            VOUCHER_NUMBER,
+            SERVICES_RECEIVED
     };
     // @formatter:on
 
@@ -109,6 +115,8 @@ public class AppointmentstableColumns implements BaseColumns {
             if (c.equals(STATUS) || c.contains("." + STATUS)) return true;
             if (c.equals(VHT_NAME) || c.contains("." + VHT_NAME)) return true;
             if (c.equals(APPOINTMENT_DATE) || c.contains("." + APPOINTMENT_DATE)) return true;
+            if (c.equals(VOUCHER_NUMBER) || c.contains("." + VOUCHER_NUMBER)) return true;
+            if (c.equals(SERVICES_RECEIVED) || c.contains("." + SERVICES_RECEIVED)) return true;
         }
         return false;
     }

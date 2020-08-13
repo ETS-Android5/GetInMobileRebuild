@@ -68,6 +68,12 @@ public class Girl {
     @SerializedName("created_at")
     @Expose
     private Date createdAt;
+    @SerializedName("voucher_number")
+    @Expose
+    private String voucherNumber;
+    @SerializedName("services_received")
+    @Expose
+    private String serviceReceived;
 
     public Girl() {
     }
@@ -230,5 +236,21 @@ public class Girl {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getVoucherNumber() {
+        return voucherNumber;
+    }
+
+    public void setVoucherNumber(String voucherNumber) {
+        this.voucherNumber = voucherNumber;
+    }
+
+    public String getServiceReceived() {
+        return serviceReceived;
+    }
+
+    public void setServiceReceived(String serviceReceived) {
+        this.serviceReceived = serviceReceived;
     }
 }

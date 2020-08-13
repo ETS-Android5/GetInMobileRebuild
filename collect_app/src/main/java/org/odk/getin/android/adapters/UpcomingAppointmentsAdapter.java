@@ -63,6 +63,8 @@ public class UpcomingAppointmentsAdapter extends RecyclerView.Adapter<UpcomingAp
         public TextView village;
         public TextView appointmentStatus;
         public TextView appointmentDate;
+        public TextView voucherNumber;
+        public TextView servicesReceived;
         public Button followUpButton;
         public Button appointmentButton;
         public Button postNatalButton;
@@ -78,6 +80,8 @@ public class UpcomingAppointmentsAdapter extends RecyclerView.Adapter<UpcomingAp
             village = (TextView) v.findViewById(R.id.village);
             appointmentDate = (TextView) v.findViewById(R.id.appointment_date);
             appointmentStatus = (TextView) v.findViewById(R.id.appointment_status);
+            voucherNumber = (TextView) v.findViewById(R.id.voucher_number);
+            servicesReceived = (TextView) v.findViewById(R.id.services_received);
             followUpButton = (Button) v.findViewById(R.id.create_follow_up_button);
             appointmentButton = (Button) v.findViewById(R.id.create_upcoming_appointment_button);
             postNatalButton = (Button) v.findViewById(R.id.create_post_natal_button);
@@ -102,10 +106,29 @@ public class UpcomingAppointmentsAdapter extends RecyclerView.Adapter<UpcomingAp
     @Override
     public void onBindViewHolder(@NonNull final UpcomingAppointmentsAdapter.ViewHolder holder, int position) {
         try {
-            Timber.d("onbindviewholder called");
             cursor.moveToPosition(position);
-            Timber.d("add values " + cursor.getFirstname());
             holder.name.setText(cursor.getFirstname() + " " + cursor.getLastname());
+
+            try {
+                if (!TextUtils.isEmpty(cursor.getVoucherNumber()))
+                    holder.voucherNumber.setText(String.format(activity.getString(R.string.voucher_number_string),
+                            cursor.getVoucherNumber()));
+                else
+                    holder.voucherNumber.setVisibility(View.GONE);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+                if (!TextUtils.isEmpty(cursor.getServicesReceived()))
+                    holder.servicesReceived.setText(String.format(activity.getString(R.string.services_received_string),
+                            cursor.getServicesReceived()));
+                else
+                    holder.servicesReceived.setVisibility(View.GONE);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             holder.maritalStatus.setText(org.odk.getin.android.utilities
                     .TextUtils.toCapitalize(cursor.getMaritalstatus()));
 
@@ -127,8 +150,6 @@ public class UpcomingAppointmentsAdapter extends RecyclerView.Adapter<UpcomingAp
             String date = simpleformat.format(cursor.getAppointmentDate());
             holder.appointmentDate.setText(activity.getString(R.string.appointment_date, date));
 
-            Timber.d(cursor.getStatus());
-            Timber.d(String.valueOf(cursor.getStatus().equals("Missed")));
             if (cursor.getStatus().equals("Missed")) {
                 holder.mappedGirlIcon.setBackground(this.activity.getResources().getDrawable(R.drawable.circular_view_red));
                 holder.appointmentStatus.setTextColor(this.activity.getResources().getColor(R.color.light_red));
@@ -144,8 +165,6 @@ public class UpcomingAppointmentsAdapter extends RecyclerView.Adapter<UpcomingAp
                 holder.appointmentButton.setVisibility(View.GONE);
             } else {
                 holder.appointmentButton.setOnClickListener(v -> {
-                    Timber.d("clicked appointmentDate");
-                    Timber.d("clicked appointmentDate girl id " + cursor.getServerid());
                     saveCredentialsInSharedPrefs(holder);
                     if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE))
                         startFormActivity(APPOINTMENT_FORM_ID);
@@ -185,7 +204,6 @@ public class UpcomingAppointmentsAdapter extends RecyclerView.Adapter<UpcomingAp
         Prefs.putString(GIRL_ID, girlCursor.getServerid());
         if (girlCursor.getVoucherNumber() != null)
             Prefs.putString(GIRL_VOUCHER_NUMBER, girlCursor.getVoucherNumber());
-        Timber.d("clicked appointmentDate girl id " + girlCursor.getServerid() + girlName);
     }
 
     private AppointmentstableCursor queryAppointmentTable(String girlName) {
