@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.telephony.TelephonyManager;
 
+import org.odk.getin.android.provider.MappedGirlsDatabaseHelper;
 import org.odk.getin.android.provider.appointmentstable.AppointmentstableColumns;
 import org.odk.getin.android.provider.appointmentstable.AppointmentstableContentValues;
 import org.odk.getin.android.provider.mappedgirltable.MappedgirltableColumns;
@@ -32,6 +33,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
+
+import static org.odk.getin.android.provider.MappedGirlsDatabaseHelper.DATABASE_FILE_NAME;
 
 /**
  * Downloads list of mapped girls
@@ -254,6 +257,9 @@ public class SetupIntentService extends IntentService {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
+                    // delete database incase of inconsistencies
+                    MappedGirlsDatabaseHelper.getInstance(getApplicationContext()).close();
+                    deleteDatabase(DATABASE_FILE_NAME);
                 }
             }
 
