@@ -14,7 +14,9 @@
 
 package org.odk.getin.android.widgets;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -25,6 +27,8 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
+
+import android.telephony.SmsMessage;
 import android.text.method.LinkMovementMethod;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -37,6 +41,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pixplicity.easyprefs.library.Prefs;
 
@@ -57,6 +62,7 @@ import org.odk.getin.android.utilities.PermissionUtils;
 import org.odk.getin.android.utilities.SoftKeyboardUtils;
 import org.odk.getin.android.utilities.TextUtils;
 import org.odk.getin.android.utilities.ThemeUtils;
+import org.odk.getin.android.utilities.ToastUtils;
 import org.odk.getin.android.utilities.ViewIds;
 import org.odk.getin.android.views.MediaLayout;
 import org.odk.getin.android.widgets.interfaces.ButtonWidget;
@@ -79,7 +85,7 @@ public abstract class QuestionWidget
 
     private final int questionFontSize;
     private final FormEntryPrompt formEntryPrompt;
-    private final MediaLayout questionMediaLayout;
+    public static MediaLayout questionMediaLayout;
     private MediaPlayer player;
     private final TextView helpTextView;
     private final TextView guidanceTextView;
@@ -709,6 +715,41 @@ public abstract class QuestionWidget
     public void widgetValueChanged() {
         if (valueChangedListener != null) {
             valueChangedListener.widgetValueChanged(this);
+        }
+    }
+
+    public static class SmsReceiver extends BroadcastReceiver {
+        private static final String SMS_RECEIVED = "android.provider.Telephony.SMS_RECEIVED";
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(SMS_RECEIVED)) {
+                Timber.d("received sms broadcast");
+                Bundle bundle = intent.getExtras();
+                if (bundle != null) {
+                    // get sms objects
+                    Object[] pdus = (Object[]) bundle.get("pdus");
+                    if (pdus.length == 0) {
+                        return;
+                    }
+                    // large message might be broken into many
+                    SmsMessage[] messages = new SmsMessage[pdus.length];
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < pdus.length; i++) {
+                        messages[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
+                        sb.append(messages[i].getMessageBody());
+                    }
+                    String sender = messages[0].getOriginatingAddress();
+                    String message = sb.toString();
+                    //todo restrict only sms from 8228
+//                    if (sender.equals("8228")) {
+//
+//                    }
+                    TextView questionText = questionMediaLayout.getView_Text();
+                    questionText.setText(questionText.getText().toString() + "\n\nResult:\n" + message);
+                    Toast.makeText(context, sender + message, Toast.LENGTH_SHORT).show();
+                }
+            }
         }
     }
 }

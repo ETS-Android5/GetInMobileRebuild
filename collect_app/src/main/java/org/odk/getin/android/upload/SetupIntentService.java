@@ -198,8 +198,6 @@ public class SetupIntentService extends IntentService {
         }
         Timber.d("deleted data count %s", deleted);
 
-        Timber.d("appointment row count " + appointments.size());
-
         for (Appointment appointment : appointments) {
             AppointmentstableContentValues values = new AppointmentstableContentValues();
             values.putFirstname(appointment.getGirl().getFirstName());
@@ -285,10 +283,7 @@ public class SetupIntentService extends IntentService {
         }
         Timber.d("deleted data count %s", deleted);
 
-
         for (MappedGirlObject girl : mappedGirls) {
-            Timber.d("girl data " + girl.getFirstName());
-            Timber.d(girl.getVoucherNumber());
             MappedgirltableContentValues values = new MappedgirltableContentValues();
             values.putFirstname(girl.getFirstName());
             values.putLastname(girl.getLastName());

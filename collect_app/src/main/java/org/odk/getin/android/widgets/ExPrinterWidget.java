@@ -15,19 +15,29 @@
 package org.odk.getin.android.widgets;
 
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.SmsManager;
+import android.telephony.SmsMessage;
 import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.pixplicity.easyprefs.library.Prefs;
+
 import org.javarosa.core.model.data.IAnswerData;
 import org.javarosa.form.api.FormEntryPrompt;
+import org.odk.getin.android.BuildConfig;
 import org.odk.getin.android.R;
 import org.odk.getin.android.activities.FormEntryActivity;
 import org.odk.getin.android.widgets.interfaces.BinaryWidget;
+
+import timber.log.Timber;
+
+import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_VOUCHER_NUMBER;
 
 /**
  * <p>Use the ODK Sensors framework to print data to a connected printer.</p>
@@ -216,7 +226,19 @@ public class ExPrinterWidget extends QuestionWidget implements BinaryWidget {
 
     @Override
     public void onButtonClick(int buttonId) {
-        //todo send sms
-        Toast.makeText(getContext(), "Clicked button", Toast.LENGTH_SHORT).show();
+        SmsManager smsManager = SmsManager.getDefault();
+
+        if (questionMediaLayout.getView_Text().getText().toString().contains("validate")) {
+            smsManager.sendTextMessage(BuildConfig.MSI_PHONE_NUMBER, null,
+                    String.format(getResources().getString(R.string.validate_voucher_sms_format),
+                            Prefs.getString(GIRL_VOUCHER_NUMBER, "123-ABC"),
+                            BuildConfig.MSI_HEALTH_FACILITY_ID), null, null);
+        } else {
+            //todo get service from radio button
+            smsManager.sendTextMessage(BuildConfig.MSI_PHONE_NUMBER, null,
+                    String.format(getResources().getString(R.string.redeem_voucher_sms_format),
+                            Prefs.getString(GIRL_VOUCHER_NUMBER, "123-ABC"), "RIM",
+                            BuildConfig.MSI_HEALTH_FACILITY_ID), null, null);
+        }
     }
 }

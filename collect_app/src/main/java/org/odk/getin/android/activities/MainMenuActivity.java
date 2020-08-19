@@ -39,18 +39,17 @@ import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -64,13 +63,11 @@ import org.odk.getin.android.NotifyWorker;
 import org.odk.getin.android.R;
 import org.odk.getin.android.application.Collect;
 import org.odk.getin.android.dao.InstancesDao;
-import org.odk.getin.android.preferences.AdminKeys;
 import org.odk.getin.android.preferences.AdminPreferencesActivity;
 import org.odk.getin.android.preferences.AdminSharedPreferences;
 import org.odk.getin.android.preferences.AutoSendPreferenceMigrator;
 import org.odk.getin.android.preferences.GeneralSharedPreferences;
 import org.odk.getin.android.preferences.GeneralKeys;
-import org.odk.getin.android.preferences.PreferencesActivity;
 import org.odk.getin.android.preferences.Transport;
 import org.odk.getin.android.provider.FormsProviderAPI;
 import org.odk.getin.android.provider.InstanceProviderAPI.InstanceColumns;
@@ -128,6 +125,7 @@ import static org.odk.getin.android.utilities.ApplicationConstants.VHT_MIDWIFE_I
 public class MainMenuActivity extends CollectAbstractActivity {
     private static final boolean EXIT = true;
     private static final String TASK_ID = "NotificationWorker";
+    private static final int REQUEST_SEND_SMS = 35;
     // buttons
     private Button callMidwifeOrChewButton;
     private Button callAmbulanceButton;
@@ -345,6 +343,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
         }
         viewSentCount = viewSentCursor != null ? viewSentCursor.getCount() : 0;
         setupGoogleAnalytics();
+        requestSmsPermissions();
     }
 
     public void networkStatusCheckTimer() {
@@ -665,6 +664,21 @@ public class MainMenuActivity extends CollectAbstractActivity {
         } catch (ActivityNotFoundException e) {
             Timber.e(e);
             startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + getString(R.string.help_phone))));
+        }
+    }
+
+    public void requestSmsPermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS)
+                != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS)
+                        != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.SEND_SMS)) {
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.SEND_SMS, Manifest.permission.RECEIVE_SMS},
+                        REQUEST_SEND_SMS);
+            }
         }
     }
 
