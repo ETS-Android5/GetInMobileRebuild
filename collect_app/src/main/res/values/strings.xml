@@ -890,6 +890,6 @@
     <string name="logout">Logout</string>
     <string name="voucher_number_string">Voucher No. %s</string>
     <string name="services_received_string">Services Redeemed: %s</string>
-    <string name="validate_voucher_sms_format">ms c %s %s</string>
-    <string name="redeem_voucher_sms_format">ms r %s %s %s</string>
+    <string name="validate_voucher_sms_format">Ms c %s %s</string>
+    <string name="redeem_voucher_sms_format">Ms r %s %s %s</string>
 </resources>

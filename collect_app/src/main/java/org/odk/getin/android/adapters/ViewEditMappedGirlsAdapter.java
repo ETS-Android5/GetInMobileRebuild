@@ -44,6 +44,7 @@ import static org.odk.getin.android.utilities.ApplicationConstants.FOLLOW_UP_FOR
 import static org.odk.getin.android.utilities.ApplicationConstants.FOLLOW_UP_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_NAME;
+import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_REDEEMED_SERVICES;
 import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_VOUCHER_NUMBER;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ARUA_FORM_CHEW_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ARUA_FORM_MIDWIFE_ID;
@@ -246,8 +247,11 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
         girlCursor.moveToFirst();
         Prefs.putString(GIRL_NAME, girlName);
         Prefs.putString(GIRL_ID, girlCursor.getServerid());
-        if (girlCursor.getVoucherNumber() != null)
+        if (girlCursor.getVoucherNumber() != null) {
             Prefs.putString(GIRL_VOUCHER_NUMBER, girlCursor.getVoucherNumber());
+            Prefs.putString(GIRL_REDEEMED_SERVICES, TextUtils.isEmpty(
+                    girlCursor.getServicesReceived()) ? "None" : girlCursor.getServicesReceived());
+        }
     }
 
     private String getActivePhoneNumber(MappedgirltableCursor cursor) {

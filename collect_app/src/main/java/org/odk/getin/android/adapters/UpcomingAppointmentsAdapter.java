@@ -44,6 +44,7 @@ import static org.odk.getin.android.utilities.ApplicationConstants.APPOINTMENT_F
 import static org.odk.getin.android.utilities.ApplicationConstants.CHEW_ROLE;
 import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_NAME;
+import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_REDEEMED_SERVICES;
 import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_VOUCHER_NUMBER;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_ROLE;
 
@@ -187,10 +188,6 @@ public class UpcomingAppointmentsAdapter extends RecyclerView.Adapter<UpcomingAp
                     activity.startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNumber)));
                 }
             });
-
-
-            // if logged in user is midwife remove the call button
-            // holder.callGirlButton.setVisibility(View.GONE);
         } catch (Exception e) {
             Timber.e(e);
         }
@@ -202,8 +199,11 @@ public class UpcomingAppointmentsAdapter extends RecyclerView.Adapter<UpcomingAp
         girlCursor.moveToFirst();
         Prefs.putString(GIRL_NAME, girlName);
         Prefs.putString(GIRL_ID, girlCursor.getServerid());
-        if (girlCursor.getVoucherNumber() != null)
+        if (girlCursor.getVoucherNumber() != null) {
             Prefs.putString(GIRL_VOUCHER_NUMBER, girlCursor.getVoucherNumber());
+            Prefs.putString(GIRL_REDEEMED_SERVICES, TextUtils.isEmpty(
+                    girlCursor.getServicesReceived()) ? "None" : girlCursor.getServicesReceived());
+        }
     }
 
     private AppointmentstableCursor queryAppointmentTable(String girlName) {

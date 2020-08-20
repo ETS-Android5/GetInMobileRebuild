@@ -77,6 +77,7 @@ import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 import timber.log.Timber;
 
+import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_REDEEMED_SERVICES;
 import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_VOUCHER_NUMBER;
 
 public abstract class QuestionWidget
@@ -268,13 +269,19 @@ public abstract class QuestionWidget
         // Adds a title to the input field
         TextView questionText = new TextView(getContext());
         questionText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, getQuestionFontSize());
-//        questionText.setTypeface(null, Typeface.BOLD);
         questionText.setPadding(0, 0, 0, 7);
         questionText.setTextColor(getResources().getColor(R.color.text_grey));
-        if (promptText.contains("Voucher number"))
+        // These are hardcoded values. make sure changes are made in the xml files in odk server
+        if (promptText.contains("Voucher number to validate")) {
             questionText.setText(promptText + Prefs.getString(GIRL_VOUCHER_NUMBER, "123-ABC"));
-        else
+        } else if (promptText.contains("Voucher number to redeem")) {
+            String voucherToRedeem = promptText + Prefs.getString(GIRL_VOUCHER_NUMBER, "123-ABC");
+            promptText = "Redeemed services:\n" + Prefs.getString(GIRL_REDEEMED_SERVICES, "None");
+            promptText += "\n\n" + voucherToRedeem;
             questionText.setText(promptText);
+        } else {
+            questionText.setText(promptText);
+        }
         questionText.setTypeface(Typeface.SANS_SERIF);
         questionText.setMovementMethod(LinkMovementMethod.getInstance());
 
@@ -723,32 +730,35 @@ public abstract class QuestionWidget
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(SMS_RECEIVED)) {
-                Timber.d("received sms broadcast");
-                Bundle bundle = intent.getExtras();
-                if (bundle != null) {
-                    // get sms objects
-                    Object[] pdus = (Object[]) bundle.get("pdus");
-                    if (pdus.length == 0) {
-                        return;
+            try {
+                if (intent.getAction().equals(SMS_RECEIVED)) {
+                    Timber.d("received sms broadcast");
+                    Bundle bundle = intent.getExtras();
+                    if (bundle != null) {
+                        // get sms objects
+                        Object[] pdus = (Object[]) bundle.get("pdus");
+                        if (pdus.length == 0) {
+                            return;
+                        }
+                        // large message might be broken into many
+                        SmsMessage[] messages = new SmsMessage[pdus.length];
+                        StringBuilder sb = new StringBuilder();
+                        for (int i = 0; i < pdus.length; i++) {
+                            messages[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
+                            sb.append(messages[i].getMessageBody());
+                        }
+                        String sender = messages[0].getOriginatingAddress();
+                        String message = sb.toString();
+                        if (sender.contains("8228")) {
+                            TextView questionText = questionMediaLayout.getView_Text();
+                            String previousString = questionText.getText().toString().split("\n\nResult")[0];
+                            questionText.setText(previousString + "\n\nResult:\n" + message);
+                            Toast.makeText(context, "Check the screen for your result", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                    // large message might be broken into many
-                    SmsMessage[] messages = new SmsMessage[pdus.length];
-                    StringBuilder sb = new StringBuilder();
-                    for (int i = 0; i < pdus.length; i++) {
-                        messages[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
-                        sb.append(messages[i].getMessageBody());
-                    }
-                    String sender = messages[0].getOriginatingAddress();
-                    String message = sb.toString();
-                    //todo restrict only sms from 8228
-//                    if (sender.equals("8228")) {
-//
-//                    }
-                    TextView questionText = questionMediaLayout.getView_Text();
-                    questionText.setText(questionText.getText().toString() + "\n\nResult:\n" + message);
-                    Toast.makeText(context, sender + message, Toast.LENGTH_SHORT).show();
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
