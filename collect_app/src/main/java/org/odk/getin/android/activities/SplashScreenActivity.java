@@ -30,6 +30,8 @@ import org.odk.getin.android.tasks.ServerPollingJob;
 import org.odk.getin.android.utilities.DialogUtils;
 import org.odk.getin.android.utilities.PermissionUtils;
 
+import java.io.File;
+
 import timber.log.Timber;
 
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_LOGGED_IN;
@@ -52,10 +54,12 @@ public class SplashScreenActivity extends CollectAbstractActivity {
             public void granted() {
                 // must be at the beginning of any activity that can be called from an external intent
                 try {
-                    Collect.createODKDirs();
-                    if (firstRun || !Prefs.getBoolean(USER_LOGGED_IN, false))
+                    if (firstRun || !Prefs.getBoolean(USER_LOGGED_IN, false)) {
+                        deleteODKFormStorageFolder();
+                        Collect.createODKDirs();
                         // download all empty forms from the server. this is required before user can fill in the form
                         ServerPollingJob.startJobImmediately();
+                    }
                 } catch (RuntimeException e) {
                     DialogUtils.showDialog(DialogUtils.createErrorDialog(SplashScreenActivity.this,
                             e.getMessage(), EXIT), SplashScreenActivity.this);
@@ -76,7 +80,6 @@ public class SplashScreenActivity extends CollectAbstractActivity {
     private void init() {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.splash_screen);
-
 
 
         PackageInfo packageInfo = null;
@@ -128,5 +131,19 @@ public class SplashScreenActivity extends CollectAbstractActivity {
             }
         };
         t.start();
+    }
+
+    public void deleteODKFormStorageFolder() {
+        try {
+            File dir = new File(Collect.ODK_ROOT);
+            if (dir.isDirectory()) {
+                String[] children = dir.list();
+                for (int i = 0; i < children.length; i++) {
+                    new File(dir, children[i]).delete();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
