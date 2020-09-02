@@ -25,6 +25,7 @@ import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
+
 import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
 
@@ -751,8 +752,14 @@ public abstract class QuestionWidget
                         String message = sb.toString();
                         if (sender.contains("8228")) {
                             TextView questionText = questionMediaLayout.getView_Text();
-                            String previousString = questionText.getText().toString().split("\n\nResult")[0];
-                            questionText.setText(previousString + "\n\nResult:\n" + message);
+                            String previousString = questionText.getText().toString();
+                            if (previousString.contains("Success")) {
+                                questionText.setText(String.format("%s\n\n%s", previousString, message));
+                            } else {
+                                previousString = previousString.split("\n\nResult")[0];
+                                questionText.setText(String.format("%s\n\nResult:\n%s", previousString, message));
+                            }
+
                             Toast.makeText(context, "Check the screen for your result", Toast.LENGTH_SHORT).show();
                         }
                     }

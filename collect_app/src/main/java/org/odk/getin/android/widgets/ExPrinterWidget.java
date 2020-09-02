@@ -137,52 +137,6 @@ public class ExPrinterWidget extends QuestionWidget implements BinaryWidget {
         addAnswerView(printLayout);
     }
 
-    protected void firePrintingActivity(String intentName) throws ActivityNotFoundException {
-
-        String s = getFormEntryPrompt().getAnswerText();
-
-        Intent i = new Intent(intentName);
-        getContext().startActivity(i);
-
-        String[] splits;
-        if (s != null) {
-            splits = s.split("<br>");
-        } else {
-            splits = null;
-        }
-
-        Bundle printDataBundle = new Bundle();
-
-        String e;
-        if (splits != null) {
-            if (splits.length >= 1) {
-                e = splits[0];
-                if (e.length() > 0) {
-                    printDataBundle.putString("BARCODE", e);
-                }
-            }
-            if (splits.length >= 2) {
-                e = splits[1];
-                if (e.length() > 0) {
-                    printDataBundle.putString("QRCODE", e);
-                }
-            }
-            if (splits.length > 2) {
-                String[] text = new String[splits.length - 2];
-                for (int j = 2; j < splits.length; ++j) {
-                    e = splits[j];
-                    text[j - 2] = e;
-                }
-                printDataBundle.putStringArray("TEXT-STRINGS", text);
-            }
-        }
-
-        //send the printDataBundle to the activity via broadcast intent
-        Intent bcastIntent = new Intent(intentName + ".data");
-        bcastIntent.putExtra("DATA", printDataBundle);
-        getContext().sendBroadcast(bcastIntent);
-    }
-
     @Override
     public void clearAnswer() {
     }
