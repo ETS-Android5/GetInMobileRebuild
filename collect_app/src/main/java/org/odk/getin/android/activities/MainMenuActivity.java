@@ -697,6 +697,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
+                startActivity(new Intent(this, ChooseUserActivity.class));
                 finish();
             }
         });

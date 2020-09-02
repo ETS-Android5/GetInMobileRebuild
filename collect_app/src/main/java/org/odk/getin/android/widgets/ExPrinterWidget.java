@@ -185,7 +185,7 @@ public class ExPrinterWidget extends QuestionWidget implements BinaryWidget {
                             Prefs.getString(GIRL_VOUCHER_NUMBER, "123-ABC"),
                             BuildConfig.MSI_HEALTH_FACILITY_ID), null, null);
         } else {
-            String redeemServiceSelected = Prefs.getString(GIRL_REDEEM_SERVICE_SELECTED, "ANC1");
+            String redeemServiceSelected = Prefs.getString(GIRL_REDEEM_SERVICE_SELECTED, "AN1");
             if (redeemServiceSelected.contains(getContext().getString(R.string.select_one))){
                 ToastUtils.showShortToast("Please select a service to redeem!");
             } else {
