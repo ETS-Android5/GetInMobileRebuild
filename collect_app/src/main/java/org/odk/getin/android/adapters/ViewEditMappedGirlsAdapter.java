@@ -1,8 +1,6 @@
 package org.odk.getin.android.adapters;
 
-import android.Manifest;
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,40 +26,33 @@ import org.odk.getin.android.provider.FormsProviderAPI;
 import org.odk.getin.android.provider.mappedgirltable.MappedgirltableCursor;
 import org.odk.getin.android.provider.mappedgirltable.MappedgirltableSelection;
 import org.odk.getin.android.retrofitmodels.Value;
-import org.odk.getin.android.retrofitmodels.systemusers.Midwife;
 import org.odk.getin.android.tasks.ServerPollingJob;
 import org.odk.getin.android.utilities.ApplicationConstants;
 import org.odk.getin.android.utilities.ToastUtils;
 
+import java.util.Locale;
+import java.util.Objects;
+
 import timber.log.Timber;
 
-import static org.odk.getin.android.utilities.ApplicationConstants.APPOINTMENT_FORM_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.APPOINTMENT_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.CHEW_ROLE;
-import static org.odk.getin.android.utilities.ApplicationConstants.EDIT_GIRL;
 import static org.odk.getin.android.utilities.ApplicationConstants.FOLLOW_UP_FORM_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.FOLLOW_UP_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_NAME;
 import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_REDEEMED_SERVICES;
 import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_VOUCHER_NUMBER;
-import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ARUA_FORM_CHEW_ID;
-import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ARUA_FORM_MIDWIFE_ID;
-import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_ID;
-import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_FIRST_NAME;
 import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_LAST_NAME;
-import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_KAMPALA_FORM_CHEW_ID;
-import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_KAMPALA_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.MIDWIFE_ROLE;
 import static org.odk.getin.android.utilities.ApplicationConstants.POSTNATAL_FORM_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.POSTNATAL_FORM_MIDWIFE_ID;
-import static org.odk.getin.android.utilities.ApplicationConstants.USER_DISTRICT;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_ROLE;
 import static org.odk.getin.android.utilities.TextUtils.toCapitalize;
 
-public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMappedGirlsAdapter.ViewHolder>  implements ActivityCompat.OnRequestPermissionsResultCallback {
+public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMappedGirlsAdapter.ViewHolder> implements ActivityCompat.OnRequestPermissionsResultCallback {
 
     private static final int REQUEST_PHONE_CALL = 34;
     private MappedgirltableCursor cursor;
@@ -71,23 +61,17 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView name;
-        public TextView phoneNumber;
         public TextView age;
-        public TextView maritalStatus;
         public TextView village;
         public TextView byVht;
         public TextView voucherNumber;
         public Button followUpButton;
         public Button appointmentButton;
         public Button postNatalButton;
-        public ImageButton callGirlButton;
-        public ImageButton editGirlButton;
 
         public ViewHolder(View v) {
             super(v);
             name = (TextView) v.findViewById(R.id.name);
-            phoneNumber = (TextView) v.findViewById(R.id.phone_number);
-            maritalStatus = (TextView) v.findViewById(R.id.marital_status);
             age = (TextView) v.findViewById(R.id.age);
             village = (TextView) v.findViewById(R.id.village);
             voucherNumber = (TextView) v.findViewById(R.id.voucher_number);
@@ -97,8 +81,6 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
                 byVht = (TextView) v.findViewById(R.id.byvht);
             }
             postNatalButton = (Button) v.findViewById(R.id.create_post_natal_button);
-            callGirlButton = (ImageButton) v.findViewById(R.id.call_girl_button);
-            editGirlButton = (ImageButton) v.findViewById(R.id.edit_girl_button);
         }
     }
 
@@ -124,28 +106,27 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
     public void onBindViewHolder(@NonNull final ViewEditMappedGirlsAdapter.ViewHolder holder, int position) {
         try {
             cursor.moveToPosition(position);
-            holder.name.setText(cursor.getFirstname() + " " + cursor.getLastname());
-            holder.maritalStatus.setText(toCapitalize(cursor.getMaritalstatus()));
+            holder.name.setText(String.format(Locale.US, "%s %s", cursor.getFirstname(), cursor.getLastname()));
 
             try {
-                holder.village.setText(toCapitalize(cursor.getVillage()));
+                holder.village.setText(toCapitalize(Objects.requireNonNull(cursor.getVillage())));
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
             try {
                 if (!TextUtils.isEmpty(cursor.getVoucherNumber()))
-                    holder.voucherNumber.setText(String.format(activity.getString(R.string.voucher_number_string), cursor.getVoucherNumber()));
+                    holder.voucherNumber.setText(String.format(Locale.US,
+                            activity.getString(R.string.voucher_number_string),
+                            cursor.getVoucherNumber()));
                 else
                     holder.voucherNumber.setVisibility(View.GONE);
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            final String phoneNumber = getActivePhoneNumber(cursor);
-            holder.phoneNumber.setText(phoneNumber);
             try {
-                holder.age.setText(cursor.getAge() + " Years");
+                holder.age.setText(String.format(Locale.US, "%d Years", cursor.getAge()));
                 holder.village.setText(cursor.getVillage());
             } catch (Exception e) {
                 e.printStackTrace();
@@ -159,14 +140,10 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
                     startFormActivity(POSTNATAL_FORM_MIDWIFE_ID);
             });
 
-            if (!Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE))
+            if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(MIDWIFE_ROLE))
                 holder.appointmentButton.setOnClickListener(v -> {
                     saveCredentialsInSharedPrefs(holder);
-
-                    if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE))
-                        startFormActivity(APPOINTMENT_FORM_ID);
-                    else
-                        startFormActivity(APPOINTMENT_FORM_MIDWIFE_ID);
+                    startFormActivity(APPOINTMENT_FORM_MIDWIFE_ID);
                 });
 
 
@@ -176,44 +153,6 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
                     startFormActivity(FOLLOW_UP_FORM_ID);
                 else
                     startFormActivity(FOLLOW_UP_FORM_MIDWIFE_ID);
-            });
-
-            holder.callGirlButton.setOnClickListener(v -> {
-
-                try {
-                    if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
-                    } else {
-                        activity.startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber)));
-                    }
-                } catch (ActivityNotFoundException e) {
-                    Timber.e(e);
-                    activity.startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNumber)));
-                }
-            });
-
-            holder.editGirlButton.setOnClickListener(v -> {
-                String girlFirstName = holder.name.getText().toString().split(" ")[0];
-                String girlLastName = holder.name.getText().toString().split(" ")[1];
-                Prefs.putString(GIRL_FIRST_NAME, girlFirstName);
-                Prefs.putString(GIRL_LAST_NAME, girlLastName);
-                Prefs.putBoolean(EDIT_GIRL, true);
-
-                if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE)) {
-                    if (Prefs.getString(USER_DISTRICT, "BUNDIBUGYO").equals("BUNDIBUGYO"))
-                        startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_ID);
-                    else if (Prefs.getString(USER_DISTRICT, "Kampala").equals("Kampala"))
-                        startFormActivity(MAP_GIRL_KAMPALA_FORM_CHEW_ID);
-                    else
-                        startFormActivity(MAP_GIRL_ARUA_FORM_CHEW_ID);
-                } else {
-                    if (Prefs.getString(USER_DISTRICT, "BUNDIBUGYO").equals("BUNDIBUGYO"))
-                        startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID);
-                    else if (Prefs.getString(USER_DISTRICT, "Kampala").equals("Kampala"))
-                        startFormActivity(MAP_GIRL_KAMPALA_FORM_MIDWIFE_ID);
-                    else
-                        startFormActivity(MAP_GIRL_ARUA_FORM_MIDWIFE_ID);
-                }
             });
 
             holder.itemView.setOnClickListener(v -> {
@@ -278,10 +217,9 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
     }
 
     private void startFormActivity(String formId) {
-        String selectionClause = null;
         try {
-            selectionClause = FormsProviderAPI.FormsColumns.JR_FORM_ID + " LIKE ?";
-            String[] selectionArgs = { formId + "%"};
+            String selectionClause = FormsProviderAPI.FormsColumns.JR_FORM_ID + " LIKE ?";
+            String[] selectionArgs = {formId + "%"};
 
             Cursor c = activity.getContentResolver().query(
                     FormsProviderAPI.FormsColumns.CONTENT_URI,  // The content URI of the words table
@@ -320,7 +258,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
     }
 
     public void filter(MappedgirltableCursor cursor) {
-            swapCursor(cursor);
+        swapCursor(cursor);
     }
 
     public MappedgirltableCursor swapCursor(MappedgirltableCursor cursor) {
