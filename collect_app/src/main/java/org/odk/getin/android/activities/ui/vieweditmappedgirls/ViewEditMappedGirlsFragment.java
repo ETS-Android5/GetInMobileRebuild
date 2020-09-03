@@ -1,38 +1,26 @@
 package org.odk.getin.android.activities.ui.vieweditmappedgirls;
 
-import android.app.AlertDialog;
-import android.content.ContentUris;
-import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.odk.getin.android.R;
-import org.odk.getin.android.activities.PregnancySummaryActivity;
 import org.odk.getin.android.activities.ViewEditMappedGirlsActivity;
 import org.odk.getin.android.adapters.ViewEditMappedGirlsAdapter;
-import org.odk.getin.android.provider.InstanceProviderAPI;
 import org.odk.getin.android.provider.mappedgirltable.MappedgirltableCursor;
 import org.odk.getin.android.provider.mappedgirltable.MappedgirltableSelection;
 import org.odk.getin.android.retrofitmodels.Value;
-import org.odk.getin.android.utilities.ApplicationConstants;
-import org.odk.getin.android.utilities.ToastUtils;
-import org.odk.getin.android.provider.InstanceProviderAPI.InstanceColumns;
 
 import timber.log.Timber;
 
@@ -44,16 +32,34 @@ import timber.log.Timber;
  * while the VHT can only see her mapped girls
  *
  * @author Phillip Kigenyi (codephillip@gmail.com)
- * */
-public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMappedGirlsAdapter.ItemClickListener {
+ */
+public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMappedGirlsAdapter.ItemClickListener, Searchable {
 
     View rootView;
     private RecyclerView recyclerView;
     private ViewEditMappedGirlsAdapter girlsAdapter;
     private SearchView searchView;
+    private static final String ARG_SECTION_NUMBER = "section_number";
+    private PageViewModel pageViewModel;
+    private int index = 0;
 
-    public static ViewEditMappedGirlsFragment newInstance() {
-        return new ViewEditMappedGirlsFragment();
+
+    public static ViewEditMappedGirlsFragment newInstance(int index) {
+        ViewEditMappedGirlsFragment fragment = new ViewEditMappedGirlsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(ARG_SECTION_NUMBER, index);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
+        if (getArguments() != null) {
+            index = getArguments().getInt(ARG_SECTION_NUMBER);
+        }
+        pageViewModel.setIndex(index);
     }
 
     @Nullable
@@ -63,15 +69,15 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
         rootView = inflater.inflate(R.layout.view_edit_mapped_girls_fragment, container, false);
 
         ViewEditMappedGirlsActivity activity = ((ViewEditMappedGirlsActivity) getActivity());
-        Toolbar toolbar = rootView.findViewById(R.id.toolbar);
-        toolbar.setTitle(getString(R.string.mapped_girls));
-        activity.setSupportActionBar(toolbar);
-        activity.getSupportActionBar().setDisplayShowTitleEnabled(true);
-        activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setHasOptionsMenu(true);
 
-        girlsAdapter = new ViewEditMappedGirlsAdapter(getActivity(), queryMappedGirlTable());
+        searchView = activity.findViewById(R.id.search);
+        index = getArguments().getInt(ARG_SECTION_NUMBER);
+        if (index == 1) {
+            girlsAdapter = new ViewEditMappedGirlsAdapter(getActivity(), queryMappedAllGirlTable());
+        } else if (index == 2) {
+            girlsAdapter = new ViewEditMappedGirlsAdapter(getActivity(), queryMappedVoucherGirlTable());
+        }
         girlsAdapter.setClickListener(this);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view_edit_mapped_girls);
@@ -81,8 +87,26 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
         return rootView;
     }
 
-    private MappedgirltableCursor queryMappedGirlTable() {
+    private MappedgirltableCursor queryMappedAllGirlTable() {
         return new MappedgirltableSelection().orderByCreatedAt(true).query(getContext().getContentResolver());
+    }
+
+    private MappedgirltableCursor queryMappedVoucherGirlTable() {
+        return new MappedgirltableSelection().voucherNumberContains("-").orderByCreatedAt(true).query(getContext().getContentResolver());
+    }
+
+    private MappedgirltableCursor queryMappedAllGirlTable(String name) {
+        MappedgirltableSelection mappedgirltableSelection = new MappedgirltableSelection();
+        mappedgirltableSelection.firstnameContains(name).or().lastnameContains(name);
+        mappedgirltableSelection.and().firstnameContains(name).or().lastnameContains(name);
+        return mappedgirltableSelection.query(getContext().getContentResolver());
+    }
+
+    private MappedgirltableCursor queryMappedVoucherGirlTable(String name) {
+        MappedgirltableSelection mappedgirltableSelection = new MappedgirltableSelection();
+        mappedgirltableSelection.voucherNumberContains("-");
+        mappedgirltableSelection.and().firstnameContains(name).or().lastnameContains(name);
+        return mappedgirltableSelection.query(getContext().getContentResolver());
     }
 
     @Override
@@ -91,21 +115,21 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
     }
 
     @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
+    public void initializeSearch() {
 
-        this.getActivity().getMenuInflater().inflate(R.menu.view_edit_mapped_girls_menu, menu);
-
-        MenuItem myActionMenuItem = menu.findItem(R.id.action_search);
-        searchView = (SearchView) myActionMenuItem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if (!searchView.isIconified()) {
-                    searchView.setIconified(true);
-                    girlsAdapter.filter(query);
+                if (!TextUtils.isEmpty(query)) {
+                    index = getArguments().getInt(ARG_SECTION_NUMBER);
+                    MappedgirltableCursor mappedgirltableCursor = null;
+                    if (index == 1) {
+                        mappedgirltableCursor = queryMappedAllGirlTable(query);
+                    } else if (index == 2) {
+                        mappedgirltableCursor = queryMappedVoucherGirlTable(query);
+                    }
+                    girlsAdapter.filter(mappedgirltableCursor);
                 }
-                myActionMenuItem.collapseActionView();
                 return false;
             }
 
@@ -116,8 +140,14 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
         });
 
         searchView.setOnCloseListener(() -> {
-            girlsAdapter = new ViewEditMappedGirlsAdapter(getActivity(), queryMappedGirlTable());
+            index = getArguments().getInt(ARG_SECTION_NUMBER);
+            if (index == 1) {
+                girlsAdapter = new ViewEditMappedGirlsAdapter(getActivity(), queryMappedAllGirlTable());
+            } else if (index == 2) {
+                girlsAdapter = new ViewEditMappedGirlsAdapter(getActivity(), queryMappedVoucherGirlTable());
+            }
             recyclerView.setAdapter(girlsAdapter);
+            searchView.onActionViewCollapsed();
             return false;
         });
     }

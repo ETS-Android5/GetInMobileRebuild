@@ -319,11 +319,8 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
         }
     }
 
-    public void filter(String text) {
-        if (!text.isEmpty()) {
-            text = text.toLowerCase();
-            swapCursor(queryMappedGirlsTable(text));
-        }
+    public void filter(MappedgirltableCursor cursor) {
+            swapCursor(cursor);
     }
 
     public MappedgirltableCursor swapCursor(MappedgirltableCursor cursor) {

@@ -186,10 +186,6 @@ public class MainMenuActivity extends CollectAbstractActivity {
                 });
 
         disableSmsIfNeeded();
-        Timber.d("User role");
-        Timber.d(Prefs.getString(USER_ROLE, CHEW_ROLE));
-        Timber.d("Midwife id: " + Prefs.getString(VHT_MIDWIFE_ID, ""));
-        Timber.d(String.valueOf(Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE)));
 
         // download data from django server; mapped girls
         Intent intent = new Intent(this, SetupIntentService.class);

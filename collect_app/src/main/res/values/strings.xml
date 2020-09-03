@@ -892,4 +892,6 @@
     <string name="services_received_string">Services Redeemed: %s</string>
     <string name="validate_voucher_sms_format">Ms c %s %s</string>
     <string name="redeem_voucher_sms_format">Ms r %s %s %s</string>
+    <string name="all_girls">All</string>
+    <string name="voucher_girls">Voucher</string>
 </resources>
