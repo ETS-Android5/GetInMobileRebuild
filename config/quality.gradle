@@ -106,7 +106,8 @@ tasks.register("pmd", Pmd) {
 
 android {
     lintOptions {
-        abortOnError true
+        abortOnError false
+        checkReleaseBuilds false
         xmlReport true
         htmlReport true
         lintConfig file("$configDir/lint.xml")

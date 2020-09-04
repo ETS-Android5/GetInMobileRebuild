@@ -43,7 +43,7 @@
                 android:layout_gravity="left"
                 android:layout_marginLeft="@dimen/padding_large"
                 android:layout_marginTop="5dp"
-                android:layout_weight="6"
+                android:layout_weight="8"
                 android:orientation="vertical">
 
                 <TextView
@@ -54,26 +54,18 @@
                     android:text="Sharon Namugga" />
 
                 <TextView
-                    android:id="@+id/phone_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_medium"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:text="0756878466" />
-
-                <TextView
-                    android:id="@+id/marital_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_medium"
-                    android:text="Married" />
-
-                <TextView
                     android:id="@+id/age"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_medium"
                     android:text="20 Years" />
+
+                <TextView
+                    android:id="@+id/voucher_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:text="345-XYZ" />
 
                 <TextView
                     android:id="@+id/village"
@@ -83,35 +75,6 @@
                     android:layout_marginTop="@dimen/margin_small"
                     android:drawableLeft="@drawable/ic_location_on_48px"
                     android:text="Bundiselya" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="start"
-                android:layout_weight="2"
-                android:orientation="vertical"
-                android:weightSum="6">
-
-                <ImageButton
-                    android:id="@+id/call_girl_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="3"
-                    android:background="@android:color/transparent"
-                    android:padding="@dimen/padding_large"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_call_24px" />
-
-                <ImageButton
-                    android:id="@+id/edit_girl_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="3"
-                    android:background="@android:color/transparent"
-                    android:padding="@dimen/padding_large"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_edit_24px" />
             </LinearLayout>
         </LinearLayout>
 

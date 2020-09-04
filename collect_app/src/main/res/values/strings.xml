@@ -888,4 +888,18 @@
     <string name="getin_reminder">GetIn reminder</string>
     <string name="help">Help</string>
     <string name="logout">Logout</string>
+    <string name="voucher_number_string">Voucher No. %s</string>
+    <string name="services_received_string">Services Redeemed: %s</string>
+    <string name="validate_voucher_sms_format">Ms c %s %s</string>
+    <string name="redeem_voucher_sms_format">Ms r %s %s %s</string>
+    <string name="all_girls">All</string>
+    <string name="voucher_girls">Voucher</string>
+    <string name="voucher_number">Voucher number</string>
+    <string name="voucher_number_dummy_text">123-ABC</string>
+    <string name="edit_girl">Edit girl\'s details</string>
+    <string name="redeemed_services">Redeemed Services</string>
+    <string name="nationality">Nationality</string>
+    <string name="default_nationality">Ugandan</string>
+    <string name="disability">Disabled</string>
+    <string name="default_disabled">true</string>
 </resources>

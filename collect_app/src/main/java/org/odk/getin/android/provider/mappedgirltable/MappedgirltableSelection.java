@@ -697,4 +697,140 @@ public class MappedgirltableSelection extends AbstractSelection<MappedgirltableS
         orderBy(MappedgirltableColumns.VILLAGE, false);
         return this;
     }
+
+    public MappedgirltableSelection voucherNumber(String... value) {
+        addEquals(MappedgirltableColumns.VOUCHER_NUMBER, value);
+        return this;
+    }
+
+    public MappedgirltableSelection voucherNumberNot(String... value) {
+        addNotEquals(MappedgirltableColumns.VOUCHER_NUMBER, value);
+        return this;
+    }
+
+    public MappedgirltableSelection voucherNumberLike(String... value) {
+        addLike(MappedgirltableColumns.VOUCHER_NUMBER, value);
+        return this;
+    }
+
+    public MappedgirltableSelection voucherNumberContains(String... value) {
+        addContains(MappedgirltableColumns.VOUCHER_NUMBER, value);
+        return this;
+    }
+
+    public MappedgirltableSelection voucherNumberStartsWith(String... value) {
+        addStartsWith(MappedgirltableColumns.VOUCHER_NUMBER, value);
+        return this;
+    }
+
+    public MappedgirltableSelection voucherNumberEndsWith(String... value) {
+        addEndsWith(MappedgirltableColumns.VOUCHER_NUMBER, value);
+        return this;
+    }
+
+    public MappedgirltableSelection orderByVoucherNumber(boolean desc) {
+        orderBy(MappedgirltableColumns.VOUCHER_NUMBER, desc);
+        return this;
+    }
+
+    public MappedgirltableSelection orderByVoucherNumber() {
+        orderBy(MappedgirltableColumns.VOUCHER_NUMBER, false);
+        return this;
+    }
+
+    public MappedgirltableSelection servicesReceived(String... value) {
+        addEquals(MappedgirltableColumns.SERVICES_RECEIVED, value);
+        return this;
+    }
+
+    public MappedgirltableSelection servicesReceivedNot(String... value) {
+        addNotEquals(MappedgirltableColumns.SERVICES_RECEIVED, value);
+        return this;
+    }
+
+    public MappedgirltableSelection servicesReceivedLike(String... value) {
+        addLike(MappedgirltableColumns.SERVICES_RECEIVED, value);
+        return this;
+    }
+
+    public MappedgirltableSelection servicesReceivedContains(String... value) {
+        addContains(MappedgirltableColumns.SERVICES_RECEIVED, value);
+        return this;
+    }
+
+    public MappedgirltableSelection servicesReceivedStartsWith(String... value) {
+        addStartsWith(MappedgirltableColumns.SERVICES_RECEIVED, value);
+        return this;
+    }
+
+    public MappedgirltableSelection servicesReceivedEndsWith(String... value) {
+        addEndsWith(MappedgirltableColumns.SERVICES_RECEIVED, value);
+        return this;
+    }
+
+    public MappedgirltableSelection orderByServicesReceived(boolean desc) {
+        orderBy(MappedgirltableColumns.SERVICES_RECEIVED, desc);
+        return this;
+    }
+
+    public MappedgirltableSelection orderByServicesReceived() {
+        orderBy(MappedgirltableColumns.SERVICES_RECEIVED, false);
+        return this;
+    }
+
+    public MappedgirltableSelection nationality(String... value) {
+        addEquals(MappedgirltableColumns.NATIONALITY, value);
+        return this;
+    }
+
+    public MappedgirltableSelection nationalityNot(String... value) {
+        addNotEquals(MappedgirltableColumns.NATIONALITY, value);
+        return this;
+    }
+
+    public MappedgirltableSelection nationalityLike(String... value) {
+        addLike(MappedgirltableColumns.NATIONALITY, value);
+        return this;
+    }
+
+    public MappedgirltableSelection nationalityContains(String... value) {
+        addContains(MappedgirltableColumns.NATIONALITY, value);
+        return this;
+    }
+
+    public MappedgirltableSelection nationalityStartsWith(String... value) {
+        addStartsWith(MappedgirltableColumns.NATIONALITY, value);
+        return this;
+    }
+
+    public MappedgirltableSelection nationalityEndsWith(String... value) {
+        addEndsWith(MappedgirltableColumns.NATIONALITY, value);
+        return this;
+    }
+
+    public MappedgirltableSelection orderByNationality(boolean desc) {
+        orderBy(MappedgirltableColumns.NATIONALITY, desc);
+        return this;
+    }
+
+    public MappedgirltableSelection orderByNationality() {
+        orderBy(MappedgirltableColumns.NATIONALITY, false);
+        return this;
+    }
+
+    public MappedgirltableSelection disabled(Boolean value) {
+        addEquals(MappedgirltableColumns.DISABLED, toObjectArray(value));
+        return this;
+    }
+
+    public MappedgirltableSelection orderByDisabled(boolean desc) {
+        orderBy(MappedgirltableColumns.DISABLED, desc);
+        return this;
+    }
+
+    public MappedgirltableSelection orderByDisabled() {
+        orderBy(MappedgirltableColumns.DISABLED, false);
+        return this;
+    }
 }
+

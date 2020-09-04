@@ -1,38 +1,30 @@
 package org.odk.getin.android.activities.ui.vieweditmappedgirls;
 
-import android.app.AlertDialog;
-import android.content.ContentUris;
-import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.ActivityChooserView;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.odk.getin.android.R;
-import org.odk.getin.android.activities.PregnancySummaryActivity;
 import org.odk.getin.android.activities.ViewEditMappedGirlsActivity;
 import org.odk.getin.android.adapters.ViewEditMappedGirlsAdapter;
-import org.odk.getin.android.provider.InstanceProviderAPI;
 import org.odk.getin.android.provider.mappedgirltable.MappedgirltableCursor;
 import org.odk.getin.android.provider.mappedgirltable.MappedgirltableSelection;
 import org.odk.getin.android.retrofitmodels.Value;
-import org.odk.getin.android.utilities.ApplicationConstants;
-import org.odk.getin.android.utilities.ToastUtils;
-import org.odk.getin.android.provider.InstanceProviderAPI.InstanceColumns;
 
 import timber.log.Timber;
 
@@ -44,16 +36,36 @@ import timber.log.Timber;
  * while the VHT can only see her mapped girls
  *
  * @author Phillip Kigenyi (codephillip@gmail.com)
- * */
-public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMappedGirlsAdapter.ItemClickListener {
+ */
+public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMappedGirlsAdapter.ItemClickListener, Searchable {
 
     View rootView;
     private RecyclerView recyclerView;
     private ViewEditMappedGirlsAdapter girlsAdapter;
     private SearchView searchView;
+    private static final String ARG_SECTION_NUMBER = "section_number";
+    private PageViewModel pageViewModel;
+    private int index = 0;
+    private ViewEditMappedGirlsActivity activity;
+    private TextView toolbarTitle;
 
-    public static ViewEditMappedGirlsFragment newInstance() {
-        return new ViewEditMappedGirlsFragment();
+
+    public static ViewEditMappedGirlsFragment newInstance(int index) {
+        ViewEditMappedGirlsFragment fragment = new ViewEditMappedGirlsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(ARG_SECTION_NUMBER, index);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
+        if (getArguments() != null) {
+            index = getArguments().getInt(ARG_SECTION_NUMBER);
+        }
+        pageViewModel.setIndex(index);
     }
 
     @Nullable
@@ -62,27 +74,46 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
                              @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.view_edit_mapped_girls_fragment, container, false);
 
-        ViewEditMappedGirlsActivity activity = ((ViewEditMappedGirlsActivity) getActivity());
-        Toolbar toolbar = rootView.findViewById(R.id.toolbar);
-        toolbar.setTitle(getString(R.string.mapped_girls));
-        activity.setSupportActionBar(toolbar);
-        activity.getSupportActionBar().setDisplayShowTitleEnabled(true);
-        activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        activity = ((ViewEditMappedGirlsActivity) getActivity());
         setHasOptionsMenu(true);
 
-        girlsAdapter = new ViewEditMappedGirlsAdapter(getActivity(), queryMappedGirlTable());
+        searchView = activity.findViewById(R.id.search);
+
+        MappedgirltableCursor cursor = getArguments().getInt(ARG_SECTION_NUMBER) == 1 ?
+                queryMappedAllGirlTable() : queryMappedVoucherGirlTable();
+        girlsAdapter = new ViewEditMappedGirlsAdapter(getActivity(), cursor);
         girlsAdapter.setClickListener(this);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view_edit_mapped_girls);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(girlsAdapter);
+
+        Toolbar toolbar = activity.findViewById(R.id.toolbar);
+        toolbarTitle = toolbar.findViewById(R.id.title);
         return rootView;
     }
 
-    private MappedgirltableCursor queryMappedGirlTable() {
+    private MappedgirltableCursor queryMappedAllGirlTable() {
         return new MappedgirltableSelection().orderByCreatedAt(true).query(getContext().getContentResolver());
+    }
+
+    private MappedgirltableCursor queryMappedVoucherGirlTable() {
+        return new MappedgirltableSelection().voucherNumberContains("-").orderByCreatedAt(true).query(getContext().getContentResolver());
+    }
+
+    private MappedgirltableCursor queryMappedAllGirlTable(String name) {
+        MappedgirltableSelection mappedgirltableSelection = new MappedgirltableSelection();
+        mappedgirltableSelection.firstnameContains(name).or().lastnameContains(name);
+        mappedgirltableSelection.and().firstnameContains(name).or().lastnameContains(name);
+        return mappedgirltableSelection.query(getContext().getContentResolver());
+    }
+
+    private MappedgirltableCursor queryMappedVoucherGirlTable(String name) {
+        MappedgirltableSelection mappedgirltableSelection = new MappedgirltableSelection();
+        mappedgirltableSelection.voucherNumberContains("-");
+        mappedgirltableSelection.and().firstnameContains(name).or().lastnameContains(name);
+        return mappedgirltableSelection.query(getContext().getContentResolver());
     }
 
     @Override
@@ -91,34 +122,50 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
     }
 
     @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
+    public void initializeSearch() {
 
-        this.getActivity().getMenuInflater().inflate(R.menu.view_edit_mapped_girls_menu, menu);
-
-        MenuItem myActionMenuItem = menu.findItem(R.id.action_search);
-        searchView = (SearchView) myActionMenuItem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if (!searchView.isIconified()) {
-                    searchView.setIconified(true);
-                    girlsAdapter.filter(query);
-                }
-                myActionMenuItem.collapseActionView();
+                filterForGirlName(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
+                filterForGirlName(s);
                 return false;
             }
         });
 
+        searchView.setOnSearchClickListener(view -> {
+            hideOrUnhideToolbarTitle();
+        });
+
         searchView.setOnCloseListener(() -> {
-            girlsAdapter = new ViewEditMappedGirlsAdapter(getActivity(), queryMappedGirlTable());
-            recyclerView.setAdapter(girlsAdapter);
+            resetToDefaultState();
             return false;
         });
+    }
+
+    private void filterForGirlName(String query) {
+        if (!TextUtils.isEmpty(query)) {
+            MappedgirltableCursor cursor = getArguments().getInt(ARG_SECTION_NUMBER) == 1 ?
+                    queryMappedAllGirlTable(query) : queryMappedVoucherGirlTable(query);
+            girlsAdapter.filter(cursor);
+        }
+    }
+
+    private void resetToDefaultState() {
+        MappedgirltableCursor cursor = getArguments().getInt(ARG_SECTION_NUMBER) == 1 ?
+                queryMappedAllGirlTable() : queryMappedVoucherGirlTable();
+        girlsAdapter = new ViewEditMappedGirlsAdapter(getActivity(), cursor);
+        recyclerView.setAdapter(girlsAdapter);
+        searchView.onActionViewCollapsed();
+        toolbarTitle.setVisibility(View.VISIBLE);
+    }
+
+    private void hideOrUnhideToolbarTitle() {
+        toolbarTitle.setVisibility(searchView.isIconified() ? View.VISIBLE : View.GONE);
     }
 }

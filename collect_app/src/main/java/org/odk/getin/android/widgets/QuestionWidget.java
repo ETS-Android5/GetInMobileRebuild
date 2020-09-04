@@ -14,7 +14,9 @@
 
 package org.odk.getin.android.widgets;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -23,8 +25,11 @@ import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
+
 import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
+
+import android.telephony.SmsMessage;
 import android.text.method.LinkMovementMethod;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -37,6 +42,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.pixplicity.easyprefs.library.Prefs;
 
 import org.javarosa.core.model.FormIndex;
 import org.javarosa.form.api.FormEntryPrompt;
@@ -55,6 +63,7 @@ import org.odk.getin.android.utilities.PermissionUtils;
 import org.odk.getin.android.utilities.SoftKeyboardUtils;
 import org.odk.getin.android.utilities.TextUtils;
 import org.odk.getin.android.utilities.ThemeUtils;
+import org.odk.getin.android.utilities.ToastUtils;
 import org.odk.getin.android.utilities.ViewIds;
 import org.odk.getin.android.views.MediaLayout;
 import org.odk.getin.android.widgets.interfaces.ButtonWidget;
@@ -69,13 +78,16 @@ import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 import timber.log.Timber;
 
+import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_REDEEMED_SERVICES;
+import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_VOUCHER_NUMBER;
+
 public abstract class QuestionWidget
         extends RelativeLayout
         implements Widget, AudioPlayListener {
 
     private final int questionFontSize;
     private final FormEntryPrompt formEntryPrompt;
-    private final MediaLayout questionMediaLayout;
+    public static MediaLayout questionMediaLayout;
     private MediaPlayer player;
     private final TextView helpTextView;
     private final TextView guidanceTextView;
@@ -258,10 +270,19 @@ public abstract class QuestionWidget
         // Adds a title to the input field
         TextView questionText = new TextView(getContext());
         questionText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, getQuestionFontSize());
-//        questionText.setTypeface(null, Typeface.BOLD);
         questionText.setPadding(0, 0, 0, 7);
         questionText.setTextColor(getResources().getColor(R.color.text_grey));
-        questionText.setText(promptText);
+        // These are hardcoded values. make sure changes are made in the xml files in odk server
+        if (promptText.contains("Voucher number to validate")) {
+            questionText.setText(promptText + Prefs.getString(GIRL_VOUCHER_NUMBER, "123-ABC"));
+        } else if (promptText.contains("Voucher number to redeem")) {
+            String voucherToRedeem = promptText + Prefs.getString(GIRL_VOUCHER_NUMBER, "123-ABC");
+            promptText = "Redeemed services:\n" + Prefs.getString(GIRL_REDEEMED_SERVICES, "None");
+            promptText += "\n\n" + voucherToRedeem;
+            questionText.setText(promptText);
+        } else {
+            questionText.setText(promptText);
+        }
         questionText.setTypeface(Typeface.SANS_SERIF);
         questionText.setMovementMethod(LinkMovementMethod.getInstance());
 
@@ -702,6 +723,50 @@ public abstract class QuestionWidget
     public void widgetValueChanged() {
         if (valueChangedListener != null) {
             valueChangedListener.widgetValueChanged(this);
+        }
+    }
+
+    public static class SmsReceiver extends BroadcastReceiver {
+        private static final String SMS_RECEIVED = "android.provider.Telephony.SMS_RECEIVED";
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            try {
+                if (intent.getAction().equals(SMS_RECEIVED)) {
+                    Timber.d("received sms broadcast");
+                    Bundle bundle = intent.getExtras();
+                    if (bundle != null) {
+                        // get sms objects
+                        Object[] pdus = (Object[]) bundle.get("pdus");
+                        if (pdus.length == 0) {
+                            return;
+                        }
+                        // large message might be broken into many
+                        SmsMessage[] messages = new SmsMessage[pdus.length];
+                        StringBuilder sb = new StringBuilder();
+                        for (int i = 0; i < pdus.length; i++) {
+                            messages[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
+                            sb.append(messages[i].getMessageBody());
+                        }
+                        String sender = messages[0].getOriginatingAddress();
+                        String message = sb.toString();
+                        if (sender.contains("8228")) {
+                            TextView questionText = questionMediaLayout.getView_Text();
+                            String previousString = questionText.getText().toString();
+                            if (message.contains("Success")) {
+                                questionText.setText(String.format("%s\n\n%s", previousString, message));
+                            } else {
+                                previousString = previousString.split("\n\nResult")[0];
+                                questionText.setText(String.format("%s\n\nResult:\n%s", previousString, message));
+                            }
+
+                            Toast.makeText(context, "Check the screen for your result", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }

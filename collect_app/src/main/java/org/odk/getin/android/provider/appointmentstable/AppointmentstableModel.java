@@ -151,4 +151,18 @@ public interface AppointmentstableModel extends BaseModel {
      */
     @Nullable
     Date getAppointmentDate();
+
+    /**
+     * Get the {@code voucher_number} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    String getVoucherNumber();
+
+    /**
+     * Get the {@code services_received} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    String getServicesReceived();
 }

@@ -18,16 +18,23 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
+
+import com.pixplicity.easyprefs.library.Prefs;
 
 import org.javarosa.core.model.data.IAnswerData;
 import org.javarosa.form.api.FormEntryPrompt;
+import org.odk.getin.android.BuildConfig;
 import org.odk.getin.android.R;
 import org.odk.getin.android.activities.FormEntryActivity;
+import org.odk.getin.android.utilities.ToastUtils;
 import org.odk.getin.android.widgets.interfaces.BinaryWidget;
+
+import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_REDEEM_SERVICE_SELECTED;
+import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_VOUCHER_NUMBER;
 
 /**
  * <p>Use the ODK Sensors framework to print data to a connected printer.</p>
@@ -120,7 +127,7 @@ public class ExPrinterWidget extends QuestionWidget implements BinaryWidget {
         super(context, prompt);
 
         String v = getFormEntryPrompt().getSpecialFormQuestionText("buttonText");
-        String buttonText = (v != null) ? v : context.getString(R.string.launch_printer);
+        String buttonText = (v != null) ? v : "Click";
         launchIntentButton = getSimpleButton(buttonText);
 
         // finish complex layout
@@ -128,52 +135,6 @@ public class ExPrinterWidget extends QuestionWidget implements BinaryWidget {
         printLayout.setOrientation(LinearLayout.VERTICAL);
         printLayout.addView(launchIntentButton);
         addAnswerView(printLayout);
-    }
-
-    protected void firePrintingActivity(String intentName) throws ActivityNotFoundException {
-
-        String s = getFormEntryPrompt().getAnswerText();
-
-        Intent i = new Intent(intentName);
-        getContext().startActivity(i);
-
-        String[] splits;
-        if (s != null) {
-            splits = s.split("<br>");
-        } else {
-            splits = null;
-        }
-
-        Bundle printDataBundle = new Bundle();
-
-        String e;
-        if (splits != null) {
-            if (splits.length >= 1) {
-                e = splits[0];
-                if (e.length() > 0) {
-                    printDataBundle.putString("BARCODE", e);
-                }
-            }
-            if (splits.length >= 2) {
-                e = splits[1];
-                if (e.length() > 0) {
-                    printDataBundle.putString("QRCODE", e);
-                }
-            }
-            if (splits.length > 2) {
-                String[] text = new String[splits.length - 2];
-                for (int j = 2; j < splits.length; ++j) {
-                    e = splits[j];
-                    text[j - 2] = e;
-                }
-                printDataBundle.putStringArray("TEXT-STRINGS", text);
-            }
-        }
-
-        //send the printDataBundle to the activity via broadcast intent
-        Intent bcastIntent = new Intent(intentName + ".data");
-        bcastIntent.putExtra("DATA", printDataBundle);
-        getContext().sendBroadcast(bcastIntent);
     }
 
     @Override
@@ -216,21 +177,23 @@ public class ExPrinterWidget extends QuestionWidget implements BinaryWidget {
 
     @Override
     public void onButtonClick(int buttonId) {
-        String appearance = getFormEntryPrompt().getAppearanceHint();
-        String[] attrs = appearance.split(":");
-        final String intentName = (attrs.length < 2 || attrs[1].length() == 0)
-                ? "org.opendatakit.sensors.ZebraPrinter" : attrs[1];
-        final String errorString;
-        String v = getFormEntryPrompt().getSpecialFormQuestionText("noPrinterErrorString");
-        errorString = (v != null) ? v : getContext().getString(R.string.no_printer);
-        try {
-            waitForData();
-            firePrintingActivity(intentName);
-        } catch (ActivityNotFoundException e) {
-            cancelWaitingForData();
-            Toast.makeText(getContext(),
-                    errorString, Toast.LENGTH_SHORT)
-                    .show();
+        SmsManager smsManager = SmsManager.getDefault();
+
+        if (questionMediaLayout.getView_Text().getText().toString().contains("validate")) {
+            smsManager.sendTextMessage(BuildConfig.MSI_PHONE_NUMBER, null,
+                    String.format(getResources().getString(R.string.validate_voucher_sms_format),
+                            Prefs.getString(GIRL_VOUCHER_NUMBER, "123-ABC"),
+                            BuildConfig.MSI_HEALTH_FACILITY_ID), null, null);
+        } else {
+            String redeemServiceSelected = Prefs.getString(GIRL_REDEEM_SERVICE_SELECTED, "AN1");
+            if (redeemServiceSelected.contains(getContext().getString(R.string.select_one))){
+                ToastUtils.showShortToast("Please select a service to redeem!");
+            } else {
+                smsManager.sendTextMessage(BuildConfig.MSI_PHONE_NUMBER, null,
+                        String.format(getResources().getString(R.string.redeem_voucher_sms_format),
+                                Prefs.getString(GIRL_VOUCHER_NUMBER, "123-ABC"), redeemServiceSelected,
+                                BuildConfig.MSI_HEALTH_FACILITY_ID), null, null);
+            }
         }
     }
 }

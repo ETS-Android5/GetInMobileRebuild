@@ -199,6 +199,8 @@ import static org.odk.getin.android.utilities.ApplicationConstants.APPOINTMENT_F
 import static org.odk.getin.android.utilities.ApplicationConstants.APPOINTMENT_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.EDIT_GIRL;
 import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_NAME;
+import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ADJUMANI_FORM_CHEW_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ADJUMANI_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ARUA_FORM_CHEW_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ARUA_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_ID;
@@ -207,6 +209,10 @@ import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_FIRST_NA
 import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_LAST_NAME;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_KAMPALA_FORM_CHEW_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_KAMPALA_FORM_MIDWIFE_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_MOYO_FORM_CHEW_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_MOYO_FORM_MIDWIFE_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_YUMBE_FORM_CHEW_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_YUMBE_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.POSTNATAL_FORM_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.POSTNATAL_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.RequestCodes;
@@ -1196,7 +1202,13 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
             case MAP_GIRL_KAMPALA_FORM_CHEW_ID:
             case MAP_GIRL_KAMPALA_FORM_MIDWIFE_ID:
             case MAP_GIRL_ARUA_FORM_CHEW_ID:
-            case MAP_GIRL_ARUA_FORM_MIDWIFE_ID: {
+            case MAP_GIRL_ARUA_FORM_MIDWIFE_ID:
+            case MAP_GIRL_MOYO_FORM_CHEW_ID:
+            case MAP_GIRL_ADJUMANI_FORM_CHEW_ID:
+            case MAP_GIRL_YUMBE_FORM_CHEW_ID:
+            case MAP_GIRL_MOYO_FORM_MIDWIFE_ID:
+            case MAP_GIRL_ADJUMANI_FORM_MIDWIFE_ID:
+            case MAP_GIRL_YUMBE_FORM_MIDWIFE_ID: {
                 title = "Map a girl";
                 break;
             }

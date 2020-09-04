@@ -10,9 +10,13 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.pixplicity.easyprefs.library.Prefs;
+
 import org.odk.getin.android.R;
 
 import timber.log.Timber;
+
+import static org.odk.getin.android.utilities.ApplicationConstants.VHT_MIDWIFE_PHONE;
 
 /**
  * Responsible for launching the android call app with the given number.
@@ -26,8 +30,7 @@ import timber.log.Timber;
 public class EmergencyCallActivity extends CollectAbstractActivity {
 
     private static final int REQUEST_PHONE_CALL = 89;
-    //todo get midwife's number
-    String phoneNumber = "0756878111";
+    String phoneNumber = Prefs.getString(VHT_MIDWIFE_PHONE, "0787228913");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -248,4 +248,24 @@ public class AppointmentstableContentValues extends AbstractContentValues {
         mContentValues.put(AppointmentstableColumns.APPOINTMENT_DATE, value);
         return this;
     }
+
+    public AppointmentstableContentValues putVoucherNumber(@Nullable String value) {
+        mContentValues.put(AppointmentstableColumns.VOUCHER_NUMBER, value);
+        return this;
+    }
+
+    public AppointmentstableContentValues putVoucherNumberNull() {
+        mContentValues.putNull(AppointmentstableColumns.VOUCHER_NUMBER);
+        return this;
+    }
+
+    public AppointmentstableContentValues putServicesReceived(@Nullable String value) {
+        mContentValues.put(AppointmentstableColumns.SERVICES_RECEIVED, value);
+        return this;
+    }
+
+    public AppointmentstableContentValues putServicesReceivedNull() {
+        mContentValues.putNull(AppointmentstableColumns.SERVICES_RECEIVED);
+        return this;
+    }
 }

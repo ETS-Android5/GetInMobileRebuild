@@ -33,7 +33,7 @@ public class MappedgirltableColumns implements BaseColumns {
 
     public static final String EDUCATIONLEVEL = "educationLevel";
 
-    public static final String MARITALSTATUS = "healthCenter";
+    public static final String MARITALSTATUS = "maritalStatus";
 
     public static final String AGE = "age";
 
@@ -48,6 +48,14 @@ public class MappedgirltableColumns implements BaseColumns {
     public static final String MISSED_VISITS = "missed_visits";
 
     public static final String VILLAGE = "village";
+
+    public static final String VOUCHER_NUMBER = "voucher_number";
+
+    public static final String SERVICES_RECEIVED = "services_received";
+
+    public static final String NATIONALITY = "nationality";
+
+    public static final String DISABLED = "disabled";
 
 
     public static final String DEFAULT_ORDER = TABLE_NAME + "." +_ID;
@@ -70,7 +78,11 @@ public class MappedgirltableColumns implements BaseColumns {
             COMPLETED_ALL_VISITS,
             PENDING_VISITS,
             MISSED_VISITS,
-            VILLAGE
+            VILLAGE,
+            VOUCHER_NUMBER,
+            SERVICES_RECEIVED,
+            NATIONALITY,
+            DISABLED
     };
     // @formatter:on
 
@@ -93,6 +105,10 @@ public class MappedgirltableColumns implements BaseColumns {
             if (c.equals(PENDING_VISITS) || c.contains("." + PENDING_VISITS)) return true;
             if (c.equals(MISSED_VISITS) || c.contains("." + MISSED_VISITS)) return true;
             if (c.equals(VILLAGE) || c.contains("." + VILLAGE)) return true;
+            if (c.equals(VOUCHER_NUMBER) || c.contains("." + VOUCHER_NUMBER)) return true;
+            if (c.equals(SERVICES_RECEIVED) || c.contains("." + SERVICES_RECEIVED)) return true;
+            if (c.equals(NATIONALITY) || c.contains("." + NATIONALITY)) return true;
+            if (c.equals(DISABLED) || c.contains("." + DISABLED)) return true;
         }
         return false;
     }

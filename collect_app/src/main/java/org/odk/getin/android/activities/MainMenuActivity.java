@@ -39,18 +39,17 @@ import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -64,13 +63,11 @@ import org.odk.getin.android.NotifyWorker;
 import org.odk.getin.android.R;
 import org.odk.getin.android.application.Collect;
 import org.odk.getin.android.dao.InstancesDao;
-import org.odk.getin.android.preferences.AdminKeys;
 import org.odk.getin.android.preferences.AdminPreferencesActivity;
 import org.odk.getin.android.preferences.AdminSharedPreferences;
 import org.odk.getin.android.preferences.AutoSendPreferenceMigrator;
 import org.odk.getin.android.preferences.GeneralSharedPreferences;
 import org.odk.getin.android.preferences.GeneralKeys;
-import org.odk.getin.android.preferences.PreferencesActivity;
 import org.odk.getin.android.preferences.Transport;
 import org.odk.getin.android.provider.FormsProviderAPI;
 import org.odk.getin.android.provider.InstanceProviderAPI.InstanceColumns;
@@ -105,12 +102,18 @@ import timber.log.Timber;
 
 import static org.odk.getin.android.preferences.GeneralKeys.KEY_SUBMISSION_TRANSPORT_TYPE;
 import static org.odk.getin.android.utilities.ApplicationConstants.CHEW_ROLE;
+import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ADJUMANI_FORM_CHEW_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ADJUMANI_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ARUA_FORM_CHEW_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ARUA_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_KAMPALA_FORM_CHEW_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_KAMPALA_FORM_MIDWIFE_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_MOYO_FORM_CHEW_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_MOYO_FORM_MIDWIFE_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_YUMBE_FORM_CHEW_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_YUMBE_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_DISTRICT;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_LOGGED_IN;
@@ -128,6 +131,7 @@ import static org.odk.getin.android.utilities.ApplicationConstants.VHT_MIDWIFE_I
 public class MainMenuActivity extends CollectAbstractActivity {
     private static final boolean EXIT = true;
     private static final String TASK_ID = "NotificationWorker";
+    private static final int REQUEST_SEND_SMS = 35;
     // buttons
     private Button callMidwifeOrChewButton;
     private Button callAmbulanceButton;
@@ -188,10 +192,6 @@ public class MainMenuActivity extends CollectAbstractActivity {
                 });
 
         disableSmsIfNeeded();
-        Timber.d("User role");
-        Timber.d(Prefs.getString(USER_ROLE, CHEW_ROLE));
-        Timber.d("Midwife id: " + Prefs.getString(VHT_MIDWIFE_ID, ""));
-        Timber.d(String.valueOf(Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE)));
 
         // download data from django server; mapped girls
         Intent intent = new Intent(this, SetupIntentService.class);
@@ -210,6 +210,12 @@ public class MainMenuActivity extends CollectAbstractActivity {
                             startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_ID);
                         else if (Prefs.getString(USER_DISTRICT, "Kampala").equals("Kampala"))
                             startFormActivity(MAP_GIRL_KAMPALA_FORM_CHEW_ID);
+                        else if (Prefs.getString(USER_DISTRICT, "Moyo").equals("Moyo"))
+                            startFormActivity(MAP_GIRL_MOYO_FORM_CHEW_ID);
+                        else if (Prefs.getString(USER_DISTRICT, "Moyo").equals("Adjumani"))
+                            startFormActivity(MAP_GIRL_ADJUMANI_FORM_CHEW_ID);
+                        else if (Prefs.getString(USER_DISTRICT, "Moyo").equals("Yumbe"))
+                            startFormActivity(MAP_GIRL_YUMBE_FORM_CHEW_ID);
                         else
                             startFormActivity(MAP_GIRL_ARUA_FORM_CHEW_ID);
                     } else {
@@ -217,6 +223,12 @@ public class MainMenuActivity extends CollectAbstractActivity {
                             startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID);
                         else if (Prefs.getString(USER_DISTRICT, "Kampala").equals("Kampala"))
                             startFormActivity(MAP_GIRL_KAMPALA_FORM_MIDWIFE_ID);
+                        else if (Prefs.getString(USER_DISTRICT, "Moyo").equals("Moyo"))
+                            startFormActivity(MAP_GIRL_MOYO_FORM_MIDWIFE_ID);
+                        else if (Prefs.getString(USER_DISTRICT, "Moyo").equals("Adjumani"))
+                            startFormActivity(MAP_GIRL_ADJUMANI_FORM_MIDWIFE_ID);
+                        else if (Prefs.getString(USER_DISTRICT, "Moyo").equals("Yumbe"))
+                            startFormActivity(MAP_GIRL_YUMBE_FORM_MIDWIFE_ID);
                         else
                             startFormActivity(MAP_GIRL_ARUA_FORM_MIDWIFE_ID);
                     }
@@ -345,6 +357,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
         }
         viewSentCount = viewSentCursor != null ? viewSentCursor.getCount() : 0;
         setupGoogleAnalytics();
+        requestSmsPermissions();
     }
 
     public void networkStatusCheckTimer() {
@@ -668,6 +681,21 @@ public class MainMenuActivity extends CollectAbstractActivity {
         }
     }
 
+    public void requestSmsPermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS)
+                != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS)
+                        != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.SEND_SMS)) {
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.SEND_SMS, Manifest.permission.RECEIVE_SMS},
+                        REQUEST_SEND_SMS);
+            }
+        }
+    }
+
     public void logoutDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainMenuActivity.this);
         alertDialog.setTitle("Confirm Logout");
@@ -684,6 +712,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
                 e.printStackTrace();
             } finally {
                 finish();
+                startActivity(new Intent(this, SplashScreenActivity.class));
             }
         });
 

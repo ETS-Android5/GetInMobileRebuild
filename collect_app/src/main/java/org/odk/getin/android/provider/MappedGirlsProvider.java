@@ -10,9 +10,8 @@ import android.net.Uri;
 import android.util.Log;
 
 import org.odk.getin.android.BuildConfig;
-import org.odk.getin.android.database.helpers.MappedGirlsDatabaseHelper;
-import org.odk.getin.android.provider.base.BaseContentProvider;
 import org.odk.getin.android.provider.appointmentstable.AppointmentstableColumns;
+import org.odk.getin.android.provider.base.BaseContentProvider;
 import org.odk.getin.android.provider.mappedgirltable.MappedgirltableColumns;
 import org.odk.getin.android.provider.userstable.UserstableColumns;
 

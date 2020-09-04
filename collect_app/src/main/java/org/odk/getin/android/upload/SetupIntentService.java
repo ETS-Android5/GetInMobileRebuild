@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.telephony.TelephonyManager;
 
+import org.odk.getin.android.provider.MappedGirlsDatabaseHelper;
 import org.odk.getin.android.provider.appointmentstable.AppointmentstableColumns;
 import org.odk.getin.android.provider.appointmentstable.AppointmentstableContentValues;
 import org.odk.getin.android.provider.mappedgirltable.MappedgirltableColumns;
@@ -32,6 +33,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
+
+import static org.odk.getin.android.provider.MappedGirlsDatabaseHelper.DATABASE_FILE_NAME;
 
 /**
  * Downloads list of mapped girls
@@ -195,8 +198,6 @@ public class SetupIntentService extends IntentService {
         }
         Timber.d("deleted data count %s", deleted);
 
-        Timber.d("appointment row count " + appointments.size());
-
         for (Appointment appointment : appointments) {
             AppointmentstableContentValues values = new AppointmentstableContentValues();
             values.putFirstname(appointment.getGirl().getFirstName());
@@ -213,6 +214,8 @@ public class SetupIntentService extends IntentService {
             values.putMissedVisits(appointment.getGirl().getMissedVisits());
             values.putServerid(appointment.getGirl().getId());
             values.putTrimester(appointment.getGirl().getTrimester());
+            values.putVoucherNumber(appointment.getGirl().getVoucherNumber());
+            values.putServicesReceived(appointment.getGirl().getServiceReceived());
 
             try {
                 values.putVillage(appointment.getGirl().getVillage().getName());
@@ -252,6 +255,9 @@ public class SetupIntentService extends IntentService {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
+                    // delete database incase of inconsistencies
+                    MappedGirlsDatabaseHelper.getInstance(getApplicationContext()).close();
+                    deleteDatabase(DATABASE_FILE_NAME);
                 }
             }
 
@@ -277,7 +283,6 @@ public class SetupIntentService extends IntentService {
         }
         Timber.d("deleted data count %s", deleted);
 
-
         for (MappedGirlObject girl : mappedGirls) {
             MappedgirltableContentValues values = new MappedgirltableContentValues();
             values.putFirstname(girl.getFirstName());
@@ -293,6 +298,11 @@ public class SetupIntentService extends IntentService {
             values.putPendingVisits(girl.getPendingVisits());
             values.putMissedVisits(girl.getMissedVisits());
             values.putVillage(girl.getVillage().getName());
+            values.putVoucherNumber(girl.getVoucherNumber());
+            values.putServicesReceived(girl.getServiceReceived());
+            values.putNationality(girl.getNationality());
+            values.putDisabled(girl.getDisabled());
+            values.putServicesReceived(girl.getServiceReceived());
             values.putServerid(girl.getId());
             final Uri uri = values.insert(getContentResolver());
         }

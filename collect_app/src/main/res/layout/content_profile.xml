@@ -11,9 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_margin="@dimen/margin_large"
         android:orientation="vertical">
 
         <TextView
@@ -26,7 +24,7 @@
             <ImageView
                 android:id="@+id/nameImageView"
                 style="@style/profileDetailsImage"
-                app:srcCompat="@drawable/ic_woman" />
+                app:srcCompat="@drawable/ic_person_black_48dp" />
 
             <TextView
                 android:id="@+id/nameTextView"
@@ -44,14 +42,12 @@
 
         </RelativeLayout>
 
-        <View style="@style/profileDetailsView" />
-
         <RelativeLayout style="@style/profileDetailsLayout">
 
             <ImageView
                 android:id="@+id/mobileImageView"
                 style="@style/profileDetailsImage"
-                app:srcCompat="@drawable/ic_telephone" />
+                app:srcCompat="@drawable/ic_local_phone_black_48dp" />
 
             <TextView
                 style="@style/profileDetailsTextMain"
@@ -68,14 +64,12 @@
 
         </RelativeLayout>
 
-        <View style="@style/profileDetailsView" />
-
         <RelativeLayout style="@style/profileDetailsLayout">
 
             <ImageView
                 android:id="@+id/mobileKinImageView"
                 style="@style/profileDetailsImage"
-                app:srcCompat="@drawable/ic_telephone" />
+                app:srcCompat="@drawable/ic_local_phone_black_48dp" />
 
             <TextView
                 style="@style/profileDetailsTextMain"
@@ -91,14 +85,12 @@
                 android:text="0756878462" />
         </RelativeLayout>
 
-        <View style="@style/profileDetailsView" />
-
         <RelativeLayout style="@style/profileDetailsLayout">
 
             <ImageView
                 android:id="@+id/maritalStatusImageView"
                 style="@style/profileDetailsImage"
-                app:srcCompat="@drawable/ic_wedding_rings" />
+                app:srcCompat="@drawable/ic_people_outline_black_48dp" />
 
             <TextView
                 style="@style/profileDetailsTextMain"
@@ -115,14 +107,12 @@
 
         </RelativeLayout>
 
-        <View style="@style/profileDetailsView" />
-
         <RelativeLayout style="@style/profileDetailsLayout">
 
             <ImageView
                 android:id="@+id/addressImageView"
                 style="@style/profileDetailsImage"
-                app:srcCompat="@drawable/ic_timetable" />
+                app:srcCompat="@drawable/ic_today_black_48dp" />
 
             <TextView
                 style="@style/profileDetailsTextMain"
@@ -139,14 +129,12 @@
 
         </RelativeLayout>
 
-        <View style="@style/profileDetailsView" />
-
         <RelativeLayout style="@style/profileDetailsLayout">
 
             <ImageView
                 android:id="@+id/dobImageView"
                 style="@style/profileDetailsImage"
-                app:srcCompat="@drawable/ic_pin" />
+                app:srcCompat="@drawable/ic_location_on_black_48dp" />
 
             <TextView
                 style="@style/profileDetailsTextMain"
@@ -163,14 +151,12 @@
 
         </RelativeLayout>
 
-        <View style="@style/profileDetailsView" />
-
         <RelativeLayout style="@style/profileDetailsLayout">
 
             <ImageView
                 android:id="@+id/education_image_view"
                 style="@style/profileDetailsImage"
-                app:srcCompat="@drawable/ic_book" />
+                app:srcCompat="@drawable/ic_menu_book_black_48dp" />
 
             <TextView
                 style="@style/profileDetailsTextMain"
@@ -187,8 +173,97 @@
 
         </RelativeLayout>
 
-        <View style="@style/profileDetailsView" />
+        <RelativeLayout
+            android:id="@+id/voucher_relative_layout"
+            style="@style/profileDetailsLayout">
 
+            <ImageView
+                android:id="@+id/voucher_image_view"
+                style="@style/profileDetailsImage"
+                app:srcCompat="@drawable/ic_receipt_black_48dp" />
+
+            <TextView
+                style="@style/profileDetailsTextMain"
+                android:layout_toEndOf="@id/voucher_image_view"
+                android:layout_toRightOf="@id/voucher_image_view"
+                android:text="@string/voucher_number" />
+
+            <TextView
+                android:id="@+id/voucher_number_text_view"
+                style="@style/profileDetailsMiniText"
+                android:layout_toEndOf="@id/voucher_image_view"
+                android:layout_toRightOf="@id/voucher_image_view"
+                android:text="@string/voucher_number_dummy_text" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/redeem_services_relative_layout"
+            style="@style/profileDetailsLayout">
+
+            <ImageView
+                android:id="@+id/redeemed_image_view"
+                style="@style/profileDetailsImage"
+                app:srcCompat="@drawable/ic_medical_services_black_48dp" />
+
+            <TextView
+                style="@style/profileDetailsTextMain"
+                android:layout_toEndOf="@id/redeemed_image_view"
+                android:layout_toRightOf="@id/redeemed_image_view"
+                android:text="@string/redeemed_services" />
+
+            <TextView
+                android:id="@+id/redeemed_text_view"
+                style="@style/profileDetailsMiniText"
+                android:layout_toEndOf="@id/redeemed_image_view"
+                android:layout_toRightOf="@id/redeemed_image_view"
+                android:text="@string/voucher_number_dummy_text" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/nationality_relative_layout"
+            style="@style/profileDetailsLayout">
+
+            <ImageView
+                android:id="@+id/nationality_image_view"
+                style="@style/profileDetailsImage"
+                app:srcCompat="@drawable/ic_location_city_black_48dp" />
+
+            <TextView
+                style="@style/profileDetailsTextMain"
+                android:layout_toEndOf="@id/nationality_image_view"
+                android:layout_toRightOf="@id/nationality_image_view"
+                android:text="@string/nationality" />
+
+            <TextView
+                android:id="@+id/nationality_text_view"
+                style="@style/profileDetailsMiniText"
+                android:layout_toEndOf="@id/nationality_image_view"
+                android:layout_toRightOf="@id/nationality_image_view"
+                android:text="@string/default_nationality" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/disability_relative_layout"
+            style="@style/profileDetailsLayout">
+
+            <ImageView
+                android:id="@+id/disability_image_view"
+                style="@style/profileDetailsImage"
+                app:srcCompat="@drawable/ic_accessible_forward_black_48dp" />
+
+            <TextView
+                style="@style/profileDetailsTextMain"
+                android:layout_toEndOf="@id/disability_image_view"
+                android:layout_toRightOf="@id/disability_image_view"
+                android:text="@string/disability" />
+
+            <TextView
+                android:id="@+id/disability_text_view"
+                style="@style/profileDetailsMiniText"
+                android:layout_toEndOf="@id/disability_image_view"
+                android:layout_toRightOf="@id/disability_image_view"
+                android:text="@string/default_disabled" />
+        </RelativeLayout>
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

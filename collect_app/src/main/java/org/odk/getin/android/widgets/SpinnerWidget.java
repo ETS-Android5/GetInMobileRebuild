@@ -21,6 +21,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 
+import com.pixplicity.easyprefs.library.Prefs;
+
 import org.javarosa.core.model.data.IAnswerData;
 import org.javarosa.core.model.data.SelectOneData;
 import org.javarosa.core.model.data.helper.Selection;
@@ -29,9 +31,13 @@ import org.odk.getin.android.R;
 import org.odk.getin.android.adapters.SpinnerAdapter;
 import org.odk.getin.android.listeners.AdvanceToNextListener;
 import org.odk.getin.android.utilities.FormEntryPromptUtils;
+import org.odk.getin.android.utilities.ToastUtils;
 import org.odk.getin.android.utilities.ViewIds;
 import org.odk.getin.android.views.ScrolledToTopSpinner;
 import org.odk.getin.android.widgets.interfaces.MultiChoiceWidget;
+
+import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_REDEEMED_SERVICES;
+import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_REDEEM_SERVICE_SELECTED;
 
 /**
  * SpinnerWidget handles select-one fields. Instead of a list of buttons it uses a spinner, wherein
@@ -44,6 +50,7 @@ import org.odk.getin.android.widgets.interfaces.MultiChoiceWidget;
 public class SpinnerWidget extends ItemsWidget implements MultiChoiceWidget {
     private final ScrolledToTopSpinner spinner;
     private final SpinnerAdapter spinnerAdapter;
+    private final String redeemedServices;
 
     // used to ascertain whether the user selected an item on spinner (not programmatically)
     private boolean firstSetSelectionCall = true;
@@ -60,6 +67,8 @@ public class SpinnerWidget extends ItemsWidget implements MultiChoiceWidget {
 
         View view = inflate(context, R.layout.spinner_layout, null);
 
+        redeemedServices = Prefs.getString(GIRL_REDEEMED_SERVICES,"");
+
         spinner = view.findViewById(R.id.spinner);
         spinnerAdapter = new SpinnerAdapter(getContext(), getChoices(prompt));
         spinner.setAdapter(spinnerAdapter);
@@ -70,13 +79,21 @@ public class SpinnerWidget extends ItemsWidget implements MultiChoiceWidget {
         spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = spinner.getSelectedItem().toString();
+
                 if (!firstSetSelectionCall) {
                     if (position != items.size() && autoAdvance && listener != null) {
                         listener.advance();
                     }
                     widgetValueChanged();
                 }
-                spinnerAdapter.updateSelectedItemPosition(spinner.getSelectedItemPosition());
+
+                if (redeemedServices.contains(selectedItem)) {
+                    ToastUtils.showLongToast("Please select a service that is not redeemed!");
+                } else {
+                    spinnerAdapter.updateSelectedItemPosition(spinner.getSelectedItemPosition());
+                }
+                Prefs.putString(GIRL_REDEEM_SERVICE_SELECTED, selectedItem);
                 firstSetSelectionCall = false;
             }
 
@@ -84,6 +101,8 @@ public class SpinnerWidget extends ItemsWidget implements MultiChoiceWidget {
             public void onNothingSelected(AdapterView<?> arg0) {
             }
         });
+
+        Prefs.putString(GIRL_REDEEM_SERVICE_SELECTED, spinner.getSelectedItem().toString());
 
         fillInPreviousAnswer(prompt);
         addAnswerView(view);

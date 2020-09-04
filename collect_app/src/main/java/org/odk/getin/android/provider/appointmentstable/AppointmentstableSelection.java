@@ -862,4 +862,84 @@ public class AppointmentstableSelection extends AbstractSelection<Appointmentsta
         orderBy(AppointmentstableColumns.APPOINTMENT_DATE, false);
         return this;
     }
+
+    public AppointmentstableSelection voucherNumber(String... value) {
+        addEquals(AppointmentstableColumns.VOUCHER_NUMBER, value);
+        return this;
+    }
+
+    public AppointmentstableSelection voucherNumberNot(String... value) {
+        addNotEquals(AppointmentstableColumns.VOUCHER_NUMBER, value);
+        return this;
+    }
+
+    public AppointmentstableSelection voucherNumberLike(String... value) {
+        addLike(AppointmentstableColumns.VOUCHER_NUMBER, value);
+        return this;
+    }
+
+    public AppointmentstableSelection voucherNumberContains(String... value) {
+        addContains(AppointmentstableColumns.VOUCHER_NUMBER, value);
+        return this;
+    }
+
+    public AppointmentstableSelection voucherNumberStartsWith(String... value) {
+        addStartsWith(AppointmentstableColumns.VOUCHER_NUMBER, value);
+        return this;
+    }
+
+    public AppointmentstableSelection voucherNumberEndsWith(String... value) {
+        addEndsWith(AppointmentstableColumns.VOUCHER_NUMBER, value);
+        return this;
+    }
+
+    public AppointmentstableSelection orderByVoucherNumber(boolean desc) {
+        orderBy(AppointmentstableColumns.VOUCHER_NUMBER, desc);
+        return this;
+    }
+
+    public AppointmentstableSelection orderByVoucherNumber() {
+        orderBy(AppointmentstableColumns.VOUCHER_NUMBER, false);
+        return this;
+    }
+
+    public AppointmentstableSelection servicesReceived(String... value) {
+        addEquals(AppointmentstableColumns.SERVICES_RECEIVED, value);
+        return this;
+    }
+
+    public AppointmentstableSelection servicesReceivedNot(String... value) {
+        addNotEquals(AppointmentstableColumns.SERVICES_RECEIVED, value);
+        return this;
+    }
+
+    public AppointmentstableSelection servicesReceivedLike(String... value) {
+        addLike(AppointmentstableColumns.SERVICES_RECEIVED, value);
+        return this;
+    }
+
+    public AppointmentstableSelection servicesReceivedContains(String... value) {
+        addContains(AppointmentstableColumns.SERVICES_RECEIVED, value);
+        return this;
+    }
+
+    public AppointmentstableSelection servicesReceivedStartsWith(String... value) {
+        addStartsWith(AppointmentstableColumns.SERVICES_RECEIVED, value);
+        return this;
+    }
+
+    public AppointmentstableSelection servicesReceivedEndsWith(String... value) {
+        addEndsWith(AppointmentstableColumns.SERVICES_RECEIVED, value);
+        return this;
+    }
+
+    public AppointmentstableSelection orderByServicesReceived(boolean desc) {
+        orderBy(AppointmentstableColumns.SERVICES_RECEIVED, desc);
+        return this;
+    }
+
+    public AppointmentstableSelection orderByServicesReceived() {
+        orderBy(AppointmentstableColumns.SERVICES_RECEIVED, false);
+        return this;
+    }
 }

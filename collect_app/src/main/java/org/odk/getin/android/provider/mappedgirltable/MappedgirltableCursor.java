@@ -186,8 +186,47 @@ public class MappedgirltableCursor extends AbstractCursor implements Mappedgirlt
         return res;
     }
 
+    /**
+     * Get the {@code voucher_number} value.
+     * Can be {@code null}.
+     */
     @Nullable
+    public String getVoucherNumber() {
+        String res = getStringOrNull(MappedgirltableColumns.VOUCHER_NUMBER);
+        return res;
+    }
+
+    /**
+     * Get the {@code services_received} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public String getServicesReceived() {
+        String res = getStringOrNull(MappedgirltableColumns.SERVICES_RECEIVED);
+        return res;
+    }
+
     public String getFullName() {
         return getFirstname() + " " + getLastname();
+    }
+
+    /**
+     * Get the {@code nationality} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public String getNationality() {
+        String res = getStringOrNull(MappedgirltableColumns.NATIONALITY);
+        return res;
+    }
+
+    /**
+     * Get the {@code disabled} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public Boolean getDisabled() {
+        Boolean res = getBooleanOrNull(MappedgirltableColumns.DISABLED);
+        return res;
     }
 }
