@@ -777,4 +777,60 @@ public class MappedgirltableSelection extends AbstractSelection<MappedgirltableS
         orderBy(MappedgirltableColumns.SERVICES_RECEIVED, false);
         return this;
     }
+
+    public MappedgirltableSelection nationality(String... value) {
+        addEquals(MappedgirltableColumns.NATIONALITY, value);
+        return this;
+    }
+
+    public MappedgirltableSelection nationalityNot(String... value) {
+        addNotEquals(MappedgirltableColumns.NATIONALITY, value);
+        return this;
+    }
+
+    public MappedgirltableSelection nationalityLike(String... value) {
+        addLike(MappedgirltableColumns.NATIONALITY, value);
+        return this;
+    }
+
+    public MappedgirltableSelection nationalityContains(String... value) {
+        addContains(MappedgirltableColumns.NATIONALITY, value);
+        return this;
+    }
+
+    public MappedgirltableSelection nationalityStartsWith(String... value) {
+        addStartsWith(MappedgirltableColumns.NATIONALITY, value);
+        return this;
+    }
+
+    public MappedgirltableSelection nationalityEndsWith(String... value) {
+        addEndsWith(MappedgirltableColumns.NATIONALITY, value);
+        return this;
+    }
+
+    public MappedgirltableSelection orderByNationality(boolean desc) {
+        orderBy(MappedgirltableColumns.NATIONALITY, desc);
+        return this;
+    }
+
+    public MappedgirltableSelection orderByNationality() {
+        orderBy(MappedgirltableColumns.NATIONALITY, false);
+        return this;
+    }
+
+    public MappedgirltableSelection disabled(Boolean value) {
+        addEquals(MappedgirltableColumns.DISABLED, toObjectArray(value));
+        return this;
+    }
+
+    public MappedgirltableSelection orderByDisabled(boolean desc) {
+        orderBy(MappedgirltableColumns.DISABLED, desc);
+        return this;
+    }
+
+    public MappedgirltableSelection orderByDisabled() {
+        orderBy(MappedgirltableColumns.DISABLED, false);
+        return this;
+    }
 }
+

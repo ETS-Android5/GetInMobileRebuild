@@ -19,7 +19,7 @@ public class MappedGirlsDatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = MappedGirlsDatabaseHelper.class.getSimpleName();
 
     public static final String DATABASE_FILE_NAME = "mappedgirls.db";
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 9;
     private static MappedGirlsDatabaseHelper sInstance;
     private final Context mContext;
     private final MappedGirlsDatabaseHelperCallbacks mOpenHelperCallbacks;
@@ -72,7 +72,9 @@ public class MappedGirlsDatabaseHelper extends SQLiteOpenHelper {
             + MappedgirltableColumns.MISSED_VISITS + " INTEGER, "
             + MappedgirltableColumns.VILLAGE + " TEXT, "
             + MappedgirltableColumns.VOUCHER_NUMBER + " TEXT, "
-            + MappedgirltableColumns.SERVICES_RECEIVED + " TEXT "
+            + MappedgirltableColumns.SERVICES_RECEIVED + " TEXT, "
+            + MappedgirltableColumns.NATIONALITY + " TEXT, "
+            + MappedgirltableColumns.DISABLED + " INTEGER "
             + " );";
 
     public static final String SQL_CREATE_TABLE_USERSTABLE = "CREATE TABLE IF NOT EXISTS "
@@ -90,17 +92,22 @@ public class MappedGirlsDatabaseHelper extends SQLiteOpenHelper {
             + " );";
 
     private static final String SQL_ALTER_TABLE_MAPPEDGIRLTABLE_VOUCHER_NUMBER_ALTER_1 = "ALTER TABLE "
-            + MappedgirltableColumns.TABLE_NAME + " ADD COLUMN " + MappedgirltableColumns.VOUCHER_NUMBER + " string;";
+            + MappedgirltableColumns.TABLE_NAME + " ADD COLUMN " + MappedgirltableColumns.VOUCHER_NUMBER + " TEXT;";
 
     private static final String SQL_ALTER_TABLE_MAPPEDGIRLTABLE_SERVICES_RECEIVED_ALTER_1 = "ALTER TABLE "
-            + MappedgirltableColumns.TABLE_NAME + " ADD COLUMN " + MappedgirltableColumns.SERVICES_RECEIVED + " string;";
+            + MappedgirltableColumns.TABLE_NAME + " ADD COLUMN " + MappedgirltableColumns.SERVICES_RECEIVED + " TEXT;";
 
     private static final String SQL_ALTER_TABLE_APPOINTMENTSTABLE_VOUCHER_NUMBER_ALTER_1 = "ALTER TABLE "
-            + AppointmentstableColumns.TABLE_NAME + " ADD COLUMN " + AppointmentstableColumns.VOUCHER_NUMBER + " string;";
+            + AppointmentstableColumns.TABLE_NAME + " ADD COLUMN " + AppointmentstableColumns.VOUCHER_NUMBER + " TEXT;";
 
     private static final String SQL_ALTER_TABLE_APPOINTMENTSTABLE_SERVICES_RECEIVED_ALTER_1 = "ALTER TABLE "
-            + AppointmentstableColumns.TABLE_NAME + " ADD COLUMN " + AppointmentstableColumns.SERVICES_RECEIVED + " string;";
+            + AppointmentstableColumns.TABLE_NAME + " ADD COLUMN " + AppointmentstableColumns.SERVICES_RECEIVED + " TEXT;";
 
+    private static final String SQL_ALTER_TABLE_MAPPEDGIRLTABLE_NATIONALITY_ALTER_2 = "ALTER TABLE "
+            + MappedgirltableColumns.TABLE_NAME + " ADD COLUMN " + MappedgirltableColumns.NATIONALITY + " TEXT;";
+
+    private static final String SQL_ALTER_TABLE_MAPPEDGIRLTABLE_DISABLAED_ALTER_2 = "ALTER TABLE "
+            + MappedgirltableColumns.TABLE_NAME + " ADD COLUMN " + MappedgirltableColumns.DISABLED + " INTEGER;";
     // @formatter:on
 
     public static MappedGirlsDatabaseHelper getInstance(Context context) {
@@ -174,6 +181,8 @@ public class MappedGirlsDatabaseHelper extends SQLiteOpenHelper {
             db.execSQL(SQL_ALTER_TABLE_MAPPEDGIRLTABLE_SERVICES_RECEIVED_ALTER_1);
             db.execSQL(SQL_ALTER_TABLE_APPOINTMENTSTABLE_VOUCHER_NUMBER_ALTER_1);
             db.execSQL(SQL_ALTER_TABLE_APPOINTMENTSTABLE_SERVICES_RECEIVED_ALTER_1);
+            db.execSQL(SQL_ALTER_TABLE_MAPPEDGIRLTABLE_NATIONALITY_ALTER_2);
+            db.execSQL(SQL_ALTER_TABLE_MAPPEDGIRLTABLE_DISABLAED_ALTER_2);
         }
     }
 }

@@ -56,6 +56,7 @@ import static org.odk.getin.android.utilities.TextUtils.toCapitalize;
 
 /**
  * Responsible for displaying mapped girl details when user clicks one of the girls under the mapped girls tab
+ *
  * @author Phillip Kigenyi (codephillip@gmail.com)
  */
 
@@ -82,8 +83,12 @@ public class ProfileActivity extends AppCompatActivity {
         TextView village = findViewById(R.id.village);
         TextView education = findViewById(R.id.education);
         TextView voucherNumber = findViewById(R.id.voucher_number_text_view);
+        TextView redeemedServices = findViewById(R.id.redeemed_text_view);
+        TextView nationality = findViewById(R.id.nationality_text_view);
+        TextView disabled = findViewById(R.id.disability_text_view);
         RelativeLayout editButton = findViewById(R.id.edit_button);
         RelativeLayout voucherRelativeLayout = findViewById(R.id.voucher_relative_layout);
+        RelativeLayout redeemedRelativeLayout = findViewById(R.id.redeem_services_relative_layout);
         FloatingActionButton fab = findViewById(R.id.fab);
 
         MappedgirltableSelection selection = new MappedgirltableSelection();
@@ -96,7 +101,7 @@ public class ProfileActivity extends AppCompatActivity {
         phoneNumber.setText(cursor.getPhonenumber());
         phoneNumberKin.setText(cursor.getNextofkinphonenumber());
         maritalStatus.setText(toCapitalize(cursor.getMaritalstatus()));
-        age.setText(String.format(Locale.US,"%d Years", cursor.getAge()));
+        age.setText(String.format(Locale.US, "%d Years", cursor.getAge()));
         village.setText(cursor.getVillage());
         education.setText(toCapitalize(cursor.getEducationlevel()));
 
@@ -104,6 +109,18 @@ public class ProfileActivity extends AppCompatActivity {
             voucherRelativeLayout.setVisibility(View.GONE);
         else
             voucherNumber.setText(cursor.getVoucherNumber());
+
+        if (TextUtils.isEmpty(cursor.getServicesReceived()))
+            redeemedRelativeLayout.setVisibility(View.GONE);
+        else
+            redeemedServices.setText(cursor.getServicesReceived());
+
+        nationality.setText(cursor.getNationality());
+        try {
+            disabled.setText(cursor.getDisabled() ? "Yes" : "No");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         fab.setOnClickListener(view -> {
             try {

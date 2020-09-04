@@ -209,4 +209,24 @@ public class MappedgirltableCursor extends AbstractCursor implements Mappedgirlt
     public String getFullName() {
         return getFirstname() + " " + getLastname();
     }
+
+    /**
+     * Get the {@code nationality} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public String getNationality() {
+        String res = getStringOrNull(MappedgirltableColumns.NATIONALITY);
+        return res;
+    }
+
+    /**
+     * Get the {@code disabled} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public Boolean getDisabled() {
+        Boolean res = getBooleanOrNull(MappedgirltableColumns.DISABLED);
+        return res;
+    }
 }

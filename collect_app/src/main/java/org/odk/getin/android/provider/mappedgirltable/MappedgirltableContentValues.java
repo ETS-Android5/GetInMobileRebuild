@@ -222,4 +222,24 @@ public class MappedgirltableContentValues extends AbstractContentValues {
         mContentValues.putNull(MappedgirltableColumns.SERVICES_RECEIVED);
         return this;
     }
+
+    public MappedgirltableContentValues putNationality(@Nullable String value) {
+        mContentValues.put(MappedgirltableColumns.NATIONALITY, value);
+        return this;
+    }
+
+    public MappedgirltableContentValues putNationalityNull() {
+        mContentValues.putNull(MappedgirltableColumns.NATIONALITY);
+        return this;
+    }
+
+    public MappedgirltableContentValues putDisabled(@Nullable Boolean value) {
+        mContentValues.put(MappedgirltableColumns.DISABLED, value);
+        return this;
+    }
+
+    public MappedgirltableContentValues putDisabledNull() {
+        mContentValues.putNull(MappedgirltableColumns.DISABLED);
+        return this;
+    }
 }

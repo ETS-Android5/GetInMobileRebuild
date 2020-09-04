@@ -897,4 +897,9 @@
     <string name="voucher_number">Voucher number</string>
     <string name="voucher_number_dummy_text">123-ABC</string>
     <string name="edit_girl">Edit girl\'s details</string>
+    <string name="redeemed_services">Redeemed Services</string>
+    <string name="nationality">Nationality</string>
+    <string name="default_nationality">Ugandan</string>
+    <string name="disability">Disabled</string>
+    <string name="default_disabled">true</string>
 </resources>

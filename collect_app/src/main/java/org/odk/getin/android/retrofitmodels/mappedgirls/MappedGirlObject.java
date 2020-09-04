@@ -74,6 +74,13 @@ public class MappedGirlObject {
     @SerializedName("services_received")
     @Expose
     private String serviceReceived;
+    @SerializedName("nationality")
+    @Expose
+    private String nationality;
+    @SerializedName("disabled")
+    @Expose
+    private Boolean disabled;
+
 
     public String getId() {
         return id;
@@ -249,5 +256,21 @@ public class MappedGirlObject {
 
     public void setServiceReceived(String serviceReceived) {
         this.serviceReceived = serviceReceived;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+
+    public Boolean getDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(Boolean disabled) {
+        this.disabled = disabled;
     }
 }

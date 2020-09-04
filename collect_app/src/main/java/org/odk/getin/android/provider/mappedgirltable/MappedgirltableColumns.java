@@ -53,6 +53,10 @@ public class MappedgirltableColumns implements BaseColumns {
 
     public static final String SERVICES_RECEIVED = "services_received";
 
+    public static final String NATIONALITY = "nationality";
+
+    public static final String DISABLED = "disabled";
+
 
     public static final String DEFAULT_ORDER = TABLE_NAME + "." +_ID;
 
@@ -76,7 +80,9 @@ public class MappedgirltableColumns implements BaseColumns {
             MISSED_VISITS,
             VILLAGE,
             VOUCHER_NUMBER,
-            SERVICES_RECEIVED
+            SERVICES_RECEIVED,
+            NATIONALITY,
+            DISABLED
     };
     // @formatter:on
 
@@ -101,6 +107,8 @@ public class MappedgirltableColumns implements BaseColumns {
             if (c.equals(VILLAGE) || c.contains("." + VILLAGE)) return true;
             if (c.equals(VOUCHER_NUMBER) || c.contains("." + VOUCHER_NUMBER)) return true;
             if (c.equals(SERVICES_RECEIVED) || c.contains("." + SERVICES_RECEIVED)) return true;
+            if (c.equals(NATIONALITY) || c.contains("." + NATIONALITY)) return true;
+            if (c.equals(DISABLED) || c.contains("." + DISABLED)) return true;
         }
         return false;
     }

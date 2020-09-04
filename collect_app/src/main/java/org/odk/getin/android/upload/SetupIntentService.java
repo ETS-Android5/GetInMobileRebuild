@@ -300,6 +300,9 @@ public class SetupIntentService extends IntentService {
             values.putVillage(girl.getVillage().getName());
             values.putVoucherNumber(girl.getVoucherNumber());
             values.putServicesReceived(girl.getServiceReceived());
+            values.putNationality(girl.getNationality());
+            values.putDisabled(girl.getDisabled());
+            values.putServicesReceived(girl.getServiceReceived());
             values.putServerid(girl.getId());
             final Uri uri = values.insert(getContentResolver());
         }

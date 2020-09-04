@@ -137,4 +137,18 @@ public interface MappedgirltableModel extends BaseModel {
      */
     @Nullable
     String getServicesReceived();
+
+    /**
+     * Get the {@code nationality} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    String getNationality();
+
+    /**
+     * Get the {@code disabled} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    Boolean getDisabled();
 }
