@@ -102,12 +102,18 @@ import timber.log.Timber;
 
 import static org.odk.getin.android.preferences.GeneralKeys.KEY_SUBMISSION_TRANSPORT_TYPE;
 import static org.odk.getin.android.utilities.ApplicationConstants.CHEW_ROLE;
+import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ADJUMANI_FORM_CHEW_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ADJUMANI_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ARUA_FORM_CHEW_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ARUA_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_KAMPALA_FORM_CHEW_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_KAMPALA_FORM_MIDWIFE_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_MOYO_FORM_CHEW_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_MOYO_FORM_MIDWIFE_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_YUMBE_FORM_CHEW_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_YUMBE_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_DISTRICT;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_LOGGED_IN;
@@ -204,6 +210,12 @@ public class MainMenuActivity extends CollectAbstractActivity {
                             startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_ID);
                         else if (Prefs.getString(USER_DISTRICT, "Kampala").equals("Kampala"))
                             startFormActivity(MAP_GIRL_KAMPALA_FORM_CHEW_ID);
+                        else if (Prefs.getString(USER_DISTRICT, "Moyo").equals("Moyo"))
+                            startFormActivity(MAP_GIRL_MOYO_FORM_CHEW_ID);
+                        else if (Prefs.getString(USER_DISTRICT, "Moyo").equals("Adjumani"))
+                            startFormActivity(MAP_GIRL_ADJUMANI_FORM_CHEW_ID);
+                        else if (Prefs.getString(USER_DISTRICT, "Moyo").equals("Yumbe"))
+                            startFormActivity(MAP_GIRL_YUMBE_FORM_CHEW_ID);
                         else
                             startFormActivity(MAP_GIRL_ARUA_FORM_CHEW_ID);
                     } else {
@@ -211,6 +223,12 @@ public class MainMenuActivity extends CollectAbstractActivity {
                             startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID);
                         else if (Prefs.getString(USER_DISTRICT, "Kampala").equals("Kampala"))
                             startFormActivity(MAP_GIRL_KAMPALA_FORM_MIDWIFE_ID);
+                        else if (Prefs.getString(USER_DISTRICT, "Moyo").equals("Moyo"))
+                            startFormActivity(MAP_GIRL_MOYO_FORM_MIDWIFE_ID);
+                        else if (Prefs.getString(USER_DISTRICT, "Moyo").equals("Adjumani"))
+                            startFormActivity(MAP_GIRL_ADJUMANI_FORM_MIDWIFE_ID);
+                        else if (Prefs.getString(USER_DISTRICT, "Moyo").equals("Yumbe"))
+                            startFormActivity(MAP_GIRL_YUMBE_FORM_MIDWIFE_ID);
                         else
                             startFormActivity(MAP_GIRL_ARUA_FORM_MIDWIFE_ID);
                     }

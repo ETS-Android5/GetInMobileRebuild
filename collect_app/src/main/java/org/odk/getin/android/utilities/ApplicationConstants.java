@@ -128,6 +128,12 @@ public class ApplicationConstants {
     public static final String MAP_GIRL_ARUA_FORM_MIDWIFE_ID = "GetInMapGirlArua3_midwife";
     public static final String MAP_GIRL_KAMPALA_FORM_CHEW_ID = "GetInMapGirlKampala1_chew";
     public static final String MAP_GIRL_KAMPALA_FORM_MIDWIFE_ID = "GetInMapGirlKampala1_midwife";
+    public static final String MAP_GIRL_MOYO_FORM_CHEW_ID = "GetInMapGirlMoyo1_chew";
+    public static final String MAP_GIRL_ADJUMANI_FORM_CHEW_ID = "GetInMapGirlAdjumani1_chew";
+    public static final String MAP_GIRL_YUMBE_FORM_CHEW_ID = "GetInMapGirlYumbe1_chew";
+    public static final String MAP_GIRL_MOYO_FORM_MIDWIFE_ID = "GetInMapGirlMoyo1_midwife";
+    public static final String MAP_GIRL_ADJUMANI_FORM_MIDWIFE_ID = "GetInMapGirlAdjumani1_midwife";
+    public static final String MAP_GIRL_YUMBE_FORM_MIDWIFE_ID = "GetInMapGirlYumbe1_midwife";
     public static final String POSTNATAL_FORM_ID = "GetINPostnatalForm6_chew";
     public static final String POSTNATAL_FORM_MIDWIFE_ID = "GetINPostnatalForm6_midwife";
     public static final String GIRL_ID = "GIRL_ID";
