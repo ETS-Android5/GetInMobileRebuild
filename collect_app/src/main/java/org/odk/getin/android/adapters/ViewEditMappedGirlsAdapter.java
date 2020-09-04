@@ -176,7 +176,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
             }
         } catch (Exception e) {
             Timber.e(e);
-            Toast.makeText(activity, "Please call the help number on the home screen if error persist", Toast.LENGTH_SHORT).show();
+            holder.byVht.setVisibility(View.GONE);
         }
     }
 

@@ -100,9 +100,6 @@ public class InstanceGoogleSheetsUploader extends InstanceUploader {
         List<Form> forms = dao.getFormsFromCursor(formCursor);
 
         try {
-            if (forms.size() != 1) {
-                throw new UploadException(Collect.getInstance().getString(R.string.not_exactly_one_blank_form_for_this_form_id));
-            }
             Form form = forms.get(0);
             String formFilePath = form.getFormFilePath();
 
