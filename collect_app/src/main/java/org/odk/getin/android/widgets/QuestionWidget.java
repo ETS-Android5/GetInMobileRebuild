@@ -753,7 +753,7 @@ public abstract class QuestionWidget
                         if (sender.contains("8228")) {
                             TextView questionText = questionMediaLayout.getView_Text();
                             String previousString = questionText.getText().toString();
-                            if (previousString.contains("Success")) {
+                            if (message.contains("Success")) {
                                 questionText.setText(String.format("%s\n\n%s", previousString, message));
                             } else {
                                 previousString = previousString.split("\n\nResult")[0];
