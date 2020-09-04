@@ -4,7 +4,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.ActivityChooserView;
 import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,8 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.odk.getin.android.R;
 import org.odk.getin.android.activities.ViewEditMappedGirlsActivity;
@@ -42,6 +46,8 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
     private static final String ARG_SECTION_NUMBER = "section_number";
     private PageViewModel pageViewModel;
     private int index = 0;
+    private ViewEditMappedGirlsActivity activity;
+    private TextView toolbarTitle;
 
 
     public static ViewEditMappedGirlsFragment newInstance(int index) {
@@ -68,22 +74,23 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
                              @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.view_edit_mapped_girls_fragment, container, false);
 
-        ViewEditMappedGirlsActivity activity = ((ViewEditMappedGirlsActivity) getActivity());
+        activity = ((ViewEditMappedGirlsActivity) getActivity());
         setHasOptionsMenu(true);
 
         searchView = activity.findViewById(R.id.search);
-        index = getArguments().getInt(ARG_SECTION_NUMBER);
-        if (index == 1) {
-            girlsAdapter = new ViewEditMappedGirlsAdapter(getActivity(), queryMappedAllGirlTable());
-        } else if (index == 2) {
-            girlsAdapter = new ViewEditMappedGirlsAdapter(getActivity(), queryMappedVoucherGirlTable());
-        }
+
+        MappedgirltableCursor cursor = getArguments().getInt(ARG_SECTION_NUMBER) == 1 ?
+                queryMappedAllGirlTable() : queryMappedVoucherGirlTable();
+        girlsAdapter = new ViewEditMappedGirlsAdapter(getActivity(), cursor);
         girlsAdapter.setClickListener(this);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view_edit_mapped_girls);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(girlsAdapter);
+
+        Toolbar toolbar = activity.findViewById(R.id.toolbar);
+        toolbarTitle = toolbar.findViewById(R.id.title);
         return rootView;
     }
 
@@ -120,35 +127,45 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if (!TextUtils.isEmpty(query)) {
-                    index = getArguments().getInt(ARG_SECTION_NUMBER);
-                    MappedgirltableCursor mappedgirltableCursor = null;
-                    if (index == 1) {
-                        mappedgirltableCursor = queryMappedAllGirlTable(query);
-                    } else if (index == 2) {
-                        mappedgirltableCursor = queryMappedVoucherGirlTable(query);
-                    }
-                    girlsAdapter.filter(mappedgirltableCursor);
-                }
+                filterForGirlName(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
+                filterForGirlName(s);
                 return false;
             }
         });
 
+        searchView.setOnSearchClickListener(view -> {
+            hideOrUnhideToolbarTitle();
+        });
+
         searchView.setOnCloseListener(() -> {
-            index = getArguments().getInt(ARG_SECTION_NUMBER);
-            if (index == 1) {
-                girlsAdapter = new ViewEditMappedGirlsAdapter(getActivity(), queryMappedAllGirlTable());
-            } else if (index == 2) {
-                girlsAdapter = new ViewEditMappedGirlsAdapter(getActivity(), queryMappedVoucherGirlTable());
-            }
-            recyclerView.setAdapter(girlsAdapter);
-            searchView.onActionViewCollapsed();
+            resetToDefaultState();
             return false;
         });
+    }
+
+    private void filterForGirlName(String query) {
+        if (!TextUtils.isEmpty(query)) {
+            MappedgirltableCursor cursor = getArguments().getInt(ARG_SECTION_NUMBER) == 1 ?
+                    queryMappedAllGirlTable(query) : queryMappedVoucherGirlTable(query);
+            girlsAdapter.filter(cursor);
+        }
+    }
+
+    private void resetToDefaultState() {
+        MappedgirltableCursor cursor = getArguments().getInt(ARG_SECTION_NUMBER) == 1 ?
+                queryMappedAllGirlTable() : queryMappedVoucherGirlTable();
+        girlsAdapter = new ViewEditMappedGirlsAdapter(getActivity(), cursor);
+        recyclerView.setAdapter(girlsAdapter);
+        searchView.onActionViewCollapsed();
+        toolbarTitle.setVisibility(View.VISIBLE);
+    }
+
+    private void hideOrUnhideToolbarTitle() {
+        toolbarTitle.setVisibility(searchView.isIconified() ? View.VISIBLE : View.GONE);
     }
 }
