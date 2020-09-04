@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.database.DatabaseErrorHandler;
 import android.database.DefaultDatabaseErrorHandler;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
@@ -177,12 +178,21 @@ public class MappedGirlsDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion < newVersion) {
-            db.execSQL(SQL_ALTER_TABLE_MAPPEDGIRLTABLE_VOUCHER_NUMBER_ALTER_1);
-            db.execSQL(SQL_ALTER_TABLE_MAPPEDGIRLTABLE_SERVICES_RECEIVED_ALTER_1);
-            db.execSQL(SQL_ALTER_TABLE_APPOINTMENTSTABLE_VOUCHER_NUMBER_ALTER_1);
-            db.execSQL(SQL_ALTER_TABLE_APPOINTMENTSTABLE_SERVICES_RECEIVED_ALTER_1);
-            db.execSQL(SQL_ALTER_TABLE_MAPPEDGIRLTABLE_NATIONALITY_ALTER_2);
-            db.execSQL(SQL_ALTER_TABLE_MAPPEDGIRLTABLE_DISABLAED_ALTER_2);
+            try {
+                db.execSQL(SQL_ALTER_TABLE_MAPPEDGIRLTABLE_VOUCHER_NUMBER_ALTER_1);
+                db.execSQL(SQL_ALTER_TABLE_MAPPEDGIRLTABLE_SERVICES_RECEIVED_ALTER_1);
+                db.execSQL(SQL_ALTER_TABLE_APPOINTMENTSTABLE_VOUCHER_NUMBER_ALTER_1);
+                db.execSQL(SQL_ALTER_TABLE_APPOINTMENTSTABLE_SERVICES_RECEIVED_ALTER_1);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                db.execSQL(SQL_ALTER_TABLE_MAPPEDGIRLTABLE_NATIONALITY_ALTER_2);
+                db.execSQL(SQL_ALTER_TABLE_MAPPEDGIRLTABLE_DISABLAED_ALTER_2);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
