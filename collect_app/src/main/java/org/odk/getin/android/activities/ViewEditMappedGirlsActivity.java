@@ -22,8 +22,8 @@ public class ViewEditMappedGirlsActivity extends CollectAbstractActivity {
 
     private TabLayout tabLayout;
     private int[] tabIcons = {
-            R.drawable.ic_call_24px,
-            R.drawable.ic_call_24px
+            R.drawable.ic_people_white_24dp,
+            R.drawable.ic_contact_mail_white_24dp
     };
     private SectionsPagerAdapter sectionsPagerAdapter;
 
