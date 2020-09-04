@@ -896,4 +896,5 @@
     <string name="voucher_girls">Voucher</string>
     <string name="voucher_number">Voucher number</string>
     <string name="voucher_number_dummy_text">123-ABC</string>
+    <string name="edit_girl">Edit girl\'s details</string>
 </resources>
