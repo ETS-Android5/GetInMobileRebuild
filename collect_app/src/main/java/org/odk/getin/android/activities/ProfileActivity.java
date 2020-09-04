@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -24,6 +25,8 @@ import android.widget.TextView;
 import org.odk.getin.android.R;
 import org.odk.getin.android.provider.mappedgirltable.MappedgirltableCursor;
 import org.odk.getin.android.provider.mappedgirltable.MappedgirltableSelection;
+
+import java.util.Locale;
 
 import timber.log.Timber;
 
@@ -55,7 +58,9 @@ public class ProfileActivity extends AppCompatActivity {
         TextView age = findViewById(R.id.age);
         TextView village = findViewById(R.id.village);
         TextView education = findViewById(R.id.education);
+        TextView voucherNumber = findViewById(R.id.voucher_number_text_view);
         RelativeLayout backButton = findViewById(R.id.back_button);
+        RelativeLayout voucherRelativeLayout = findViewById(R.id.voucher_relative_layout);
         FloatingActionButton fab = findViewById(R.id.fab);
 
         MappedgirltableSelection selection = new MappedgirltableSelection();
@@ -68,9 +73,14 @@ public class ProfileActivity extends AppCompatActivity {
         phoneNumber.setText(cursor.getPhonenumber());
         phoneNumberKin.setText(cursor.getNextofkinphonenumber());
         maritalStatus.setText(toCapitalize(cursor.getMaritalstatus()));
-        age.setText(cursor.getAge() + " Years");
+        age.setText(String.format(Locale.US,"%d Years", cursor.getAge()));
         village.setText(cursor.getVillage());
         education.setText(toCapitalize(cursor.getEducationlevel()));
+
+        if (TextUtils.isEmpty(cursor.getVoucherNumber()))
+            voucherRelativeLayout.setVisibility(View.GONE);
+        else
+            voucherNumber.setText(cursor.getVoucherNumber());
 
         fab.setOnClickListener(view -> {
             try {

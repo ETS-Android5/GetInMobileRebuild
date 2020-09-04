@@ -44,8 +44,6 @@
 
         </RelativeLayout>
 
-        <View style="@style/profileDetailsView" />
-
         <RelativeLayout style="@style/profileDetailsLayout">
 
             <ImageView
@@ -68,8 +66,6 @@
 
         </RelativeLayout>
 
-        <View style="@style/profileDetailsView" />
-
         <RelativeLayout style="@style/profileDetailsLayout">
 
             <ImageView
@@ -90,8 +86,6 @@
                 android:layout_toRightOf="@id/mobileKinImageView"
                 android:text="0756878462" />
         </RelativeLayout>
-
-        <View style="@style/profileDetailsView" />
 
         <RelativeLayout style="@style/profileDetailsLayout">
 
@@ -115,8 +109,6 @@
 
         </RelativeLayout>
 
-        <View style="@style/profileDetailsView" />
-
         <RelativeLayout style="@style/profileDetailsLayout">
 
             <ImageView
@@ -138,8 +130,6 @@
                 android:text="14 Years" />
 
         </RelativeLayout>
-
-        <View style="@style/profileDetailsView" />
 
         <RelativeLayout style="@style/profileDetailsLayout">
 
@@ -163,8 +153,6 @@
 
         </RelativeLayout>
 
-        <View style="@style/profileDetailsView" />
-
         <RelativeLayout style="@style/profileDetailsLayout">
 
             <ImageView
@@ -187,7 +175,28 @@
 
         </RelativeLayout>
 
-        <View style="@style/profileDetailsView" />
+        <RelativeLayout
+            android:id="@+id/voucher_relative_layout"
+            style="@style/profileDetailsLayout">
+
+            <ImageView
+                android:id="@+id/voucher_image_view"
+                style="@style/profileDetailsImage"
+                app:srcCompat="@drawable/ic_book" />
+
+            <TextView
+                style="@style/profileDetailsTextMain"
+                android:layout_toEndOf="@id/voucher_image_view"
+                android:layout_toRightOf="@id/voucher_image_view"
+                android:text="@string/voucher_number" />
+
+            <TextView
+                android:id="@+id/voucher_number_text_view"
+                style="@style/profileDetailsMiniText"
+                android:layout_toEndOf="@id/voucher_image_view"
+                android:layout_toRightOf="@id/voucher_image_view"
+                android:text="@string/voucher_number_dummy_text" />
+        </RelativeLayout>
 
     </LinearLayout>
 

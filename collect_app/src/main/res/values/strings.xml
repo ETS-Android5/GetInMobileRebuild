@@ -894,4 +894,6 @@
     <string name="redeem_voucher_sms_format">Ms r %s %s %s</string>
     <string name="all_girls">All</string>
     <string name="voucher_girls">Voucher</string>
+    <string name="voucher_number">Voucher number</string>
+    <string name="voucher_number_dummy_text">123-ABC</string>
 </resources>
