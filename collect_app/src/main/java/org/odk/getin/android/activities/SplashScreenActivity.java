@@ -26,6 +26,7 @@ import org.odk.getin.android.R;
 import org.odk.getin.android.application.Collect;
 import org.odk.getin.android.listeners.PermissionListener;
 import org.odk.getin.android.preferences.GeneralKeys;
+import org.odk.getin.android.provider.FormsProviderAPI;
 import org.odk.getin.android.tasks.ServerPollingJob;
 import org.odk.getin.android.utilities.DialogUtils;
 import org.odk.getin.android.utilities.PermissionUtils;
@@ -81,7 +82,6 @@ public class SplashScreenActivity extends CollectAbstractActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.splash_screen);
 
-
         PackageInfo packageInfo = null;
         try {
             packageInfo =
@@ -135,13 +135,14 @@ public class SplashScreenActivity extends CollectAbstractActivity {
 
     public void deleteODKFormStorageFolder() {
         try {
-            File dir = new File(Collect.ODK_ROOT);
+            File dir = new File(Collect.FORMS_PATH);
             if (dir.isDirectory()) {
                 String[] children = dir.list();
                 for (int i = 0; i < children.length; i++) {
                     new File(dir, children[i]).delete();
                 }
             }
+            getContentResolver().delete(FormsProviderAPI.FormsColumns.CONTENT_URI, null, null);
         } catch (Exception e) {
             e.printStackTrace();
         }

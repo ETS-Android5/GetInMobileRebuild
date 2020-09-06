@@ -212,7 +212,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
                             startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_ID);
                         else if (Prefs.getString(USER_DISTRICT, "Kampala").equals("Kampala"))
                             startFormActivity(MAP_GIRL_KAMPALA_FORM_CHEW_ID);
-                        else if (Prefs.getString(USER_DISTRICT, "Moyo").equals("Moyo"))
+                        else if (Prefs.getString(USER_DISTRICT, "Moyo").equals("MOYO"))
                             startFormActivity(MAP_GIRL_MOYO_FORM_CHEW_ID);
                         else if (Prefs.getString(USER_DISTRICT, "Moyo").equals("Adjumani"))
                             startFormActivity(MAP_GIRL_ADJUMANI_FORM_CHEW_ID);
@@ -225,7 +225,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
                             startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID);
                         else if (Prefs.getString(USER_DISTRICT, "Kampala").equals("Kampala"))
                             startFormActivity(MAP_GIRL_KAMPALA_FORM_MIDWIFE_ID);
-                        else if (Prefs.getString(USER_DISTRICT, "Moyo").equals("Moyo"))
+                        else if (Prefs.getString(USER_DISTRICT, "Moyo").equals("MOYO"))
                             startFormActivity(MAP_GIRL_MOYO_FORM_MIDWIFE_ID);
                         else if (Prefs.getString(USER_DISTRICT, "Moyo").equals("Adjumani"))
                             startFormActivity(MAP_GIRL_ADJUMANI_FORM_MIDWIFE_ID);

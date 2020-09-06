@@ -5,7 +5,11 @@ import android.database.sqlite.SQLiteDatabase;
 
 import android.util.Log;
 
+import com.pixplicity.easyprefs.library.Prefs;
+
 import org.odk.getin.android.BuildConfig;
+
+import static org.odk.getin.android.utilities.ApplicationConstants.USER_LOGGED_IN;
 
 
 /**
@@ -34,5 +38,6 @@ public class MappedGirlsDatabaseHelperCallbacks {
     public void onUpgrade(final Context context, final SQLiteDatabase db, final int oldVersion, final int newVersion) {
         if (BuildConfig.DEBUG) Log.d(TAG, "Upgrading database from version " + oldVersion + " to " + newVersion);
         // Insert your upgrading code here.
+        Prefs.putBoolean(USER_LOGGED_IN, false);
     }
 }
