@@ -34,6 +34,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 
 import androidx.annotation.NonNull;
@@ -44,6 +45,7 @@ import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -77,6 +79,7 @@ import org.odk.getin.android.retrofitmodels.AuthModel;
 import org.odk.getin.android.tasks.ServerPollingJob;
 import org.odk.getin.android.upload.SetupIntentService;
 import org.odk.getin.android.utilities.ApplicationConstants;
+import org.odk.getin.android.utilities.AudioPlay;
 import org.odk.getin.android.utilities.GeneralUtils;
 import org.odk.getin.android.utilities.SharedPreferencesUtils;
 import org.odk.getin.android.utilities.ToastUtils;
@@ -135,7 +138,6 @@ public class MainMenuActivity extends CollectAbstractActivity {
     // buttons
     private Button callMidwifeOrChewButton;
     private Button callAmbulanceButton;
-    private Button logOutButton;
     private AlertDialog alertDialog;
     private SharedPreferences adminPreferences;
     private Cursor finalizedCursor;
@@ -358,6 +360,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
         viewSentCount = viewSentCursor != null ? viewSentCursor.getCount() : 0;
         setupGoogleAnalytics();
         requestSmsPermissions();
+        stopNotificationSoundAndVibration();
     }
 
     public void networkStatusCheckTimer() {
@@ -720,5 +723,15 @@ public class MainMenuActivity extends CollectAbstractActivity {
             dialog.cancel();
         });
         alertDialog.show();
+    }
+
+    private void stopNotificationSoundAndVibration() {
+        try {
+            AudioPlay.stopAudio(this);
+            Vibrator rr = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            rr.cancel();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
