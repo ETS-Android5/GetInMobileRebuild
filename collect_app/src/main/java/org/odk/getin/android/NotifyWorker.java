@@ -56,8 +56,6 @@ public class NotifyWorker extends Worker {
     }
 
     private void triggerNotification() {
-        Intent intentService = new Intent(context, SplashScreenActivity.class);
         NotificationUtils.showNotificationMessage("Please don't forget to use the GetIN app to map girls", context.getString(R.string.getin_reminder));
-        context.startService(intentService);
     }
 }

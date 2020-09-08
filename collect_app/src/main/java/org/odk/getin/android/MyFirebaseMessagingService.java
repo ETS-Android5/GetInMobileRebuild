@@ -35,7 +35,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.d(TAG, "onMessageReceived: started");
-        NotificationUtils.showNotificationMessage(remoteMessage.getFrom(), getString(R.string.getin_reminder));
+        String message = remoteMessage.getData().get("message");
+        NotificationUtils.showNotificationMessage(message, getString(R.string.getin_reminder));
     }
 
     /**
