@@ -360,7 +360,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
         }
         viewSentCount = viewSentCursor != null ? viewSentCursor.getCount() : 0;
         setupGoogleAnalytics();
-        requestSmsPermissions();
+//        requestSmsPermissions();
         stopNotificationSoundAndVibration();
     }
 
