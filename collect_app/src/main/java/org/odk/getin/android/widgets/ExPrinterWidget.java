@@ -22,6 +22,7 @@ import android.telephony.SmsManager;
 import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.pixplicity.easyprefs.library.Prefs;
 
@@ -195,5 +196,9 @@ public class ExPrinterWidget extends QuestionWidget implements BinaryWidget {
                                 BuildConfig.MSI_HEALTH_FACILITY_ID), null, null);
             }
         }
+
+        TextView questionText = questionMediaLayout.getView_Text();
+        String previousString = questionText.getText().toString();
+        questionText.setText(String.format("%s\n\nResult:\n%s", previousString, "Please check your sms inbox for the response and then return to the GetIN app"));
     }
 }
