@@ -17,6 +17,7 @@ package org.odk.getin.android.widgets;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.view.KeyEvent;
@@ -179,26 +180,31 @@ public class ExPrinterWidget extends QuestionWidget implements BinaryWidget {
     @Override
     public void onButtonClick(int buttonId) {
         SmsManager smsManager = SmsManager.getDefault();
+        String message = "";
 
         if (questionMediaLayout.getView_Text().getText().toString().contains("validate")) {
-            smsManager.sendTextMessage(BuildConfig.MSI_PHONE_NUMBER, null,
-                    String.format(getResources().getString(R.string.validate_voucher_sms_format),
-                            Prefs.getString(GIRL_VOUCHER_NUMBER, "123-ABC"),
-                            BuildConfig.MSI_HEALTH_FACILITY_ID), null, null);
+            message = String.format(getResources().getString(R.string.validate_voucher_sms_format),
+                    Prefs.getString(GIRL_VOUCHER_NUMBER, "123-ABC"),
+                    BuildConfig.MSI_HEALTH_FACILITY_ID);
+
         } else {
             String redeemServiceSelected = Prefs.getString(GIRL_REDEEM_SERVICE_SELECTED, "AN1");
-            if (redeemServiceSelected.contains(getContext().getString(R.string.select_one))){
+            if (redeemServiceSelected.contains(getContext().getString(R.string.select_one))) {
                 ToastUtils.showShortToast("Please select a service to redeem!");
             } else {
-                smsManager.sendTextMessage(BuildConfig.MSI_PHONE_NUMBER, null,
-                        String.format(getResources().getString(R.string.redeem_voucher_sms_format),
-                                Prefs.getString(GIRL_VOUCHER_NUMBER, "123-ABC"), redeemServiceSelected,
-                                BuildConfig.MSI_HEALTH_FACILITY_ID), null, null);
+                message = String.format(getResources().getString(R.string.redeem_voucher_sms_format),
+                        Prefs.getString(GIRL_VOUCHER_NUMBER, "123-ABC"), redeemServiceSelected,
+                        BuildConfig.MSI_HEALTH_FACILITY_ID);
             }
         }
 
         TextView questionText = questionMediaLayout.getView_Text();
         String previousString = questionText.getText().toString();
         questionText.setText(String.format("%s\n\nResult:\n%s", previousString, "Please check your sms inbox for the response and then return to the GetIN app"));
+
+        Uri uri = Uri.parse("smsto:" + BuildConfig.MSI_PHONE_NUMBER);
+        Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+        intent.putExtra("sms_body", message);
+        this.getContext().startActivity(intent);
     }
 }

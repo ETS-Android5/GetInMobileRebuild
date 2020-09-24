@@ -135,7 +135,6 @@ import static org.odk.getin.android.utilities.ApplicationConstants.VHT_MIDWIFE_I
 public class MainMenuActivity extends CollectAbstractActivity {
     private static final boolean EXIT = true;
     private static final String TASK_ID = "NotificationWorker";
-    private static final int REQUEST_SEND_SMS = 35;
     // buttons
     private Button callMidwifeOrChewButton;
     private Button callAmbulanceButton;
@@ -360,7 +359,6 @@ public class MainMenuActivity extends CollectAbstractActivity {
         }
         viewSentCount = viewSentCursor != null ? viewSentCursor.getCount() : 0;
         setupGoogleAnalytics();
-        requestSmsPermissions();
         stopNotificationSoundAndVibration();
     }
 
@@ -682,18 +680,6 @@ public class MainMenuActivity extends CollectAbstractActivity {
         } catch (ActivityNotFoundException e) {
             Timber.e(e);
             startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + getString(R.string.help_phone))));
-        }
-    }
-
-    public void requestSmsPermissions() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS)
-                != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.SEND_SMS)) {
-            } else {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.SEND_SMS}, REQUEST_SEND_SMS);
-            }
         }
     }
 
