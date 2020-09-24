@@ -725,48 +725,4 @@ public abstract class QuestionWidget
             valueChangedListener.widgetValueChanged(this);
         }
     }
-
-    public static class SmsReceiver extends BroadcastReceiver {
-        private static final String SMS_RECEIVED = "android.provider.Telephony.SMS_RECEIVED";
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            try {
-                if (intent.getAction().equals(SMS_RECEIVED)) {
-                    Timber.d("received sms broadcast");
-                    Bundle bundle = intent.getExtras();
-                    if (bundle != null) {
-                        // get sms objects
-                        Object[] pdus = (Object[]) bundle.get("pdus");
-                        if (pdus.length == 0) {
-                            return;
-                        }
-                        // large message might be broken into many
-                        SmsMessage[] messages = new SmsMessage[pdus.length];
-                        StringBuilder sb = new StringBuilder();
-                        for (int i = 0; i < pdus.length; i++) {
-                            messages[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
-                            sb.append(messages[i].getMessageBody());
-                        }
-                        String sender = messages[0].getOriginatingAddress();
-                        String message = sb.toString();
-                        if (sender.contains("8228")) {
-                            TextView questionText = questionMediaLayout.getView_Text();
-                            String previousString = questionText.getText().toString();
-                            if (message.contains("Success")) {
-                                questionText.setText(String.format("%s\n\n%s", previousString, message));
-                            } else {
-                                previousString = previousString.split("\n\nResult")[0];
-                                questionText.setText(String.format("%s\n\nResult:\n%s", previousString, message));
-                            }
-
-                            Toast.makeText(context, "Check the screen for your result", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
 }

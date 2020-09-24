@@ -28,7 +28,7 @@ public class GeneralUtils {
                             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                             StrictMode.setThreadPolicy(policy);
 
-                            HttpURLConnection urlc = (HttpURLConnection) (new URL("http://clients3.google.com").openConnection());
+                            HttpURLConnection urlc = (HttpURLConnection) (new URL("https://clients3.google.com").openConnection());
                             urlc.setRequestProperty("User-Agent", "Test");
                             urlc.setRequestProperty("Connection", "close");
                             urlc.setConnectTimeout(2000);

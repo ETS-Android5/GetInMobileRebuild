@@ -25,7 +25,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-<!--    <uses-permission android:name="android.permission.SEND_SMS" />-->
+    <uses-permission android:name="android.permission.SEND_SMS" />
 <!--    <uses-permission android:name="android.permission.READ_SMS" />-->
 <!--    <uses-permission android:name="android.permission.WRITE_SMS" />-->
 <!--    <uses-permission android:name="android.permission.RECEIVE_SMS" />-->
@@ -75,6 +75,7 @@
         android:installLocation="auto"
         android:label="@string/app_name"
         android:largeHeap="true"
+        android:usesCleartextTraffic="true"
         android:supportsRtl="true">
         <activity
             android:name=".activities.ProfileActivity"
@@ -364,15 +365,6 @@
         <activity
             android:name=".activities.CallUserViewActivity"
             android:theme="@style/Theme.Collect.Activity.FormEntryActivity.Light" />
-
-        <receiver
-            android:name=".widgets.QuestionWidget$SmsReceiver"
-            android:enabled="true"
-            android:permission="android.permission.BROADCAST_SMS">
-            <intent-filter android:priority="2147483647">
-                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
-            </intent-filter>
-        </receiver>
     </application>
 
 </manifest>

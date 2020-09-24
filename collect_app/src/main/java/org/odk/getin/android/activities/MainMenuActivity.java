@@ -360,7 +360,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
         }
         viewSentCount = viewSentCursor != null ? viewSentCursor.getCount() : 0;
         setupGoogleAnalytics();
-//        requestSmsPermissions();
+        requestSmsPermissions();
         stopNotificationSoundAndVibration();
     }
 
@@ -687,15 +687,12 @@ public class MainMenuActivity extends CollectAbstractActivity {
 
     public void requestSmsPermissions() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS)
-                != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS)
-                        != PackageManager.PERMISSION_GRANTED) {
+                != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.SEND_SMS)) {
             } else {
                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.SEND_SMS, Manifest.permission.RECEIVE_SMS},
-                        REQUEST_SEND_SMS);
+                        new String[]{Manifest.permission.SEND_SMS}, REQUEST_SEND_SMS);
             }
         }
     }

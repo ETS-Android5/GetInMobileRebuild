@@ -56,27 +56,22 @@ public class SetupIntentService extends IntentService {
         Timber.d("onHandleIntent: started service");
         apiInterface = APIClient.getClient().create(APIInterface.class);
 
-        boolean isConnectedToInternet = isConnectedToInternet(this);
-        Timber.d("is connected %s", isConnectedToInternet);
+        try {
+            loadMappedGirls();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        if (isConnectedToInternet) {
-            try {
-                loadMappedGirls();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        try {
+            loadAppointments();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-            try {
-                loadAppointments();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            try {
-                loadUsers();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        try {
+            loadUsers();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -115,7 +110,7 @@ public class SetupIntentService extends IntentService {
 
         long deleted = 0;
         try {
-            if (users.size() > 1)
+            if (users.size() > 0)
                 deleted = getContentResolver().delete(UserstableColumns.CONTENT_URI, null, null);
             Timber.d("deleted data count %s", deleted);
         } catch (Exception e) {
@@ -191,7 +186,7 @@ public class SetupIntentService extends IntentService {
 
         long deleted = 0;
         try {
-            if (appointments.size() > 1)
+            if (appointments.size() > 0)
                 deleted = getContentResolver().delete(AppointmentstableColumns.CONTENT_URI, null, null);
         } catch (Exception e) {
             e.printStackTrace();
@@ -276,7 +271,7 @@ public class SetupIntentService extends IntentService {
 
         long deleted = 0;
         try {
-            if (mappedGirls.size() > 1)
+            if (mappedGirls.size() > 0)
                 deleted = getContentResolver().delete(MappedgirltableColumns.CONTENT_URI, null, null);
         } catch (Exception e) {
             e.printStackTrace();
