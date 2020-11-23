@@ -27,6 +27,7 @@ import org.odk.getin.android.application.Collect;
 import org.odk.getin.android.listeners.PermissionListener;
 import org.odk.getin.android.preferences.GeneralKeys;
 import org.odk.getin.android.provider.FormsProviderAPI;
+import org.odk.getin.android.provider.MappedGirlsDatabaseHelper;
 import org.odk.getin.android.tasks.ServerPollingJob;
 import org.odk.getin.android.utilities.DialogUtils;
 import org.odk.getin.android.utilities.PermissionUtils;
@@ -35,6 +36,7 @@ import java.io.File;
 
 import timber.log.Timber;
 
+import static org.odk.getin.android.provider.MappedGirlsDatabaseHelper.DATABASE_FILE_NAME;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_LOGGED_IN;
 
 public class SplashScreenActivity extends CollectAbstractActivity {
@@ -60,6 +62,9 @@ public class SplashScreenActivity extends CollectAbstractActivity {
                         Collect.createODKDirs();
                         // download all empty forms from the server. this is required before user can fill in the form
                         ServerPollingJob.startJobImmediately();
+
+                        MappedGirlsDatabaseHelper.getInstance(getApplicationContext()).close();
+                        deleteDatabase(DATABASE_FILE_NAME);
                     }
                 } catch (RuntimeException e) {
                     DialogUtils.showDialog(DialogUtils.createErrorDialog(SplashScreenActivity.this,

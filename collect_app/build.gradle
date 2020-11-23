@@ -14,8 +14,8 @@ ant.condition(property: 'os', value: 'unix') {
     os(family: 'unix')
 }
 
-// Build numbers were manually set until 1067
-def LEGACY_BUILD_NUMBER_OFFSET = 1067
+// Build numbers were manually set
+def LEGACY_BUILD_NUMBER_OFFSET = 1399
 
 // Based on http://stackoverflow.com/questions/17097263#24121734
 def getMasterCommitCount = { ->
@@ -71,7 +71,7 @@ android {
         applicationId('org.odk.getin.android')
         minSdkVersion(16)
         targetSdkVersion(28)
-        versionCode LEGACY_BUILD_NUMBER_OFFSET + getMasterCommitCount() + 330
+        versionCode LEGACY_BUILD_NUMBER_OFFSET + getMasterCommitCount()
         versionName getVersionName()
         testInstrumentationRunner('androidx.test.runner.AndroidJUnitRunner')
         multiDexEnabled true

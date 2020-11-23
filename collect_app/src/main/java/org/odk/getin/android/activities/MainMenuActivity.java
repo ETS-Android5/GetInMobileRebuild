@@ -195,10 +195,6 @@ public class MainMenuActivity extends CollectAbstractActivity {
 
         disableSmsIfNeeded();
 
-        // download data from django server; mapped girls
-        Intent intent = new Intent(this, SetupIntentService.class);
-        startService(intent);
-
         // map girl button. expects a result.
         Button mapGirlButton = findViewById(R.id.chew_button);
         mapGirlButton.setText(getString(R.string.map_girl_button));
@@ -401,6 +397,10 @@ public class MainMenuActivity extends CollectAbstractActivity {
         ((Collect) getApplication())
                 .getDefaultTracker()
                 .enableAutoActivityTracking(true);
+
+        // download data from django server; mapped girls
+        Intent intent = new Intent(this, SetupIntentService.class);
+        startService(intent);
     }
 
     private void startFormActivity(String formId) {

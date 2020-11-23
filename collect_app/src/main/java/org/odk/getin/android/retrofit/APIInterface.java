@@ -28,10 +28,6 @@ public interface APIInterface {
     Call<UserModel> getLoggedInUserDetails();
 
     @FormUrlEncoded
-    @POST("v1/sessions")
-    Call<LoginResult> login(@Field("email") String email, @Field("password") String password);
-
-    @FormUrlEncoded
     @POST("auth/login/")
     Call<AuthModel> loginUser(@Field("username") String username, @Field("password") String password);
 
