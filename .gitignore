@@ -26,6 +26,8 @@ secrets.properties
 bin/
 gen/
 out/
+collect_app/release/collect.aab
+collect_app/release/output.json
 
 # Android Studio files
 .externalNativeBuild/
