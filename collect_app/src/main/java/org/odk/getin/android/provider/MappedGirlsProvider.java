@@ -15,6 +15,7 @@ import org.odk.getin.android.provider.base.BaseContentProvider;
 import org.odk.getin.android.provider.mappedgirltable.MappedgirltableColumns;
 import org.odk.getin.android.provider.userstable.UserstableColumns;
 
+
 public class MappedGirlsProvider extends BaseContentProvider {
     private static final String TAG = MappedGirlsProvider.class.getSimpleName();
 
@@ -23,7 +24,7 @@ public class MappedGirlsProvider extends BaseContentProvider {
     private static final String TYPE_CURSOR_ITEM = "vnd.android.cursor.item/";
     private static final String TYPE_CURSOR_DIR = "vnd.android.cursor.dir/";
 
-    public static final String AUTHORITY = "org.odk.getin.android.provider.odk.mappedgirls";
+    public static final String AUTHORITY = "org.odk.collect.android.provider.odk.mappedgirls";
     public static final String CONTENT_URI_BASE = "content://" + AUTHORITY;
 
     private static final int URI_TYPE_APPOINTMENTSTABLE = 0;

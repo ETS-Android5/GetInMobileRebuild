@@ -131,6 +131,15 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/voucher_expiry_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Voucher expiry date: 22 22 22" />
+
+
+        <TextView
             android:id="@+id/appointment_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

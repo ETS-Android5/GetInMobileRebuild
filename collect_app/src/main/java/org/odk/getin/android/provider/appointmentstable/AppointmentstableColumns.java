@@ -5,6 +5,7 @@ import android.provider.BaseColumns;
 
 import org.odk.getin.android.provider.MappedGirlsProvider;
 
+
 /**
  * Columns for the {@code appointmentstable} table.
  */

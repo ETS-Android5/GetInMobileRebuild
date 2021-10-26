@@ -3,6 +3,7 @@ package org.odk.getin.android.provider.userstable;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+
 import org.odk.getin.android.provider.MappedGirlsProvider;
 
 /**

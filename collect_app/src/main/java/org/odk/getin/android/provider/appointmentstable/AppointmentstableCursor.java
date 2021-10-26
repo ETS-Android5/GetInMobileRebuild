@@ -1,12 +1,12 @@
 package org.odk.getin.android.provider.appointmentstable;
 
-import java.util.Date;
-
 import android.database.Cursor;
 
 import androidx.annotation.Nullable;
 
 import org.odk.getin.android.provider.base.AbstractCursor;
+
+import java.util.Date;
 
 /**
  * Cursor wrapper for the {@code appointmentstable} table.

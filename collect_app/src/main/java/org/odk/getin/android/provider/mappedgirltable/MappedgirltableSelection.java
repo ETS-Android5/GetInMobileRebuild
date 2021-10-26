@@ -9,6 +9,7 @@ import android.net.Uri;
 
 import org.odk.getin.android.provider.base.AbstractSelection;
 
+
 /**
  * Selection for the {@code mappedgirltable} table.
  */
@@ -563,6 +564,51 @@ public class MappedgirltableSelection extends AbstractSelection<MappedgirltableS
         return this;
     }
 
+    public MappedgirltableSelection voucherExpiryDate(Date... value) {
+        addEquals(MappedgirltableColumns.VOUCHER_EXPIRY_DATE, value);
+        return this;
+    }
+
+    public MappedgirltableSelection voucherExpiryDateNot(Date... value) {
+        addNotEquals(MappedgirltableColumns.VOUCHER_EXPIRY_DATE, value);
+        return this;
+    }
+
+    public MappedgirltableSelection voucherExpiryDate(Long... value) {
+        addEquals(MappedgirltableColumns.VOUCHER_EXPIRY_DATE, value);
+        return this;
+    }
+
+    public MappedgirltableSelection voucherExpiryDateAfter(Date value) {
+        addGreaterThan(MappedgirltableColumns.VOUCHER_EXPIRY_DATE, value);
+        return this;
+    }
+
+    public MappedgirltableSelection voucherExpiryDateAfterEq(Date value) {
+        addGreaterThanOrEquals(MappedgirltableColumns.VOUCHER_EXPIRY_DATE, value);
+        return this;
+    }
+
+    public MappedgirltableSelection voucherExpiryDateBefore(Date value) {
+        addLessThan(MappedgirltableColumns.VOUCHER_EXPIRY_DATE, value);
+        return this;
+    }
+
+    public MappedgirltableSelection voucherExpiryDateBeforeEq(Date value) {
+        addLessThanOrEquals(MappedgirltableColumns.VOUCHER_EXPIRY_DATE, value);
+        return this;
+    }
+
+    public MappedgirltableSelection orderByVoucherExpiryDate(boolean desc) {
+        orderBy(MappedgirltableColumns.VOUCHER_EXPIRY_DATE, desc);
+        return this;
+    }
+
+    public MappedgirltableSelection orderByVoucherExpiryDate() {
+        orderBy(MappedgirltableColumns.VOUCHER_EXPIRY_DATE, false);
+        return this;
+    }
+
     public MappedgirltableSelection completedAllVisits(Boolean value) {
         addEquals(MappedgirltableColumns.COMPLETED_ALL_VISITS, toObjectArray(value));
         return this;
@@ -833,4 +879,3 @@ public class MappedgirltableSelection extends AbstractSelection<MappedgirltableS
         return this;
     }
 }
-

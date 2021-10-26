@@ -2,6 +2,7 @@ package org.odk.getin.android.provider.appointmentstable;
 
 import androidx.annotation.Nullable;
 
+
 import org.odk.getin.android.provider.base.BaseModel;
 
 import java.util.Date;

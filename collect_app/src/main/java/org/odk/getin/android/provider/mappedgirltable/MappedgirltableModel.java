@@ -1,11 +1,10 @@
 package org.odk.getin.android.provider.mappedgirltable;
 
+import java.util.Date;
+
 import androidx.annotation.Nullable;
 
 import org.odk.getin.android.provider.base.BaseModel;
-
-import java.util.Date;
-
 
 /**
  * Data model for the {@code mappedgirltable} table.
@@ -95,6 +94,13 @@ public interface MappedgirltableModel extends BaseModel {
      */
     @Nullable
     Date getCreatedAt();
+
+    /**
+     * Get the {@code voucher_expiry_date} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    Date getVoucherExpiryDate();
 
     /**
      * Get the {@code completed_all_visits} value.

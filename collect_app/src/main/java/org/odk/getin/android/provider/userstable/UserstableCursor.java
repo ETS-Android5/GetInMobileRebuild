@@ -3,6 +3,7 @@ package org.odk.getin.android.provider.userstable;
 import java.util.Date;
 
 import android.database.Cursor;
+
 import androidx.annotation.Nullable;
 
 import org.odk.getin.android.provider.base.AbstractCursor;
