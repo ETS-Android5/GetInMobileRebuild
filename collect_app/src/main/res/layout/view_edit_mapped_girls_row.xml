@@ -51,6 +51,7 @@
                     style="@style/TextAppearance.AppCompat.Large"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_medium"
                     android:text="Sharon Namugga" />
 
                 <TextView
@@ -66,6 +67,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_medium"
                     android:text="345-XYZ" />
+
+                <TextView
+                    android:id="@+id/voucher_expiry_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:text="Voucher expiry date: 22 22 22" />
 
                 <TextView
                     android:id="@+id/village"

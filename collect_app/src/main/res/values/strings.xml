@@ -760,7 +760,7 @@
     <string name="appointment_details">Appointment details</string>
     <string name="appointments">ANC Visits</string>
     <string name="title_activity_ambulance">AmbulanceActivity</string>
-    <string name="appointment_date">Appointment date: %s</string>
+    <string name="appointment_date">Appointment Date: %s</string>
     <string name="call_midwive">Call Midwife</string>
     <string name="call_vhts">Call VHTs</string>
 
@@ -804,7 +804,7 @@
     <string name="validate_voucher_sms_format">Ms c %s %s</string>
     <string name="redeem_voucher_sms_format">Ms r %s %s %s</string>
     <string name="all_girls">All</string>
-    <string name="voucher_expiry_string">Voucher expiry date: %s</string>
+    <string name="voucher_expiry_string">Voucher Expiry Date: %s</string>
     <string name="voucher_girls">Voucher</string>
     <string name="voucher_number">Voucher number</string>
     <string name="voucher_number_dummy_text">123-ABC</string>

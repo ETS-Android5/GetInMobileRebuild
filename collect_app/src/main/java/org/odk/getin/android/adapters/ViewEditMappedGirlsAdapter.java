@@ -30,6 +30,7 @@ import org.odk.getin.android.tasks.ServerPollingJob;
 import org.odk.getin.android.utilities.ApplicationConstants;
 import org.odk.getin.android.utilities.ToastUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -58,6 +59,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
     private MappedgirltableCursor cursor;
     Activity activity;
     private ItemClickListener mClickListener;
+    private SimpleDateFormat simpleformat = new SimpleDateFormat("dd MMM yyyy", Locale.US);
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView name;
@@ -65,6 +67,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
         public TextView village;
         public TextView byVht;
         public TextView voucherNumber;
+        public TextView voucherExpiryDate;
         public Button followUpButton;
         public Button appointmentButton;
         public Button postNatalButton;
@@ -75,6 +78,7 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
             age = (TextView) v.findViewById(R.id.age);
             village = (TextView) v.findViewById(R.id.village);
             voucherNumber = (TextView) v.findViewById(R.id.voucher_number);
+            voucherExpiryDate = (TextView) v.findViewById(R.id.voucher_expiry_date);
             followUpButton = (Button) v.findViewById(R.id.create_follow_up_button);
             if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(MIDWIFE_ROLE)) {
                 appointmentButton = (Button) v.findViewById(R.id.create_upcoming_appointment_button);
@@ -124,6 +128,11 @@ public class ViewEditMappedGirlsAdapter extends RecyclerView.Adapter<ViewEditMap
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+            if (cursor.getVoucherExpiryDate() != null)
+                holder.voucherExpiryDate.setText(activity.getString(R.string.voucher_expiry_string, simpleformat.format(cursor.getVoucherExpiryDate())));
+            else
+                holder.voucherExpiryDate.setVisibility(View.GONE);
 
             try {
                 holder.age.setText(String.format(Locale.US, "%d Years", cursor.getAge()));
