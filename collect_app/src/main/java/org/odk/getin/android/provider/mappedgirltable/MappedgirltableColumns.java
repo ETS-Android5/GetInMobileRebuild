@@ -5,6 +5,7 @@ import android.provider.BaseColumns;
 
 import org.odk.getin.android.provider.MappedGirlsProvider;
 
+
 /**
  * Columns for the {@code mappedgirltable} table.
  */
@@ -41,6 +42,8 @@ public class MappedgirltableColumns implements BaseColumns {
 
     public static final String CREATED_AT = "created_at";
 
+    public static final String VOUCHER_EXPIRY_DATE = "voucher_expiry_date";
+
     public static final String COMPLETED_ALL_VISITS = "completed_all_visits";
 
     public static final String PENDING_VISITS = "pending_visits";
@@ -75,6 +78,7 @@ public class MappedgirltableColumns implements BaseColumns {
             AGE,
             USER,
             CREATED_AT,
+            VOUCHER_EXPIRY_DATE,
             COMPLETED_ALL_VISITS,
             PENDING_VISITS,
             MISSED_VISITS,
@@ -101,6 +105,7 @@ public class MappedgirltableColumns implements BaseColumns {
             if (c.equals(AGE) || c.contains("." + AGE)) return true;
             if (c.equals(USER) || c.contains("." + USER)) return true;
             if (c.equals(CREATED_AT) || c.contains("." + CREATED_AT)) return true;
+            if (c.equals(VOUCHER_EXPIRY_DATE) || c.contains("." + VOUCHER_EXPIRY_DATE)) return true;
             if (c.equals(COMPLETED_ALL_VISITS) || c.contains("." + COMPLETED_ALL_VISITS)) return true;
             if (c.equals(PENDING_VISITS) || c.contains("." + PENDING_VISITS)) return true;
             if (c.equals(MISSED_VISITS) || c.contains("." + MISSED_VISITS)) return true;

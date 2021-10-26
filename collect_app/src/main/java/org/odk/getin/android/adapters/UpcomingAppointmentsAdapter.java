@@ -1,5 +1,14 @@
 package org.odk.getin.android.adapters;
 
+import static org.odk.getin.android.utilities.ApplicationConstants.APPOINTMENT_FORM_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.APPOINTMENT_FORM_MIDWIFE_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.CHEW_ROLE;
+import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_NAME;
+import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_REDEEMED_SERVICES;
+import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_VOUCHER_NUMBER;
+import static org.odk.getin.android.utilities.ApplicationConstants.USER_ROLE;
+
 import android.Manifest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -39,15 +48,6 @@ import java.util.Locale;
 
 import timber.log.Timber;
 
-import static org.odk.getin.android.utilities.ApplicationConstants.APPOINTMENT_FORM_ID;
-import static org.odk.getin.android.utilities.ApplicationConstants.APPOINTMENT_FORM_MIDWIFE_ID;
-import static org.odk.getin.android.utilities.ApplicationConstants.CHEW_ROLE;
-import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_ID;
-import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_NAME;
-import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_REDEEMED_SERVICES;
-import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_VOUCHER_NUMBER;
-import static org.odk.getin.android.utilities.ApplicationConstants.USER_ROLE;
-
 public class UpcomingAppointmentsAdapter extends RecyclerView.Adapter<UpcomingAppointmentsAdapter.ViewHolder> implements ActivityCompat.OnRequestPermissionsResultCallback {
 
     private static final int REQUEST_PHONE_CALL = 34;
@@ -55,6 +55,7 @@ public class UpcomingAppointmentsAdapter extends RecyclerView.Adapter<UpcomingAp
     private UpcomingAppointmentsAdapter.ItemClickListener mClickListener;
     private Activity activity;
     private SimpleDateFormat simpleformat = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+    final private MappedgirltableSelection mappedgirltableSelection = new MappedgirltableSelection();
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView name;
@@ -64,6 +65,7 @@ public class UpcomingAppointmentsAdapter extends RecyclerView.Adapter<UpcomingAp
         public TextView village;
         public TextView appointmentStatus;
         public TextView appointmentDate;
+        public TextView voucherExpiryDate;
         public TextView voucherNumber;
         public TextView servicesReceived;
         public Button followUpButton;
@@ -80,6 +82,7 @@ public class UpcomingAppointmentsAdapter extends RecyclerView.Adapter<UpcomingAp
             age = (TextView) v.findViewById(R.id.age);
             village = (TextView) v.findViewById(R.id.village);
             appointmentDate = (TextView) v.findViewById(R.id.appointment_date);
+            voucherExpiryDate = (TextView) v.findViewById(R.id.voucher_expiry_date);
             appointmentStatus = (TextView) v.findViewById(R.id.appointment_status);
             voucherNumber = (TextView) v.findViewById(R.id.voucher_number);
             servicesReceived = (TextView) v.findViewById(R.id.services_received);
@@ -108,7 +111,7 @@ public class UpcomingAppointmentsAdapter extends RecyclerView.Adapter<UpcomingAp
     public void onBindViewHolder(@NonNull final UpcomingAppointmentsAdapter.ViewHolder holder, int position) {
         try {
             cursor.moveToPosition(position);
-            holder.name.setText(cursor.getFirstname() + " " + cursor.getLastname());
+            holder.name.setText(String.format("%s %s", cursor.getFirstname(), cursor.getLastname()));
 
             try {
                 if (!TextUtils.isEmpty(cursor.getVoucherNumber()))
@@ -142,7 +145,7 @@ public class UpcomingAppointmentsAdapter extends RecyclerView.Adapter<UpcomingAp
             final String phoneNumber = getActivePhoneNumber(cursor);
             holder.phoneNumber.setText(phoneNumber);
             try {
-                holder.age.setText(cursor.getAge() + " Years");
+                holder.age.setText(String.format(Locale.ENGLISH, "%d Years", cursor.getAge()));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -150,6 +153,18 @@ public class UpcomingAppointmentsAdapter extends RecyclerView.Adapter<UpcomingAp
             holder.appointmentStatus.setText(cursor.getStatus());
             String date = simpleformat.format(cursor.getAppointmentDate());
             holder.appointmentDate.setText(activity.getString(R.string.appointment_date, date));
+
+            mappedgirltableSelection.phonenumber(phoneNumber);
+            MappedgirltableCursor mappedgirltableCursor = mappedgirltableSelection.query(activity.getContentResolver());
+
+            if (mappedgirltableCursor.moveToFirst()) {
+                if (mappedgirltableCursor.getVoucherExpiryDate() != null)
+                    holder.voucherExpiryDate.setText(activity.getString(R.string.voucher_expiry_string, simpleformat.format(mappedgirltableCursor.getVoucherExpiryDate())));
+                else
+                    holder.voucherExpiryDate.setVisibility(View.GONE);
+            } else {
+                holder.voucherExpiryDate.setVisibility(View.GONE);
+            }
 
             if (cursor.getStatus().equals("Missed")) {
                 holder.mappedGirlIcon.setBackground(this.activity.getResources().getDrawable(R.drawable.circular_view_red));

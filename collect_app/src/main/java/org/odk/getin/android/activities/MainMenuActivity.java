@@ -118,6 +118,7 @@ import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_MOYO
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_MOYO_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_YUMBE_FORM_CHEW_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_YUMBE_FORM_MIDWIFE_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.MIDWIFE_ROLE;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_DISTRICT;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_LOGGED_IN;
@@ -233,6 +234,11 @@ public class MainMenuActivity extends CollectAbstractActivity {
                 }
             }
         });
+
+
+        // disable mapping feature for midwives
+        if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(MIDWIFE_ROLE))
+            mapGirlButton.setVisibility(View.GONE);
 
         Button viewEditMappedGirlsButton = findViewById(R.id.view_edit_mapped_girls);
         viewEditMappedGirlsButton.setText(getString(R.string.view_edit_girls));

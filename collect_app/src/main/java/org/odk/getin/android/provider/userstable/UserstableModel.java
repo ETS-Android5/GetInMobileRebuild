@@ -1,10 +1,11 @@
 package org.odk.getin.android.provider.userstable;
 
+import androidx.annotation.Nullable;
+
 import org.odk.getin.android.provider.base.BaseModel;
 
 import java.util.Date;
 
-import androidx.annotation.Nullable;
 
 /**
  * Data model for the {@code userstable} table.

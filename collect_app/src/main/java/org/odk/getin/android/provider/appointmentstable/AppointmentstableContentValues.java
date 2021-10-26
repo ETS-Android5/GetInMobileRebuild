@@ -1,14 +1,15 @@
 package org.odk.getin.android.provider.appointmentstable;
 
-import java.util.Date;
-
-import android.content.Context;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.net.Uri;
 
 import androidx.annotation.Nullable;
 
 import org.odk.getin.android.provider.base.AbstractContentValues;
+
+import java.util.Date;
+
 
 /**
  * Content values wrapper for the {@code appointmentstable} table.
@@ -23,7 +24,7 @@ public class AppointmentstableContentValues extends AbstractContentValues {
      * Update row(s) using the values stored by this object and the given selection.
      *
      * @param contentResolver The content resolver to use.
-     * @param where The selection to use (can be {@code null}).
+     * @param where           The selection to use (can be {@code null}).
      */
     public int update(ContentResolver contentResolver, @Nullable AppointmentstableSelection where) {
         return contentResolver.update(uri(), values(), where == null ? null : where.sel(), where == null ? null : where.args());
@@ -33,7 +34,7 @@ public class AppointmentstableContentValues extends AbstractContentValues {
      * Update row(s) using the values stored by this object and the given selection.
      *
      * @param contentResolver The content resolver to use.
-     * @param where The selection to use (can be {@code null}).
+     * @param where           The selection to use (can be {@code null}).
      */
     public int update(Context context, @Nullable AppointmentstableSelection where) {
         return context.getContentResolver().update(uri(), values(), where == null ? null : where.sel(), where == null ? null : where.args());

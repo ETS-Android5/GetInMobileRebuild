@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 
 import org.odk.getin.android.provider.base.AbstractContentValues;
 
+
 /**
  * Content values wrapper for the {@code mappedgirltable} table.
  */
@@ -160,6 +161,21 @@ public class MappedgirltableContentValues extends AbstractContentValues {
 
     public MappedgirltableContentValues putCreatedAt(@Nullable Long value) {
         mContentValues.put(MappedgirltableColumns.CREATED_AT, value);
+        return this;
+    }
+
+    public MappedgirltableContentValues putVoucherExpiryDate(@Nullable Date value) {
+        mContentValues.put(MappedgirltableColumns.VOUCHER_EXPIRY_DATE, value == null ? null : value.getTime());
+        return this;
+    }
+
+    public MappedgirltableContentValues putVoucherExpiryDateNull() {
+        mContentValues.putNull(MappedgirltableColumns.VOUCHER_EXPIRY_DATE);
+        return this;
+    }
+
+    public MappedgirltableContentValues putVoucherExpiryDate(@Nullable Long value) {
+        mContentValues.put(MappedgirltableColumns.VOUCHER_EXPIRY_DATE, value);
         return this;
     }
 

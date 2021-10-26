@@ -68,6 +68,9 @@ public class MappedGirlObject {
     @SerializedName("created_at")
     @Expose
     private Date createdAt;
+    @SerializedName("voucher_expiry_date")
+    @Expose
+    private Date voucherExpiryDate;
     @SerializedName("voucher_number")
     @Expose
     private String voucherNumber;
@@ -272,5 +275,13 @@ public class MappedGirlObject {
 
     public void setDisabled(Boolean disabled) {
         this.disabled = disabled;
+    }
+
+    public Date getVoucherExpiryDate() {
+        return voucherExpiryDate;
+    }
+
+    public void setVoucherExpiryDate(Date voucherExpiryDate) {
+        this.voucherExpiryDate = voucherExpiryDate;
     }
 }

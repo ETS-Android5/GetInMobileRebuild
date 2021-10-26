@@ -3,10 +3,10 @@ package org.odk.getin.android.provider.mappedgirltable;
 import java.util.Date;
 
 import android.database.Cursor;
-
 import androidx.annotation.Nullable;
 
 import org.odk.getin.android.provider.base.AbstractCursor;
+
 
 /**
  * Cursor wrapper for the {@code mappedgirltable} table.
@@ -147,6 +147,16 @@ public class MappedgirltableCursor extends AbstractCursor implements Mappedgirlt
     }
 
     /**
+     * Get the {@code voucher_expiry_date} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public Date getVoucherExpiryDate() {
+        Date res = getDateOrNull(MappedgirltableColumns.VOUCHER_EXPIRY_DATE);
+        return res;
+    }
+
+    /**
      * Get the {@code completed_all_visits} value.
      * Can be {@code null}.
      */
@@ -206,10 +216,6 @@ public class MappedgirltableCursor extends AbstractCursor implements Mappedgirlt
         return res;
     }
 
-    public String getFullName() {
-        return getFirstname() + " " + getLastname();
-    }
-
     /**
      * Get the {@code nationality} value.
      * Can be {@code null}.
@@ -228,5 +234,9 @@ public class MappedgirltableCursor extends AbstractCursor implements Mappedgirlt
     public Boolean getDisabled() {
         Boolean res = getBooleanOrNull(MappedgirltableColumns.DISABLED);
         return res;
+    }
+
+    public String getFullName() {
+        return getFirstname() + " " + getLastname();
     }
 }

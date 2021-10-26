@@ -15,6 +15,7 @@ import org.odk.getin.android.provider.base.BaseContentProvider;
 import org.odk.getin.android.provider.mappedgirltable.MappedgirltableColumns;
 import org.odk.getin.android.provider.userstable.UserstableColumns;
 
+
 public class MappedGirlsProvider extends BaseContentProvider {
     private static final String TAG = MappedGirlsProvider.class.getSimpleName();
 

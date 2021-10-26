@@ -294,6 +294,7 @@ public class SetupIntentService extends IntentService {
             values.putMissedVisits(girl.getMissedVisits());
             values.putVillage(girl.getVillage().getName());
             values.putVoucherNumber(girl.getVoucherNumber());
+            values.putVoucherExpiryDate(girl.getVoucherExpiryDate());
             values.putServicesReceived(girl.getServiceReceived());
             values.putNationality(girl.getNationality());
             values.putDisabled(girl.getDisabled());
