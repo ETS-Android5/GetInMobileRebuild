@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.database.DatabaseErrorHandler;
 import android.database.DefaultDatabaseErrorHandler;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
@@ -19,7 +20,7 @@ public class MappedGirlsDatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = MappedGirlsDatabaseHelper.class.getSimpleName();
 
     public static final String DATABASE_FILE_NAME = "mappedgirls.db";
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 11;
     private static MappedGirlsDatabaseHelper sInstance;
     private final Context mContext;
     private final MappedGirlsDatabaseHelperCallbacks mOpenHelperCallbacks;
@@ -92,6 +93,26 @@ public class MappedGirlsDatabaseHelper extends SQLiteOpenHelper {
             + UserstableColumns.VILLAGE + " TEXT "
             + " );";
 
+    private static final String SQL_ALTER_TABLE_MAPPEDGIRLTABLE_VOUCHER_NUMBER_ALTER_1 = "ALTER TABLE "
+            + MappedgirltableColumns.TABLE_NAME + " ADD COLUMN " + MappedgirltableColumns.VOUCHER_NUMBER + " TEXT;";
+
+    private static final String SQL_ALTER_TABLE_MAPPEDGIRLTABLE_SERVICES_RECEIVED_ALTER_1 = "ALTER TABLE "
+            + MappedgirltableColumns.TABLE_NAME + " ADD COLUMN " + MappedgirltableColumns.SERVICES_RECEIVED + " TEXT;";
+
+    private static final String SQL_ALTER_TABLE_APPOINTMENTSTABLE_VOUCHER_NUMBER_ALTER_1 = "ALTER TABLE "
+            + AppointmentstableColumns.TABLE_NAME + " ADD COLUMN " + AppointmentstableColumns.VOUCHER_NUMBER + " TEXT;";
+
+    private static final String SQL_ALTER_TABLE_APPOINTMENTSTABLE_SERVICES_RECEIVED_ALTER_1 = "ALTER TABLE "
+            + AppointmentstableColumns.TABLE_NAME + " ADD COLUMN " + AppointmentstableColumns.SERVICES_RECEIVED + " TEXT;";
+
+    private static final String SQL_ALTER_TABLE_MAPPEDGIRLTABLE_NATIONALITY_ALTER_2 = "ALTER TABLE "
+            + MappedgirltableColumns.TABLE_NAME + " ADD COLUMN " + MappedgirltableColumns.NATIONALITY + " TEXT;";
+
+    private static final String SQL_ALTER_TABLE_MAPPEDGIRLTABLE_DISABLAED_ALTER_2 = "ALTER TABLE "
+            + MappedgirltableColumns.TABLE_NAME + " ADD COLUMN " + MappedgirltableColumns.DISABLED + " INTEGER;";
+
+    private static final String SQL_ALTER_TABLE_MAPPEDGIRLTABLE_VOUCHER_EXPIRY_ALTER_3 = "ALTER TABLE "
+            + MappedgirltableColumns.TABLE_NAME + " ADD COLUMN " + MappedgirltableColumns.VOUCHER_EXPIRY_DATE + " INTEGER;";
     // @formatter:on
 
     public static MappedGirlsDatabaseHelper getInstance(Context context) {
@@ -160,6 +181,28 @@ public class MappedGirlsDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        mOpenHelperCallbacks.onUpgrade(mContext, db, oldVersion, newVersion);
+        if (oldVersion < newVersion) {
+            try {
+                db.execSQL(SQL_ALTER_TABLE_MAPPEDGIRLTABLE_VOUCHER_NUMBER_ALTER_1);
+                db.execSQL(SQL_ALTER_TABLE_MAPPEDGIRLTABLE_SERVICES_RECEIVED_ALTER_1);
+                db.execSQL(SQL_ALTER_TABLE_APPOINTMENTSTABLE_VOUCHER_NUMBER_ALTER_1);
+                db.execSQL(SQL_ALTER_TABLE_APPOINTMENTSTABLE_SERVICES_RECEIVED_ALTER_1);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                db.execSQL(SQL_ALTER_TABLE_MAPPEDGIRLTABLE_NATIONALITY_ALTER_2);
+                db.execSQL(SQL_ALTER_TABLE_MAPPEDGIRLTABLE_DISABLAED_ALTER_2);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                db.execSQL(SQL_ALTER_TABLE_MAPPEDGIRLTABLE_VOUCHER_EXPIRY_ALTER_3);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
