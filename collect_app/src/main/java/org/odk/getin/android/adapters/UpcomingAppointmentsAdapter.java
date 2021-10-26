@@ -55,6 +55,7 @@ public class UpcomingAppointmentsAdapter extends RecyclerView.Adapter<UpcomingAp
     private UpcomingAppointmentsAdapter.ItemClickListener mClickListener;
     private Activity activity;
     private SimpleDateFormat simpleformat = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+    final private MappedgirltableSelection mappedgirltableSelection = new MappedgirltableSelection();
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView name;
@@ -153,7 +154,6 @@ public class UpcomingAppointmentsAdapter extends RecyclerView.Adapter<UpcomingAp
             String date = simpleformat.format(cursor.getAppointmentDate());
             holder.appointmentDate.setText(activity.getString(R.string.appointment_date, date));
 
-            MappedgirltableSelection mappedgirltableSelection = new MappedgirltableSelection();
             mappedgirltableSelection.phonenumber(phoneNumber);
             MappedgirltableCursor mappedgirltableCursor = mappedgirltableSelection.query(activity.getContentResolver());
 
