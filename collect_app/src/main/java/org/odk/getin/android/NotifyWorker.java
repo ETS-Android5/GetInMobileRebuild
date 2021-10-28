@@ -56,6 +56,6 @@ public class NotifyWorker extends Worker {
     }
 
     private void triggerNotification() {
-        NotificationUtils.showNotificationMessage("Please don't forget to use the GetIN app to map girls", context.getString(R.string.getin_reminder));
+        NotificationUtils.showNotificationMessage("Please don't forget to use the GetIN app to map women", context.getString(R.string.getin_reminder));
     }
 }

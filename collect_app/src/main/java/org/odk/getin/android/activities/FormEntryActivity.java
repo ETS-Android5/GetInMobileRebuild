@@ -1191,7 +1191,7 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
 
         //todo change title based on form name
         String title;
-        String clicked_girl = Prefs.getString(GIRL_NAME, "MappedGirlObject");
+        String clicked_girl = Prefs.getString(GIRL_NAME, "woman");
 
 
         saveName = formController.getFormTitle();
@@ -1209,7 +1209,7 @@ public class FormEntryActivity extends CollectAbstractActivity implements Animat
             case MAP_GIRL_MOYO_FORM_MIDWIFE_ID:
             case MAP_GIRL_ADJUMANI_FORM_MIDWIFE_ID:
             case MAP_GIRL_YUMBE_FORM_MIDWIFE_ID: {
-                title = "Map a girl";
+                title = "Map a woman";
                 break;
             }
             case POSTNATAL_FORM_ID:
