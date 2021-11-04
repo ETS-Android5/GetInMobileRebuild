@@ -5,6 +5,7 @@ import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_NAME;
 import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_REDEEMED_SERVICES;
 import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_VOUCHER_NUMBER;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import org.odk.getin.android.R;
+import org.odk.getin.android.activities.MainMenuActivity;
 import org.odk.getin.android.provider.appointmentstable.AppointmentstableCursor;
 import org.odk.getin.android.provider.appointmentstable.AppointmentstableSelection;
 import org.odk.getin.android.provider.mappedgirltable.MappedgirltableCursor;
@@ -67,6 +69,13 @@ public class HealthFacilityAdapter extends RecyclerView.Adapter<HealthFacilityAd
             holder.name.setText(x);
 
             holder.facilityIcon.setImageDrawable(generateTextDrawable("A"));
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    activity.startActivity(new Intent(activity, MainMenuActivity.class).putExtra("district", "Arua"));
+                }
+            });
         } catch (Exception e) {
             Timber.e(e);
         }

@@ -12,6 +12,7 @@ import android.util.Log;
 
 import org.odk.getin.android.BuildConfig;
 import org.odk.getin.android.provider.appointmentstable.AppointmentstableColumns;
+import org.odk.getin.android.provider.healthfacilitytable.HealthfacilitytableColumns;
 import org.odk.getin.android.provider.mappedgirltable.MappedgirltableColumns;
 import org.odk.getin.android.provider.userstable.UserstableColumns;
 
@@ -20,7 +21,7 @@ public class MappedGirlsDatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = MappedGirlsDatabaseHelper.class.getSimpleName();
 
     public static final String DATABASE_FILE_NAME = "mappedgirls.db";
-    private static final int DATABASE_VERSION = 11;
+    private static final int DATABASE_VERSION = 12;
     private static MappedGirlsDatabaseHelper sInstance;
     private final Context mContext;
     private final MappedGirlsDatabaseHelperCallbacks mOpenHelperCallbacks;
@@ -91,6 +92,17 @@ public class MappedGirlsDatabaseHelper extends SQLiteOpenHelper {
             + UserstableColumns.ROLE + " TEXT, "
             + UserstableColumns.MIDWIFEID + " TEXT, "
             + UserstableColumns.VILLAGE + " TEXT "
+            + " );";
+
+    public static final String SQL_CREATE_TABLE_HEALTHFACILITYTABLE = "CREATE TABLE IF NOT EXISTS "
+            + HealthfacilitytableColumns.TABLE_NAME + " ( "
+            + HealthfacilitytableColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + HealthfacilitytableColumns.SERVERID + " TEXT, "
+            + HealthfacilitytableColumns.NAME + " TEXT, "
+            + HealthfacilitytableColumns.FACILITYLEVEL + " TEXT, "
+            + HealthfacilitytableColumns.DISTRICT + " TEXT, "
+            + HealthfacilitytableColumns.SUBCOUNTY + " TEXT, "
+            + HealthfacilitytableColumns.CREATED_AT + " INTEGER "
             + " );";
 
     private static final String SQL_ALTER_TABLE_MAPPEDGIRLTABLE_VOUCHER_NUMBER_ALTER_1 = "ALTER TABLE "
@@ -170,6 +182,7 @@ public class MappedGirlsDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_TABLE_APPOINTMENTSTABLE);
         db.execSQL(SQL_CREATE_TABLE_MAPPEDGIRLTABLE);
         db.execSQL(SQL_CREATE_TABLE_USERSTABLE);
+        db.execSQL(SQL_CREATE_TABLE_HEALTHFACILITYTABLE);
         mOpenHelperCallbacks.onPostCreate(mContext, db);
     }
 
@@ -200,6 +213,12 @@ public class MappedGirlsDatabaseHelper extends SQLiteOpenHelper {
 
             try {
                 db.execSQL(SQL_ALTER_TABLE_MAPPEDGIRLTABLE_VOUCHER_EXPIRY_ALTER_3);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                db.execSQL(SQL_CREATE_TABLE_HEALTHFACILITYTABLE);
             } catch (SQLException e) {
                 e.printStackTrace();
             }

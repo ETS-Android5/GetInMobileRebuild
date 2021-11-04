@@ -11,6 +11,8 @@ import android.telephony.TelephonyManager;
 import org.odk.getin.android.provider.MappedGirlsDatabaseHelper;
 import org.odk.getin.android.provider.appointmentstable.AppointmentstableColumns;
 import org.odk.getin.android.provider.appointmentstable.AppointmentstableContentValues;
+import org.odk.getin.android.provider.healthfacilitytable.HealthfacilitytableColumns;
+import org.odk.getin.android.provider.healthfacilitytable.HealthfacilitytableContentValues;
 import org.odk.getin.android.provider.mappedgirltable.MappedgirltableColumns;
 import org.odk.getin.android.provider.mappedgirltable.MappedgirltableContentValues;
 import org.odk.getin.android.provider.userstable.UserstableColumns;
@@ -19,6 +21,8 @@ import org.odk.getin.android.retrofit.APIClient;
 import org.odk.getin.android.retrofit.APIInterface;
 import org.odk.getin.android.retrofitmodels.appointments.Appointment;
 import org.odk.getin.android.retrofitmodels.appointments.Appointments;
+import org.odk.getin.android.retrofitmodels.healthfacilitymodels.HealthFacilities;
+import org.odk.getin.android.retrofitmodels.healthfacilitymodels.HealthFacility;
 import org.odk.getin.android.retrofitmodels.mappedgirls.MappedGirl;
 import org.odk.getin.android.retrofitmodels.mappedgirls.MappedGirlObject;
 import org.odk.getin.android.retrofitmodels.systemusers.SystemUsers;
@@ -70,6 +74,12 @@ public class SetupIntentService extends IntentService {
 
         try {
             loadUsers();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            loadHealthFacilities();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -301,6 +311,62 @@ public class SetupIntentService extends IntentService {
             values.putServicesReceived(girl.getServiceReceived());
             values.putServerid(girl.getId());
             final Uri uri = values.insert(getContentResolver());
+        }
+    }
+
+    private void loadHealthFacilities() {
+        Timber.d("get health facilities list started");
+        Call<HealthFacilities> call = apiInterface.getHealthFacilities();
+
+        call.enqueue(new Callback<HealthFacilities>() {
+            @Override
+            public void onResponse(Call<HealthFacilities> call, Response<HealthFacilities> response) {
+                Timber.d("onResponse() -> %s", response.code());
+                try {
+                    if (response.code() == 200) {
+                        saveHealthFacilities(response.body());
+                    } else {
+                        Timber.e("Failed to get health facilities");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    // delete database incase of inconsistencies
+                    MappedGirlsDatabaseHelper.getInstance(getApplicationContext()).close();
+                    deleteDatabase(DATABASE_FILE_NAME);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<HealthFacilities> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void saveHealthFacilities(HealthFacilities healthFacilities) {
+        Timber.d("INSERT: healthFacilities starting");
+        if (healthFacilities == null)
+            throw new NullPointerException("healthFacilities not found");
+        List<HealthFacility> healthFacilityList = healthFacilities.getResults();
+
+        long deleted = 0;
+        try {
+            if (healthFacilityList.size() > 0)
+                deleted = getContentResolver().delete(HealthfacilitytableColumns.CONTENT_URI, null, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Timber.d("deleted data count %s", deleted);
+
+        for (HealthFacility healthFacility : healthFacilityList) {
+            Timber.d("saving healthFacilities %s", healthFacility.getName());
+            HealthfacilitytableContentValues values = new HealthfacilitytableContentValues();
+            values.putServerid(String.valueOf(healthFacility.getId()));
+            values.putFacilitylevel(healthFacility.getFacilityLevel());
+            values.putDistrict(healthFacility.getSubCounty().getCounty().getDistrict().getName());
+            values.putSubcounty(healthFacility.getSubCounty().getName());
+            values.putName(healthFacility.getName());
+            values.insert(getContentResolver());
         }
     }
 

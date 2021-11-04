@@ -4,6 +4,7 @@ import org.odk.getin.android.retrofitmodels.LoginResult;
 import org.odk.getin.android.retrofitmodels.AuthModel;
 import org.odk.getin.android.retrofitmodels.UserModel;
 import org.odk.getin.android.retrofitmodels.appointments.Appointments;
+import org.odk.getin.android.retrofitmodels.healthfacilitymodels.HealthFacilities;
 import org.odk.getin.android.retrofitmodels.mappedgirls.MappedGirl;
 import org.odk.getin.android.retrofitmodels.systemusers.UserSystemModel;
 
@@ -20,6 +21,9 @@ public interface APIInterface {
 
     @GET("api/v1/appointments")
     Call<Appointments> getAppointments();
+
+    @GET("api/v1/healthfacilities")
+    Call<HealthFacilities> getHealthFacilities();
 
     @GET("api/v1/users")
     Call<UserSystemModel> getUsers();
