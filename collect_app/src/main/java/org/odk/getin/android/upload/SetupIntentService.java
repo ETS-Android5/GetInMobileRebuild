@@ -19,6 +19,7 @@ import org.odk.getin.android.provider.userstable.UserstableColumns;
 import org.odk.getin.android.provider.userstable.UserstableContentValues;
 import org.odk.getin.android.retrofit.APIClient;
 import org.odk.getin.android.retrofit.APIInterface;
+import org.odk.getin.android.retrofitmodels.Value;
 import org.odk.getin.android.retrofitmodels.appointments.Appointment;
 import org.odk.getin.android.retrofitmodels.appointments.Appointments;
 import org.odk.getin.android.retrofitmodels.healthfacilitymodels.HealthFacilities;
@@ -39,6 +40,9 @@ import retrofit2.Response;
 import timber.log.Timber;
 
 import static org.odk.getin.android.provider.MappedGirlsDatabaseHelper.DATABASE_FILE_NAME;
+import static org.odk.getin.android.utilities.ApplicationConstants.USER_DISTRICT;
+
+import com.pixplicity.easyprefs.library.Prefs;
 
 /**
  * Downloads list of mapped girls
@@ -358,6 +362,8 @@ public class SetupIntentService extends IntentService {
         }
         Timber.d("deleted data count %s", deleted);
 
+        addDefaultAllFacility();
+
         for (HealthFacility healthFacility : healthFacilityList) {
             Timber.d("saving healthFacilities %s", healthFacility.getName());
             HealthfacilitytableContentValues values = new HealthfacilitytableContentValues();
@@ -368,6 +374,13 @@ public class SetupIntentService extends IntentService {
             values.putName(healthFacility.getName());
             values.insert(getContentResolver());
         }
+    }
+
+    private void addDefaultAllFacility() {
+        HealthfacilitytableContentValues values = new HealthfacilitytableContentValues();
+        values.putName("ALL FACILITIES");
+        values.putSubcounty(Prefs.getString(USER_DISTRICT, ""));
+        values.insert(getContentResolver());
     }
 
     public static boolean isConnectedToInternet(Context context) {

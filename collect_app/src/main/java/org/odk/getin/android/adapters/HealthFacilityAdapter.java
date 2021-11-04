@@ -28,11 +28,13 @@ public class HealthFacilityAdapter extends RecyclerView.Adapter<HealthFacilityAd
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView name;
+        public TextView subCounty;
         public ImageView facilityIcon;
 
         public ViewHolder(View v) {
             super(v);
             name = (TextView) v.findViewById(R.id.name);
+            subCounty = (TextView) v.findViewById(R.id.sub_county);
             facilityIcon = (ImageView) v.findViewById(R.id.health_facility_icon);
         }
     }
@@ -55,6 +57,7 @@ public class HealthFacilityAdapter extends RecyclerView.Adapter<HealthFacilityAd
         try {
             cursor.moveToPosition(position);
             holder.name.setText(cursor.getName());
+            holder.subCounty.setText(cursor.getSubcounty());
             holder.facilityIcon.setImageDrawable(generateTextDrawable(cursor.getName().substring(0, 1)));
             holder.itemView.setOnClickListener(v -> activity.startActivity(new Intent(activity,
                     ViewEditMappedGirlsActivity.class).putExtra("healthfacility", cursor.getName())));
@@ -65,7 +68,7 @@ public class HealthFacilityAdapter extends RecyclerView.Adapter<HealthFacilityAd
 
     public static TextDrawable generateTextDrawable(String character) {
         ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
-        int color1 = generator.getColor(3);
+        int color1 = generator.getColor(7);
         TextDrawable drawable = TextDrawable.builder()
                 .beginConfig()
                 .width(110)  // width in px
