@@ -7,7 +7,6 @@ import androidx.annotation.Nullable;
 
 import org.odk.getin.android.provider.base.AbstractCursor;
 
-
 /**
  * Cursor wrapper for the {@code mappedgirltable} table.
  */
@@ -113,6 +112,16 @@ public class MappedgirltableCursor extends AbstractCursor implements Mappedgirlt
     @Nullable
     public String getMaritalstatus() {
         String res = getStringOrNull(MappedgirltableColumns.MARITALSTATUS);
+        return res;
+    }
+
+    /**
+     * Get the {@code healthfacility} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    public String getHealthfacility() {
+        String res = getStringOrNull(MappedgirltableColumns.HEALTHFACILITY);
         return res;
     }
 

@@ -1,5 +1,7 @@
 package org.odk.getin.android.adapters;
 
+import static org.odk.getin.android.utilities.ApplicationConstants.HEALTH_FACILITY;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
+
 import org.odk.getin.android.R;
 import org.odk.getin.android.activities.ViewEditMappedGirlsActivity;
 import org.odk.getin.android.provider.healthfacilitytable.HealthfacilitytableCursor;
@@ -60,7 +63,9 @@ public class HealthFacilityAdapter extends RecyclerView.Adapter<HealthFacilityAd
             holder.subCounty.setText(cursor.getSubcounty());
             holder.facilityIcon.setImageDrawable(generateTextDrawable(cursor.getName().substring(0, 1)));
             holder.itemView.setOnClickListener(v -> activity.startActivity(new Intent(activity,
-                    ViewEditMappedGirlsActivity.class).putExtra("healthfacility", cursor.getName())));
+                    ViewEditMappedGirlsActivity.class).putExtra(HEALTH_FACILITY,
+                    holder.name.getText().toString().contains("ALL")
+                            ? "" : holder.name.getText().toString())));
         } catch (Exception e) {
             Timber.e(e);
         }

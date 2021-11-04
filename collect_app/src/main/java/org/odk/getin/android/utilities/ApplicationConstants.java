@@ -147,5 +147,5 @@ public class ApplicationConstants {
     public static final String USER_ID = "USER_ID";
     public static final String LAST_NOTIFICATION_TIME = "last_notification";
     public static final String SHOW_NETWORK_STATUS = "show_network_status";
-
+    public static final String HEALTH_FACILITY = "health_facility";
 }

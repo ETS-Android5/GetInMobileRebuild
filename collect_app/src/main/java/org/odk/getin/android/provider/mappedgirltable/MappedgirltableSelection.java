@@ -9,7 +9,6 @@ import android.net.Uri;
 
 import org.odk.getin.android.provider.base.AbstractSelection;
 
-
 /**
  * Selection for the {@code mappedgirltable} table.
  */
@@ -436,6 +435,46 @@ public class MappedgirltableSelection extends AbstractSelection<MappedgirltableS
 
     public MappedgirltableSelection orderByMaritalstatus() {
         orderBy(MappedgirltableColumns.MARITALSTATUS, false);
+        return this;
+    }
+
+    public MappedgirltableSelection healthfacility(String... value) {
+        addEquals(MappedgirltableColumns.HEALTHFACILITY, value);
+        return this;
+    }
+
+    public MappedgirltableSelection healthfacilityNot(String... value) {
+        addNotEquals(MappedgirltableColumns.HEALTHFACILITY, value);
+        return this;
+    }
+
+    public MappedgirltableSelection healthfacilityLike(String... value) {
+        addLike(MappedgirltableColumns.HEALTHFACILITY, value);
+        return this;
+    }
+
+    public MappedgirltableSelection healthfacilityContains(String... value) {
+        addContains(MappedgirltableColumns.HEALTHFACILITY, value);
+        return this;
+    }
+
+    public MappedgirltableSelection healthfacilityStartsWith(String... value) {
+        addStartsWith(MappedgirltableColumns.HEALTHFACILITY, value);
+        return this;
+    }
+
+    public MappedgirltableSelection healthfacilityEndsWith(String... value) {
+        addEndsWith(MappedgirltableColumns.HEALTHFACILITY, value);
+        return this;
+    }
+
+    public MappedgirltableSelection orderByHealthfacility(boolean desc) {
+        orderBy(MappedgirltableColumns.HEALTHFACILITY, desc);
+        return this;
+    }
+
+    public MappedgirltableSelection orderByHealthfacility() {
+        orderBy(MappedgirltableColumns.HEALTHFACILITY, false);
         return this;
     }
 

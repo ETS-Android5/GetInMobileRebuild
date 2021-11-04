@@ -1,10 +1,11 @@
 package org.odk.getin.android.provider.mappedgirltable;
 
+import org.odk.getin.android.provider.base.BaseModel;
+
 import java.util.Date;
 
 import androidx.annotation.Nullable;
 
-import org.odk.getin.android.provider.base.BaseModel;
 
 /**
  * Data model for the {@code mappedgirltable} table.
@@ -73,6 +74,13 @@ public interface MappedgirltableModel extends BaseModel {
      */
     @Nullable
     String getMaritalstatus();
+
+    /**
+     * Get the {@code healthfacility} value.
+     * Can be {@code null}.
+     */
+    @Nullable
+    String getHealthfacility();
 
     /**
      * Get the {@code age} value.

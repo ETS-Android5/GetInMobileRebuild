@@ -1,23 +1,22 @@
 package org.odk.getin.android.activities.ui.vieweditmappedgirls;
 
+import static org.odk.getin.android.utilities.ApplicationConstants.HEALTH_FACILITY;
+
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.ActivityChooserView;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import org.odk.getin.android.R;
 import org.odk.getin.android.activities.ViewEditMappedGirlsActivity;
@@ -95,17 +94,25 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
     }
 
     private MappedgirltableCursor queryMappedAllGirlTable() {
-        return new MappedgirltableSelection().orderByCreatedAt(true).query(getContext().getContentResolver());
+        MappedgirltableSelection mappedgirltableSelection = new MappedgirltableSelection().orderByCreatedAt(true);
+        if (!TextUtils.isEmpty(this.getActivity().getIntent().getStringExtra(HEALTH_FACILITY)))
+            mappedgirltableSelection.healthfacility(this.getActivity().getIntent().getStringExtra(HEALTH_FACILITY));
+        return mappedgirltableSelection.query(getContext().getContentResolver());
     }
 
     private MappedgirltableCursor queryMappedVoucherGirlTable() {
-        return new MappedgirltableSelection().voucherNumberContains("-").orderByCreatedAt(true).query(getContext().getContentResolver());
+        MappedgirltableSelection mappedgirltableSelection = new MappedgirltableSelection().voucherNumberContains("-");
+        if (!TextUtils.isEmpty(this.getActivity().getIntent().getStringExtra(HEALTH_FACILITY)))
+            mappedgirltableSelection.and().healthfacility(this.getActivity().getIntent().getStringExtra(HEALTH_FACILITY));
+        return mappedgirltableSelection.orderByCreatedAt(true).query(getContext().getContentResolver());
     }
 
     private MappedgirltableCursor queryMappedAllGirlTable(String name) {
         MappedgirltableSelection mappedgirltableSelection = new MappedgirltableSelection();
         mappedgirltableSelection.firstnameContains(name).or().lastnameContains(name);
         mappedgirltableSelection.and().firstnameContains(name).or().lastnameContains(name);
+        if (!TextUtils.isEmpty(this.getActivity().getIntent().getStringExtra(HEALTH_FACILITY)))
+            mappedgirltableSelection.and().healthfacility(this.getActivity().getIntent().getStringExtra(HEALTH_FACILITY));
         return mappedgirltableSelection.query(getContext().getContentResolver());
     }
 
@@ -113,6 +120,8 @@ public class ViewEditMappedGirlsFragment extends Fragment implements ViewEditMap
         MappedgirltableSelection mappedgirltableSelection = new MappedgirltableSelection();
         mappedgirltableSelection.voucherNumberContains("-");
         mappedgirltableSelection.and().firstnameContains(name).or().lastnameContains(name);
+        if (!TextUtils.isEmpty(this.getActivity().getIntent().getStringExtra(HEALTH_FACILITY)))
+            mappedgirltableSelection.and().healthfacility(this.getActivity().getIntent().getStringExtra(HEALTH_FACILITY));
         return mappedgirltableSelection.query(getContext().getContentResolver());
     }
 

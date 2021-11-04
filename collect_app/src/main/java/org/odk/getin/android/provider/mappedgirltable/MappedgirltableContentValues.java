@@ -9,7 +9,6 @@ import androidx.annotation.Nullable;
 
 import org.odk.getin.android.provider.base.AbstractContentValues;
 
-
 /**
  * Content values wrapper for the {@code mappedgirltable} table.
  */
@@ -126,6 +125,16 @@ public class MappedgirltableContentValues extends AbstractContentValues {
 
     public MappedgirltableContentValues putMaritalstatusNull() {
         mContentValues.putNull(MappedgirltableColumns.MARITALSTATUS);
+        return this;
+    }
+
+    public MappedgirltableContentValues putHealthfacility(@Nullable String value) {
+        mContentValues.put(MappedgirltableColumns.HEALTHFACILITY, value);
+        return this;
+    }
+
+    public MappedgirltableContentValues putHealthfacilityNull() {
+        mContentValues.putNull(MappedgirltableColumns.HEALTHFACILITY);
         return this;
     }
 

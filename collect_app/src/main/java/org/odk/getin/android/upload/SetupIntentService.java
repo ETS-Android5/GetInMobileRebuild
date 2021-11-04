@@ -301,6 +301,7 @@ public class SetupIntentService extends IntentService {
             values.putEducationlevel(girl.getEducationLevel());
             values.putMaritalstatus(girl.getMaritalStatus());
             values.putAge(girl.getAge());
+            values.putHealthfacility(girl.getHealthFacility());
             values.putUser(girl.getUser());
             values.putCreatedAt(girl.getCreatedAt());
             values.putCompletedAllVisits(girl.getCompletedAllVisits());

@@ -23,6 +23,9 @@ public class MappedGirlObject {
     @SerializedName("phone_number")
     @Expose
     private String phoneNumber;
+    @SerializedName("health_facility")
+    @Expose
+    private String healthFacility;
     @SerializedName("trimester")
     @Expose
     private Integer trimester;
@@ -283,5 +286,13 @@ public class MappedGirlObject {
 
     public void setVoucherExpiryDate(Date voucherExpiryDate) {
         this.voucherExpiryDate = voucherExpiryDate;
+    }
+
+    public String getHealthFacility() {
+        return healthFacility;
+    }
+
+    public void setHealthFacility(String healthFacility) {
+        this.healthFacility = healthFacility;
     }
 }

@@ -21,7 +21,7 @@ public class MappedGirlsDatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = MappedGirlsDatabaseHelper.class.getSimpleName();
 
     public static final String DATABASE_FILE_NAME = "mappedgirls.db";
-    private static final int DATABASE_VERSION = 12;
+    private static final int DATABASE_VERSION = 13;
     private static MappedGirlsDatabaseHelper sInstance;
     private final Context mContext;
     private final MappedGirlsDatabaseHelperCallbacks mOpenHelperCallbacks;
@@ -66,6 +66,7 @@ public class MappedGirlsDatabaseHelper extends SQLiteOpenHelper {
             + MappedgirltableColumns.NEXTOFKINPHONENUMBER + " TEXT, "
             + MappedgirltableColumns.EDUCATIONLEVEL + " TEXT, "
             + MappedgirltableColumns.MARITALSTATUS + " TEXT, "
+            + MappedgirltableColumns.HEALTHFACILITY + " TEXT, "
             + MappedgirltableColumns.AGE + " INTEGER, "
             + MappedgirltableColumns.USER + " TEXT, "
             + MappedgirltableColumns.CREATED_AT + " INTEGER, "
@@ -125,6 +126,9 @@ public class MappedGirlsDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String SQL_ALTER_TABLE_MAPPEDGIRLTABLE_VOUCHER_EXPIRY_ALTER_3 = "ALTER TABLE "
             + MappedgirltableColumns.TABLE_NAME + " ADD COLUMN " + MappedgirltableColumns.VOUCHER_EXPIRY_DATE + " INTEGER;";
+
+    private static final String SQL_ALTER_TABLE_MAPPEDGIRLTABLE_HEALTH_FACILITY_ALTER_4 = "ALTER TABLE "
+            + MappedgirltableColumns.TABLE_NAME + " ADD COLUMN " + MappedgirltableColumns.HEALTHFACILITY + " TEXT;";
     // @formatter:on
 
     public static MappedGirlsDatabaseHelper getInstance(Context context) {
@@ -219,6 +223,12 @@ public class MappedGirlsDatabaseHelper extends SQLiteOpenHelper {
 
             try {
                 db.execSQL(SQL_CREATE_TABLE_HEALTHFACILITYTABLE);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                db.execSQL(SQL_ALTER_TABLE_MAPPEDGIRLTABLE_HEALTH_FACILITY_ALTER_4);
             } catch (SQLException e) {
                 e.printStackTrace();
             }

@@ -36,6 +36,8 @@ public class MappedgirltableColumns implements BaseColumns {
 
     public static final String MARITALSTATUS = "maritalStatus";
 
+    public static final String HEALTHFACILITY = "healthFacility";
+
     public static final String AGE = "age";
 
     public static final String USER = "user";
@@ -75,6 +77,7 @@ public class MappedgirltableColumns implements BaseColumns {
             NEXTOFKINPHONENUMBER,
             EDUCATIONLEVEL,
             MARITALSTATUS,
+            HEALTHFACILITY,
             AGE,
             USER,
             CREATED_AT,
@@ -102,6 +105,7 @@ public class MappedgirltableColumns implements BaseColumns {
             if (c.equals(NEXTOFKINPHONENUMBER) || c.contains("." + NEXTOFKINPHONENUMBER)) return true;
             if (c.equals(EDUCATIONLEVEL) || c.contains("." + EDUCATIONLEVEL)) return true;
             if (c.equals(MARITALSTATUS) || c.contains("." + MARITALSTATUS)) return true;
+            if (c.equals(HEALTHFACILITY) || c.contains("." + HEALTHFACILITY)) return true;
             if (c.equals(AGE) || c.contains("." + AGE)) return true;
             if (c.equals(USER) || c.contains("." + USER)) return true;
             if (c.equals(CREATED_AT) || c.contains("." + CREATED_AT)) return true;
