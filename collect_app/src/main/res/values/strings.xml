@@ -732,6 +732,7 @@
     <string name="title_activity_scrolling">ScrollingActivity</string>
     <string name="action_settings">Settings</string>
     <string name="ambulance">Ambulances</string>
+    <string name="health_facilities">Health Facilities</string>
     <string name="help_phone">0787228913</string>
     <string name="choose_role">Choose your role</string>
     <string name="terms_and_conditions"><![CDATA[By continuing, you agree to Terms & Conditions]]></string>

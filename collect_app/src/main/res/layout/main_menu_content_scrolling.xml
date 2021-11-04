@@ -46,6 +46,13 @@
                 android:drawableLeft="@drawable/ic_appointment" />
 
             <Button
+                android:id="@+id/health_facility_button"
+                style="@style/Widget.Collect.Button.HomeScreen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_ambulance" />
+
+            <Button
                 android:id="@+id/call_midwife_or_chew"
                 style="@style/Widget.Collect.Button.HomeScreen"
                 android:layout_width="match_parent"

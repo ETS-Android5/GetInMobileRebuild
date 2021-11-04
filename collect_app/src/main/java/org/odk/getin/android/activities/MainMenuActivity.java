@@ -284,6 +284,10 @@ public class MainMenuActivity extends CollectAbstractActivity {
         callAmbulanceButton.setText(getString(R.string.ambulance));
         callAmbulanceButton.setOnClickListener(v -> startActivity(new Intent(v.getContext(), AmbulanceViewActivity.class)));
 
+        Button healthFacilityButton = findViewById(R.id.health_facility_button);
+        healthFacilityButton.setText(getString(R.string.health_facilities));
+        healthFacilityButton.setOnClickListener(v -> startActivity(new Intent(v.getContext(), HealthFacilityActivity.class)));
+
         // trigger periodic worker and alarm manager to re enforce the success of the notifications
         // since some phone manufactures kill background services
         triggerAppUsageReminderWorkManager();
