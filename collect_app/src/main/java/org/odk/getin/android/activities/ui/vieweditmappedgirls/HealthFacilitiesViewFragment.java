@@ -14,26 +14,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.odk.getin.android.R;
-import org.odk.getin.android.activities.AmbulanceViewActivity;
 import org.odk.getin.android.activities.HealthFacilityActivity;
 import org.odk.getin.android.adapters.AmbulanceAdapter;
 import org.odk.getin.android.adapters.HealthFacilityAdapter;
-import org.odk.getin.android.adapters.ViewEditMappedGirlsAdapter;
-import org.odk.getin.android.provider.appointmentstable.AppointmentstableCursor;
-import org.odk.getin.android.provider.appointmentstable.AppointmentstableSelection;
-import org.odk.getin.android.provider.userstable.UserstableCursor;
-import org.odk.getin.android.provider.userstable.UserstableSelection;
-import org.odk.getin.android.retrofitmodels.Value;
-
-import timber.log.Timber;
+import org.odk.getin.android.provider.healthfacilitytable.HealthfacilitytableSelection;
 
 
 public class HealthFacilitiesViewFragment extends Fragment {
-
-    View rootView;
-    private RecyclerView recyclerView;
-    private AmbulanceAdapter girlsAdapter;
-    private SearchView searchView;
 
     public static HealthFacilitiesViewFragment newInstance() {
         return new HealthFacilitiesViewFragment();
@@ -43,7 +30,7 @@ public class HealthFacilitiesViewFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.view_hf_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.view_hf_fragment, container, false);
 
         HealthFacilityActivity activity = ((HealthFacilityActivity) getActivity());
         Toolbar toolbar = rootView.findViewById(R.id.toolbar);
@@ -56,15 +43,12 @@ public class HealthFacilitiesViewFragment extends Fragment {
 
         RecyclerView recyclerView = rootView.findViewById(R.id.health_facility_recycler);
 
-        HealthFacilityAdapter healthFacilityAdapter = new HealthFacilityAdapter(getActivity(), queryAppointmentTable());
+        HealthFacilityAdapter healthFacilityAdapter = new HealthFacilityAdapter(getActivity(),
+                new HealthfacilitytableSelection().query(getContext().getContentResolver()));
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(healthFacilityAdapter);
         return rootView;
-    }
-
-    private AppointmentstableCursor queryAppointmentTable() {
-        return new AppointmentstableSelection().orderByCreatedAt(true).query(getContext().getContentResolver());
     }
 }

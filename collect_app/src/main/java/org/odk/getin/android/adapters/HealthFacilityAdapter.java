@@ -1,13 +1,7 @@
 package org.odk.getin.android.adapters;
 
-import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_ID;
-import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_NAME;
-import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_REDEEMED_SERVICES;
-import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_VOUCHER_NUMBER;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,20 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
-import com.pixplicity.easyprefs.library.Prefs;
-
 import org.odk.getin.android.R;
-import org.odk.getin.android.activities.MainMenuActivity;
-import org.odk.getin.android.provider.appointmentstable.AppointmentstableCursor;
-import org.odk.getin.android.provider.appointmentstable.AppointmentstableSelection;
-import org.odk.getin.android.provider.mappedgirltable.MappedgirltableCursor;
-import org.odk.getin.android.provider.mappedgirltable.MappedgirltableSelection;
+import org.odk.getin.android.activities.ViewEditMappedGirlsActivity;
+import org.odk.getin.android.provider.healthfacilitytable.HealthfacilitytableCursor;
 import org.odk.getin.android.retrofitmodels.Value;
+
 import timber.log.Timber;
 
 public class HealthFacilityAdapter extends RecyclerView.Adapter<HealthFacilityAdapter.ViewHolder> {
 
-    private AppointmentstableCursor cursor;
+    private HealthfacilitytableCursor cursor;
     private HealthFacilityAdapter.ItemClickListener mClickListener;
     private Activity activity;
 
@@ -47,7 +37,7 @@ public class HealthFacilityAdapter extends RecyclerView.Adapter<HealthFacilityAd
         }
     }
 
-    public HealthFacilityAdapter(Activity activity, AppointmentstableCursor cursor) {
+    public HealthFacilityAdapter(Activity activity, HealthfacilitytableCursor cursor) {
         this.cursor = cursor;
         this.activity = activity;
     }
@@ -63,19 +53,11 @@ public class HealthFacilityAdapter extends RecyclerView.Adapter<HealthFacilityAd
     @Override
     public void onBindViewHolder(@NonNull final HealthFacilityAdapter.ViewHolder holder, int position) {
         try {
-//            cursor.moveToPosition(position);
-//            holder.name.setText(String.format("%s %s", cursor.getFirstname(), cursor.getLastname()));
-            String x = "Yumbe Health facility II";
-            holder.name.setText(x);
-
-            holder.facilityIcon.setImageDrawable(generateTextDrawable("A"));
-
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    activity.startActivity(new Intent(activity, MainMenuActivity.class).putExtra("district", "Arua"));
-                }
-            });
+            cursor.moveToPosition(position);
+            holder.name.setText(cursor.getName());
+            holder.facilityIcon.setImageDrawable(generateTextDrawable(cursor.getName().substring(0, 1)));
+            holder.itemView.setOnClickListener(v -> activity.startActivity(new Intent(activity,
+                    ViewEditMappedGirlsActivity.class).putExtra("healthfacility", cursor.getName())));
         } catch (Exception e) {
             Timber.e(e);
         }
@@ -93,39 +75,6 @@ public class HealthFacilityAdapter extends RecyclerView.Adapter<HealthFacilityAd
         return drawable;
     }
 
-    private void saveCredentialsInSharedPrefs(@NonNull HealthFacilityAdapter.ViewHolder holder) {
-        String girlName = holder.name.getText().toString();
-        MappedgirltableCursor girlCursor = queryMappedGirlsTable(girlName.split(" ")[0]);
-        girlCursor.moveToFirst();
-        Prefs.putString(GIRL_NAME, girlName);
-        Prefs.putString(GIRL_ID, girlCursor.getServerid());
-        if (girlCursor.getVoucherNumber() != null) {
-            Prefs.putString(GIRL_VOUCHER_NUMBER, girlCursor.getVoucherNumber());
-            Prefs.putString(GIRL_REDEEMED_SERVICES, TextUtils.isEmpty(
-                    girlCursor.getServicesReceived()) ? "None" : girlCursor.getServicesReceived());
-        }
-    }
-
-    private AppointmentstableCursor queryAppointmentTable(String girlName) {
-        return new AppointmentstableSelection().firstnameContains(girlName).or()
-                .lastnameContains(girlName).orderByCreatedAt(true)
-                .query(this.activity.getContentResolver());
-    }
-
-    private MappedgirltableCursor queryMappedGirlsTable(String text) {
-        MappedgirltableSelection selection = new MappedgirltableSelection();
-        selection.firstnameContains(text).or().lastnameContains(text);
-        return selection.query(activity.getContentResolver());
-    }
-
-    private String getActivePhoneNumber(AppointmentstableCursor cursor) {
-        // use girl or next of kin phone number
-        String phoneNumber = cursor.getPhonenumber();
-        if (TextUtils.isEmpty(phoneNumber))
-            phoneNumber = cursor.getNextofkinphonenumber();
-        return phoneNumber;
-    }
-
     // allows clicks events to be caught
     public void setClickListener(HealthFacilityAdapter.ItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;
@@ -137,10 +86,7 @@ public class HealthFacilityAdapter extends RecyclerView.Adapter<HealthFacilityAd
     }
 
     @Override
-//    public int getItemCount() {
-//        return (cursor == null) ? 0 : cursor.getCount();
-//    }
     public int getItemCount() {
-        return 10;
+        return (cursor == null) ? 0 : cursor.getCount();
     }
 }

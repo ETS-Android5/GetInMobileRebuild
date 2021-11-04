@@ -10,11 +10,11 @@ import android.net.Uri;
 import android.util.Log;
 
 import org.odk.getin.android.BuildConfig;
-import org.odk.getin.android.provider.appointmentstable.AppointmentstableColumns;
 import org.odk.getin.android.provider.base.BaseContentProvider;
+import org.odk.getin.android.provider.appointmentstable.AppointmentstableColumns;
+import org.odk.getin.android.provider.healthfacilitytable.HealthfacilitytableColumns;
 import org.odk.getin.android.provider.mappedgirltable.MappedgirltableColumns;
 import org.odk.getin.android.provider.userstable.UserstableColumns;
-
 
 public class MappedGirlsProvider extends BaseContentProvider {
     private static final String TAG = MappedGirlsProvider.class.getSimpleName();
@@ -30,11 +30,15 @@ public class MappedGirlsProvider extends BaseContentProvider {
     private static final int URI_TYPE_APPOINTMENTSTABLE = 0;
     private static final int URI_TYPE_APPOINTMENTSTABLE_ID = 1;
 
-    private static final int URI_TYPE_MAPPEDGIRLTABLE = 2;
-    private static final int URI_TYPE_MAPPEDGIRLTABLE_ID = 3;
+    private static final int URI_TYPE_HEALTHFACILITYTABLE = 2;
+    private static final int URI_TYPE_HEALTHFACILITYTABLE_ID = 3;
 
-    private static final int URI_TYPE_USERSTABLE = 4;
-    private static final int URI_TYPE_USERSTABLE_ID = 5;
+    private static final int URI_TYPE_MAPPEDGIRLTABLE = 4;
+    private static final int URI_TYPE_MAPPEDGIRLTABLE_ID = 5;
+
+    private static final int URI_TYPE_USERSTABLE = 6;
+    private static final int URI_TYPE_USERSTABLE_ID = 7;
+
 
 
 
@@ -43,6 +47,8 @@ public class MappedGirlsProvider extends BaseContentProvider {
     static {
         URI_MATCHER.addURI(AUTHORITY, AppointmentstableColumns.TABLE_NAME, URI_TYPE_APPOINTMENTSTABLE);
         URI_MATCHER.addURI(AUTHORITY, AppointmentstableColumns.TABLE_NAME + "/#", URI_TYPE_APPOINTMENTSTABLE_ID);
+        URI_MATCHER.addURI(AUTHORITY, HealthfacilitytableColumns.TABLE_NAME, URI_TYPE_HEALTHFACILITYTABLE);
+        URI_MATCHER.addURI(AUTHORITY, HealthfacilitytableColumns.TABLE_NAME + "/#", URI_TYPE_HEALTHFACILITYTABLE_ID);
         URI_MATCHER.addURI(AUTHORITY, MappedgirltableColumns.TABLE_NAME, URI_TYPE_MAPPEDGIRLTABLE);
         URI_MATCHER.addURI(AUTHORITY, MappedgirltableColumns.TABLE_NAME + "/#", URI_TYPE_MAPPEDGIRLTABLE_ID);
         URI_MATCHER.addURI(AUTHORITY, UserstableColumns.TABLE_NAME, URI_TYPE_USERSTABLE);
@@ -67,6 +73,11 @@ public class MappedGirlsProvider extends BaseContentProvider {
                 return TYPE_CURSOR_DIR + AppointmentstableColumns.TABLE_NAME;
             case URI_TYPE_APPOINTMENTSTABLE_ID:
                 return TYPE_CURSOR_ITEM + AppointmentstableColumns.TABLE_NAME;
+
+            case URI_TYPE_HEALTHFACILITYTABLE:
+                return TYPE_CURSOR_DIR + HealthfacilitytableColumns.TABLE_NAME;
+            case URI_TYPE_HEALTHFACILITYTABLE_ID:
+                return TYPE_CURSOR_ITEM + HealthfacilitytableColumns.TABLE_NAME;
 
             case URI_TYPE_MAPPEDGIRLTABLE:
                 return TYPE_CURSOR_DIR + MappedgirltableColumns.TABLE_NAME;
@@ -128,6 +139,14 @@ public class MappedGirlsProvider extends BaseContentProvider {
                 res.orderBy = AppointmentstableColumns.DEFAULT_ORDER;
                 break;
 
+            case URI_TYPE_HEALTHFACILITYTABLE:
+            case URI_TYPE_HEALTHFACILITYTABLE_ID:
+                res.table = HealthfacilitytableColumns.TABLE_NAME;
+                res.idColumn = HealthfacilitytableColumns._ID;
+                res.tablesWithJoins = HealthfacilitytableColumns.TABLE_NAME;
+                res.orderBy = HealthfacilitytableColumns.DEFAULT_ORDER;
+                break;
+
             case URI_TYPE_MAPPEDGIRLTABLE:
             case URI_TYPE_MAPPEDGIRLTABLE_ID:
                 res.table = MappedgirltableColumns.TABLE_NAME;
@@ -150,6 +169,7 @@ public class MappedGirlsProvider extends BaseContentProvider {
 
         switch (matchedId) {
             case URI_TYPE_APPOINTMENTSTABLE_ID:
+            case URI_TYPE_HEALTHFACILITYTABLE_ID:
             case URI_TYPE_MAPPEDGIRLTABLE_ID:
             case URI_TYPE_USERSTABLE_ID:
                 id = uri.getLastPathSegment();
