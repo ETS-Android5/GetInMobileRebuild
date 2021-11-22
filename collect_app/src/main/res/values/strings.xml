@@ -62,7 +62,7 @@
     <string name="downloading_data">Connecting to Server</string>
     <string name="do_not_change">Cancel</string>
     <string name="do_not_exit">Cancel</string>
-    <string name="do_not_save">Ignore Changes</string>
+    <string name="do_not_save">YES</string>
     <string name="entering_repeat">Add Group</string>
     <string name="entering_repeat_ask">Add New Group?</string>
     <string name="enter_data">Fill Blank Form</string>
