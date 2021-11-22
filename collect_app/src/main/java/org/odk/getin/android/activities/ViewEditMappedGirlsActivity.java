@@ -1,7 +1,11 @@
 package org.odk.getin.android.activities;
 
+import static org.odk.getin.android.utilities.ApplicationConstants.HEALTH_FACILITY;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -17,6 +21,8 @@ import org.odk.getin.android.adapters.SectionsPagerAdapter;
 
 import java.util.Timer;
 import java.util.TimerTask;
+
+import timber.log.Timber;
 
 
 public class ViewEditMappedGirlsActivity extends CollectAbstractActivity {
@@ -38,6 +44,14 @@ public class ViewEditMappedGirlsActivity extends CollectAbstractActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        TextView toolbarTitle = findViewById(R.id.title);
+        String title = getIntent().getStringExtra(HEALTH_FACILITY);
+        if (!TextUtils.isEmpty(title)) {
+            toolbarTitle.setText(title);
+        } else {
+            toolbarTitle.setText(getString(R.string.mapped_girls));
+        }
 
         sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);
