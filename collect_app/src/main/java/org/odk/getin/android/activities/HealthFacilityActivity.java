@@ -1,5 +1,6 @@
 package org.odk.getin.android.activities;
 
+import android.app.Fragment;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.odk.getin.android.R;
 import org.odk.getin.android.activities.ui.vieweditmappedgirls.AmbulanceViewFragment;
 import org.odk.getin.android.activities.ui.vieweditmappedgirls.HealthFacilitiesViewFragment;
+import org.odk.getin.android.activities.ui.vieweditmappedgirls.Searchable;
+import org.odk.getin.android.activities.ui.vieweditmappedgirls.ViewEditMappedGirlsFragment;
 import org.odk.getin.android.adapters.AmbulanceAdapter;
 import org.odk.getin.android.adapters.HealthFacilityAdapter;
 import org.odk.getin.android.provider.appointmentstable.AppointmentstableCursor;
@@ -23,7 +26,6 @@ public class HealthFacilityActivity extends CollectAbstractActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_health_facility);
 
-//        recycler.setAdapter(new );
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, HealthFacilitiesViewFragment.newInstance())
@@ -35,9 +37,5 @@ public class HealthFacilityActivity extends CollectAbstractActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return super.onSupportNavigateUp();
-    }
-
-    private AppointmentstableCursor queryAppointmentTable() {
-        return new AppointmentstableSelection().orderByCreatedAt(true).query(getContentResolver());
     }
 }

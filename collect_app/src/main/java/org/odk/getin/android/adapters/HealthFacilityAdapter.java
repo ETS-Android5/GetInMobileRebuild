@@ -19,6 +19,7 @@ import com.amulyakhare.textdrawable.util.ColorGenerator;
 import org.odk.getin.android.R;
 import org.odk.getin.android.activities.ViewEditMappedGirlsActivity;
 import org.odk.getin.android.provider.healthfacilitytable.HealthfacilitytableCursor;
+import org.odk.getin.android.provider.mappedgirltable.MappedgirltableCursor;
 import org.odk.getin.android.retrofitmodels.Value;
 
 import timber.log.Timber;
@@ -69,6 +70,22 @@ public class HealthFacilityAdapter extends RecyclerView.Adapter<HealthFacilityAd
         } catch (Exception e) {
             Timber.e(e);
         }
+    }
+
+    public void filter(HealthfacilitytableCursor cursor) {
+        swapCursor(cursor);
+    }
+
+    public HealthfacilitytableCursor swapCursor(HealthfacilitytableCursor cursor) {
+        if (this.cursor == cursor) {
+            return null;
+        }
+        HealthfacilitytableCursor oldCursor = this.cursor;
+        this.cursor = cursor;
+        if (cursor != null) {
+            this.notifyDataSetChanged();
+        }
+        return oldCursor;
     }
 
     public static TextDrawable generateTextDrawable(String character) {
