@@ -16,12 +16,13 @@
 
 package org.odk.getin.android.utilities;
 
+import static org.odk.getin.android.utilities.ApplicationConstants.USER_DISTRICT;
+
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -43,6 +44,7 @@ import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import timber.log.Timber;
 
@@ -270,6 +272,7 @@ public class DownloadFormListUtils {
                         }
                     }
                 }
+                if (skipMappingFormsOfOtherDistricts(formId)) continue;
                 formList.put(formId, new FormDetails(formName, downloadUrl, manifestUrl, formId,
                         (version != null) ? version : majorMinorVersion, hash,
                         manifestFile != null ? manifestFile.getHash() : null,
@@ -282,7 +285,6 @@ public class DownloadFormListUtils {
             int formsCount = formsElement.getChildCount();
             String formId = null;
             for (int i = 0; i < formsCount; ++i) {
-                Log.d(TAG, "downloadFormList: " + i);
                 if (formsElement.getType(i) != Element.ELEMENT) {
                     // whitespace
                     continue;
@@ -325,6 +327,16 @@ public class DownloadFormListUtils {
             }
         }
         return formList;
+    }
+
+    private boolean skipMappingFormsOfOtherDistricts(String formId) {
+        if (formId.contains("Map")) {
+            if (!formId.toLowerCase(Locale.ROOT).contains(Prefs.getString(USER_DISTRICT,
+                    "YUMBE").toLowerCase(Locale.ROOT))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void clearTemporaryCredentials(@Nullable String url) {

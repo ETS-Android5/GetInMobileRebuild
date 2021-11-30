@@ -38,20 +38,10 @@ import static org.odk.getin.android.utilities.ApplicationConstants.CHEW_ROLE;
 import static org.odk.getin.android.utilities.ApplicationConstants.EDIT_GIRL;
 import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_FIRST_NAME;
 import static org.odk.getin.android.utilities.ApplicationConstants.GIRL_LAST_NAME;
-import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ADJUMANI_FORM_CHEW_ID;
-import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ADJUMANI_FORM_MIDWIFE_ID;
-import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ARUA_FORM_CHEW_ID;
-import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ARUA_FORM_MIDWIFE_ID;
-import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_ID;
-import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID;
-import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_KAMPALA_FORM_CHEW_ID;
-import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_KAMPALA_FORM_MIDWIFE_ID;
-import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_MOYO_FORM_CHEW_ID;
-import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_MOYO_FORM_MIDWIFE_ID;
-import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_YUMBE_FORM_CHEW_ID;
-import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_YUMBE_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_DISTRICT;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_ROLE;
+import static org.odk.getin.android.utilities.ApplicationConstants.getChewUserMappingForm;
+import static org.odk.getin.android.utilities.ApplicationConstants.getMidwifeUserMappingForm;
 import static org.odk.getin.android.utilities.TextUtils.toCapitalize;
 
 /**
@@ -139,31 +129,9 @@ public class ProfileActivity extends AppCompatActivity {
             Prefs.putBoolean(EDIT_GIRL, true);
 
             if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE)) {
-                if (Prefs.getString(USER_DISTRICT, "BUNDIBUGYO").equals("BUNDIBUGYO"))
-                    startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_ID);
-                else if (Prefs.getString(USER_DISTRICT, "Kampala").equals("Kampala"))
-                    startFormActivity(MAP_GIRL_KAMPALA_FORM_CHEW_ID);
-                else if (Prefs.getString(USER_DISTRICT, "Moyo").equals("MOYO"))
-                    startFormActivity(MAP_GIRL_MOYO_FORM_CHEW_ID);
-                else if (Prefs.getString(USER_DISTRICT, "Moyo").equals("Adjumani"))
-                    startFormActivity(MAP_GIRL_ADJUMANI_FORM_CHEW_ID);
-                else if (Prefs.getString(USER_DISTRICT, "Moyo").equals("Yumbe"))
-                    startFormActivity(MAP_GIRL_YUMBE_FORM_CHEW_ID);
-                else
-                    startFormActivity(MAP_GIRL_ARUA_FORM_CHEW_ID);
+                startFormActivity(getChewUserMappingForm(Prefs.getString(USER_DISTRICT, "BUNDIBUGYO").toUpperCase(Locale.ROOT)));
             } else {
-                if (Prefs.getString(USER_DISTRICT, "BUNDIBUGYO").equals("BUNDIBUGYO"))
-                    startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID);
-                else if (Prefs.getString(USER_DISTRICT, "Kampala").equals("Kampala"))
-                    startFormActivity(MAP_GIRL_KAMPALA_FORM_MIDWIFE_ID);
-                else if (Prefs.getString(USER_DISTRICT, "Moyo").equals("MOYO"))
-                    startFormActivity(MAP_GIRL_MOYO_FORM_MIDWIFE_ID);
-                else if (Prefs.getString(USER_DISTRICT, "Moyo").equals("Adjumani"))
-                    startFormActivity(MAP_GIRL_ADJUMANI_FORM_MIDWIFE_ID);
-                else if (Prefs.getString(USER_DISTRICT, "Moyo").equals("Yumbe"))
-                    startFormActivity(MAP_GIRL_YUMBE_FORM_MIDWIFE_ID);
-                else
-                    startFormActivity(MAP_GIRL_ARUA_FORM_MIDWIFE_ID);
+                startFormActivity(getMidwifeUserMappingForm(Prefs.getString(USER_DISTRICT, "BUNDIBUGYO").toUpperCase(Locale.ROOT)));
             }
         });
     }

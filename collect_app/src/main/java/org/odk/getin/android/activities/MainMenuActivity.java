@@ -30,7 +30,6 @@ import android.content.pm.PackageManager;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -41,12 +40,10 @@ import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -91,6 +88,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
@@ -106,24 +104,13 @@ import timber.log.Timber;
 
 import static org.odk.getin.android.preferences.GeneralKeys.KEY_SUBMISSION_TRANSPORT_TYPE;
 import static org.odk.getin.android.utilities.ApplicationConstants.CHEW_ROLE;
-import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ADJUMANI_FORM_CHEW_ID;
-import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ADJUMANI_FORM_MIDWIFE_ID;
-import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ARUA_FORM_CHEW_ID;
-import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_ARUA_FORM_MIDWIFE_ID;
-import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_ID;
-import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID;
-import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_KAMPALA_FORM_CHEW_ID;
-import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_KAMPALA_FORM_MIDWIFE_ID;
-import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_MOYO_FORM_CHEW_ID;
-import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_MOYO_FORM_MIDWIFE_ID;
-import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_YUMBE_FORM_CHEW_ID;
-import static org.odk.getin.android.utilities.ApplicationConstants.MAP_GIRL_YUMBE_FORM_MIDWIFE_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.MIDWIFE_ROLE;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_DISTRICT;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_ID;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_LOGGED_IN;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_ROLE;
-import static org.odk.getin.android.utilities.ApplicationConstants.VHT_MIDWIFE_ID;
+import static org.odk.getin.android.utilities.ApplicationConstants.getChewUserMappingForm;
+import static org.odk.getin.android.utilities.ApplicationConstants.getMidwifeUserMappingForm;
 
 /**
  * Responsible for displaying buttons to launch the major activities. Launches
@@ -204,32 +191,12 @@ public class MainMenuActivity extends CollectAbstractActivity {
             public void onClick(View v) {
                 if (Collect.allowClick(getClass().getName())) {
                     // get form depending on loggin user district
+
+
                     if (Prefs.getString(USER_ROLE, CHEW_ROLE).equals(CHEW_ROLE)) {
-                        if (Prefs.getString(USER_DISTRICT, "BUNDIBUGYO").equals("BUNDIBUGYO"))
-                            startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_ID);
-                        else if (Prefs.getString(USER_DISTRICT, "Kampala").equals("Kampala"))
-                            startFormActivity(MAP_GIRL_KAMPALA_FORM_CHEW_ID);
-                        else if (Prefs.getString(USER_DISTRICT, "Moyo").equals("MOYO"))
-                            startFormActivity(MAP_GIRL_MOYO_FORM_CHEW_ID);
-                        else if (Prefs.getString(USER_DISTRICT, "Moyo").equals("Adjumani"))
-                            startFormActivity(MAP_GIRL_ADJUMANI_FORM_CHEW_ID);
-                        else if (Prefs.getString(USER_DISTRICT, "Moyo").equals("Yumbe"))
-                            startFormActivity(MAP_GIRL_YUMBE_FORM_CHEW_ID);
-                        else
-                            startFormActivity(MAP_GIRL_ARUA_FORM_CHEW_ID);
+                        startFormActivity(getChewUserMappingForm(Prefs.getString(USER_DISTRICT, "BUNDIBUGYO").toUpperCase(Locale.ROOT)));
                     } else {
-                        if (Prefs.getString(USER_DISTRICT, "BUNDIBUGYO").equals("BUNDIBUGYO"))
-                            startFormActivity(MAP_GIRL_BUNDIBUGYO_FORM_MIDWIFE_ID);
-                        else if (Prefs.getString(USER_DISTRICT, "Kampala").equals("Kampala"))
-                            startFormActivity(MAP_GIRL_KAMPALA_FORM_MIDWIFE_ID);
-                        else if (Prefs.getString(USER_DISTRICT, "Moyo").equals("MOYO"))
-                            startFormActivity(MAP_GIRL_MOYO_FORM_MIDWIFE_ID);
-                        else if (Prefs.getString(USER_DISTRICT, "Moyo").equals("Adjumani"))
-                            startFormActivity(MAP_GIRL_ADJUMANI_FORM_MIDWIFE_ID);
-                        else if (Prefs.getString(USER_DISTRICT, "Moyo").equals("Yumbe"))
-                            startFormActivity(MAP_GIRL_YUMBE_FORM_MIDWIFE_ID);
-                        else
-                            startFormActivity(MAP_GIRL_ARUA_FORM_MIDWIFE_ID);
+                        startFormActivity(getMidwifeUserMappingForm(Prefs.getString(USER_DISTRICT, "BUNDIBUGYO").toUpperCase(Locale.ROOT)));
                     }
                 }
             }
@@ -443,7 +410,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            ToastUtils.showLongToast("Please connect to Internet and try again");
+            ToastUtils.showLongToast("Please wait for the ODK forms to download and try again");
             // Incase user did not download the forms in the beginning. Reinitiate the form download
             // download all empty forms from the server. this is required before user can fill in the form
             ServerPollingJob.startJobImmediately();
