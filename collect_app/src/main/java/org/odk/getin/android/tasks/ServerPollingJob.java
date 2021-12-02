@@ -118,8 +118,6 @@ public class ServerPollingJob extends Job {
                     }
                 }
             }
-            // disable all procedures that are dependant on first launch on app like downloading forms
-            Prefs.putBoolean(GeneralKeys.KEY_FIRST_RUN, false);
             return Result.SUCCESS;
         } else {
             return Result.FAILURE;

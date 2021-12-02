@@ -183,6 +183,13 @@ public class MainMenuActivity extends CollectAbstractActivity {
 
         disableSmsIfNeeded();
 
+        if (Prefs.getBoolean(GeneralKeys.KEY_FIRST_RUN, true)) {
+            // download district mapping forms
+            ServerPollingJob.startJobImmediately();
+            // disable all procedures that are dependant on first launch on app like downloading forms
+            Prefs.putBoolean(GeneralKeys.KEY_FIRST_RUN, false);
+        }
+
         // map girl button. expects a result.
         Button mapGirlButton = findViewById(R.id.chew_button);
         mapGirlButton.setText(getString(R.string.map_girl_button));
