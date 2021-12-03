@@ -676,6 +676,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
         alertDialog.setPositiveButton("YES", (dialog, which) -> {
             try {
                 Prefs.putBoolean(USER_LOGGED_IN, false);
+                Prefs.putBoolean(GeneralKeys.KEY_FIRST_RUN, true);
                 APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
                 retrofit2.Call<AuthModel> call = apiInterface.logOutUser();
                 retrofit2.Response<AuthModel> response = call.execute();
