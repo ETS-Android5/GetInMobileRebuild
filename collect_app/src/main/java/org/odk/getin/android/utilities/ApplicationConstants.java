@@ -141,7 +141,7 @@ public class ApplicationConstants {
     public static String getChewUserMappingForm(String district) {
         Map<String, String> forms = new HashMap<>();
         forms.put("ABIM", "GetInMapGirlABIM1_chew");
-        forms.put("ADJUMANI", "GetInMapGirlAdjumani1_chew");
+        forms.put("ADJUMANI", "GetInMapGirlADJUMANI1_chew");
         forms.put("AGAGO", "GetInMapGirlAGAGO1_chew");
         forms.put("ALEBTONG", "GetInMapGirlALEBTONG1_chew");
         forms.put("AMOLATAR", "GetInMapGirlAMOLATAR1_chew");
