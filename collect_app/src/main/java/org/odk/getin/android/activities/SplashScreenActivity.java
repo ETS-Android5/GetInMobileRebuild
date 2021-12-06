@@ -14,11 +14,16 @@
 
 package org.odk.getin.android.activities;
 
+import static org.odk.getin.android.provider.MappedGirlsDatabaseHelper.DATABASE_FILE_NAME;
+import static org.odk.getin.android.utilities.ApplicationConstants.USER_LOGGED_IN;
+
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Settings;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.pixplicity.easyprefs.library.Prefs;
 
@@ -36,9 +41,6 @@ import java.io.File;
 
 import timber.log.Timber;
 
-import static org.odk.getin.android.provider.MappedGirlsDatabaseHelper.DATABASE_FILE_NAME;
-import static org.odk.getin.android.utilities.ApplicationConstants.USER_LOGGED_IN;
-
 public class SplashScreenActivity extends CollectAbstractActivity {
 
     private static final int SPLASH_TIMEOUT = 2000; // milliseconds
@@ -49,29 +51,25 @@ public class SplashScreenActivity extends CollectAbstractActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
+    }
 
-        firstRun = Prefs.getBoolean(GeneralKeys.KEY_FIRST_RUN, true);
-
+    private void requestPermissions() {
         new PermissionUtils().requestStoragePermissions(this, new PermissionListener() {
             @Override
             public void granted() {
                 // must be at the beginning of any activity that can be called from an external intent
                 try {
+                    firstRun = Prefs.getBoolean(GeneralKeys.KEY_FIRST_RUN, true);
                     if (firstRun || !Prefs.getBoolean(USER_LOGGED_IN, false)) {
-                        deleteODKFormStorageFolder();
-                        Collect.createODKDirs();
-                        // download all empty forms from the server. this is required before user can fill in the form
-                        ServerPollingJob.startJobImmediately();
-
-                        MappedGirlsDatabaseHelper.getInstance(getApplicationContext()).close();
-                        deleteDatabase(DATABASE_FILE_NAME);
+                        if (askForPermissions()) {
+                            clearFormsFolderAndStartFormDownload();
+                        }
                     }
                 } catch (RuntimeException e) {
                     DialogUtils.showDialog(DialogUtils.createErrorDialog(SplashScreenActivity.this,
                             e.getMessage(), EXIT), SplashScreenActivity.this);
                     return;
                 }
-                endSplashScreen();
             }
 
             @Override
@@ -83,20 +81,19 @@ public class SplashScreenActivity extends CollectAbstractActivity {
         });
     }
 
+    private void clearFormsFolderAndStartFormDownload() {
+        deleteODKFormStorageFolder();
+        Collect.createODKDirs();
+        // download all empty forms from the server. this is required before user can fill in the form
+        ServerPollingJob.startJobImmediately();
+
+        MappedGirlsDatabaseHelper.getInstance(getApplicationContext()).close();
+        deleteDatabase(DATABASE_FILE_NAME);
+    }
+
     private void init() {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.splash_screen);
-
-        PackageInfo packageInfo = null;
-        try {
-            packageInfo =
-                    getPackageManager().getPackageInfo(getPackageName(),
-                            PackageManager.GET_META_DATA);
-        } catch (PackageManager.NameNotFoundException e) {
-            Timber.e(e, "Unable to get package info");
-        }
-
-        startSplashScreenTimer();
     }
 
     private void endSplashScreen() {
@@ -114,30 +111,6 @@ public class SplashScreenActivity extends CollectAbstractActivity {
         }
     }
 
-    private void startSplashScreenTimer() {
-        // create a thread that counts up to the timeout
-        Thread t = new Thread() {
-            int count;
-
-            @Override
-            public void run() {
-                try {
-                    super.run();
-                    while (count < SPLASH_TIMEOUT) {
-                        sleep(100);
-                        count += 100;
-                    }
-                } catch (Exception e) {
-                    Timber.e(e);
-                } finally {
-                    if (!firstRun)
-                        endSplashScreen();
-                }
-            }
-        };
-        t.start();
-    }
-
     public void deleteODKFormStorageFolder() {
         try {
             File dir = new File(Collect.FORMS_PATH);
@@ -151,5 +124,24 @@ public class SplashScreenActivity extends CollectAbstractActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        requestPermissions();
+    }
+
+    public boolean askForPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            Timber.d("askForPermissions greater than SDK 30");
+            if (!Environment.isExternalStorageManager()) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                startActivity(intent);
+                return false;
+            }
+        }
+        endSplashScreen();
+        return true;
     }
 }
