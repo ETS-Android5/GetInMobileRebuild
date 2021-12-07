@@ -65,12 +65,12 @@ if (secretsFile.exists()) {
 }
 
 android {
-    compileSdkVersion(30)
+    compileSdkVersion(29)
 
     defaultConfig {
         applicationId('org.odk.getin.android')
         minSdkVersion(16)
-        targetSdkVersion(30)
+        targetSdkVersion(29)
         versionCode LEGACY_BUILD_NUMBER_OFFSET + getMasterCommitCount()
         versionName getVersionName()
         testInstrumentationRunner('androidx.test.runner.AndroidJUnitRunner')

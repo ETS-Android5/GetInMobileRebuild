@@ -64,11 +64,8 @@ public class SplashScreenActivity extends CollectAbstractActivity {
                     SharedPreferences sharedPref = getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE);
                     firstRun = sharedPref.getBoolean(GeneralKeys.KEY_FIRST_RUN, true);
                     Timber.d("firstrun1 %s", firstRun);
-//                    if (firstRun || !Prefs.getBoolean(USER_LOGGED_IN, false)) {
                     if (firstRun) {
-                        if (askForPermissions()) {
-                            clearFormsFolderAndStartFormDownload();
-                        }
+                        clearFormsFolderAndStartFormDownload();
                     } else {
                         endSplashScreen();
                     }
@@ -96,6 +93,7 @@ public class SplashScreenActivity extends CollectAbstractActivity {
 
         MappedGirlsDatabaseHelper.getInstance(getApplicationContext()).close();
         deleteDatabase(DATABASE_FILE_NAME);
+        endSplashScreen();
     }
 
     private void init() {
@@ -140,16 +138,19 @@ public class SplashScreenActivity extends CollectAbstractActivity {
         requestPermissions();
     }
 
-    public boolean askForPermissions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            Timber.d("askForPermissions greater than SDK 30");
-            if (!Environment.isExternalStorageManager()) {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
-                startActivity(intent);
-                return false;
-            }
-        }
-        endSplashScreen();
-        return true;
-    }
+    /**
+     * https://stackoverflow.com/a/68141908/4991437
+     * */
+//    public boolean askForPermissions() {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+//            Timber.d("askForPermissions greater than SDK 30");
+//            if (!Environment.isExternalStorageManager()) {
+//                Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+//                startActivity(intent);
+//                return false;
+//            }
+//        }
+//        endSplashScreen();
+//        return true;
+//    }
 }
