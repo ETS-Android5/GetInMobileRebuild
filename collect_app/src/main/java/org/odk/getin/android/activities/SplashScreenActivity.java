@@ -17,7 +17,9 @@ package org.odk.getin.android.activities;
 import static org.odk.getin.android.provider.MappedGirlsDatabaseHelper.DATABASE_FILE_NAME;
 import static org.odk.getin.android.utilities.ApplicationConstants.USER_LOGGED_IN;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -59,11 +61,16 @@ public class SplashScreenActivity extends CollectAbstractActivity {
             public void granted() {
                 // must be at the beginning of any activity that can be called from an external intent
                 try {
-                    firstRun = Prefs.getBoolean(GeneralKeys.KEY_FIRST_RUN, true);
-                    if (firstRun || !Prefs.getBoolean(USER_LOGGED_IN, false)) {
+                    SharedPreferences sharedPref = getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE);
+                    firstRun = sharedPref.getBoolean(GeneralKeys.KEY_FIRST_RUN, true);
+                    Timber.d("firstrun1 %s", firstRun);
+//                    if (firstRun || !Prefs.getBoolean(USER_LOGGED_IN, false)) {
+                    if (firstRun) {
                         if (askForPermissions()) {
                             clearFormsFolderAndStartFormDownload();
                         }
+                    } else {
+                        endSplashScreen();
                     }
                 } catch (RuntimeException e) {
                     DialogUtils.showDialog(DialogUtils.createErrorDialog(SplashScreenActivity.this,
@@ -97,7 +104,8 @@ public class SplashScreenActivity extends CollectAbstractActivity {
     }
 
     private void endSplashScreen() {
-        if (Prefs.getBoolean(USER_LOGGED_IN, false)) {
+        Timber.d("firstrun3 %s", firstRun);
+        if (!firstRun) {
             // navigate the user to the main activity if they logged in once
             // this allows the user the use the app offline
             Intent i = new Intent(getApplicationContext(),

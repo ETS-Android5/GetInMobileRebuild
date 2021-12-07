@@ -137,6 +137,7 @@ public class MainMenuActivity extends CollectAbstractActivity {
     private TextView networkStatusTextView;
     private CountDownTimer countDownTimer;
     private int viewSentCount;
+    private SharedPreferences sharedPref;
 
     public static void startActivityAndCloseAllOthers(Activity activity) {
         activity.startActivity(new Intent(activity, MainMenuActivity.class));
@@ -182,12 +183,16 @@ public class MainMenuActivity extends CollectAbstractActivity {
                 });
 
         disableSmsIfNeeded();
+        sharedPref = getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE);
+        Timber.d("firstrun2 %s", sharedPref.getBoolean(GeneralKeys.KEY_FIRST_RUN, true));
 
-        if (Prefs.getBoolean(GeneralKeys.KEY_FIRST_RUN, true)) {
+        if (sharedPref.getBoolean(GeneralKeys.KEY_FIRST_RUN, true)) {
             // download district mapping forms
             ServerPollingJob.startJobImmediately();
             // disable all procedures that are dependant on first launch on app like downloading forms
-            Prefs.putBoolean(GeneralKeys.KEY_FIRST_RUN, false);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putBoolean(GeneralKeys.KEY_FIRST_RUN, false);
+            editor.apply();
         }
 
         // map girl button. expects a result.
@@ -676,7 +681,11 @@ public class MainMenuActivity extends CollectAbstractActivity {
         alertDialog.setPositiveButton("YES", (dialog, which) -> {
             try {
                 Prefs.putBoolean(USER_LOGGED_IN, false);
-                Prefs.putBoolean(GeneralKeys.KEY_FIRST_RUN, true);
+
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putBoolean(GeneralKeys.KEY_FIRST_RUN, true);
+                editor.apply();
+
                 APIInterface apiInterface = APIClient.getClient().create(APIInterface.class);
                 retrofit2.Call<AuthModel> call = apiInterface.logOutUser();
                 retrofit2.Response<AuthModel> response = call.execute();
