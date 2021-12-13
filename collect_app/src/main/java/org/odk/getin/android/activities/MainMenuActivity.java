@@ -183,11 +183,16 @@ public class MainMenuActivity extends CollectAbstractActivity {
 
         disableSmsIfNeeded();
 
-        if (Prefs.getBoolean(GeneralKeys.KEY_FIRST_RUN, true)) {
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE);
+        boolean firstRun = sharedPref.getBoolean(GeneralKeys.KEY_FIRST_RUN, true);
+
+        if (firstRun) {
             // download district mapping forms
             ServerPollingJob.startJobImmediately();
             // disable all procedures that are dependant on first launch on app like downloading forms
-            Prefs.putBoolean(GeneralKeys.KEY_FIRST_RUN, false);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putBoolean(GeneralKeys.KEY_FIRST_RUN, false);
+            editor.apply();
         }
 
         // map girl button. expects a result.
